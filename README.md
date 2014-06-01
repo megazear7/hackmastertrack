@@ -1,2 +1,4 @@
 hackmastertrack
 ===============
+
+* Standard Rails Setup
