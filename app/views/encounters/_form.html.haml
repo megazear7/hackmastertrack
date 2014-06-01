@@ -1,0 +1,10 @@
+= form_for @encounter do |f|
+  - if @encounter.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@encounter.errors.count, "error")} prohibited this encounter from being saved:"
+      %ul
+        - @encounter.errors.full_messages.each do |msg|
+          %li= msg
+
+  .actions
+    = f.submit 'Save'
