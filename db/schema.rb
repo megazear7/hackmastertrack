@@ -11,7 +11,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140601125408) do
+ActiveRecord::Schema.define(version: 20140616163044) do
+
+  create_table "characters", force: true do |t|
+    t.float    "strength"
+    t.float    "intelligence"
+    t.float    "wisdom"
+    t.float    "dexterity"
+    t.float    "constitution"
+    t.float    "looks"
+    t.float    "charisma"
+    t.float    "honor"
+    t.float    "fame"
+    t.integer  "building_points"
+    t.integer  "health"
+    t.string   "name"
+    t.integer  "level"
+    t.string   "alignment"
+    t.string   "sex"
+    t.integer  "age"
+    t.integer  "height"
+    t.integer  "weight"
+    t.string   "hair"
+    t.string   "eyes"
+    t.string   "handedness"
+    t.string   "trade_coins"
+    t.integer  "copper"
+    t.integer  "silver"
+    t.integer  "gold"
+    t.integer  "spell_points"
+    t.integer  "luck_points"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "encounters", force: true do |t|
     t.datetime "created_at"
