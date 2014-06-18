@@ -1,0 +1,17 @@
+%h1 Listing proficiencies
+
+%table
+  %tr
+    %th
+    %th
+    %th
+
+  - @proficiencies.each do |proficiency|
+    %tr
+      %td= link_to 'Show', proficiency
+      %td= link_to 'Edit', edit_proficiency_path(proficiency)
+      %td= link_to 'Destroy', proficiency, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Proficiency', new_proficiency_path

@@ -1,0 +1,17 @@
+%h1 Listing character_classes
+
+%table
+  %tr
+    %th
+    %th
+    %th
+
+  - @character_classes.each do |character_class|
+    %tr
+      %td= link_to 'Show', character_class
+      %td= link_to 'Edit', edit_character_class_path(character_class)
+      %td= link_to 'Destroy', character_class, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Character class', new_character_class_path

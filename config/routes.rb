@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
+  resources :races
+
+  resources :character_classes
+
+  resources :skills
+
+  resources :proficiencies
+
+  resources :talents
+
+  resources :items
+
   resources :characters
 
   resources :encounters

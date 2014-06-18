@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140616163044) do
+ActiveRecord::Schema.define(version: 20140618131612) do
+
+  create_table "character_classes", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "characters", force: true do |t|
     t.float    "strength"
@@ -43,9 +50,103 @@ ActiveRecord::Schema.define(version: 20140616163044) do
     t.integer  "luck_points"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
+    t.integer  "exp"
+  end
+
+  create_table "characters_items", force: true do |t|
+    t.integer "character_id"
+    t.integer "item_id"
+  end
+
+  create_table "characters_proficiencies", force: true do |t|
+    t.integer "character_id"
+    t.integer "proficiency_id"
+  end
+
+  create_table "characters_skills", force: true do |t|
+    t.integer "character_id"
+    t.integer "skill_id"
+  end
+
+  create_table "characters_talents", force: true do |t|
+    t.integer "character_id"
+    t.integer "talent_id"
   end
 
   create_table "encounters", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "items", force: true do |t|
+    t.string   "type"
+    t.integer  "attack_mod"
+    t.integer  "speed_mod"
+    t.integer  "init_mod"
+    t.integer  "defense_mod"
+    t.integer  "damage_mod"
+    t.integer  "damage_reduction"
+    t.integer  "magic_level"
+    t.integer  "weight"
+    t.integer  "cover_value"
+    t.string   "location"
+    t.string   "damage"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "shield_size"
+    t.string   "armor_type"
+    t.string   "name"
+    t.string   "description"
+    t.integer  "attack_speed"
+    t.integer  "jab_speed"
+    t.float    "reach"
+    t.float    "buy_cost"
+    t.float    "sell_value"
+    t.string   "damage_type"
+    t.integer  "heal_value"
+  end
+
+  create_table "proficiencies", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "requirements"
+    t.integer  "bp_cost"
+    t.integer  "item_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "races", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "str_mod"
+    t.integer  "int_mod"
+    t.integer  "wis_mod"
+    t.integer  "dex_mod"
+    t.integer  "con_mod"
+    t.integer  "lks_mod"
+    t.integer  "cha_mod"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "skills", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "bp_cost"
+    t.string   "main_attr"
+    t.string   "other_attr"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "talents", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "requirements"
+    t.integer  "bp_cost"
+    t.integer  "item_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

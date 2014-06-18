@@ -1,0 +1,10 @@
+= form_for @proficiency do |f|
+  - if @proficiency.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@proficiency.errors.count, "error")} prohibited this proficiency from being saved:"
+      %ul
+        - @proficiency.errors.full_messages.each do |msg|
+          %li= msg
+
+  .actions
+    = f.submit 'Save'
