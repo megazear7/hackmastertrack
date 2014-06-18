@@ -15,3 +15,7 @@
  *= require bootstrap.min
  *= require bootstrap-theme.min
  */
+
+.alert {
+  background-color: rgba(100,100,200,0.5);
+}

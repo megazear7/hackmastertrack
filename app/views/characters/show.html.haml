@@ -1,6 +1,30 @@
 %p#notice= notice
 
 
+.row
+  .col-md-1 strength
+  .col-md-4= @character.strength
+.row
+  .col-md-1 intelligence
+  .col-md-4= @character.intelligence
+.row
+  .col-md-1 wisdom
+  .col-md-4= @character.wisdom
+.row
+  .col-md-1 dexterity
+  .col-md-4= @character.dexterity
+.row
+  .col-md-1 constitution
+  .col-md-4= @character.constitution
+.row
+  .col-md-1 looks
+  .col-md-4= @character.looks
+.row
+  .col-md-1 charisma
+  .col-md-4= @character.charisma
+
+%br
+
 = link_to 'Edit', edit_character_path(@character)
 \|
 = link_to 'Back', characters_path
