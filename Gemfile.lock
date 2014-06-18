@@ -156,7 +156,7 @@ DEPENDENCIES
   active_link_to
   better_errors
   binding_of_caller
-  bootstrap-sass (~> 3.1.1)
+  bootstrap-sass (~> 3.1.1.0)
   coffee-rails (~> 4.0.0)
   devise
   haml-rails
@@ -165,7 +165,7 @@ DEPENDENCIES
   pg
   rails (= 4.1.0)
   rails_12factor
-  sass-rails (>= 3.2)
+  sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
   simple_form (~> 3.0.0.rc)
   spring

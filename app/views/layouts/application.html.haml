@@ -32,9 +32,6 @@
                 = link_to "Proficiencies", proficiencies_path
               %li
                 = link_to "Items", items_path
-              -# TODO
-                %li
-                  %a{href: "#"} Opponents
           %li.dropdown
             %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
               Create
@@ -53,10 +50,18 @@
               %li
                 = link_to "Items", items_path
         %ul.nav.navbar-nav.navbar-right
+          %li.dropdown
+            %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+              Dungeon Master Tools
+              %b.caret
+            %ul.dropdown-menu
+              %li
+                = link_to "Encounters", encounters_path
+        %ul.nav.navbar-nav.navbar-right
           - if current_user
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
-                = current_user.name
+                = current_user.email
                 %b.caret
               %ul.dropdown-menu
                 %li
