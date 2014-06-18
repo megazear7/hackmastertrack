@@ -7,8 +7,8 @@
   = csrf_meta_tags
 
 %body
-  %nav.navbar.navbar-default{role: "navigation"}
-    .container-fluid
+  .navbar.navbar-default{role: "navigation"}
+    .container
       .navbar-header
         = link_to "Hackmaster Track", characters_path, class: "navbar-brand"
       #bs-example-navbar-collapse-1.collapse.navbar-collapse
@@ -82,7 +82,9 @@
           - else
             %li
               = link_to "Login", new_user_session_path
-  %p.notice
-  %p.alert
 
-  = yield
+  .container
+    %p.notice
+    %p.alert
+
+    = yield
