@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140618133306) do
+ActiveRecord::Schema.define(version: 20140618154117) do
 
   create_table "character_classes", force: true do |t|
     t.string   "name"
@@ -68,6 +68,11 @@ ActiveRecord::Schema.define(version: 20140618133306) do
   create_table "characters_skills", force: true do |t|
     t.integer "character_id"
     t.integer "skill_id"
+  end
+
+  create_table "characters_spells", force: true do |t|
+    t.integer "character_id"
+    t.integer "spell_id"
   end
 
   create_table "characters_talents", force: true do |t|
@@ -138,6 +143,15 @@ ActiveRecord::Schema.define(version: 20140618133306) do
     t.integer  "bp_cost"
     t.string   "main_attr"
     t.string   "other_attr"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "spells", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "spellpoints"
+    t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

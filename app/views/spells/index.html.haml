@@ -1,0 +1,17 @@
+%h1 Listing spells
+
+%table
+  %tr
+    %th
+    %th
+    %th
+
+  - @spells.each do |spell|
+    %tr
+      %td= link_to 'Show', spell
+      %td= link_to 'Edit', edit_spell_path(spell)
+      %td= link_to 'Destroy', spell, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Spell', new_spell_path

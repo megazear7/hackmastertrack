@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :spells
+
   resources :races
 
   resources :character_classes

@@ -21,6 +21,8 @@
               %b.caret
             %ul.dropdown-menu
               %li
+                = link_to "Characters", characters_path
+              %li
                 = link_to "Classes", character_classes_path
               %li
                 = link_to "Races", races_path
@@ -32,23 +34,29 @@
                 = link_to "Proficiencies", proficiencies_path
               %li
                 = link_to "Items", items_path
+              %li
+                = link_to "Spells", items_path
           %li.dropdown
             %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
               Create
               %b.caret
             %ul.dropdown-menu
               %li
-                = link_to "Classes", character_classes_path
+                = link_to "Character", new_character_path
               %li
-                = link_to "Races", races_path
+                = link_to "Class", new_character_class_path
               %li
-                = link_to "Talents", talents_path
+                = link_to "Race", new_race_path
               %li
-                = link_to "Skills", talents_path
+                = link_to "Talent", new_talent_path
               %li
-                = link_to "Proficiencies", proficiencies_path
+                = link_to "Skill", new_talent_path
               %li
-                = link_to "Items", items_path
+                = link_to "Proficiency", new_proficiency_path
+              %li
+                = link_to "Item", new_item_path
+              %li
+                = link_to "Spell", new_spell_path
         %ul.nav.navbar-nav.navbar-right
           %li.dropdown
             %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
