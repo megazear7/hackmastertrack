@@ -7,6 +7,9 @@
           %li= msg
 
   .row
+    .col-md-4= f.input :name, input_html: { class: "string form-control" }
+    .col-md-4= f.input :exp, input_html: { class: "string form-control" }
+  .row
     .col-md-4= f.input :strength, input_html: { class: "string form-control" }
   .row
     .col-md-4= f.input :intelligence, input_html: { class: "string form-control" }
@@ -21,5 +24,9 @@
   .row
     .col-md-4= f.input :charisma, input_html: { class: "string form-control" }
 
-  .actions
-    = f.submit 'Save'
+  .row
+    .col-md-4
+      %br
+      .actions
+        .btn-group
+          = f.submit 'Save', class: "btn btn-primary"

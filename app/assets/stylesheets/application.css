@@ -16,6 +16,20 @@
  *= require bootstrap-theme.min
  */
 
+html,body{
+  height: 100%
+}
+
+.fill-screen {
+  height: 100%;
+}
+
 .alert {
   background-color: rgba(100,100,200,0.5);
+}
+
+.footer {
+  background-color: rgba(100,100,200,0.5);
+  height: 200px;
+  width: 100%;
 }

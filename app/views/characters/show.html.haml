@@ -1,30 +1,34 @@
 %p#notice= notice
-
-
 .row
-  .col-md-1 strength
-  .col-md-4= @character.strength
+  .col-md-4
+    %h3= @character.name
 .row
-  .col-md-1 intelligence
-  .col-md-4= @character.intelligence
+  .col-md-12
+    %hr
 .row
-  .col-md-1 wisdom
-  .col-md-4= @character.wisdom
+  .col-md-1 Strength:
+  .col-md-3= @character.strength
+  .col-md-1 Experience:
+  .col-md-3= @character.exp
 .row
-  .col-md-1 dexterity
-  .col-md-4= @character.dexterity
+  .col-md-1 Intelligence:
+  .col-md-3= @character.intelligence
 .row
-  .col-md-1 constitution
-  .col-md-4= @character.constitution
+  .col-md-1 Wisdom:
+  .col-md-3= @character.wisdom
 .row
-  .col-md-1 looks
-  .col-md-4= @character.looks
+  .col-md-1 Dexterity:
+  .col-md-3= @character.dexterity
 .row
-  .col-md-1 charisma
-  .col-md-4= @character.charisma
-
+  .col-md-1 Constitution:
+  .col-md-3= @character.constitution
+.row
+  .col-md-1 Looks:
+  .col-md-3= @character.looks
+.row
+  .col-md-1 Charisma:
+  .col-md-3= @character.charisma
 %br
-
-= link_to 'Edit', edit_character_path(@character)
-\|
-= link_to 'Back', characters_path
+.btn-group
+  = link_to 'Back', characters_path, class: "btn btn-default"
+  = link_to 'Edit', edit_character_path(@character), class: "btn btn-primary"

@@ -83,7 +83,7 @@
             %li
               = link_to "Login", new_user_session_path
 
-  .container
+  .container.fill-screen
     .row
       .col-md-12
         - flash.each do |name, msg|
@@ -92,3 +92,4 @@
               %a.close{"data-dismiss" => "alert"} &times;
               = content_tag :div, msg, :id => "flash_#{name}"
     = yield
+  = render "layouts/footer"

@@ -3,6 +3,7 @@
 %table.table.table-hover.table-responsive
   %thead
     %tr
+      %th Name
       %th Strength
       %th Intelligence
       %th Wisdom
@@ -16,6 +17,7 @@
   %tbody
     - @characters.each do |character|
       %tr
+        %td= character.name
         %td= character.strength
         %td= character.intelligence
         %td= character.wisdom
@@ -29,4 +31,5 @@
 
 %br
 
-= link_to 'New Character', new_character_path
+.btn-group
+  = link_to 'New Character', new_character_path, class: "btn btn-primary"
