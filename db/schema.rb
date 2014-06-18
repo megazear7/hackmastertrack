@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140618131612) do
+ActiveRecord::Schema.define(version: 20140618133306) do
 
   create_table "character_classes", force: true do |t|
     t.string   "name"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20140618131612) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.integer  "exp"
+    t.integer  "mentor_id"
   end
 
   create_table "characters_items", force: true do |t|
