@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+%html
+%head
+  %title Hacktrack
+  = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+  = javascript_include_tag 'application', 'data-turbolinks-track' => true
+  = csrf_meta_tags
+
+%body
+  %nav.navbar.navbar-default{role: "navigation"}
+    .container-fluid
+      .navbar-header
+        = link_to "Hackmaster Track", characters_path, class: "navbar-brand"
+      #bs-example-navbar-collapse-1.collapse.navbar-collapse
+        %ul.nav.navbar-nav
+          %li
+            = link_to "Your Characters", characters_path
+          %li.dropdown
+            %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+              Browse
+              %b.caret
+            %ul.dropdown-menu
+              %li
+                = link_to "Classes", character_classes_path
+              %li
+                = link_to "Races", races_path
+              %li
+                = link_to "Talents", talents_path
+              %li
+                = link_to "Skills", talents_path
+              %li
+                = link_to "Proficiencies", proficiencies_path
+              %li
+                = link_to "Items", items_path
+              -# TODO
+                %li
+                  %a{href: "#"} Opponents
+          %li.dropdown
+            %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+              Create
+              %b.caret
+            %ul.dropdown-menu
+              %li
+                = link_to "Classes", character_classes_path
+              %li
+                = link_to "Races", races_path
+              %li
+                = link_to "Talents", talents_path
+              %li
+                = link_to "Skills", talents_path
+              %li
+                = link_to "Proficiencies", proficiencies_path
+              %li
+                = link_to "Items", items_path
+        %ul.nav.navbar-nav.navbar-right
+          - if current_user
+            %li.dropdown
+              %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+                = current_user.name
+                %b.caret
+              %ul.dropdown-menu
+                %li
+                  = link_to "Account Info", edit_user_registration_path
+                %li
+                  = link_to "Change Password", edit_user_registration_path
+                %li.divider
+                %li
+                  = link_to "Logout", destroy_user_session_path, method: :delete
+          - else
+            %li
+              = link_to "Login", new_user_session_path
+  %p.notice
+  %p.alert
+
+  = yield
