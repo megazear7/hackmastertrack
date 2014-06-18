@@ -1,0 +1,10 @@
+= form_for @monster do |f|
+  - if @monster.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@monster.errors.count, "error")} prohibited this monster from being saved:"
+      %ul
+        - @monster.errors.full_messages.each do |msg|
+          %li= msg
+
+  .actions
+    = f.submit 'Save'

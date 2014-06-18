@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :campaigns
+
+  resources :monsters
+
   resources :spells
 
   resources :races
