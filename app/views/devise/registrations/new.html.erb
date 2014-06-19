@@ -4,14 +4,28 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :email, required: true, autofocus: true %>
-    <%= f.input :password, required: true %>
-    <%= f.input :password_confirmation, required: true %>
+  	<div class="row">
+  	  <div class="col-md-4">
+        <%= f.input :email, required: true, autofocus: true, input_html: { class: "string form-control" } %>
+	  </div>
+	</div>
+  	<div class="row">
+  	  <div class="col-md-4">
+        <%= f.input :password, required: true, input_html: { class: "string form-control" } %>
+	  </div>
+	</div>
+  	<div class="row">
+  	  <div class="col-md-4">
+        <%= f.input :password_confirmation, required: true, input_html: { class: "string form-control" } %>
+	  </div>
+	</div>
   </div>
+  <br />
 
   <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
+    <%= f.button :submit, "Sign up", class: "btn btn-primary" %>
   </div>
+  <br />
 <% end %>
 
 <%= render "devise/shared/links" %>

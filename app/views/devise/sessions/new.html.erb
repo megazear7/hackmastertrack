@@ -2,14 +2,29 @@
 
 <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="form-inputs">
-    <%= f.input :email, required: false, autofocus: true %>
-    <%= f.input :password, required: false %>
-    <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+  	<div class="row">
+  	  <div class="col-md-4">
+	    <%= f.input :email, required: false, autofocus: true, input_html: { class: "string form-control" } %>
+	  </div>
+	</div>
+  	<div class="row">
+  	  <div class="col-md-4">
+	    <%= f.input :password, required: false, input_html: { class: "string form-control" } %>
+	  </div>
+	</div>
+  	<br />
+  	<div class="row">
+  	  <div class="col-md-4">
+	    <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+	  </div>
+	</div>
   </div>
+  <br />
 
   <div class="form-actions">
-    <%= f.button :submit, "Sign in" %>
+    <%= f.button :submit, "Sign in", class: "btn btn-primary" %>
   </div>
+  <br />
 <% end %>
 
 <%= render "devise/shared/links" %>

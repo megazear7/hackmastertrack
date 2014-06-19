@@ -21,7 +21,7 @@ html,body{
 }
 
 .fill-screen {
-  height: 100%;
+  min-height: 100%;
 }
 
 .alert {
