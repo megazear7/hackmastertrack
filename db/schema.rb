@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140624122302) do
+ActiveRecord::Schema.define(version: 20140624194441) do
 
   create_table "ability_scores", force: true do |t|
     t.string   "ability"
@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(version: 20140624122302) do
     t.integer  "morale_mod"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "min"
+    t.float    "max"
   end
 
   create_table "campaigns", force: true do |t|
