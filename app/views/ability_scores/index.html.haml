@@ -42,7 +42,7 @@
       %th
       %th
 
-    - @ability_scores.where(ability: ability).order(:value_range).each do |ability_score|
+    - @ability_scores.where(ability: ability).each do |ability_score|
       %tr
         %td= link_to ability_score.ability, ability_score
         %td= ability_score.value_range.to_s
