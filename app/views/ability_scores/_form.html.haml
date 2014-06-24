@@ -1,0 +1,42 @@
+= simple_form_for @ability_score do |f|
+  - if @ability_score.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@ability_score.errors.count, "error")} prohibited this ability_score from being saved:"
+      %ul
+        - @ability_score.errors.full_messages.each do |msg|
+          %li= msg
+  .row
+    .col-md-4= f.input :ability, collection: abilities, input_html: { class: "string form-control" }
+    .col-md-4= f.input :value_range, input_html: { class: "string form-control" }
+    .col-md-4 
+      %br
+      Example: 15.01..15.50
+  %hr
+  .row.strength-section{ style: "display: none"}
+    .col-md-4= f.input :damage_mod, input_html: { class: "string form-control" }
+    .col-md-4= f.input :feat_of_strength, input_html: { class: "string form-control" }
+    .col-md-4= f.input :lift, input_html: { class: "string form-control" }
+    .col-md-4= f.input :carry, input_html: { class: "string form-control" }
+    .col-md-4= f.input :drag, input_html: { class: "string form-control" }
+  .row.intelligence-section{ style: "display: none"}
+    .col-md-4= f.input :attack_mod, input_html: { class: "string form-control" }
+  .row.wisdom-section{ style: "display: none"}
+    .col-md-4= f.input :init_mod, input_html: { class: "string form-control" }
+    .col-md-4= f.input :defense_mod, input_html: { class: "string form-control" }
+    .col-md-4= f.input :mental_saving_throw_bonus, input_html: { class: "string form-control" }
+  .row.dexterity-section{ style: "display: none"}
+    .col-md-4= f.input :init_mod, input_html: { class: "string form-control" }
+    .col-md-4= f.input :attack_mod, input_html: { class: "string form-control" }
+    .col-md-4= f.input :defense_mod, input_html: { class: "string form-control" }
+    .col-md-4= f.input :dodge_saving_throw_bonus, input_html: { class: "string form-control" }
+    .col-md-4= f.input :feat_of_agility, input_html: { class: "string form-control" }
+  .row.constitution-section{ style: "display: none"}
+    .col-md-4= f.input :physical_saving_throw_bonus, input_html: { class: "string form-control" }
+  .row.charisma-section{ style: "display: none"}
+    .col-md-4= f.input :turning_mod, input_html: { class: "string form-control" }
+    .col-md-4= f.input :morale_mod, input_html: { class: "string form-control" }
+  %br
+  .row
+    .col-md-4
+      .actions
+        = f.submit 'Save', class: "btn btn-primary submit-attribute"

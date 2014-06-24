@@ -1,0 +1,67 @@
+%p#notice= notice
+
+.row
+  .col-md-2= @ability_score.ability
+  .col-md-2= @ability_score.value_range.to_s
+.row
+  - if @ability_score.ability == "Strength"
+    .col-md-2
+      Damage Mod:
+      = @ability_score.damage_mod
+    .col-md-2
+      Feat Of Strength
+      = @ability_score.feat_of_strength
+    .col-md-2
+      Lift (lbs)
+      = @ability_score.lift
+    .col-md-2
+      Carry (lbs)
+      = @ability_score.carry
+    .col-md-2
+      Drag (lbs)
+      = @ability_score.drag
+  - elsif @ability_score.ability == "Intelligence"
+    .col-md-2
+      Attack Mod
+      = @ability_score.attack_mod
+  - elsif @ability_score.ability == "Wisdom"
+    .col-md-2
+      Init Mod
+      = @ability_score.init_mod
+    .col-md-2
+      Defense Mod
+      = @ability_score.defense_mod
+    .col-md-2
+      Mental Saving Throw Bonus
+      = @ability_score.mental_saving_throw_bonus
+  - elsif @ability_score.ability == "Dexterity"
+    .col-md-2
+      Init Mod 
+      = @ability_score.init_mod
+    .col-md-2
+      Attack mod
+      = @ability_score.attack_mod
+    .col-md-2
+      Defense Mod
+      = @ability_score.defense_mod
+    .col-md-2
+      Dodge Saving Throw Bonus
+      = @ability_score.dodge_saving_throw_bonus
+    .col-md-2
+      Feat of Agility
+      = @ability_score.feat_of_agility
+  - elsif @ability_score.ability == "Constitution"
+    .col-md-2
+      Physical Saving Throw Bonus
+      = @ability_score.physical_saving_throw_bonus
+  - elsif @ability_score.ability == "Charisma"
+    .col-md-2
+      Turning Mod
+      = @ability_score.turning_mod
+    .col-md-2
+      Morale Mod
+      = @ability_score.morale_mod
+%br
+.btn-group
+  = link_to 'Edit', edit_ability_score_path(@ability_score), class: "btn btn-default"
+  = link_to 'Back', ability_scores_path, class: "btn btn-default"

@@ -1,0 +1,76 @@
+%h1 Listing Ability Scores
+.row
+  = form_tag ability_scores_path, :method => 'get' do
+    .col-md-3
+      = select_tag :ability, options_for_select(["Select Ability"] + abilities, params[:ability]), class: "string form-control search-box-align form-border"
+    .col-md-3
+      = submit_tag "Search", :name => nil, class: "btn btn-default search-button-align search-btn"
+      = link_to "Reset", ability_scores_path, class: "btn btn-default"
+    .col-md-6
+      = link_to 'New Ability score', new_ability_score_path, class: "btn btn-primary pull-right"
+%br
+- @abilities.each do |ability|
+  %h3= ability
+  %table.table.table-hover.table-responsive
+    %tr
+      %th Ability
+      %th Value Range
+      - if ability == "Strength"
+        %th Damage Mod:
+        %th Feat Of Strength
+        %th Lift (lbs)
+        %th Carry (lbs)
+        %th Drag (lbs)
+      - elsif ability == "Intelligence"
+        %th Attack Mod
+      - elsif ability == "Wisdom"
+        %th Init Mod
+        %th Defense Mod
+        %th Mental Saving Throw Bonus
+      - elsif ability == "Dexterity"
+        %th Init Mod 
+        %th Attack mod
+        %th Defense Mod
+        %th Dodge Saving Throw Bonus
+        %th Feat of Agility
+      - elsif ability == "Constitution"
+        %th Physical Saving Throw Bonus
+      - elsif ability == "Charisma"
+        %th Turning Mod
+        %th Morale Mod
+      %th
+      %th
+      %th
+
+    - @ability_scores.where(ability: ability).each do |ability_score|
+      %tr
+        %td= link_to ability_score.ability, ability_score
+        %td= ability_score.value_range.to_s
+        - if ability == "Strength"
+          %td= ability_score.damage_mod
+          %td= ability_score.feat_of_strength
+          %td= ability_score.lift
+          %td= ability_score.carry
+          %td= ability_score.drag
+        - elsif ability == "Intelligence"
+          %td= ability_score.attack_mod
+        - elsif ability == "Wisdom"
+          %td= ability_score.init_mod
+          %td= ability_score.defense_mod
+          %td= ability_score.mental_saving_throw_bonus
+        - elsif ability == "Dexterity"
+          %td= ability_score.init_mod
+          %td= ability_score.attack_mod
+          %td= ability_score.defense_mod
+          %td= ability_score.dodge_saving_throw_bonus
+          %td= ability_score.feat_of_agility
+        - elsif ability == "Constitution"
+          %td= ability_score.physical_saving_throw_bonus
+        - elsif ability == "Charisma"
+          %td= ability_score.turning_mod
+          %td= ability_score.morale_mod
+        %td= link_to 'Show', ability_score
+        %td= link_to 'Edit', edit_ability_score_path(ability_score)
+        %td= link_to 'Destroy', ability_score, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+  %br

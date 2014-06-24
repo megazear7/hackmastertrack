@@ -60,6 +60,14 @@
         %ul.nav.navbar-nav.navbar-right
           %li.dropdown
             %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+              Admin
+              %b.caret
+            %ul.dropdown-menu
+              %li
+                = link_to "Ability Scores", ability_scores_path
+        %ul.nav.navbar-nav.navbar-right
+          %li.dropdown
+            %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
               Dungeon Master Tools
               %b.caret
             %ul.dropdown-menu

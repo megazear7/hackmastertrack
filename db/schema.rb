@@ -11,7 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140618235130) do
+ActiveRecord::Schema.define(version: 20140624122302) do
+
+  create_table "ability_scores", force: true do |t|
+    t.string   "ability"
+    t.text     "value_range"
+    t.integer  "feat_of_strength"
+    t.integer  "lift"
+    t.integer  "carry"
+    t.integer  "drag"
+    t.integer  "damage_mod"
+    t.integer  "init_mod"
+    t.integer  "speed_mod"
+    t.integer  "attack_mod"
+    t.integer  "defense_mod"
+    t.integer  "turning_mod"
+    t.integer  "feat_of_agility"
+    t.integer  "mental_saving_throw_bonus"
+    t.integer  "dodge_saving_throw_bonus"
+    t.integer  "physical_saving_throw_bonus"
+    t.integer  "morale_mod"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "campaigns", force: true do |t|
     t.string   "name"

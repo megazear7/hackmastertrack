@@ -1,5 +1,7 @@
 %h1 Listing characters
-
+.row
+  .col-md-12
+    = link_to 'New Character', new_character_path, class: "btn btn-primary pull-right"
 %table.table.table-hover.table-responsive
   %thead
     %tr
@@ -30,6 +32,3 @@
         %td= link_to 'Destroy', character, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
-
-.btn-group
-  = link_to 'New Character', new_character_path, class: "btn btn-primary"
