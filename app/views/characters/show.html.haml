@@ -29,6 +29,17 @@
   .col-md-1 Charisma:
   .col-md-3= @character.charisma
 %br
+%br
+%br
+.row
+  .col-md-1
+    Current Combat Rose:
+.row
+  .col-md-6
+    = render partial: "shared/combat_rose", locals: { rose: @combat_rose }
+%br
 .btn-group
   = link_to 'Back', characters_path, class: "btn btn-default"
   = link_to 'Edit', edit_character_path(@character), class: "btn btn-primary"
+
+

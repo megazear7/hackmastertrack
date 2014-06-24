@@ -33,3 +33,13 @@ html,body{
   height: 200px;
   width: 100%;
 }
+
+.combat-rose {
+  background-color: rgb(50, 50, 100);
+  color: white;
+  border-radius: 5px;
+}
+
+.combat-rose div {
+  padding: 5px;
+}
