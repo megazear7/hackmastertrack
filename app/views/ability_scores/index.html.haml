@@ -45,7 +45,7 @@
     - @ability_scores.where(ability: ability).each do |ability_score|
       %tr
         %td= link_to ability_score.ability, ability_score
-        %td= ability_score.value_range.to_s
+        %td= ability_score.min.to_s + " - " + ability_score.max.to_s
         - if ability == "Strength"
           %td= ability_score.damage_mod
           %td= ability_score.feat_of_strength

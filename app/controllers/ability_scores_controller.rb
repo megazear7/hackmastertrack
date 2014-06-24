@@ -27,10 +27,6 @@ class AbilityScoresController < ApplicationController
   def create
     @ability_score = AbilityScore.new(ability_score_params)
 
-    ends = params[:ability_score][:value_range].split('..').map{|d| Float(d)}
-    range = ends[0]..ends[1]
-    @ability_score.value_range = range
-
     respond_to do |format|
       if @ability_score.save
         format.html { redirect_to @ability_score, notice: 'Ability score was successfully created.' }
@@ -45,12 +41,6 @@ class AbilityScoresController < ApplicationController
   # PATCH/PUT /ability_scores/1
   # PATCH/PUT /ability_scores/1.json
   def update
-
-    if params[:ability_score][:value_range]
-      ends = params[:ability_score][:value_range].split('..').map{|d| Float(d)}
-      range = ends[0]..ends[1]
-      @ability_score.value_range = range
-    end
 
     respond_to do |format|
       if @ability_score.update(ability_score_params)
@@ -83,7 +73,8 @@ class AbilityScoresController < ApplicationController
     def ability_score_params
       params.require(:ability_score).permit(
         :ability,
-        :value_range,
+        :min,
+        :max,
         :feat_of_strength,
         :lift,
         :carry,

@@ -7,7 +7,8 @@
           %li= msg
   .row
     .col-md-4= f.input :ability, collection: abilities, input_html: { class: "string form-control" }
-    .col-md-4= f.input :value_range, input_html: { class: "string form-control" }
+    .col-md-2= f.input :min, input_html: { class: "string form-control" }
+    .col-md-2= f.input :max, input_html: { class: "string form-control" }
     .col-md-4 
       %br
       Example: 15.01..15.50

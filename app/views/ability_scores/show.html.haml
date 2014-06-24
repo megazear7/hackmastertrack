@@ -2,7 +2,7 @@
 
 .row
   .col-md-2= @ability_score.ability
-  .col-md-2= @ability_score.value_range.to_s
+  .col-md-2= @ability_score.min.to_s + " - " + @ability_score.max.to_s
 .row
   - if @ability_score.ability == "Strength"
     .col-md-2
