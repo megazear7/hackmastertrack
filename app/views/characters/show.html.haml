@@ -3,31 +3,83 @@
   .col-md-4
     %h3= @character.name
 .row
+  .col-md-1 Experience:
+  .col-md-3= @character.exp
+.row
   .col-md-12
     %hr
 .row
   .col-md-1 Strength:
-  .col-md-3= @character.strength
-  .col-md-1 Experience:
-  .col-md-3= @character.exp
+  .col-md-1= @character.strength
+  .col-md-2
+    Damage Mod:
+    = ability = AbilityScore.find_ability_mod("Strength", @character.strength, "damage_mod")
+  .col-md-2
+    Feat Of Strength:
+    = ability = AbilityScore.find_ability_mod("Strength", @character.strength, "feat_of_strength")
+  .col-md-2
+    Lift:
+    = ability = AbilityScore.find_ability_mod("Strength", @character.strength, "lift")
+  .col-md-2
+    Carry:
+    = ability = AbilityScore.find_ability_mod("Strength", @character.strength, "carry")
+  .col-md-2
+    Drag:
+    = ability = AbilityScore.find_ability_mod("Strength", @character.strength, "drag")
 .row
   .col-md-1 Intelligence:
-  .col-md-3= @character.intelligence
+  .col-md-1= @character.intelligence
+  .col-md-2
+    Attak Mod:
+    = ability = AbilityScore.find_ability_mod("Intelligence", @character.intelligence, "attack_mod")
 .row
   .col-md-1 Wisdom:
-  .col-md-3= @character.wisdom
+  .col-md-1= @character.wisdom
+  .col-md-2
+    Initiative Mod:
+    = ability = AbilityScore.find_ability_mod("Wisdom", @character.wisdom, "init_mod")
+  .col-md-2
+    Defense Mod:
+    = ability = AbilityScore.find_ability_mod("Wisdom", @character.wisdom, "defense_mod")
+  .col-md-2
+    Mental Saving Throw:
+    = ability = AbilityScore.find_ability_mod("Wisdom", @character.wisdom, "mental_saving_throw_bonus")
 .row
   .col-md-1 Dexterity:
-  .col-md-3= @character.dexterity
+  .col-md-1= @character.dexterity
+  .col-md-2
+    Initiative Mod:
+    = ability = AbilityScore.find_ability_mod("Dexterity", @character.dexterity, "init_mod")
+  .col-md-2
+    Attack Mod:
+    = ability = AbilityScore.find_ability_mod("Dexterity", @character.dexterity, "attack_mod")
+  .col-md-2
+    Defense Mod:
+    = ability = AbilityScore.find_ability_mod("Dexterity", @character.dexterity, "defense_mod")
+  .col-md-2
+    Dodge Saving Throw:
+    = ability = AbilityScore.find_ability_mod("Dexterity", @character.dexterity, "dodge_saving_throw_bonus")
+  .col-md-2
+    Feat of Agility:
+    = ability = AbilityScore.find_ability_mod("Dexterity", @character.dexterity, "feat_of_agility")
 .row
   .col-md-1 Constitution:
-  .col-md-3= @character.constitution
+  .col-md-1= @character.constitution
+  .col-md-2
+    Physical Saving Throw:
+    = ability = AbilityScore.find_ability_mod("Constitution", @character.constitution, "physical_saving_throw_bonus")
 .row
   .col-md-1 Looks:
-  .col-md-3= @character.looks
+  .col-md-1= @character.looks
 .row
   .col-md-1 Charisma:
-  .col-md-3= @character.charisma
+  .col-md-1= @character.charisma
+  .col-md-2
+    Turning Mod:
+    = ability = AbilityScore.find_ability_mod("Charisma", @character.charisma, "turning_mod")
+  .col-md-2
+    Morale Mod:
+    = ability = AbilityScore.find_ability_mod("Charisma", @character.charisma, "morale_mod")
 %br
 %br
 %br
