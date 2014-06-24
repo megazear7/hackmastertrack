@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140624194441) do
+ActiveRecord::Schema.define(version: 20140624215145) do
 
   create_table "ability_scores", force: true do |t|
     t.string   "ability"
@@ -89,6 +89,9 @@ ActiveRecord::Schema.define(version: 20140624194441) do
     t.integer  "user_id"
     t.integer  "exp"
     t.integer  "mentor_id"
+    t.integer  "left_hand_item_id"
+    t.integer  "right_hand_item_id"
+    t.integer  "body_item_id"
   end
 
   create_table "characters_items", force: true do |t|

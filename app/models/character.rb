@@ -6,6 +6,9 @@ class Character < ActiveRecord::Base
   has_and_belongs_to_many :skills
   has_and_belongs_to_many :spells
   has_and_belongs_to_many :campaigns
+  belongs_to :left_hand, class_name: "Character", foreign_key: "left_hand_item_id"
+  belongs_to :right_hand, class_name: "Character", foreign_key: "right_hand_item_id"
+  belongs_to :body, class_name: "Character", foreign_key: "body_item_id"
 
   belongs_to :mentor, :class_name => "Character"
   has_many :prodigees, :foreign_key => "mentor_id"
@@ -120,18 +123,6 @@ class Character < ActiveRecord::Base
     equipment = build_equipment(equipment)
     mod = 0
     mod
-  end
-
-  def left_hand
-    nil # this will probably need move into a database relation between character and item
-  end
-
-  def right_hand
-    nil # this will probably need move into a database relation between character and item
-  end
-
-  def body
-    nil # this will probably need move into a database relation between character and item
   end
 
   def actual_level
