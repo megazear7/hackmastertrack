@@ -8,7 +8,10 @@
     %h3= @character.name
 .row
   .col-md-1 Experience:
-  .col-md-3= @character.exp
+  .col-md-1= @character.exp
+  = simple_form_for @character, url: character_add_xp_path(character_id: @character.id), method: :post do |f|
+    .col-md-1= f.input :exp, label: false, input_html: { value: 0, class: "string form-control" }
+    .col-md-1= f.submit 'Add XP', class: "btn btn-primary"
 .row
   .col-md-12
     %hr

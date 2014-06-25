@@ -62,6 +62,20 @@ class CharactersController < ApplicationController
     end
   end
 
+  def add_xp
+    @character = Character.find(params[:character_id])
+    @character.exp += params[:character][:exp].to_i
+    respond_to do |format|
+      if @character.save
+        format.html { redirect_to character_url(@character), notice: 'Experience successfully added.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to character_url(@character), notice: 'Error adding experience' }
+        format.json { head :no_content }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_character

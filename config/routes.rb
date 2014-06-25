@@ -19,7 +19,9 @@ Rails.application.routes.draw do
 
   resources :items
 
-  resources :characters
+  resources :characters do
+    post :add_xp
+  end
 
   resources :encounters
 
