@@ -35,10 +35,24 @@
   .row
     .col-md-4.text-center
       Left Hand:
-      = rose["left_hand"]
+      - if rose["left_hand"].nil?
+        Empty 
+      - else
+        = rose["left_hand"].name
     .col-md-4.text-center
       Right Hand:
-      = rose["right_hand"]
+      - if rose["right_hand"].nil?
+        Empty 
+      - else
+        = rose["right_hand"].name
     .col-md-4.text-center
       Body:
-      = rose["body"]
+      - if rose["body"].nil?
+        Empty 
+      - else
+        = rose["body"].name
+
+
+
+
+
