@@ -21,7 +21,7 @@ module ItemsHelper
   end
 
   def damage_types
-    [ ["Piercing", "piercing"], ["Slashing", "slashing"], ["Crushing", "crushing"] ]
+    [ ["Hacking", "hacking"], ["Piercing", "piercing"], ["Slashing", "slashing"], ["Crushing", "crushing"] ]
   end
 
 end
