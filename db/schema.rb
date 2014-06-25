@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140624215145) do
+ActiveRecord::Schema.define(version: 20140625151637) do
 
   create_table "ability_scores", force: true do |t|
     t.string   "ability"
@@ -126,7 +126,6 @@ ActiveRecord::Schema.define(version: 20140624215145) do
   end
 
   create_table "items", force: true do |t|
-    t.string   "type"
     t.integer  "attack_mod"
     t.integer  "speed_mod"
     t.integer  "init_mod"
@@ -151,6 +150,7 @@ ActiveRecord::Schema.define(version: 20140624215145) do
     t.float    "sell_value"
     t.string   "damage_type"
     t.integer  "heal_value"
+    t.string   "item_type"
   end
 
   create_table "monsters", force: true do |t|

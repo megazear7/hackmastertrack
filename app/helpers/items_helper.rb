@@ -12,7 +12,7 @@ module ItemsHelper
     [ "light", "medium", "heavy" ]
   end
 
-  def loactions
+  def locations
     [ "left_arm", "right_arm", "body", "head", "finger", "legs", "feet", "back" ]
   end
 
