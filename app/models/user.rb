@@ -4,4 +4,5 @@ class User < ActiveRecord::Base
   has_many :characters
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+  attr_accessor :creation_key
 end

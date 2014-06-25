@@ -7,19 +7,24 @@
   	<div class="row">
   	  <div class="col-md-4">
         <%= f.input :email, required: true, autofocus: true, input_html: { class: "string form-control" } %>
+	    </div>
 	  </div>
-	</div>
   	<div class="row">
   	  <div class="col-md-4">
         <%= f.input :password, required: true, input_html: { class: "string form-control" } %>
+      </div>
 	  </div>
-	</div>
   	<div class="row">
   	  <div class="col-md-4">
         <%= f.input :password_confirmation, required: true, input_html: { class: "string form-control" } %>
+      </div>
+	  </div>
+  	<div class="row">
+  	  <div class="col-md-4">
+        <%= f.input :creation_key, required: true, input_html: { class: "string form-control" } %>
+      </div>
 	  </div>
 	</div>
-  </div>
   <br />
 
   <div class="form-actions">
