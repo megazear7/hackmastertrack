@@ -74,20 +74,16 @@ class Character < ActiveRecord::Base
   def calculate_attack equipment
     equipment = build_equipment(equipment)
     mod = 0
-    ability = AbilityScore.find_ability("Intelligence", self.intelligence)
-    mod += ability.attack_mod if ability
-    ability = AbilityScore.find_ability("Dexterity", self.intelligence)
-    mod += ability.attack_mod if ability
+    mod += AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
+    mod += AbilityScore.find_ability_mod("Dexterity", self.intelligence, "attack_mod")
     mod
   end
 
   def calculate_defense equipment
     equipment = build_equipment(equipment)
     mod = 0
-    ability = AbilityScore.find_ability("Wisdom", self.intelligence)
-    mod += ability.attack_mod if ability
-    ability = AbilityScore.find_ability("Dexterity", self.intelligence)
-    mod += ability.attack_mod if ability
+    mod += AbilityScore.find_ability_mod("Wisdom", self.intelligence, "defense_mod")
+    mod += AbilityScore.find_ability_mod("Dexterity", self.intelligence, "defense_mod")
     mod
   end
 
@@ -106,8 +102,7 @@ class Character < ActiveRecord::Base
   def calculate_damage_mod equipment
     equipment = build_equipment(equipment)
     mod = 0
-    ability = AbilityScore.find_ability("Strength", self.strength)
-    mod += ability.damage_mod if ability
+    mod += AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
     mod
   end
 
