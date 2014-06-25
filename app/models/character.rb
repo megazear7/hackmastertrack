@@ -66,10 +66,8 @@ class Character < ActiveRecord::Base
   def calculate_init equipment
     equipment = build_equipment(equipment)
     mod = 0
-    ability = AbilityScore.find_ability("Wisdom", self.intelligence)
-    mod += ability.attack_mod if ability
-    ability = AbilityScore.find_ability("Dexterity", self.intelligence)
-    mod += ability.attack_mod if ability
+    mod += AbilityScore.find_ability_mod("Wisdom", self.intelligence, "init_mod")
+    mod += AbilityScore.find_ability_mod("Dexterity", self.intelligence, "init_mod")
     mod
   end
 
