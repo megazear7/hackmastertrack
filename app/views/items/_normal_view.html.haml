@@ -21,7 +21,7 @@
     - @items.each do |item|
       %tr
         %td= link_to item.name, item
-        - if item.magic_level > 0
+        - if item.magic_level == nil || item.magic_level > 0
           %td= "Magic " + item.item_type
         - else
           %td= item.item_type
