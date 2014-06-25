@@ -14,7 +14,14 @@ class AbilityScore < ActiveRecord::Base
     where(ability: ability).each do |ability_score|
       # TODO query the database instead of looping
       range = ability_score.min..ability_score.max
-      return ability_score.send(mod) if range.cover? value
+      if range.cover? value
+        mod_val = ability_score.send(mod)
+        if mod_val.nil?
+          return 0
+        else
+          return mod_val
+        end
+      end
     end
     0
   end
