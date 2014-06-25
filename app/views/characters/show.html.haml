@@ -1,3 +1,8 @@
+.btn-group
+  = link_to 'Back', characters_path, class: "btn btn-default"
+  = link_to 'Edit', edit_character_path(@character), class: "btn btn-primary"
+%br
+%br
 .row
   .col-md-4
     %h3= @character.name
@@ -88,9 +93,3 @@
 .row
   .col-md-6
     = render partial: "shared/combat_rose", locals: { rose: @combat_rose }
-%br
-.btn-group
-  = link_to 'Back', characters_path, class: "btn btn-default"
-  = link_to 'Edit', edit_character_path(@character), class: "btn btn-primary"
-
-

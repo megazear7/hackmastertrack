@@ -1,3 +1,8 @@
+.btn-group
+  = link_to 'Back', ability_scores_path, class: "btn btn-default"
+  = link_to 'Edit', edit_ability_score_path(@ability_score), class: "btn btn-primary"
+%br
+%br
 .row
   .col-md-2= @ability_score.ability
   .col-md-2= @ability_score.min.to_s + " - " + @ability_score.max.to_s
@@ -59,7 +64,3 @@
     .col-md-2
       Morale Mod
       = @ability_score.morale_mod
-%br
-.btn-group
-  = link_to 'Edit', edit_ability_score_path(@ability_score), class: "btn btn-default"
-  = link_to 'Back', ability_scores_path, class: "btn btn-default"
