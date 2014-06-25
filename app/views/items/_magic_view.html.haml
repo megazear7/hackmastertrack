@@ -1,0 +1,49 @@
+%table.table.table-hover.table-responsive
+  %thead
+    %tr
+      %td Name
+      %td Item Type
+      %td Location
+      %td Armor Type
+      %td Shield Size
+      %td Attack Mod
+      %td Speed Mod
+      %td Init Mod
+      %td Defense Mod
+      %td Damage Mod
+      %td Damage Reduction
+      %td Magic Level
+      %td Damage
+      %td Attack Speed
+      %td Jab Speed
+      %td Reach
+      %td Heal Value
+      %th
+      %th
+      %th
+  %tbody
+    - @items.each do |item|
+      %tr
+        %td= link_to item.name, item
+        - if item.magic_level > 0
+          %td= "Magic " + item.item_type
+        - else
+          %td= item.item_type
+        %td= item.location
+        %td= item.armor_type
+        %td= item.shield_size
+        %td= item.attack_mod
+        %td= item.speed_mod
+        %td= item.init_mod
+        %td= item.defense_mod
+        %td= item.damage_mod
+        %td= item.damage_reduction
+        %td= item.magic_level
+        %td= item.damage
+        %td= item.attack_speed
+        %td= item.jab_speed
+        %td= item.reach
+        %td= item.heal_value
+        %td= link_to 'Show', item
+        %td= link_to 'Edit', edit_item_path(item)
+        %td= link_to 'Destroy', item, :method => :delete, :data => { :confirm => 'Are you sure?' }

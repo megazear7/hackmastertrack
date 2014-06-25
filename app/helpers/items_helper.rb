@@ -1,5 +1,9 @@
 module ItemsHelper
 
+  def item_views
+    [ ["Normal Stats", "normal"], ["Market Stats", "market"], ["Magic Stats", "magic"] ] 
+  end
+
   def item_types
     [ "armor", "weapon", "shield", "consumable", "wearable", "precious" ]
   end
