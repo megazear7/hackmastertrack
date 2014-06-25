@@ -5,23 +5,23 @@ module ItemsHelper
   end
 
   def item_types
-    [ "armor", "weapon", "shield", "consumable", "wearable", "precious" ]
+    [ ["Armor", "armor"], ["Weapon", "weapon"], ["Shield", "shield"], ["Consumable", "consumable"], ["Wearable", "wearable"], ["Precious", "precious"] ]
   end
 
   def shield_sizes
-    [ "small", "medium", "large" ]
+    [ ["Small", "small"], ["Medium", "medium"], ["Large", "large"] ]
   end
 
   def armor_types
-    [ "light", "medium", "heavy" ]
+    [ ["Light", "light"], ["Medium", "medium"], ["Heavy", "heavy"] ]
   end
 
   def locations
-    [ "left_arm", "right_arm", "body", "head", "finger", "legs", "feet", "back" ]
+    [ ["Arm", "arm"], ["Body", "body"], ["Head", "head"], ["Finger", "finger"], ["Legs", "legs"], ["Feet", "feet"], ["Back", "back"] ]
   end
 
   def damage_types
-    [ "piercing", "slashing", "crushing" ]
+    [ ["Piercing", "piercing"], ["Slashing", "slashing"], ["Crushing", "crushing"] ]
   end
 
 end
