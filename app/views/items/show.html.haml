@@ -1,6 +1,69 @@
-%p#notice= notice
-
-
-= link_to 'Edit', edit_item_path(@item)
-\|
-= link_to 'Back', items_path
+%table.table.table-hover.table-responsive
+  %tbody
+    %tr
+      %td Name
+      %td= @item.name
+    %tr
+      %td Item Type
+      %td= @item.item_type
+    %tr
+      %td Location
+      %td= @item.location
+    %tr
+      %td Armor Type
+      %td= @item.armor_type
+    %tr
+      %td Shield Size
+      %td= @item.shield_size
+    %tr
+      %td Damage Type
+      %td= @item.damage_type
+    %tr
+      %td Attack Mod
+      %td= @item.attack_mod
+    %tr
+      %td Speed Mod
+      %td= @item.speed_mod
+    %tr
+      %td Init Mod
+      %td= @item.init_mod
+    %tr
+      %td Defense Mod
+      %td= @item.defense_mod
+    %tr
+      %td Damage Mod
+      %td= @item.damage_mod
+    %tr
+      %td Damage Reduction
+      %td= @item.damage_reduction
+    %tr
+      %td Magic Level
+      %td= @item.magic_level
+    %tr
+      %td Damage
+      %td= @item.damage
+    %tr
+      %td Attack Speed
+      %td= @item.attack_speed
+    %tr
+      %td Jab Speed
+      %td= @item.jab_speed
+    %tr
+      %td Reach
+      %td= @item.reach
+    %tr
+      %td Buy Cost
+      %td= @item.buy_cost
+    %tr
+      %td Sell Value
+      %td= @item.sell_value
+    %tr
+      %td Heal Value
+      %td= @item.heal_value
+    %tr
+      %td Weight 
+      %td= @item.weight
+%br
+.btn-group
+  = link_to 'Edit', edit_item_path(@item), class: "btn btn-default"
+  = link_to 'Back', items_path, class: "btn btn-default"

@@ -1,17 +1,60 @@
-%h1 Listing items
-
-%table
-  %tr
-    %th
-    %th
-    %th
-
-  - @items.each do |item|
+.row
+  .col-md-12
+    %h1 Listing items
+.row
+  .col-md-12
+    = link_to 'New Item', new_item_path, class: "btn btn-primary pull-right"
+%table.table.table-hover.table-responsive
+  %thead
     %tr
-      %td= link_to 'Show', item
-      %td= link_to 'Edit', edit_item_path(item)
-      %td= link_to 'Destroy', item, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Item', new_item_path
+      %td Name
+      %td Item Type
+      %td Location
+      %td Armor Type
+      %td Shield Size
+      %td Damage Type
+      %td Attack Mod
+      %td Speed Mod
+      %td Init Mod
+      %td Defense Mod
+      %td Damage Mod
+      %td Damage Reduction
+      %td Magic Level
+      %td Damage
+      %td Attack Speed
+      %td Jab Speed
+      %td Reach
+      %td Buy Cost
+      %td Sell Value
+      %td Heal Value
+      %td Weight 
+      %th
+      %th
+      %th
+  %tbody
+    - @items.each do |item|
+      %tr
+        %td= link_to item.name, item
+        %td= item.item_type
+        %td= item.location
+        %td= item.armor_type
+        %td= item.shield_size
+        %td= item.damage_type
+        %td= item.attack_mod
+        %td= item.speed_mod
+        %td= item.init_mod
+        %td= item.defense_mod
+        %td= item.damage_mod
+        %td= item.damage_reduction
+        %td= item.magic_level
+        %td= item.damage
+        %td= item.attack_speed
+        %td= item.jab_speed
+        %td= item.reach
+        %td= item.buy_cost
+        %td= item.sell_value
+        %td= item.heal_value
+        %td= item.weight
+        %td= link_to 'Show', item
+        %td= link_to 'Edit', edit_item_path(item)
+        %td= link_to 'Destroy', item, :method => :delete, :data => { :confirm => 'Are you sure?' }
