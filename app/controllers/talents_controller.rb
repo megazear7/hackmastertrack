@@ -69,6 +69,11 @@ class TalentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def talent_params
-      params[:talent]
+      params.require(:talent).permit(
+	:name,
+	:description,
+	:requirements,
+	:bp_cost
+      )
     end
 end
