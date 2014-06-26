@@ -1,4 +1,8 @@
 module CharactersHelper
+
+  def extra_bp_options
+    [ ["Keep as rolled (+50)", "50"], ["Swap two scores (+25)", "25"], ["Rearrange as desired (+0)", "0"] ]
+  end
   
   def handedness_options
     [ "left", "right", "ambidextrious" ]
