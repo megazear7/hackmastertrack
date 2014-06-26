@@ -20,13 +20,13 @@
     - @characters.each do |character|
       %tr
         %td= link_to character.name, character_path(character)
-        %td= character.strength
-        %td= character.intelligence
-        %td= character.wisdom
-        %td= character.dexterity
-        %td= character.constitution
-        %td= character.looks
-        %td= character.charisma
+        %td= number_with_precision(character.strength, precision: 2)
+        %td= number_with_precision(character.intelligence, precision: 2)
+        %td= number_with_precision(character.wisdom, precision: 2)
+        %td= number_with_precision(character.dexterity, precision: 2)
+        %td= number_with_precision(character.constitution, precision: 2)
+        %td= number_with_precision(character.looks, precision: 2)
+        %td= number_with_precision(character.charisma, precision: 2)
         %td= link_to 'Show', character
         %td= link_to 'Edit', edit_character_path(character)
         %td= link_to 'Destroy', character, :method => :delete, :data => { :confirm => 'Are you sure?' }

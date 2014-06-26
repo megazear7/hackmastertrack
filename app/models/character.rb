@@ -143,4 +143,12 @@ class Character < ActiveRecord::Base
     end
   end
 
+  def needs_to_level
+    if not self.level.nil? and self.level < self.actual_level
+      true
+    else
+      false
+    end
+  end
+
 end

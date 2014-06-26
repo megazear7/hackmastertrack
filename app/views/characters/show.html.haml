@@ -4,20 +4,32 @@
 %br
 %br
 .row
-  .col-md-4
+  .col-md-2
     %h3= @character.name
+    %p 
+      Level
+      = @character.level
 .row
   .col-md-1 Experience:
   .col-md-1= @character.exp
+  .col-md-1
+    - if @character.needs_to_level
+      = link_to "Level Up!", character_level_up_edit_path(character_id: @character.id), class: "btn btn-success"
   = simple_form_for @character, url: character_add_xp_path(character_id: @character.id), method: :post do |f|
-    .col-md-1= f.input :exp, label: false, input_html: { value: 0, class: "string form-control" }
-    .col-md-1= f.submit 'Add XP', class: "btn btn-primary"
+    .col-md-2
+      = f.input :exp, label: false, input_html: { value: 0, class: "string form-control" }
+    .col-md-1
+      = f.submit 'Add XP', class: "btn btn-primary"
+.row
+  .col-md-1 
+    Building Points:
+    = @character.building_points
 .row
   .col-md-12
     %hr
 .row
   .col-md-1 Strength:
-  .col-md-1= @character.strength
+  .col-md-1= number_with_precision(@character.strength, precision: 2)
   .col-md-2
     Damage Mod:
     = ability = AbilityScore.find_ability_mod("Strength", @character.strength, "damage_mod")
@@ -35,13 +47,13 @@
     = ability = AbilityScore.find_ability_mod("Strength", @character.strength, "drag")
 .row
   .col-md-1 Intelligence:
-  .col-md-1= @character.intelligence
+  .col-md-1= number_with_precision(@character.intelligence, precision: 2)
   .col-md-2
     Attak Mod:
     = ability = AbilityScore.find_ability_mod("Intelligence", @character.intelligence, "attack_mod")
 .row
   .col-md-1 Wisdom:
-  .col-md-1= @character.wisdom
+  .col-md-1= number_with_precision(@character.wisdom, precision: 2)
   .col-md-2
     Initiative Mod:
     = ability = AbilityScore.find_ability_mod("Wisdom", @character.wisdom, "init_mod")
@@ -53,7 +65,7 @@
     = ability = AbilityScore.find_ability_mod("Wisdom", @character.wisdom, "mental_saving_throw_bonus")
 .row
   .col-md-1 Dexterity:
-  .col-md-1= @character.dexterity
+  .col-md-1= number_with_precision(@character.dexterity, precision: 2)
   .col-md-2
     Initiative Mod:
     = ability = AbilityScore.find_ability_mod("Dexterity", @character.dexterity, "init_mod")
@@ -71,16 +83,16 @@
     = ability = AbilityScore.find_ability_mod("Dexterity", @character.dexterity, "feat_of_agility")
 .row
   .col-md-1 Constitution:
-  .col-md-1= @character.constitution
+  .col-md-1= number_with_precision(@character.constitution, precision: 2)
   .col-md-2
     Physical Saving Throw:
     = ability = AbilityScore.find_ability_mod("Constitution", @character.constitution, "physical_saving_throw_bonus")
 .row
   .col-md-1 Looks:
-  .col-md-1= @character.looks
+  .col-md-1= number_with_precision(@character.looks, precision: 2)
 .row
   .col-md-1 Charisma:
-  .col-md-1= @character.charisma
+  .col-md-1= number_with_precision(@character.charisma, precision: 2)
   .col-md-2
     Turning Mod:
     = ability = AbilityScore.find_ability_mod("Charisma", @character.charisma, "turning_mod")

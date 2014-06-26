@@ -21,6 +21,8 @@ Rails.application.routes.draw do
 
   resources :characters do
     post :add_xp
+    get  :level_up_edit
+    post :level_up_update
   end
 
   resources :encounters
