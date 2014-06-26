@@ -1,0 +1,28 @@
+= simple_form_for @character, url: character_level_up_update_path(character_id: @character.id), method: :post do |f|
+  - if @character.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@character.errors.count, "error")} prohibited this character from being saved:"
+      %ul
+        - @character.errors.full_messages.each do |msg|
+          %li= msg
+  .row
+    .col-md-4
+      %h3 Enter Fractional Value To Increase By:
+  .row
+    .col-md-4= f.input :strength, input_html: { value: "", class: "string form-control" }
+  .row
+    .col-md-4= f.input :intelligence, input_html: { value: "", class: "string form-control" }
+  .row
+    .col-md-4= f.input :wisdom, input_html: { value: "", class: "string form-control" }
+  .row
+    .col-md-4= f.input :dexterity, input_html: { value: "", class: "string form-control" }
+  .row
+    .col-md-4= f.input :constitution, input_html: { value: "", class: "string form-control" }
+  .row
+    .col-md-4= f.input :charisma, input_html: { value: "", class: "string form-control" }
+  .row
+    .col-md-4
+      %br
+      .actions
+        .btn-group
+          = f.submit 'Save', class: "btn btn-primary"

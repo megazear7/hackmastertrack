@@ -26,6 +26,9 @@ class CharactersController < ApplicationController
   # POST /characters.json
   def create
     @character = Character.new(character_params)
+    @character.level = 1
+    @character.exp = 0
+    @character.building_points += 40
 
     respond_to do |format|
       if @character.save
@@ -62,6 +65,37 @@ class CharactersController < ApplicationController
     end
   end
 
+  def level_up_edit
+    @character = Character.find(params[:character_id])
+  end
+
+  def level_up_update
+    @character = Character.find(params[:character_id])
+
+    @character.strength     += params[:character][:strength].to_f/100
+    @character.intelligence += params[:character][:strength].to_f/100
+    @character.wisdom       += params[:character][:strength].to_f/100
+    @character.dexterity    += params[:character][:strength].to_f/100
+    @character.constitution += params[:character][:strength].to_f/100
+    @character.charisma     += params[:character][:strength].to_f/100
+
+    @character.building_points += 15
+
+    # add level up stuff here...
+
+    @character.level += 1
+
+    respond_to do |format|
+      if @character.save
+        format.html { redirect_to character_url(@character), notice: 'Successfully leveled up!.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to character_url(@character), notice: 'Error leveling up' }
+        format.json { head :no_content }
+      end
+    end
+  end
+
   def add_xp
     @character = Character.find(params[:character_id])
     @character.exp += params[:character][:exp].to_i
@@ -94,6 +128,7 @@ class CharactersController < ApplicationController
         :dexterity,
         :constitution,
         :looks,
+        :building_points,
         :charisma
       )
     end
