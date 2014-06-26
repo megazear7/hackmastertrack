@@ -1,6 +1,19 @@
-%p#notice= notice
-
-
-= link_to 'Edit', edit_talent_path(@talent)
-\|
-= link_to 'Back', talents_path
+.btn-group
+  = link_to 'Back', talents_path, class: "btn btn-default"
+  = link_to 'Edit', edit_talent_path(@talent), class: "btn btn-primary"
+%br
+%br
+%table.table.table-hover.table-responsive
+  %tbody
+    %tr
+      %td Name
+      %td= @talent.name
+    %tr
+      %td Description
+      %td= @talent.description
+    %tr
+      %td Requirements
+      %td= @talent.requirements
+    %tr
+      %td bp_cost
+      %td= @talent.bp_cost
