@@ -2,12 +2,14 @@
 
 %table
   %tr
-    %th
-    %th
+    %th Name
+    %th BP Cost
     %th
 
   - @talents.each do |talent|
     %tr
+      %td= link_to talent.name, talent
+      %td= talent.bp_cost
       %td= link_to 'Show', talent
       %td= link_to 'Edit', edit_talent_path(talent)
       %td= link_to 'Destroy', talent, :method => :delete, :data => { :confirm => 'Are you sure?' }
