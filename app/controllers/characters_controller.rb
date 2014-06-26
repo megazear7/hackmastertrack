@@ -78,6 +78,7 @@ class CharactersController < ApplicationController
     @character.dexterity    += params[:character][:strength].to_f/100
     @character.constitution += params[:character][:strength].to_f/100
     @character.charisma     += params[:character][:strength].to_f/100
+    @character.health       += params[:character][:health].to_i
 
     @character.building_points += 15
 
@@ -128,8 +129,9 @@ class CharactersController < ApplicationController
         :dexterity,
         :constitution,
         :looks,
+        :charisma,
         :building_points,
-        :charisma
+        :health
       )
     end
 end

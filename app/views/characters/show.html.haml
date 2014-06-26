@@ -28,6 +28,13 @@
   .col-md-12
     %hr
 .row
+  .col-md-1 
+    Health:
+    = @character.health
+.row
+  .col-md-12
+    %hr
+.row
   .col-md-1 Strength:
   .col-md-1= number_with_precision(@character.strength, precision: 2)
   .col-md-2
