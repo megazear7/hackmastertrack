@@ -73,11 +73,11 @@ class CharactersController < ApplicationController
     @character = Character.find(params[:character_id])
 
     @character.strength     += params[:character][:strength].to_f/100
-    @character.intelligence += params[:character][:strength].to_f/100
-    @character.wisdom       += params[:character][:strength].to_f/100
-    @character.dexterity    += params[:character][:strength].to_f/100
-    @character.constitution += params[:character][:strength].to_f/100
-    @character.charisma     += params[:character][:strength].to_f/100
+    @character.intelligence += params[:character][:intelligence].to_f/100
+    @character.wisdom       += params[:character][:wisdom].to_f/100
+    @character.dexterity    += params[:character][:dexterity].to_f/100
+    @character.constitution += params[:character][:constitution].to_f/100
+    @character.charisma     += params[:character][:charisma].to_f/100
     @character.health       += params[:character][:health].to_i
 
     @character.building_points += 15
