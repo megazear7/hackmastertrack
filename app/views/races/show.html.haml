@@ -1,6 +1,35 @@
-%p#notice= notice
+.btn-group
+  = link_to 'Back', races_path, class: "btn btn-default"
+  = link_to 'Edit', edit_race_path(@race), class: "btn btn-primary"
+%br
+%br
+%table.table.table-hover.table-responsive
+  %tbody
+    %tr
+      %td Name
+      %td= @race.name
+    %tr
+      %td Description
+      %td= @race.description
+    %tr
+      %td  Strength Modifier
+      %td= @race.str_mod
+    %tr
+      %td  Intelligence Modifier
+      %td= @race.int_mod
+    %tr
+      %td  Wisdom Modifier
+      %td= @race.wis_mod
+    %tr
+      %td  Dexterity Modifier
+      %td= @race.dex_mod
+    %tr
+      %td  Constitution Modifier
+      %td= @race.con_mod
+    %tr
+      %td  Looks Modifier
+      %td= @race.lks_mod
+    %tr
+      %td  Charisma Modifier
+      %td= @race.cha_mod
 
-
-= link_to 'Edit', edit_race_path(@race)
-\|
-= link_to 'Back', races_path

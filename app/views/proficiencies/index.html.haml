@@ -2,12 +2,17 @@
 
 %table
   %tr
-    %th
-    %th
-    %th
+    %th name
+    %th description
+    %th requirements
+    %th bp_cost
 
   - @proficiencies.each do |proficiency|
     %tr
+      %td= proficiency.name
+      %td= proficiency.description
+      %td= proficiency.requirements
+      %td= proficiency.bp_cost
       %td= link_to 'Show', proficiency
       %td= link_to 'Edit', edit_proficiency_path(proficiency)
       %td= link_to 'Destroy', proficiency, :method => :delete, :data => { :confirm => 'Are you sure?' }

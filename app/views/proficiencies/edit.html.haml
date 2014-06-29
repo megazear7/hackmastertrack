@@ -1,7 +1,8 @@
+.btn-group
+  = link_to 'Back', proficiencies_path, class: "btn btn-default"
+  = link_to 'Show', @proficiency, class: "btn btn-default"
+%br
+%br
 %h1 Editing proficiency
-
 = render 'form'
 
-= link_to 'Show', @proficiency
-\|
-= link_to 'Back', proficiencies_path

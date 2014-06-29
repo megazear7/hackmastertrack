@@ -1,7 +1,8 @@
+.btn-group
+  = link_to 'Back', character_classes_path, class: "btn btn-default"
+  = link_to 'Show', @character_class, class: "btn btn-default"
+%br
+%br
 %h1 Editing character_class
-
 = render 'form'
 
-= link_to 'Show', @character_class
-\|
-= link_to 'Back', character_classes_path

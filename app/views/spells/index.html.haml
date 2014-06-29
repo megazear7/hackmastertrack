@@ -2,12 +2,17 @@
 
 %table
   %tr
-    %th
-    %th
-    %th
+    %th name
+    %th description
+    %th spellpoints
+    %th type
 
   - @spells.each do |spell|
     %tr
+      %td= link_to spell.name, spell
+      %td= spell.description
+      %td= spell.spellpoints
+      %td= spell.type
       %td= link_to 'Show', spell
       %td= link_to 'Edit', edit_spell_path(spell)
       %td= link_to 'Destroy', spell, :method => :delete, :data => { :confirm => 'Are you sure?' }

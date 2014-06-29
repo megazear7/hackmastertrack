@@ -1,4 +1,4 @@
-= form_for @race do |f|
+= simple_form_for @race do |f|
   - if @race.errors.any?
     #error_explanation
       %h2= "#{pluralize(@race.errors.count, "error")} prohibited this race from being saved:"
@@ -6,5 +6,20 @@
         - @race.errors.full_messages.each do |msg|
           %li= msg
 
-  .actions
-    = f.submit 'Save'
+  .row
+    .col-md-4= f.input :name, input_html: { class: "string form-control" }
+    .col-md-4= f.input :description, input_html: { class: "string form-control" }
+  .row
+    .col-md-4= f.input :str_mod, input_html: { class: "string form-control" }
+    .col-md-4= f.input :int_mod, input_html: { class: "string form-control" }
+    .col-md-4= f.input :wis_mod, input_html: { class: "string form-control" }
+    .col-md-4= f.input :dex_mod, input_html: { class: "string form-control" }
+    .col-md-4= f.input :con_mod, input_html: { class: "string form-control" }
+    .col-md-4= f.input :lks_mod, input_html: { class: "string form-control" }
+    .col-md-4= f.input :cha_mod, input_html: { class: "string form-control" }
+  .row
+    .col-md-4
+      %br
+      .actions
+        .btn-group
+          = f.submit 'Save', class: "btn btn-primary"

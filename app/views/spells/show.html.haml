@@ -1,6 +1,19 @@
-%p#notice= notice
-
-
-= link_to 'Edit', edit_spell_path(@spell)
-\|
-= link_to 'Back', spells_path
+.btn-group
+  = link_to 'Back', spells_path, class: "btn btn-default"
+  = link_to 'Edit', edit_spell_path(@spell), class: "btn btn-primary"
+%br
+%br
+%table.table.table-hover.table-responsive
+  %tbody
+    %tr
+      %td Name
+      %td= @spell.name
+    %tr
+      %td Description
+      %td= @spell.description
+    %tr
+      %td Spell Points
+      %td= @spell.spellpoints
+    %tr
+      %td Type
+      %td= @spell.type

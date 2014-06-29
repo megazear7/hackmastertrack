@@ -1,6 +1,13 @@
-%p#notice= notice
-
-
-= link_to 'Edit', edit_character_class_path(@character_class)
-\|
-= link_to 'Back', character_classes_path
+.btn-group
+  = link_to 'Back', character_classes_path, class: "btn btn-default"
+  = link_to 'Edit', edit_character_class_path(@character_class), class: "btn btn-primary"
+%br
+%br
+%table.table.table-hover.table-responsive
+  %tbody
+    %tr
+      %td Name
+      %td= @character_class.name
+    %tr
+      %td Description
+      %td= @character_class.description
