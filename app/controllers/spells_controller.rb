@@ -69,6 +69,11 @@ class SpellsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def spell_params
-      params[:spell]
+      params.require(:spell).permit(
+        :name,
+        :description,
+        :spellpoints,
+        :type
+      )
     end
 end

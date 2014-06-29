@@ -69,6 +69,11 @@ class ProficienciesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def proficiency_params
-      params[:proficiency]
+      params.require(:proficiency).permit(
+        :name,
+        :description,
+        :requirements,
+        :bp_cost
+      )
     end
 end

@@ -69,6 +69,16 @@ class RacesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def race_params
-      params[:race]
+      params.require(:race).permit(
+        :name,
+        :description,
+        :str_mod,
+        :int_mod,
+        :wis_mod,
+        :dex_mod,
+        :con_mod,
+        :lks_mod,
+        :cha_mod
+      )
     end
 end
