@@ -1,35 +1,34 @@
-%h1 Listing races
-
-%table
-  %tr
-    %th Name
-    %th Str mod
-    %th Int mod
-    %th Wis mod
-    %th Dex mod
-    %th Con mod
-    %th Lks mod
-    %th Cha mod
-  %tr
-    %th Description
-
-  - @races.each do |race|
+%h1 Listing Races
+.row
+  .col-md-12
+    = link_to 'New Race', new_race_path, class: "btn btn-primary pull-right"
+%table.table.table-hover.table-responsive
+  %thead
     %tr
-      %td= link_to race.name
-      %td= race.str_mod
-      %td= race.int_mod
-      %td= race.wis_mod
-      %td= race.dex_mod
-      %td= race.con_mod
-      %td= race.lks_mod
-      %td= race.cha_mod
-    %tr
-      %td= race.description
-    %tr
-      %td= link_to 'Show', race
-      %td= link_to 'Edit', edit_race_path(race)
-      %td= link_to 'Destroy', race, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Race', new_race_path
+      %th Name
+      %th Str mod
+      %th Int mod
+      %th Wis mod
+      %th Dex mod
+      %th Con mod
+      %th Lks mod
+      %th Cha mod
+      %th Description
+      %th
+      %th
+      %th
+  %tbody
+    - @races.each do |race|
+      %tr
+        %td= link_to race.name, race
+        %td= race.str_mod
+        %td= race.int_mod
+        %td= race.wis_mod
+        %td= race.dex_mod
+        %td= race.con_mod
+        %td= race.lks_mod
+        %td= race.cha_mod
+        %td= race.description
+        %td= link_to 'Show', race
+        %td= link_to 'Edit', edit_race_path(race)
+        %td= link_to 'Destroy', race, :method => :delete, :data => { :confirm => 'Are you sure?' }

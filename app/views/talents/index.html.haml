@@ -1,19 +1,20 @@
-%h1 Listing talents
-
-%table
-  %tr
-    %th Name
-    %th BP Cost
-    %th
-
-  - @talents.each do |talent|
+%h1 Listing Talents
+.row
+  .col-md-12
+    = link_to 'New Talent', new_talent_path, class: "btn btn-primary pull-right"
+%table.table.table-hover.table-responsive
+  %thead
     %tr
-      %td= link_to talent.name, talent
-      %td= talent.bp_cost
-      %td= link_to 'Show', talent
-      %td= link_to 'Edit', edit_talent_path(talent)
-      %td= link_to 'Destroy', talent, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Talent', new_talent_path
+      %th Name
+      %th BP Cost
+      %th
+      %th
+      %th
+  %tbody
+    - @talents.each do |talent|
+      %tr
+        %td= link_to talent.name, talent
+        %td= talent.bp_cost
+        %td= link_to 'Show', talent
+        %td= link_to 'Edit', edit_talent_path(talent)
+        %td= link_to 'Destroy', talent, :method => :delete, :data => { :confirm => 'Are you sure?' }

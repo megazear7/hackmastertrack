@@ -1,22 +1,24 @@
-%h1 Listing proficiencies
-
-%table
-  %tr
-    %th name
-    %th description
-    %th requirements
-    %th bp_cost
-
-  - @proficiencies.each do |proficiency|
+%h1 Listing Proficiencies
+.row
+  .col-md-12
+    = link_to 'New Proficiency', new_proficiency_path, class: "btn btn-primary pull-right"
+%table.table.table-hover.table-responsive
+  %thead
     %tr
-      %td= proficiency.name
-      %td= proficiency.description
-      %td= proficiency.requirements
-      %td= proficiency.bp_cost
-      %td= link_to 'Show', proficiency
-      %td= link_to 'Edit', edit_proficiency_path(proficiency)
-      %td= link_to 'Destroy', proficiency, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Proficiency', new_proficiency_path
+      %th name
+      %th description
+      %th requirements
+      %th bp_cost
+      %th
+      %th
+      %th
+  %tbody
+    - @proficiencies.each do |proficiency|
+      %tr
+        %td= proficiency.name
+        %td= proficiency.description
+        %td= proficiency.requirements
+        %td= proficiency.bp_cost
+        %td= link_to 'Show', proficiency
+        %td= link_to 'Edit', edit_proficiency_path(proficiency)
+        %td= link_to 'Destroy', proficiency, :method => :delete, :data => { :confirm => 'Are you sure?' }

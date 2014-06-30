@@ -1,22 +1,24 @@
-%h1 Listing spells
-
-%table
-  %tr
-    %th name
-    %th description
-    %th spellpoints
-    %th type
-
-  - @spells.each do |spell|
+%h1 Listing Spells
+.row
+  .col-md-12
+    = link_to 'New Spell', new_spell_path, class: "btn btn-primary pull-right"
+%table.table.table-hover.table-responsive
+  %thead
     %tr
-      %td= link_to spell.name, spell
-      %td= spell.description
-      %td= spell.spellpoints
-      %td= spell.type
-      %td= link_to 'Show', spell
-      %td= link_to 'Edit', edit_spell_path(spell)
-      %td= link_to 'Destroy', spell, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Spell', new_spell_path
+      %th name
+      %th description
+      %th spellpoints
+      %th type
+      %th
+      %th
+      %th
+  %tbody
+    - @spells.each do |spell|
+      %tr
+        %td= link_to spell.name, spell
+        %td= spell.description
+        %td= spell.spellpoints
+        %td= spell.type
+        %td= link_to 'Show', spell
+        %td= link_to 'Edit', edit_spell_path(spell)
+        %td= link_to 'Destroy', spell, :method => :delete, :data => { :confirm => 'Are you sure?' }
