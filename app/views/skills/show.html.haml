@@ -1,6 +1,22 @@
-%p#notice= notice
-
-
-= link_to 'Edit', edit_skill_path(@skill)
-\|
-= link_to 'Back', skills_path
+.btn-group
+  = link_to 'Back', skills_path, class: "btn btn-default"
+  = link_to 'Edit', edit_skill_path(@skill), class: "btn btn-primary"
+%br
+%br
+%table.table.table-hover.table-responsive
+  %tbody
+    %tr
+      %td Name
+      %td= @skill.name
+    %tr
+      %td Description
+      %td= @skill.description
+    %tr
+      %td BP Cost
+      %td= @skill.bp_cost
+    %tr
+      %td Main Attribute
+      %td= @skill.main_attr
+    %tr
+      %td Other Attribute
+      %td= @skill.other_attr
