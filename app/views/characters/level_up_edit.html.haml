@@ -1,4 +1,4 @@
-= simple_form_for @character, url: character_level_up_update_path(character_id: @character.id), method: :post do |f|
+= simple_form_for @character, url: level_up_update_character_path(character_id: @character.id), method: :post do |f|
   - if @character.errors.any?
     #error_explanation
       %h2= "#{pluralize(@character.errors.count, "error")} prohibited this character from being saved:"

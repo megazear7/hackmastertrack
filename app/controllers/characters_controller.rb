@@ -1,5 +1,5 @@
 class CharactersController < ApplicationController
-  before_action :set_character, only: [:show, :edit, :update, :destroy]
+  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :add_items, :equip_items]
 
   # GET /characters
   # GET /characters.json
@@ -66,11 +66,9 @@ class CharactersController < ApplicationController
   end
 
   def level_up_edit
-    @character = Character.find(params[:character_id])
   end
 
   def level_up_update
-    @character = Character.find(params[:character_id])
 
     @character.strength     += params[:character][:strength].to_f/100
     @character.intelligence += params[:character][:intelligence].to_f/100
@@ -98,7 +96,6 @@ class CharactersController < ApplicationController
   end
 
   def add_xp
-    @character = Character.find(params[:character_id])
     @character.exp += params[:character][:exp].to_i
     respond_to do |format|
       if @character.save
@@ -109,6 +106,32 @@ class CharactersController < ApplicationController
         format.json { head :no_content }
       end
     end
+  end
+
+  def add_items
+    cost = 0
+    params[:character][:item_ids].each do |item_id|
+      if not item_id.nil? and item_id != ""
+        item = Item.find(item_id)
+        cost += item.buy_cost
+        @character.items << item
+      end
+    end
+    redirect_to character_url(@character), notice: 'Items Successfuly Added, total cost was: ' + cost.to_s
+  end
+
+  def equip_items
+    left = params[:character][:left_hand_item_id]
+    left = nil if left == ""
+    right = params[:character][:right_hand_item_id]
+    right = nil if right == ""
+    body = params[:character][:body_hand_item_id]
+    body = nil if body == ""
+    @character.left_hand_item = Item.find(left) if not left.nil?
+    @character.right_hand_item = Item.find(right) if not right.nil?
+    @character.body_hand_item = Item(body) if not body.nil?
+    @character.save
+    redirect_to character_url(@character), notice: 'Items Successfuly Equiped'
   end
 
   private
@@ -131,7 +154,8 @@ class CharactersController < ApplicationController
         :looks,
         :charisma,
         :building_points,
-        :health
+        :health,
+        :item_ids
       )
     end
 end

@@ -14,8 +14,8 @@
   .col-md-1= @character.exp
   .col-md-1
     - if @character.needs_to_level
-      = link_to "Level Up!", character_level_up_edit_path(character_id: @character.id), class: "btn btn-success"
-  = simple_form_for @character, url: character_add_xp_path(character_id: @character.id), method: :post do |f|
+      = link_to "Level Up!", level_up_edit_character_path, class: "btn btn-success"
+  = simple_form_for @character, url: add_xp_character_path, method: :post do |f|
     .col-md-2
       = f.input :exp, label: false, input_html: { value: 0, class: "string form-control" }
     .col-md-1
@@ -112,6 +112,25 @@
 .row
   .col-md-6
     Current Combat Rose:
+  .col-md-6
+    .row
+      = simple_form_for @character, url: equip_items_character_path, method: :post do |f|
+        .col-md-3
+          = f.association :left_hand_item, collection: @character.items.where(location: "arm")
+        .col-md-3
+          = f.association :right_hand_item, collection: @character.items.where(location: "arm")
+        .col-md-3
+          = f.association :body_item, collection: @character.items.where(location: "body")
+        .col-md-3
+          = f.submit 'Equip', class: "btn btn-primary"
+    .row
+      %br
+      %br
+      = simple_form_for @character, url: add_items_character_path, method: :post do |f|
+        .col-md-6
+          = f.association :items, collection: Item.all
+        .col-md-6
+          = f.submit 'Take Item', class: "btn btn-primary"
 .row
   .col-md-6
     = render partial: "shared/combat_rose", locals: { rose: @combat_rose }

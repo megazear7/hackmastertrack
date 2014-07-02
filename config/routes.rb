@@ -20,9 +20,13 @@ Rails.application.routes.draw do
   resources :items
 
   resources :characters do
-    post :add_xp
-    get  :level_up_edit
-    post :level_up_update
+    member do
+      post :add_xp
+      post :equip_items
+      post :add_items
+      get  :level_up_edit
+      post :level_up_update
+    end
   end
 
   resources :encounters
