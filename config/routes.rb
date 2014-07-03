@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :levels
+
   resources :ability_scores
 
   resources :campaigns
