@@ -1,10 +1,21 @@
-= form_for @level do |f|
+= simple_form_for @level do |f|
   - if @level.errors.any?
     #error_explanation
       %h2= "#{pluralize(@level.errors.count, "error")} prohibited this level from being saved:"
       %ul
         - @level.errors.full_messages.each do |msg|
           %li= msg
-
-  .actions
-    = f.submit 'Save'
+  .row
+    .col-md-4= f.input :character_class_id, input_html: { class: "string form-control" }
+    .col-md-4= f.input :level_value, input_html: { class: "string form-control" }
+    .col-md-4= f.input :init_mod, input_html: { class: "string form-control" }
+    .col-md-4= f.input :attack_mod, input_html: { class: "string form-control" }
+  .row
+    .col-md-4= f.input :speed_mod, input_html: { class: "string form-control" }
+    .col-md-4= f.input :spell_points, input_html: { class: "string form-control" }
+  .row
+    .col-md-4
+      %br
+      .actions
+        .btn-group
+          = f.submit 'Save', class: "btn btn-primary"

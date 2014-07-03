@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140625151637) do
+ActiveRecord::Schema.define(version: 20140703154017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,6 +154,17 @@ ActiveRecord::Schema.define(version: 20140625151637) do
     t.string   "damage_type"
     t.integer  "heal_value"
     t.string   "item_type"
+  end
+
+  create_table "levels", force: true do |t|
+    t.integer  "level_value"
+    t.integer  "init_mod"
+    t.integer  "attack_mod"
+    t.integer  "speed_mod"
+    t.integer  "spell_points"
+    t.integer  "character_class_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "monsters", force: true do |t|

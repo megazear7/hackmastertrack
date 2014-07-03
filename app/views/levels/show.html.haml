@@ -1,6 +1,22 @@
-%p#notice= notice
+.btn-group
+  = link_to 'Back', levels_path, class: "btn btn-default"
+  = link_to 'Edit', edit_level_path(@level), class: "btn btn-primary"
+%br
+%br
+.row
+  .col-md-2
+    Character Class
+    = @level.character_class_id
+  .col-md-2
+    Init Mod
+    = @level.init_mod
+  .col-md-2
+    Attack Mod
+    = @level.attack_mod
+  .col-md-2
+    Speed Mod
+    = @level.speed_mod
+  .col-md-2
+    Spell Points
+    = @level.spell_points
 
-
-= link_to 'Edit', edit_level_path(@level)
-\|
-= link_to 'Back', levels_path

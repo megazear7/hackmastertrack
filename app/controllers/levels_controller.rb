@@ -69,6 +69,13 @@ class LevelsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def level_params
-      params[:level]
+      params.require(:level).permit(
+        :level_value,
+        :init_mod,
+        :attack_mod,
+        :speed_mod,
+        :spell_points,
+        :character_class_id
+      )
     end
 end

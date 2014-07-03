@@ -1,13 +1,22 @@
 %h1 Listing levels
 
-%table
+%table.table.table-hover.table-responsive
   %tr
-    %th
-    %th
-    %th
+    %th Class
+    %th Level
+    %th Init Mod
+    %th Attack Mod
+    %th Speed Mod
+    %th Spell Points
 
   - @levels.each do |level|
     %tr
+      %td= level.character_class_id
+      %td= level.level_value
+      %td= level.init_mod
+      %td= level.attack_mod
+      %td= level.speed_mod
+      %td= level.spell_points
       %td= link_to 'Show', level
       %td= link_to 'Edit', edit_level_path(level)
       %td= link_to 'Destroy', level, :method => :delete, :data => { :confirm => 'Are you sure?' }
