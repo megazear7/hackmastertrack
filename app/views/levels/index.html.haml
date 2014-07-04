@@ -2,22 +2,21 @@
 .row
   .col-md-12
     = link_to 'New Level', new_level_path, class: "btn btn-primary pull-right"
-%table.table.table-hover.table-responsive
-  %thead
-    %tr
-      %th Class
-      %th Level
-      %th Init Mod
-      %th Attack Mod
-      %th Speed Mod
-      %th Spell Points
-      %td
-      %td
-      %td
-  %tbody
-    - @levels.order(:character_class_id, :level_value).each do |level|
+- @levels.order(:character_class_id, :level_value).each do |level|
+  %h3= level.character_class.name
+  %table.table.table-hover.table-responsive
+    %thead
       %tr
-        %td= level.character_class.name
+        %th Level
+        %th Init Mod
+        %th Attack Mod
+        %th Speed Mod
+        %th Spell Points
+        %td
+        %td
+        %td
+    %tbody
+      %tr
         %td= level.level_value
         %td= level.init_mod
         %td= level.attack_mod

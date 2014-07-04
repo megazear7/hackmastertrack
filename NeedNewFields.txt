@@ -1,3 +1,8 @@
+
+intelligence:
+  max spells per level
+  Chance to learn spells
+
 Race: 
 
   Hit die size adjustment
@@ -33,7 +38,7 @@ Levels:
 
   mages:
     added spells 
-
+    saving throw vs spells
 
 Items:
 
