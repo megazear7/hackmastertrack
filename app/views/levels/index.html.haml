@@ -16,13 +16,12 @@
         %td
         %td
     %tbody
-      - @levels.order(:level_value).each do |level|
-        %tr
-          %td= level.level_value
-          %td= level.init_mod
-          %td= level.attack_mod
-          %td= level.speed_mod
-          %td= level.spell_points
-          %td= link_to 'Show', level
-          %td= link_to 'Edit', edit_level_path(level)
-          %td= link_to 'Destroy', level, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      %tr
+        %td= level.level_value
+        %td= level.init_mod
+        %td= level.attack_mod
+        %td= level.speed_mod
+        %td= level.spell_points
+        %td= link_to 'Show', level
+        %td= link_to 'Edit', edit_level_path(level)
+        %td= link_to 'Destroy', level, :method => :delete, :data => { :confirm => 'Are you sure?' }
