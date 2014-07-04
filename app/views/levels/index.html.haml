@@ -15,7 +15,7 @@
         %td
         %td
     %tbody
-      - @levels.order(:character_class_id).each do |level|
+      - @levels.order(:character_class_id, :level_value).each do |level|
         %tr
           %td= level.character_class.name
           %td= level.level_value
