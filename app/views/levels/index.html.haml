@@ -2,11 +2,10 @@
 .row
   .col-md-12
     = link_to 'New Level', new_level_path, class: "btn btn-primary pull-right"
-- @levels.order(:character_class_id).each do |level|
-  %h3= level.character_class.name
   %table.table.table-hover.table-responsive
     %thead
       %tr
+        %th Name
         %th Level
         %th Init Mod
         %th Attack Mod
@@ -16,12 +15,14 @@
         %td
         %td
     %tbody
-      %tr
-        %td= level.level_value
-        %td= level.init_mod
-        %td= level.attack_mod
-        %td= level.speed_mod
-        %td= level.spell_points
-        %td= link_to 'Show', level
-        %td= link_to 'Edit', edit_level_path(level)
-        %td= link_to 'Destroy', level, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      - @levels.order(:character_class_id).each do |level|
+        %tr
+          %td= level.character_class.name
+          %td= level.level_value
+          %td= level.init_mod
+          %td= level.attack_mod
+          %td= level.speed_mod
+          %td= level.spell_points
+          %td= link_to 'Show', level
+          %td= link_to 'Edit', edit_level_path(level)
+          %td= link_to 'Destroy', level, :method => :delete, :data => { :confirm => 'Are you sure?' }
