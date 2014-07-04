@@ -9,13 +9,11 @@
       %th Description
       %th
       %th
-      %th
 
   %tbody
     - @character_classes.each do |character_class|
       %tr
-        %td= link_to character_class.name
+        %td= link_to character_class.name, character_class
         %td= character_class.description
-        %td= link_to 'Show', character_class
         %td= link_to 'Edit', edit_character_class_path(character_class)
         %td= link_to 'Destroy', character_class, :method => :delete, :data => { :confirm => 'Are you sure?' }
