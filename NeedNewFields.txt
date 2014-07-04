@@ -1,0 +1,40 @@
+Race: 
+
+  Hit die size adjustment
+  Size
+  Knockback Size
+
+  Defense adjustment 
+  Defense adjustment versus large
+  Attack bonus versus 
+  Hiding in natural surroundings bonus
+  base movement speed  2.5 for halflings, 5 for humans.
+  Free purchases of skills
+  Bonus purchases of skills at 50% off
+  max reach
+
+ClassCostByRace:
+  Given race and class, what is the BP cost for that combo.
+
+Class:
+
+
+Are knights and paladins really different?  I see no diff between themm and fighters for attack, init, hit dice, and speed bonuses.
+
+
+Levels:
+
+  All:
+    number of hitdice.
+
+  rangers:
+    Speed mod ( ranged )
+    initiative dice improvement
+
+  mages:
+    added spells 
+
+
+Items:
+
+  Shield Damgage
