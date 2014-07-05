@@ -2,6 +2,8 @@
 .row
   .col-md-12
     = link_to 'New Level', new_level_path, class: "btn btn-primary pull-right"
+- @classes.order(:name).each do |c|
+  %h3= c.name
   %table.table.table-hover.table-responsive
     %thead
       %tr
@@ -15,7 +17,7 @@
         %td
         %td
     %tbody
-      - @levels.order(:character_class_id, :level_value).each do |level|
+      - @levels.where(character_class_id: c.id).order(:character_class_id, :level_value).each do |level|
         %tr
           %td= level.character_class.name
           %td= level.level_value

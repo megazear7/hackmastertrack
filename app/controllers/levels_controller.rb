@@ -5,6 +5,7 @@ class LevelsController < ApplicationController
   # GET /levels.json
   def index
     @levels = Level.all
+    @classes = CharacterClass.all
   end
 
   # GET /levels/1
