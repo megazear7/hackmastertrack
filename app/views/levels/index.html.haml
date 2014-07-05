@@ -7,7 +7,6 @@
   %table.table.table-hover.table-responsive
     %thead
       %tr
-        %th Name
         %th Level
         %th Init Mod
         %th Attack Mod
@@ -19,7 +18,6 @@
     %tbody
       - @levels.where(character_class_id: c.id).order(:character_class_id, :level_value).each do |level|
         %tr
-          %td= level.character_class.name
           %td= level.level_value
           %td= level.init_mod
           %td= level.attack_mod
