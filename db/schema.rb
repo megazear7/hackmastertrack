@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140703154017) do
+ActiveRecord::Schema.define(version: 20140705141715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,14 @@ ActiveRecord::Schema.define(version: 20140703154017) do
     t.datetime "updated_at"
     t.float    "min"
     t.float    "max"
+  end
+
+  create_table "bp_cost_by_race_classes", force: true do |t|
+    t.integer  "character_class_id"
+    t.integer  "race_id"
+    t.integer  "bp_cost"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "campaigns", force: true do |t|

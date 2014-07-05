@@ -1,0 +1,2 @@
+module BpCostByRaceClassesHelper
+end

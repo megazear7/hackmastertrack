@@ -1,0 +1,15 @@
+.btn-group
+  = link_to 'Back', bp_cost_by_race_classes_path, class: "btn btn-default"
+  = link_to 'Edit', edit_bp_cost_by_race_class_path(@bp_cost_by_race_class), class: "btn btn-primary"
+%br
+%br
+.row
+  .col-md-2
+    Character Class
+    = @bp_cost_by_race_class.character_class.name
+  .col-md-2
+    Race
+    = @bp_cost_by_race_class.race.name
+  .col-md-2
+    Init Mod
+    = @bp_cost_by_race_class.bp_cost

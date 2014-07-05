@@ -1,0 +1,18 @@
+= simple_form_for @bp_cost_by_race_class do |f|
+  - if @bp_cost_by_race_class.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@bp_cost_by_race_class.errors.count, "error")} prohibited this bp_cost_by_race_class from being saved:"
+      %ul
+        - @bp_cost_by_race_class.errors.full_messages.each do |msg|
+          %li= msg
+
+  .row
+    .col-md-4= f.association :character_class, input_html: { class: "string form-control" }
+    .col-md-4= f.association :race, input_html: { class: "string form-control" }
+    .col-md-4= f.input :bp_cost, input_html: { class: "string form-control" }
+  .row
+    .col-md-4
+      %br
+      .actions
+        .btn-group
+          = f.submit 'Save', class: "btn btn-primary"
