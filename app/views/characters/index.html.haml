@@ -6,27 +6,17 @@
   %thead
     %tr
       %th Name
-      %th Strength
-      %th Intelligence
-      %th Wisdom
-      %th Dexterity
-      %th Constitution
-      %th Looks
-      %th Charisma
-      %th
+      %th Player
+      %th Race
+      %th Class
       %th
       %th
   %tbody
     - @characters.each do |character|
       %tr
         %td= link_to character.name, character_path(character)
-        %td= number_with_precision(character.strength, precision: 2)
-        %td= number_with_precision(character.intelligence, precision: 2)
-        %td= number_with_precision(character.wisdom, precision: 2)
-        %td= number_with_precision(character.dexterity, precision: 2)
-        %td= number_with_precision(character.constitution, precision: 2)
-        %td= number_with_precision(character.looks, precision: 2)
-        %td= number_with_precision(character.charisma, precision: 2)
-        %td= link_to 'Show', character
+        %td= character.user.email
+        %td= character.race.name
+        %td= character.character_class.name
         %td= link_to 'Edit', edit_character_path(character)
         %td= link_to 'Destroy', character, :method => :delete, :data => { :confirm => 'Are you sure?' }

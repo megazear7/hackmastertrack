@@ -29,14 +29,23 @@ class CharactersController < ApplicationController
     @character.level = 1
     @character.exp = 0
     @character.building_points += 40
-
-    respond_to do |format|
-      if @character.save
-        format.html { redirect_to @character, notice: 'Character was successfully created.' }
-        format.json { render :show, status: :created, location: @character }
-      else
-        format.html { render :new }
-        format.json { render json: @character.errors, status: :unprocessable_entity }
+    class_cost = BpCostByRaceClass.where(
+                        character_class_id: @character.character_class_id,
+                        race_id: @character.race_id).first
+    if class_cost.nil?
+      render :new
+      flash[:notice] << 'That Character Class combination is not in the system.'
+    else
+      @character.building_points -= class_cost.bp_cost
+      
+      respond_to do |format|
+        if @character.save
+          format.html { redirect_to @character, notice: 'Character was successfully created.' }
+          format.json { render :show, status: :created, location: @character }
+        else
+          format.html { render :new }
+          format.json { render json: @character.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -155,7 +164,10 @@ class CharactersController < ApplicationController
         :charisma,
         :building_points,
         :health,
-        :item_ids
+        :item_ids,
+        :character_class_id,
+        :race_id,
+        :user_id
       )
     end
 end

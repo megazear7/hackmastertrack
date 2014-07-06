@@ -1,23 +1,23 @@
-%h1 Listing bp_cost_by_race_classes
-
+%h1 Listing Race Class Combinations
+.row
+  .col-md-12
+    = link_to 'New Race Class Combination', new_bp_cost_by_race_class_path, class: "btn btn-primary pull-right"
 %table.table.table-hover.table-responsive
-  %tr
-    %th Class
-    %th Race
-    %th BP Cost
-    %td
-    %td
-    %td
-
-  - @bp_cost_by_race_classes.each do |bp_cost_by_race_class|
+  %thead
     %tr
-      %td= bp_cost_by_race_class.character_class.name
-      %td= bp_cost_by_race_class.race.name
-      %td= bp_cost_by_race_class.bp_cost
-      %td= link_to 'Show', bp_cost_by_race_class
-      %td= link_to 'Edit', edit_bp_cost_by_race_class_path(bp_cost_by_race_class)
-      %td= link_to 'Destroy', bp_cost_by_race_class, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
+      %th Class
+      %th Race
+      %th BP Cost
+      %td
+      %td
+      %td
+  %tbody
+    - @bp_cost_by_race_classes.each do |bp_cost_by_race_class|
+      %tr
+        %td= bp_cost_by_race_class.character_class.name
+        %td= bp_cost_by_race_class.race.name
+        %td= bp_cost_by_race_class.bp_cost
+        %td= link_to 'Show', bp_cost_by_race_class
+        %td= link_to 'Edit', edit_bp_cost_by_race_class_path(bp_cost_by_race_class)
+        %td= link_to 'Destroy', bp_cost_by_race_class, :method => :delete, :data => { :confirm => 'Are you sure?' }
 %br
-
-= link_to 'New Bp cost by race class', new_bp_cost_by_race_class_path
