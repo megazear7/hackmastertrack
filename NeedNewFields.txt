@@ -43,3 +43,15 @@ Levels:
 Items:
 
   Shield Damgage
+  Shield size, add buckler and body to list of sheild types.
+  Cover value
+  Crouching Cover value
+
+  armor 
+    movement rate reduction
+
+  Fractional weight.
+
+  availability: high, medium, low
+
+  
