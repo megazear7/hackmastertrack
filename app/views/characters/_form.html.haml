@@ -10,8 +10,8 @@
     .col-md-4= f.input :building_points, label: "Extra Building Points", collection: extra_bp_options, input_html: { class: "string form-control" }
     .col-md-4= f.input :health, input_html: { value: "", class: "string form-control" }
   .row
-    .col-md-4= f.association :character_class, input_html: { class: "string form-control" }
     .col-md-4= f.association :race, input_html: { class: "string form-control" }
+    .col-md-4= f.association :character_class, input_html: { class: "string form-control" }
   .row
     .col-md-4= f.input :strength, input_html: { class: "string form-control" }
     .col-md-4= f.input :intelligence, input_html: { class: "string form-control" }

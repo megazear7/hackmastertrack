@@ -29,7 +29,7 @@ class CharactersController < ApplicationController
     @character.level = 1
     @character.exp = 0
     @character.building_points += 40
-    class_cost = BpCostByRaceClass.where(
+    class_cost -= BpCostByRaceClass.where(
                         character_class_id: @character.character_class_id,
                         race_id: @character.race_id).first
     if class_cost.nil?
