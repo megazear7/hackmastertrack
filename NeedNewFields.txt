@@ -40,6 +40,8 @@ Levels:
     added spells 
     saving throw vs spells
 
+
+Jim is working on items on Sunday, 6 July 2014.
 Items:
 
   Shield Damgage
@@ -49,6 +51,8 @@ Items:
 
   armor 
     movement rate reduction
+    need a none category to light, medium, and heavy
+    initiative dice mod
 
   Fractional weight.
 
