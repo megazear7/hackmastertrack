@@ -29,7 +29,11 @@ class CharactersController < ApplicationController
     @character.level = 1
     @character.exp = 0
     @character.building_points += 40
-
+    class_cost = BpCostByRaceClass.where(
+                        character_class_id: @character.character_class_id,
+                        race_id: @character.race_id).first
+    @character.building_points =- class_cost.bp_cost if not class_cost.nil?
+    
     respond_to do |format|
       if @character.save
         format.html { redirect_to @character, notice: 'Character was successfully created.' }
@@ -155,7 +159,10 @@ class CharactersController < ApplicationController
         :charisma,
         :building_points,
         :health,
-        :item_ids
+        :item_ids,
+        :character_class_id,
+        :race_id,
+        :user_id
       )
     end
 end

@@ -25,7 +25,7 @@ Class:
 
 
 Are knights and paladins really different?  I see no diff between themm and fighters for attack, init, hit dice, and speed bonuses.
-
+  Lets wait for this, and add the ability to do "specialized classes" at certain levels or something
 
 Levels:
 

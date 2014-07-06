@@ -1,5 +1,7 @@
 class Character < ActiveRecord::Base
   belongs_to :user
+  belongs_to :character_class
+  belongs_to :race
   has_and_belongs_to_many :items
   has_and_belongs_to_many :talents
   has_and_belongs_to_many :proficiencies
@@ -9,6 +11,7 @@ class Character < ActiveRecord::Base
   belongs_to :left_hand_item, class_name: "Item", foreign_key: "left_hand_item_id"
   belongs_to :right_hand_item, class_name: "Item", foreign_key: "right_hand_item_id"
   belongs_to :body_item, class_name: "Item", foreign_key: "body_item_id"
+  validates_presence_of :character_class_id, :race_id, :strength, :intelligence, :wisdom, :dexterity, :constitution, :looks, :charisma, :name
 
   belongs_to :mentor, :class_name => "Character"
   has_many :prodigees, :foreign_key => "mentor_id"

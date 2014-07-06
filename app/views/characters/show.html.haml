@@ -9,6 +9,9 @@
     %p 
       Level
       = @character.level
+  .col-md-2
+    %p= @character.race.name
+    %p= @character.character_class.name
 .row
   .col-md-1 Experience:
   .col-md-1= @character.exp
