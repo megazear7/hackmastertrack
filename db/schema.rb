@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140706095307) do
+ActiveRecord::Schema.define(version: 20140706183640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,7 +146,7 @@ ActiveRecord::Schema.define(version: 20140706095307) do
     t.integer  "damage_mod"
     t.integer  "damage_reduction"
     t.integer  "magic_level"
-    t.integer  "weight"
+    t.float    "weight"
     t.integer  "cover_value"
     t.string   "location"
     t.string   "damage"
@@ -164,6 +164,28 @@ ActiveRecord::Schema.define(version: 20140706095307) do
     t.string   "damage_type"
     t.integer  "heal_value"
     t.string   "item_type"
+    t.integer  "high_avail"
+    t.integer  "med_avail"
+    t.integer  "low_eval"
+    t.integer  "init_die_mod"
+    t.integer  "movement_rate_reduction"
+    t.integer  "crouching_cover_value"
+    t.string   "shield_damage"
+    t.integer  "str_required"
+    t.string   "skill_level"
+    t.boolean  "dismount"
+    t.integer  "hvy_armor"
+    t.boolean  "set_for_charge"
+    t.string   "pole_arm_defense"
+    t.string   "pole_arm_type"
+    t.integer  "phalanx"
+    t.string   "size"
+    t.integer  "max_range"
+    t.integer  "range_short"
+    t.integer  "range_medium"
+    t.integer  "range_long"
+    t.integer  "range_extreme"
+    t.integer  "range_maximum"
   end
 
   create_table "levels", force: true do |t|

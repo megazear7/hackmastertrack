@@ -43,6 +43,7 @@ Levels:
 
 Jim is working on items on Sunday, 6 July 2014.
 Items:
+ Made the following additions and changes:
 
   Shield Damgage
   Shield size, add buckler and body to list of sheild types.
@@ -58,4 +59,60 @@ Items:
 
   availability: high, medium, low
 
-  
+----
+
+Item round 2 mods
+
+Add size:  small medium large  
+add max range for ranged weapons... do we need short, medium, long ranges too?
+
+
+New item types: 
+
+  load bearing equipment
+    capacity
+
+Tools
+
+bundles:  item that will break into multiple items upon purchase in inventory.
+
+Rations
+	number of days
+        quantity
+	requires preperation?
+
+Daily Food and Lodging
+
+	days of lodging
+
+Containers
+	capacity in gallons
+
+Religious items
+
+equipment breaking (track hits with each wound?)
+Armor degradation
+
+scribe materials
+
+musical instruments
+
+misc
+
+spices herbs
+
+services (notice bath is on two tables)
+
+alcohol
+
+livestock
+
+tack and harness
+
+mounts/pack  + armor (treat as a character class/race?)
+
+transport land
+Transport water
+  distance
+
+ 

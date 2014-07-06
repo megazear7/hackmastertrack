@@ -92,7 +92,29 @@ class ItemsController < ApplicationController
         :buy_cost,
         :sell_value,
         :damage_type,
-        :heal_value
+        :heal_value,
+        :high_avail,
+        :med_avail,
+        :low_eval,
+        :init_die_mod,
+        :movement_rate_reduction,
+        :crouching_cover_value,
+        :shield_damage,
+        :str_required,
+        :skill_level,
+        :dismount,
+        :hvy_armor,
+        :set_for_charge,
+        :pole_arm_defense,
+        :pole_arm_type,
+        :phalanx,
+        :size,
+        :max_range, 
+        :range_short,
+        :range_medium,
+        :range_long,
+        :range_extreme,
+        :range_maximum
       )
     end
 end

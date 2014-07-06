@@ -5,15 +5,15 @@ module ItemsHelper
   end
 
   def item_types
-    [ ["Armor", "armor"], ["Weapon", "weapon"], ["Shield", "shield"], ["Consumable", "consumable"], ["Wearable", "wearable"], ["Precious", "precious"] ]
+    [ ["Armor", "armor"], ["Weapon", "weapon"], ["Melee", "melee"], ["Ranged", "ranged"], ["Pole Arm", "polearm"], ["Shield", "shield"], ["Consumable", "consumable"], ["Wearable", "wearable"], ["Precious", "precious"] ]
   end
 
   def shield_sizes
-    [ ["Small", "small"], ["Medium", "medium"], ["Large", "large"] ]
+    [ ["Buckler", "buckler"], ["Small", "small"], ["Medium", "medium"], ["Large", "large"], ["Body", "body" ] ]
   end
 
   def armor_types
-    [ ["Light", "light"], ["Medium", "medium"], ["Heavy", "heavy"] ]
+    [ ["None", "none"], ["Light", "light"], ["Medium", "medium"], ["Heavy", "heavy"] ]
   end
 
   def locations
@@ -22,6 +22,14 @@ module ItemsHelper
 
   def damage_types
     [ ["Hacking", "hacking"], ["Piercing", "piercing"], ["Slashing", "slashing"], ["Crushing", "crushing"] ]
+  end
+
+  def size_types
+    [ ["S", "s"], ["M", "m"], ["L", "l"] ]
+  end
+
+  def skill_types
+    [ ["Minimal", "minimal"], ["Low", "low"], ["Medium", "medium"], ["High", "high"] ]
   end
 
 end
