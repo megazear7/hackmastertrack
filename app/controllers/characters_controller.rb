@@ -29,14 +29,14 @@ class CharactersController < ApplicationController
     @character.level = 1
     @character.exp = 0
     @character.building_points += 40
-    class_cost -= BpCostByRaceClass.where(
+    class_cost = BpCostByRaceClass.where(
                         character_class_id: @character.character_class_id,
                         race_id: @character.race_id).first
     if class_cost.nil?
       render :new
       flash[:notice] << 'That Character Class combination is not in the system.'
     else
-      @character.building_points =- class_cost.bp_cost
+      @character.building_points -= class_cost.bp_cost
       
       respond_to do |format|
         if @character.save
