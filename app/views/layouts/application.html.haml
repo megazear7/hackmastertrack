@@ -68,7 +68,7 @@
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
                 Admin
-                %b.caret
+                %span.octicon.octicon-tools
               %ul.dropdown-menu
                 %li
                   = link_to "Ability Scores", ability_scores_path
@@ -78,7 +78,7 @@
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
                 Dungeon Master Tools
-                %b.caret
+                %span.octicon.octicon-repo
               %ul.dropdown-menu
                 %li
                   = link_to "Campaigns", campaigns_path
@@ -89,7 +89,7 @@
               %li.dropdown
                 %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
                   = current_user.email
-                  %b.caret
+                  %span.octicon.octicon-gear
                 %ul.dropdown-menu
                   %li
                     = link_to "Account Info", edit_user_registration_path
