@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140707144507) do
+ActiveRecord::Schema.define(version: 20140707184840) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(version: 20140707144507) do
     t.string   "item_type"
     t.integer  "high_avail"
     t.integer  "med_avail"
-    t.integer  "low_eval"
+    t.integer  "low_avail"
     t.integer  "init_die_mod"
     t.integer  "movement_rate_reduction"
     t.integer  "crouching_cover_value"

@@ -11,10 +11,31 @@
   .col-md-12
     = link_to 'New Item', new_item_path, class: "btn btn-primary pull-right"
 %br
-- if params[:view].nil? or params[:view] == "" or params[:view] == "normal"
-  = render partial: "normal_view"
-- if params[:view] == "magic"
-  = render partial: "magic_view"
-- if params[:view] == "market"
-  = render partial: "market_view"
+
+- @item_t.each do |itemt|
+  %h3= itemt
+  %table.table.table-hover.table-responsive
+    %thead
+      %tr
+        %td Name
+        %td Cost
+        %td Weight
+        %td High Availability 
+        %td Medium Availability 
+        %td Low Availability 
+        %th
+        %th
+        %th
+    %tbody
+      - @items.where(item_type: itemt).each do |item|
+        %tr
+          %td= link_to item.name, item
+          %td= item.buy_cost
+          %td= item.weight
+          %td= item.high_avail
+          %td= item.med_avail
+          %td= item.low_avail
+          %td= link_to 'Show', item
+          %td= link_to 'Edit', edit_item_path(item)
+          %td= link_to 'Destroy', item, :method => :delete, :data => { :confirm => 'Are you sure?' }
 

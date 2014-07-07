@@ -5,6 +5,7 @@ class ItemsController < ApplicationController
   # GET /items.json
   def index
     @items = Item.all
+    @item_t = ["weapon", "melee", "polearm", "ranged", "armor", "shield", "consumables", "wearable", "precious" ]
   end
 
   # GET /items/1
@@ -95,7 +96,7 @@ class ItemsController < ApplicationController
         :heal_value,
         :high_avail,
         :med_avail,
-        :low_eval,
+        :low_avail,
         :init_die_mod,
         :movement_rate_reduction,
         :crouching_cover_value,
