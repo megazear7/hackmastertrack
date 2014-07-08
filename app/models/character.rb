@@ -16,6 +16,39 @@ class Character < ActiveRecord::Base
   belongs_to :mentor, :class_name => "Character"
   has_many :prodigees, :foreign_key => "mentor_id"
 
+  def give_race_benefits
+    # TODO make sure the names are correct and build associations
+    # between skills, talents and proficiencies and 'self' character
+    if    self.race.name == "Dwarf"
+    elsif self.race.name == "Elf"
+    elsif self.race.name == "Gnome"
+    elsif self.race.name == "Gnome Titan"
+    elsif self.race.name == "Grel"
+    elsif self.race.name == "Half-Elf"
+    elsif self.race.name == "Half-Hobgoblin"
+    elsif self.race.name == "Half-Orc"
+    elsif self.race.name == "Halfling"
+    elsif self.race.name == "Human"
+    end
+  end
+
+  def give_class_benefits
+    # TODO make sure the names are correct and build associations
+    # between skills, talents and proficiencies and 'self' character
+    if    self.character_class.name == "Fighter"
+    elsif self.character_class.name == "Ranger"
+    elsif self.character_class.name == "Barbarian"
+    elsif self.character_class.name == "Thief"
+    elsif self.character_class.name == "Rogue"
+    elsif self.character_class.name == "Assassin"
+    elsif self.character_class.name == "Mage"
+    elsif self.character_class.name == "Fighter/Theif"
+    elsif self.character_class.name == "Fighter/Mage"
+    elsif self.character_class.name == "Mage/Thief"
+    elsif self.character_class.name == "Cleric"
+    end
+  end
+
   def calculate_combat_rose equipment = nil
     # if any equipment was passed in, use that in the calcultion instead of the actual equiped items
     equipment_to_calc = {}

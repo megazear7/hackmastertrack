@@ -32,6 +32,8 @@ class CharactersController < ApplicationController
     class_cost = BpCostByRaceClass.where(
                         character_class_id: @character.character_class_id,
                         race_id: @character.race_id).first
+    @character.give_class_benefits
+    @character.give_race_benefits
     if class_cost.nil?
       render :new
       flash[:notice] << 'That Character Class combination is not in the system.'
