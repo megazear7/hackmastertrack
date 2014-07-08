@@ -40,8 +40,6 @@
         %th Morale Mod
       %th
       %th
-      %th
-
     - @ability_scores.where(ability: ability).order(:min).each do |ability_score|
       %tr
         %td= link_to ability_score.ability, ability_score
@@ -69,8 +67,5 @@
         - elsif ability == "Charisma"
           %td= ability_score.turning_mod
           %td= ability_score.morale_mod
-        %td= link_to 'Show', ability_score
-        %td= link_to 'Edit', edit_ability_score_path(ability_score)
-        %td= link_to 'Destroy', ability_score, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-  %br
+        %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_ability_score_path(ability_score)
+        %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), ability_score, :method => :delete, :data => { :confirm => 'Are you sure?' }

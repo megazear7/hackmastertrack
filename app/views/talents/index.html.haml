@@ -9,12 +9,10 @@
       %th BP Cost
       %th
       %th
-      %th
   %tbody
     - @talents.each do |talent|
       %tr
         %td= link_to talent.name, talent
         %td= talent.bp_cost
-        %td= link_to 'Show', talent
-        %td= link_to 'Edit', edit_talent_path(talent)
-        %td= link_to 'Destroy', talent, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_talent_path(talent)
+        %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), talent, :method => :delete, :data => { :confirm => 'Are you sure?' }

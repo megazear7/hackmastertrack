@@ -18,5 +18,5 @@
         %td= character.user.email
         %td= character.race.name
         %td= character.character_class.name
-        %td= link_to 'Edit', edit_character_path(character)
-        %td= link_to 'Destroy', character, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_character_path(character)
+        %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), character, :method => :delete, :data => { :confirm => 'Are you sure?' }

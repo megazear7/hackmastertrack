@@ -11,7 +11,6 @@
       %th bp_cost
       %th
       %th
-      %th
   %tbody
     - @proficiencies.each do |proficiency|
       %tr
@@ -19,6 +18,5 @@
         %td= proficiency.description
         %td= proficiency.requirements
         %td= proficiency.bp_cost
-        %td= link_to 'Show', proficiency
-        %td= link_to 'Edit', edit_proficiency_path(proficiency)
-        %td= link_to 'Destroy', proficiency, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_proficiency_path(proficiency)
+        %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), proficiency, :method => :delete, :data => { :confirm => 'Are you sure?' }

@@ -15,5 +15,5 @@
       %tr
         %td= link_to character_class.name, character_class
         %td= character_class.description
-        %td= link_to 'Edit', edit_character_class_path(character_class)
-        %td= link_to 'Destroy', character_class, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_character_class_path(character_class)
+        %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), character_class, :method => :delete, :data => { :confirm => 'Are you sure?' }
