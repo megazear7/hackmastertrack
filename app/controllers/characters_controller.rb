@@ -35,8 +35,8 @@ class CharactersController < ApplicationController
     @character.give_class_benefits
     @character.give_race_benefits
     if class_cost.nil?
-      render :new
       flash[:notice] << 'That Character Class combination is not in the system.'
+      render :new
     else
       @character.building_points -= class_cost.bp_cost
       
