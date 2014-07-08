@@ -5,7 +5,7 @@ module ItemsHelper
   end
 
   def item_types
-    [ ["Armor", "armor"], ["Weapon", "weapon"], ["Melee", "melee"], ["Ranged", "ranged"], ["Pole Arm", "polearm"], ["Shield", "shield"], ["Consumable", "consumable"], ["Wearable", "wearable"], ["Precious", "precious"] ]
+    [ ["Armor", "armor"], ["Melee", "melee"], ["Ranged", "ranged"], ["Pole Arm", "polearm"], ["Shield", "shield"], ["Consumable", "consumable"], ["Wearable", "wearable"], ["Precious", "precious"] ]
   end
 
   def shield_sizes
