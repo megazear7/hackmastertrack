@@ -73,7 +73,8 @@ class ProficienciesController < ApplicationController
         :name,
         :description,
         :requirements,
-        :bp_cost
+        :bp_cost,
+        item_ids: []
       )
     end
 end

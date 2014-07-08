@@ -5,10 +5,11 @@
 %table.table.table-hover.table-responsive
   %thead
     %tr
-      %th name
-      %th description
-      %th requirements
-      %th bp_cost
+      %th Name
+      %th Description
+      %th Requirements
+      %th BP Cost
+      %th Associated Items
       %th
       %th
   %tbody
@@ -18,5 +19,6 @@
         %td= proficiency.description
         %td= proficiency.requirements
         %td= proficiency.bp_cost
+        %td= items_for proficiency
         %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_proficiency_path(proficiency)
         %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), proficiency, :method => :delete, :data => { :confirm => 'Are you sure?' }
