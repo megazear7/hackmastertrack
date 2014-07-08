@@ -76,32 +76,6 @@
       %td Initiative Die Modifier
       %td= @item.init_die_mod
 
-  - if @item.item_type == "weapon"
-    %tr
-      %td Strength Required
-      %td= @item.str_required
-    %tr
-      %td Skill Level
-      %td= @item.skill_level
-    %tr
-      %td Damage
-      %td= @item.damage
-    %tr
-      %td Shield Damage
-      %td= @item.shield_damage
-    %tr
-      %td Attack Speed
-      %td= @item.attack_speed
-    %tr
-      %td Size
-      %td= @item.size
-    %tr
-      %td Reach
-      %td= @item.reach
-    %tr
-      %td Damage Type
-      %td= @item.damage_type
-
   - if @item.item_type == "melee"
     %tr
       %td Strength Required
@@ -118,6 +92,9 @@
     %tr
       %td Attack Speed
       %td= @item.attack_speed
+    %tr
+      %td Jab Speed
+      %td= @item.jab_speed
     %tr
       %td Size
       %td= @item.size

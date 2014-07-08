@@ -37,22 +37,13 @@
     .col-md-4= f.input :crouching_cover_value, input_html: { class: "string form-control" }
     .col-md-4= f.input :init_die_mod, input_html: { class: "string form-control" }
 
-  .row.weapon-section{ style: "display: none"}
-    .col-md-4= f.input :str_required, input_html: { class: "string form-control" }
-    .col-md-4= f.input :skill_level, collection: skill_types, input_html: { class: "string form-control" }
-    .col-md-4= f.input :damage, input_html: { class: "string form-control" }
-    .col-md-4= f.input :shield_damage, input_html: { class: "string form-control" }
-    .col-md-4= f.input :attack_speed, input_html: { class: "string form-control" }
-    .col-md-4= f.input :size, collection: size_types, input_html: { class: "string form-control" }
-    .col-md-4= f.input :reach, input_html: { class: "string form-control" }
-    .col-md-4= f.input :damage_type, collection: damage_types, input_html: { class: "string form-control" }
-
   .row.melee-section{ style: "display: none"}
     .col-md-4= f.input :str_required, input_html: { class: "string form-control" }
     .col-md-4= f.input :skill_level, collection: skill_types, input_html: { class: "string form-control" }
     .col-md-4= f.input :damage, input_html: { class: "string form-control" }
     .col-md-4= f.input :shield_damage, input_html: { class: "string form-control" }
     .col-md-4= f.input :attack_speed, input_html: { class: "string form-control" }
+    .col-md-4= f.input :jab_speed, input_html: { class: "string form-control" }
     .col-md-4= f.input :size, collection: size_types, input_html: { class: "string form-control" }
     .col-md-4= f.input :reach, input_html: { class: "string form-control" }
     .col-md-4= f.input :damage_type, collection: damage_types, input_html: { class: "string form-control" }
