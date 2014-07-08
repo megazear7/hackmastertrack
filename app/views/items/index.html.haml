@@ -13,16 +13,16 @@
 %br
 
 - @item_t.each do |itemt|
-  %h3= itemt
+  %h3= itemt.titleize
   %table.table.table-hover.table-responsive
     %thead
       %tr
-        %td Name
-        %td Cost
-        %td Weight
-        %td High Availability 
-        %td Medium Availability 
-        %td Low Availability 
+        %th Name
+        %th Cost
+        %th Weight
+        %th High Availability 
+        %th Medium Availability 
+        %th Low Availability 
         %th
         %th
     %tbody

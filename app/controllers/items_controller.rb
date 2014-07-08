@@ -5,7 +5,7 @@ class ItemsController < ApplicationController
   # GET /items.json
   def index
     @items = Item.all
-    @item_t = ["weapon", "melee", "polearm", "ranged", "armor", "shield", "consumable", "wearable", "precious" ]
+    @item_t = ["melee", "polearm", "ranged", "armor", "shield", "consumable", "wearable", "precious" ]
   end
 
   # GET /items/1
