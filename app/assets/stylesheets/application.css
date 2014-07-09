@@ -56,3 +56,7 @@ html,body{
 .octicon:hover {
   color: darkgoldenrod;
 }
+
+.octicon:hover {
+  color: red;
+}
