@@ -26,7 +26,7 @@
         %th
         %th
     %tbody
-      - @items.where(item_type: itemt).each do |item|
+      - @items.where(item_type: itemt).order(:name).each do |item|
         %tr
           %td= link_to item.name, item
           %td= item.buy_cost
