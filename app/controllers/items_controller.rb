@@ -114,8 +114,10 @@ class ItemsController < ApplicationController
         :range_short,
         :range_medium,
         :range_long,
-        :range_extreme,
-        :range_maximum
+        :range_maximum,
+        :two_handed,
+        :mounted,
+        :sword
       )
     end
 end

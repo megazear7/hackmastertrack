@@ -29,7 +29,6 @@
     .col-md-4= f.input :speed_mod, input_html: { class: "string form-control" }
     .col-md-4= f.input :movement_rate_reduction, input_html: { class: "string form-control" }
 
-
   .row.shield-section{ style: "display: none"}
     .col-md-4= f.input :shield_size, collection: shield_sizes, input_html: { class: "string form-control" }
     .col-md-4= f.input :damage_reduction, input_html: { class: "string form-control" }
@@ -38,10 +37,14 @@
     .col-md-4= f.input :init_die_mod, input_html: { class: "string form-control" }
 
   .row.melee-section{ style: "display: none"}
+    .col-md-4= f.input :sword, input_html: { class: "string form-control" }
+    .col-md-4= f.input :two_handed, input_html: { class: "string form-control" }
+    .col-md-4= f.input :mounted, input_html: { class: "string form-control" }
     .col-md-4= f.input :str_required, input_html: { class: "string form-control" }
     .col-md-4= f.input :skill_level, collection: skill_types, input_html: { class: "string form-control" }
     .col-md-4= f.input :damage, input_html: { class: "string form-control" }
     .col-md-4= f.input :shield_damage, input_html: { class: "string form-control" }
+    .col-md-4= f.input :hvy_armor, input_html: { class: "string form-control" }
     .col-md-4= f.input :attack_speed, input_html: { class: "string form-control" }
     .col-md-4= f.input :jab_speed, input_html: { class: "string form-control" }
     .col-md-4= f.input :size, collection: size_types, input_html: { class: "string form-control" }
@@ -49,6 +52,7 @@
     .col-md-4= f.input :damage_type, collection: damage_types, input_html: { class: "string form-control" }
 
   .row.ranged-section{ style: "display: none"}
+    .col-md-4= f.input :two_handed, input_html: { class: "string form-control" }
     .col-md-4= f.input :str_required, input_html: { class: "string form-control" }
     .col-md-4= f.input :skill_level, collection: skill_types, input_html: { class: "string form-control" }
     .col-md-4= f.input :damage, input_html: { class: "string form-control" }
@@ -60,10 +64,10 @@
     .col-md-4= f.input :range_short, input_html: { class: "string form-control" }
     .col-md-4= f.input :range_medium, input_html: { class: "string form-control" }
     .col-md-4= f.input :range_long, input_html: { class: "string form-control" }
-    .col-md-4= f.input :range_extreme, input_html: { class: "string form-control" }
     .col-md-4= f.input :range_maximum, input_html: { class: "string form-control" }
 
   .row.polearm-section{ style: "display: none"}
+    .col-md-4= f.input :two_handed, input_html: { class: "string form-control" }
     .col-md-4= f.input :str_required, input_html: { class: "string form-control" }
     .col-md-4= f.input :skill_level, collection: skill_types, input_html: { class: "string form-control" }
     .col-md-4= f.input :size, collection: size_types, input_html: { class: "string form-control" }
