@@ -50,7 +50,7 @@ html,body{
 }
 
 .octicon {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 .octicon:hover {
