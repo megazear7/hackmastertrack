@@ -25,6 +25,7 @@ Rails.application.routes.draw do
 
   resources :characters do
     member do
+      get  :add_proficiency
       post :add_xp
       post :equip_items
       post :add_items
