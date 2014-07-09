@@ -48,3 +48,11 @@ html,body{
 .button-pad {
   margin-right: 12px;
 }
+
+.octicon {
+  cursor: pointer;
+}
+
+.octicon:hover {
+  color: darkgoldenrod;
+}
