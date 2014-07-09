@@ -137,3 +137,16 @@
 .row
   .col-md-6
     = render partial: "shared/combat_rose", locals: { rose: @combat_rose }
+.row
+  .col-md-4 
+    %br
+    %table.table.table-hover.table-responsive
+      %thead
+        %tr
+          %th Proficiencies
+          %th
+      %tbody
+        - @character.proficiencies.each do |proficiency|
+          %tr
+            %td= link_to proficiency.name, proficiency
+            %td= link_to raw('<span class="octicon octicon-x"></span>'), remove_proficiency_character_path(@character, proficiency_id: proficiency.id)

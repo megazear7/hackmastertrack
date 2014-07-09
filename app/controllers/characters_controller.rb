@@ -1,5 +1,5 @@
 class CharactersController < ApplicationController
-  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :add_items, :equip_items, :add_proficiency]
+  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :add_items, :equip_items, :add_proficiency, :remove_proficiency]
 
   # GET /characters
   # GET /characters.json
@@ -131,8 +131,16 @@ class CharactersController < ApplicationController
     redirect_to character_url(@character), notice: 'Items Successfuly Added, total cost was: ' + cost.to_s
   end
 
+  def remove_proficiency
+    prof = Proficiency.find(params[:proficiency_id])
+    @character.proficiencies.delete(prof)
+    redirect_to character_url(@character), notice: 'You no longer have the proficiency ' + prof.name
+  end
+
   def add_proficiency
-    redirect_to character_url(@character), notice: 'NEEEDS IMPLEMENTED'
+    prof = Proficiency.find(params[:proficiency_id])
+    @character.proficiencies << prof
+    redirect_to character_url(@character), notice: 'You now have the proficiency ' + prof.name + '!'
   end
 
   def equip_items

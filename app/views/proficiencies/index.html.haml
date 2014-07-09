@@ -16,7 +16,7 @@
   %tbody
     - @proficiencies.each do |proficiency|
       %tr
-        %td= proficiency.name
+        %td= link_to proficiency.name, proficiency
         %td
           .dropdown
             %button#dropdownMenu1.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", :type => "button"}
@@ -24,7 +24,7 @@
               %span.caret
             %ul.dropdown-menu{"aria-labelledby" => "dropdownMenu1", :role => "menu"}
               - current_user.characters.each do |character|
-                %li= link_to character.name, add_proficiency_character_path(character)
+                %li= link_to character.name, add_proficiency_character_path(character, proficiency_id: proficiency.id)
         %td= proficiency.description
         %td= proficiency.requirements
         %td= proficiency.bp_cost
