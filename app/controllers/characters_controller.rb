@@ -134,13 +134,21 @@ class CharactersController < ApplicationController
   def remove_proficiency
     prof = Proficiency.find(params[:proficiency_id])
     @character.proficiencies.delete(prof)
+    @character.building_points += prof.bp_cost
+    @character.save
     redirect_to character_url(@character), notice: 'You no longer have the proficiency ' + prof.name
   end
 
   def add_proficiency
     prof = Proficiency.find(params[:proficiency_id])
-    @character.proficiencies << prof
-    redirect_to character_url(@character), notice: 'You now have the proficiency ' + prof.name + '!'
+    if @character.building_points > prof.bp_cost
+      @character.proficiencies << prof
+      @character.building_points -= prof.bp_cost
+      @character.save
+      redirect_to character_url(@character), notice: 'You now have the proficiency ' + prof.name + '!'
+    else
+      redirect_to character_url(@character), notice: 'You do not have enough building points for the proficiency ' + prof.name + '!'
+    end
   end
 
   def equip_items
