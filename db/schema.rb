@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140707184840) do
+ActiveRecord::Schema.define(version: 20140709154239) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -184,9 +184,11 @@ ActiveRecord::Schema.define(version: 20140707184840) do
     t.integer  "range_short"
     t.integer  "range_medium"
     t.integer  "range_long"
-    t.integer  "range_extreme"
     t.integer  "range_maximum"
     t.integer  "proficiency_id"
+    t.boolean  "two_handed"
+    t.boolean  "mounted"
+    t.boolean  "sword"
   end
 
   create_table "levels", force: true do |t|

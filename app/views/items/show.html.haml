@@ -78,6 +78,15 @@
 
   - if @item.item_type == "melee"
     %tr
+      %td Sword
+      %td= @item.sword
+    %tr
+      %td Two Handed
+      %td= @item.two_handed
+    %tr
+      %td Mounted
+      %td= @item.mounted
+    %tr
       %td Strength Required
       %td= @item.str_required
     %tr
@@ -89,6 +98,9 @@
     %tr
       %td Shield Damage
       %td= @item.shield_damage
+    %tr
+      %td Heavy Armor
+      %td= @item.hvy_armor
     %tr
       %td Attack Speed
       %td= @item.attack_speed
@@ -106,6 +118,9 @@
       %td= @item.damage_type
 
   - if @item.item_type == "ranged"
+    %tr
+      %td Two Handed
+      %td= @item.two_handed
     %tr
       %td Strength Required
       %td= @item.str_required
@@ -140,14 +155,13 @@
       %td Range Long
       %td= @item.range_long
     %tr
-      %td Range Extreme
-      %td= @item.range_extreme
-    %tr
       %td Range Maximum
       %td= @item.range_maximum
 
-
   - if @item.item_type == "polearm"
+    %tr
+      %td Two Handed
+      %td= @item.two_handed
     %tr
       %td Strength Required
       %td= @item.str_required
