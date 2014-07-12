@@ -25,7 +25,7 @@ module ItemsHelper
   end
 
   def size_types
-    [ ["S", "s"], ["M", "m"], ["L", "l"] ]
+    [ ["T", "t"], ["S", "s"], ["M", "m"], ["L", "l"], ["H", "h"], ["G", "g"], ["E", "e"], ["C", "c"] ]
   end
 
   def skill_types

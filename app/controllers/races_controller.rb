@@ -78,7 +78,22 @@ class RacesController < ApplicationController
         :dex_mod,
         :con_mod,
         :lks_mod,
-        :cha_mod
+        :cha_mod,
+        :hpsizeadj,
+        :defadjvslarge,
+        :defadj,
+        :hideinnatsur,
+        :basemv,
+        :reachadj,
+        :size,
+        :knockbacksize,
+        :lowlightvision,
+        :initdiebonus,
+        :maleheight,
+        :femaleheight,
+        :maleweight,
+        :femaleweight,
+        :lifespan
       )
     end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140712001414) do
+ActiveRecord::Schema.define(version: 20140712022223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -278,6 +278,21 @@ ActiveRecord::Schema.define(version: 20140712001414) do
     t.integer  "cha_mod"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "hpsizeadj"
+    t.integer  "defadjvslarge"
+    t.integer  "defadj"
+    t.integer  "hideinnatsur"
+    t.float    "basemv"
+    t.float    "reachadj"
+    t.string   "size"
+    t.string   "knockbacksize"
+    t.boolean  "lowlightvision"
+    t.boolean  "initdiebonus"
+    t.integer  "maleheight"
+    t.integer  "femaleheight"
+    t.integer  "maleweight"
+    t.integer  "femaleweight"
+    t.integer  "lifespan"
   end
 
   create_table "skills", force: true do |t|
