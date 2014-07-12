@@ -76,7 +76,12 @@ class LevelsController < ApplicationController
         :attack_mod,
         :speed_mod,
         :spell_points,
-        :character_class_id
+        :character_class_id,
+        :stvsspells,
+        :addedspells,
+        :rangedspeedmod,
+        :initiativediemod,
+        :hitdice
       )
     end
 end

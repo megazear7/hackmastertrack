@@ -8,10 +8,15 @@
     %thead
       %tr
         %th Level
+        %th Hit Dice
         %th Init Mod
+        %th Initiative Die Mod
         %th Attack Mod
         %th Speed Mod
+        %th Ranged Speed Mod
         %th Spell Points
+        %th ST VS Spells
+        %th Added Spells
         %td
         %td
         %td
@@ -19,10 +24,15 @@
       - @levels.where(character_class_id: c.id).order(:character_class_id, :level_value).each do |level|
         %tr
           %td= level.level_value
+          %td= level.hitdice
           %td= level.init_mod
+          %td= level.initiativediemod
           %td= level.attack_mod
           %td= level.speed_mod
+          %td= level.rangedspeedmod
           %td= level.spell_points
+          %td= level.stvsspells
+          %td= level.addedspells
           %td= link_to 'Show', level
           %td= link_to 'Edit', edit_level_path(level)
           %td= link_to 'Destroy', level, :method => :delete, :data => { :confirm => 'Are you sure?' }
