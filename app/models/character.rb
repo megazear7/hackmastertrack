@@ -205,4 +205,36 @@ class Character < ActiveRecord::Base
     end
   end
 
+  def pdf_url
+    "https://www.webmerge.me/merge/14785/ukwgj8?download=1"
+  end
+
+  def pdf_fields
+    args = {} 
+    args["name"] = self.name
+    args["class"] = self.character_class.name if self.character_class
+    args["race"] = self.race.name if self.race
+    args["str"] = self.strength.to_i
+    args["int"] = self.intelligence.to_i
+    args["wis"] = self.wisdom.to_i
+    args["dex"] = self.dexterity.to_i
+    args["con"] = self.constitution.to_i
+    args["lks"] = self.looks.to_i
+    args["cha"] = self.charisma.to_i
+    args["str_percent"] = self.strength - self.strength.to_i if self.strength
+    args["int_percent"] = self.intelligence - self.intelligence.to_i if self.intelligence
+    args["wis_percent"] = self.wisdom.to_i - self.wisdom.to_i if self.wisdom
+    args["dex_percent"] = self.dexterity - self.dexterity.to_i if self.dexterity
+    args["con_percent"] = self.constitution - self.constitution.to_i if self.constitution
+    args["lks_percent"] = self.looks - self.looks.to_i if self.looks
+    args["cha_percent"] = self.charisma - self.charisma.to_i if self.charisma
+    args["feat_of_strength"] = AbilityScore.find_ability_mod("Strength", self.strength, "feat_of_strength")
+    # and so on...
+    # check this url for the pdf field names:
+    # https://www.webmerge.me/manage/documents?page=edit&step=test&document_id=14785
+    # username: alexlockhart7@gmail.com
+    # password: dontopenthecrypt
+    args
+  end
+
 end
