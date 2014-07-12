@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140709154239) do
+ActiveRecord::Schema.define(version: 20140712001414) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(version: 20140709154239) do
     t.datetime "updated_at"
     t.float    "min"
     t.float    "max"
+    t.integer  "max_spells_per_level"
+    t.integer  "chance_to_learn_spell"
   end
 
   create_table "bp_cost_by_race_classes", force: true do |t|

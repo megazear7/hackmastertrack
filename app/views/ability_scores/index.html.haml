@@ -23,6 +23,8 @@
         %th Drag (lbs)
       - elsif ability == "Intelligence"
         %th Attack Mod
+        %th Max Spells Per Level
+        %th Chance To Learn Spell
       - elsif ability == "Wisdom"
         %th Init Mod
         %th Defense Mod
@@ -52,6 +54,8 @@
           %td= ability_score.drag
         - elsif ability == "Intelligence"
           %td= ability_score.attack_mod
+          %td= ability_score.max_spells_per_level
+          %td= ability_score.chance_to_learn_spell
         - elsif ability == "Wisdom"
           %td= ability_score.init_mod
           %td= ability_score.defense_mod

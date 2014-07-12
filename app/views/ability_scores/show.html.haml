@@ -27,6 +27,13 @@
     .col-md-2
       Attack Mod
       = @ability_score.attack_mod
+    .col-md-2
+      Max Spells Per Level
+      = @ability_score.max_spells_per_level
+    .col-md-2
+      Chance To Learn Spell
+      = @ability_score.chance_to_learn_spell
+
   - elsif @ability_score.ability == "Wisdom"
     .col-md-2
       Init Mod

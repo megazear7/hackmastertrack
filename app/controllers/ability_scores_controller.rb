@@ -89,7 +89,9 @@ class AbilityScoresController < ApplicationController
         :mental_saving_throw_bonus,
         :dodge_saving_throw_bonus,
         :physical_saving_throw_bonus,
-        :morale_mod
+        :morale_mod,
+        :max_spells_per_level,
+        :chance_to_learn_spell
       )
     end
 end
