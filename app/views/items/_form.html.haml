@@ -10,15 +10,12 @@
     .col-md-4= f.input :name, input_html: { class: "string form-control" }
     .col-md-4= f.input :location, collection: locations, input_html: { class: "string form-control" }
     .col-md-4= f.input :magic_level, input_html: { class: "string form-control" }
-  .row
     .col-md-4= f.input :buy_cost, input_html: { class: "string form-control" }
     .col-md-4= f.input :sell_value, input_html: { class: "string form-control" }
     .col-md-4= f.input :weight, input_html: { class: "string form-control" }
     .col-md-4= f.input :high_avail, input_html: { class: "string form-control" }
     .col-md-4= f.input :med_avail, input_html: { class: "string form-control" }
     .col-md-4= f.input :low_avail, input_html: { class: "string form-control" }
-  .row
-    .col-md-4
 
   .row.armor-section{ style: "display: none"}
     .col-md-4= f.input :armor_type, collection: armor_types, input_html: { class: "string form-control" }
@@ -85,8 +82,31 @@
 
   .row.consumable-section{ style: "display: none"}
     .col-md-4= f.input :heal_value, input_html: { class: "string form-control" }
+
   .row.wearable-section{ style: "display: none"}
+
   .row.precious-section{ style: "display: none"}
+
+  .row.loadbearing-section{ style: "display: none"}
+    .col-md-4= f.input :capacity_pounds, input_html: { class: "string form-control" }
+
+  .row.containers-section{ style: "display: none"}
+    .col-md-4= f.input :capacity_gallons, input_html: { class: "string form-control" }
+
+  .row.misc-section{ style: "display: none"}
+
+  .row.food-section{ style: "display: none"}
+    .col-md-4= f.input :number_of_days, input_html: { class: "string form-control" }
+    .col-md-4= f.input :requires_preparation, input_html: { class: "string form-control" }
+
+  .row.lodging-section{ style: "display: none"}
+    .col-md-4= f.input :number_of_days, input_html: { class: "string form-control" }
+
+  .row.services-section{ style: "display: none"}
+
+  .row.transport-section{ style: "display: none"}
+    .col-md-4= f.input :distance, input_html: { class: "string form-control" }
+
   .row
     .col-md-4
       %br

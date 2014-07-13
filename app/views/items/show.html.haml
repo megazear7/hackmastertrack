@@ -209,3 +209,32 @@
     %tr
       %td Healing
       %td= @item.heal_value
+
+  - if @item.item_type == "loadbearing"
+    %tr
+      %td Load Bearing
+      %td= @item.capacity_pounds
+
+  - if @item.item_type == "containers"
+    %tr
+      %td  Capacity
+      %td= @item.capacity_gallons
+
+  - if @item.item_type == "food"
+    %tr
+      %td Number of Days of Rations
+      %td= @item.number_of_days
+    %tr
+      %td Requires Preperation?
+      %td= @item.requires_preparation
+
+  - if @item.item_type == "lodging"
+    %tr
+      %td Number of Days of Lodging
+      %td= @item.number_of_days
+
+  - if @item.item_type == "transport"
+    %tr
+      %td Distance Traveled
+      %td= @item.distance
+

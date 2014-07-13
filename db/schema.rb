@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140712035141) do
+ActiveRecord::Schema.define(version: 20140713004816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -191,6 +191,11 @@ ActiveRecord::Schema.define(version: 20140712035141) do
     t.boolean  "two_handed"
     t.boolean  "mounted"
     t.boolean  "sword"
+    t.float    "capacity_pounds"
+    t.float    "capacity_gallons"
+    t.integer  "number_of_days"
+    t.boolean  "requires_preparation"
+    t.integer  "distance"
   end
 
   create_table "levels", force: true do |t|
