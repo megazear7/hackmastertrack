@@ -1,6 +1,10 @@
 .btn-group
   = link_to 'Back', characters_path, class: "btn btn-default"
   = link_to 'Edit', edit_character_path(@character), class: "btn btn-primary"
+= form_tag @character.pdf_url, style: "display:inline;" do
+  = submit_tag 'Download Character Sheet', class: "btn btn-default"
+  - @character.pdf_fields.each do |key, val|
+    = hidden_field_tag key, val
 %br
 %br
 .row
