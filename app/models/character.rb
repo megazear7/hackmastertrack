@@ -209,6 +209,13 @@ class Character < ActiveRecord::Base
     "https://www.webmerge.me/merge/14785/ukwgj8?download=1"
   end
 
+  def fract_extract (number)
+    x = (number - number.to_i) * 100
+    x = x.to_i
+    return "0" + x.to_s if x < 10 
+    return x
+  end
+
   def pdf_fields
     args = {} 
     args["name"] = self.name
@@ -221,13 +228,13 @@ class Character < ActiveRecord::Base
     args["con"] = self.constitution.to_i
     args["lks"] = self.looks.to_i
     args["cha"] = self.charisma.to_i
-    args["str_percent"] = self.strength - self.strength.to_i if self.strength
-    args["int_percent"] = self.intelligence - self.intelligence.to_i if self.intelligence
-    args["wis_percent"] = self.wisdom.to_i - self.wisdom.to_i if self.wisdom
-    args["dex_percent"] = self.dexterity - self.dexterity.to_i if self.dexterity
-    args["con_percent"] = self.constitution - self.constitution.to_i if self.constitution
-    args["lks_percent"] = self.looks - self.looks.to_i if self.looks
-    args["cha_percent"] = self.charisma - self.charisma.to_i if self.charisma
+    args["str_percent"] =  fract_extract self.strength if self.strength
+    args["int_percent"] = fract_extract self.intelligence if self.intelligence
+    args["wis_percent"] = fract_extract self.wisdom if self.wisdom
+    args["dex_percent"] = fract_extract self.dexterity if self.dexterity
+    args["con_percent"] = fract_extract self.constitution if self.constitution
+    args["lks_percent"] = fract_extract self.looks if self.looks
+    args["cha_percent"] = fract_extract self.charisma if self.charisma
     args["feat_of_strength"] = AbilityScore.find_ability_mod("Strength", self.strength, "feat_of_strength")
     # and so on...
     # check this url for the pdf field names:
