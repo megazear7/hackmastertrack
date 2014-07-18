@@ -337,6 +337,14 @@ class Character < ActiveRecord::Base
 
     args["profile_1_abilities_speed"] = "--"
 
+    # Profile for Level mods.
+
+    #args["profile_1_level_attack_bonus"] =  self. if self.
+    #args["profile_1_level_speed"] =  self. if self.
+    #args["profile_1_level_init"] =  self. if self.
+    #args["profile_1_level_defense"] =  self. if self.
+    #args["profile_1_level_damage"] =  self. if self.
+
     # and so on...
 
     # these are the rest that I am not sure how to map them
@@ -346,19 +354,16 @@ class Character < ActiveRecord::Base
     # magic_item_loc_1
     # magic_item_note_1
     # profile_1_s_m
-    # combat_profile_weapon_1
-    # profile_1_attack_bonus
-    # profile_1_level_attack_bonus
-    # profile_1_level_speed
-    # profile_1_level_init
-    # profile_1_level_defense
-    # profile_1_level_damage
 
+    # combat_profile_weapon_1
+
+    # profile_1_attack_bonus
     # profile_1_speed
     # profile_1_init
     # profile_1_defense
     # profile_1_damage
     # profile_1_reach
+
     # profile_1_base_weapon_speed
     # profile_1_base_weapon_damage
 
@@ -372,20 +377,20 @@ class Character < ActiveRecord::Base
     # profile_1_spec_m_2
     # profile_1_spec_damage_2
 
+    # profile_1_spec_attack_3
     # profile_1_spec_speed_3
     # profile_1_spec_defense_3
     # profile_1_spec_damage_3
-    # profile_1_spec_attack_3
 
+    # profile_1_spec_attack_4
     # profile_1_spec_speed_4
     # profile_1_spec_defense_4
     # profile_1_spec_damage_4
-    # profile_1_spec_attack_4
 
+    # profile_1_spec_attack_5
     # profile_1_spec_speed_5
     # profile_1_spec_defense_5
     # profile_1_spec_damage_5
-    # profile_1_spec_attack_5
 
     # location
     # talent_1
