@@ -155,7 +155,7 @@ class CharactersController < ApplicationController
     left = nil if left == ""
     right = params[:character][:right_hand_item_id]
     right = nil if right == ""
-    body = params[:character][:body_hand_item_id]
+    body = params[:character][:body_item_id]
     body = nil if body == ""
     @character.left_hand_item = @character.item_instances.find(left) if not left.nil?
     @character.right_hand_item = @character.item_instances.find(right) if not right.nil?
