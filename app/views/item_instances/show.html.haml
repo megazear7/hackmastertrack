@@ -1,0 +1,41 @@
+.btn-group
+  = link_to 'Back', item_instances_path, class: "btn btn-default"
+  = link_to 'Edit', edit_item_instance_path(@item_instance), class: "btn btn-primary"
+%br
+%br
+%table.table.table-hover.table-responsive
+  %tbody
+    %tr
+      %td Item
+      %td= @item_instance.item.name
+    %tr
+      %td Character
+      %td= @item_instance.character.name
+    %tr
+      %td Magic Adjustments:
+      %td
+    %tr
+      %td Magic Level
+      %td= @item_instance.magic_level
+    %tr
+      %td Attack Mod
+      %td= @item_instance.attack_mod
+    %tr
+      %td Speed Mod
+      %td= @item_instance.speed_mod
+    %tr
+      %td Init Mod
+      %td= @item_instance.init_mod
+    %tr
+      %td Defense Mod
+      %td= @item_instance.defense_mod
+    %tr
+      %td Damage Mod
+      %td= @item_instance.damage_mod
+    %tr
+      %td Damage Reduction
+      %td= @item_instance.damage_reduction
+    %tr
+      %td Init Die Mod
+      %td= @item_instance.init_die_mod
+ 

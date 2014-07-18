@@ -13,6 +13,8 @@ class Character < ActiveRecord::Base
   belongs_to :body_item, class_name: "Item", foreign_key: "body_item_id"
   validates_presence_of :character_class_id, :race_id, :strength, :intelligence, :wisdom, :dexterity, :constitution, :looks, :charisma, :name
 
+  has_many :item_instances # these are equiped items
+
   belongs_to :mentor, :class_name => "Character"
   has_many :prodigees, :foreign_key => "mentor_id"
 

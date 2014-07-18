@@ -1,0 +1,7 @@
+.btn-group
+  = link_to 'Show', @item_instance, class: "btn btn-default"
+  = link_to 'Back', item_instances_path, class: "btn btn-default"
+%br
+%br
+%h1 Editing Item Instance
+= render 'form'
