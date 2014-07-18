@@ -121,13 +121,12 @@ class CharactersController < ApplicationController
 
   def add_items
     cost = 0
-    params[:character][:item_ids].each do |item_id|
-      if not item_id.nil? and item_id != ""
-        item = Item.find(item_id)
-        cost += item.buy_cost
-        @character.items << item
-      end
-    end
+    item_to_take = Item.where(name: params[:character][:item_to_take]).first
+    item_instance = ItemInstance.new
+    item_instance.item = item_to_take
+    item_instance.character = @character
+    item_instance.save
+    cost += item_instance.item.buy_cost
     redirect_to character_url(@character), notice: 'Items Successfuly Added, total cost was: ' + cost.to_s
   end
 
@@ -158,9 +157,9 @@ class CharactersController < ApplicationController
     right = nil if right == ""
     body = params[:character][:body_hand_item_id]
     body = nil if body == ""
-    @character.left_hand_item = Item.find(left) if not left.nil?
-    @character.right_hand_item = Item.find(right) if not right.nil?
-    @character.body_hand_item = Item(body) if not body.nil?
+    @character.left_hand_item = @character.item_instances.find(left) if not left.nil?
+    @character.right_hand_item = @character.item_instances.find(right) if not right.nil?
+    @character.body_item = @character.item_instances.find(body) if not body.nil?
     @character.save
     redirect_to character_url(@character), notice: 'Items Successfuly Equiped'
   end

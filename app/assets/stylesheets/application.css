@@ -60,3 +60,7 @@ html,body{
 .octicon-trashcan:hover {
   color: red;
 }
+
+.label-height {
+  margin-top: 23px;
+}
