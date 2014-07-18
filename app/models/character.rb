@@ -209,6 +209,11 @@ class Character < ActiveRecord::Base
     "https://www.webmerge.me/merge/14785/ukwgj8?download=1"
   end
 
+  def plusinfront (number)
+    return "+" + number.to_s if number > 0
+    return number
+  end
+
   def fract_extract (number)
     x = (number - number.to_i) * 100
     x = x.to_i
@@ -221,22 +226,182 @@ class Character < ActiveRecord::Base
     args["name"] = self.name
     args["class"] = self.character_class.name if self.character_class
     args["race"] = self.race.name if self.race
+    args["level"] = self.level if self.level
+    args["alignment"] = self.alignment.name if self.alignment
+    args["sex"] = self.sex.name if self.sex
+    args["age"] = self.age if self.age
+    args["height"] = self.height if self.height
+    args["weight"] = self.weight if self.weight
+    args["hair"] = self.hair.name if self.hair
+    args["eyes"] = self.eyes.name if self.eyes
+    args["handedness"] = self.handedness.name if self.handedness
+    #args["patron_gods"] = self.patron_gods.name if self.patron_gods
+    #args["anointed_y"] = "X" if self.anointed == "Yes"
+    #args["anointed_n"] = "X" if self.anointed == "No"
+    args["building_points"] = self.building_points if self.building_points
+    args["experience"] = self.exp if self.exp
+    args["hit_points"] = self.health if self.health
+
+    # Combat Rose
+
+    #args["shield_defense_bonus"] = self.  if self.
+    #args[" shield_damage_reduction "] = self.  if self.
+    #args["fatigue_factor"] = self.  if self.
+    #args["threshold_of_pain"] = self.  if self.
+    #args["previous_hit_point_roll"] = self.  if self.  
+    # body_equiped
+    # shield_equiped
+    # body_equiped_damage_reduction
+
+    # Money
+
+    args["trade_coins"] = self.trade_coins if self.trade_coins
+    args["cp"] = self.copper if self.copper
+    args["sp"] = self.silver if self.silver
+    args["gp"] = self.gold if self.gold
+
+    # Honor
+
+    # hon_window
+    # honor
+    # fame
+    # hon_penalty_window
+    # hon_bonus
+    # category_of_fame
+    # hero_morale
+    # fearless_morale
+    # brave_morale
+    # steady_morale
+    # nervous_morale
+    # cowardly_morale
+
+    # Strength
+
     args["str"] = self.strength.to_i
-    args["int"] = self.intelligence.to_i
-    args["wis"] = self.wisdom.to_i
-    args["dex"] = self.dexterity.to_i
-    args["con"] = self.constitution.to_i
-    args["lks"] = self.looks.to_i
-    args["cha"] = self.charisma.to_i
     args["str_percent"] =  fract_extract self.strength if self.strength
+
+    args["feat_of_strength"] = plusinfront AbilityScore.find_ability_mod("Strength", self.strength, "feat_of_strength")
+    args["str_damage_mod"] = plusinfront AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
+    args["profile_1_abilities_damage"] = plusinfront AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
+    args["str_lift"] =  AbilityScore.find_ability_mod("Strength", self.strength, "lift")
+    args["str_carry"] = AbilityScore.find_ability_mod("Strength", self.strength, "carry")
+    args["str_drag"] =  AbilityScore.find_ability_mod("Strength", self.strength, "drag")
+
+    # Intelligence
+
+    args["int"] = self.intelligence.to_i
     args["int_percent"] = fract_extract self.intelligence if self.intelligence
+
+    args["int_attack_mod"] = plusinfront AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
+
+    # Wisdom
+    args["wis"] = self.wisdom.to_i
     args["wis_percent"] = fract_extract self.wisdom if self.wisdom
+
+    args["wis_init_mod"] = plusinfront AbilityScore.find_ability_mod("Wisdom", self.wisdom, "init_mod")
+    args["mental_saving_throw_bonus"] = plusinfront AbilityScore.find_ability_mod("Wisdom", self.wisdom, "mental_saving_throw_bonus")
+    args["wis_defense_mod"] = plusinfront AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod")
+
+    # Dexterity
+    args["dex"] = self.dexterity.to_i
     args["dex_percent"] = fract_extract self.dexterity if self.dexterity
+
+    args["des_attack_mod"] = plusinfront AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod")
+    args["profile_1_abilities_attack_bonus"] = plusinfront (AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod") + AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod"))
+
+    args["des_init_mod"] = plusinfront AbilityScore.find_ability_mod("Dexterity", self.dexterity, "init_mod")
+    args["profile_1_abilities_init"] = plusinfront (AbilityScore.find_ability_mod("Dexterity", self.dexterity, "init_mod") + AbilityScore.find_ability_mod("Wisdom", self.wisdom, "init_mod"))
+
+    args["dex_defense_mod"] = plusinfront AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
+    args["profile_1_abilities_defense"] = plusinfront (AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod") + AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod"))
+
+    args["dodge_saving_throw_bonus"] = plusinfront AbilityScore.find_ability_mod("Dexterity", self.dexterity, "dodge_saving_throw_bonus")
+    args["feat_of_agility"] = plusinfront AbilityScore.find_ability_mod("Strength", self.dexterity, "physical_saving_throw_bonus")
+    args["physical_saving_throw_bonus"] = plusinfront AbilityScore.find_ability_mod("Dexterity", self.dexterity, "physical_saving_throw_bonus")
+
+    # Constitituion
+    args["con"] = self.constitution.to_i
     args["con_percent"] = fract_extract self.constitution if self.constitution
+
+    # Looks
+    args["lks"] = self.looks.to_i
     args["lks_percent"] = fract_extract self.looks if self.looks
+
+    # Charisma
+    args["cha"] = self.charisma.to_i
     args["cha_percent"] = fract_extract self.charisma if self.charisma
-    args["feat_of_strength"] = AbilityScore.find_ability_mod("Strength", self.strength, "feat_of_strength")
+    args["turning_mod"] = plusinfront AbilityScore.find_ability_mod("Charisma", self.charisma, "turning_mod")
+    args["morale_mod"] = plusinfront AbilityScore.find_ability_mod("Charisma", self.charisma, "morale_mod")
+
+    args["profile_1_abilities_speed"] = "--"
+
     # and so on...
+
+    # these are the rest that I am not sure how to map them
+    # item_1
+    # item_loc_1
+    # magic_item_1
+    # magic_item_loc_1
+    # magic_item_note_1
+    # profile_1_s_m
+    # combat_profile_weapon_1
+    # profile_1_attack_bonus
+    # profile_1_level_attack_bonus
+    # profile_1_level_speed
+    # profile_1_level_init
+    # profile_1_level_defense
+    # profile_1_level_damage
+
+    # profile_1_speed
+    # profile_1_init
+    # profile_1_defense
+    # profile_1_damage
+    # profile_1_reach
+    # profile_1_base_weapon_speed
+    # profile_1_base_weapon_damage
+
+    # profile_1_spec_attack_1
+    # profile_1_spec_speed_1
+    # profile_1_spec_defense_1
+    # profile_1_spec_damage_1
+
+    # profile_1_spec_attack_2
+    # profile_1_spec_speed_2
+    # profile_1_spec_m_2
+    # profile_1_spec_damage_2
+
+    # profile_1_spec_speed_3
+    # profile_1_spec_defense_3
+    # profile_1_spec_damage_3
+    # profile_1_spec_attack_3
+
+    # profile_1_spec_speed_4
+    # profile_1_spec_defense_4
+    # profile_1_spec_damage_4
+    # profile_1_spec_attack_4
+
+    # profile_1_spec_speed_5
+    # profile_1_spec_defense_5
+    # profile_1_spec_damage_5
+    # profile_1_spec_attack_5
+
+    # location
+    # talent_1
+    # talent_benefit_1
+
+    # prof_1
+    # prof_2
+    # prof_3
+    # prof_4
+    # prof_5
+    # prof_6
+    # prof_7
+    # prof_8
+    # prof_9
+    # prof_10
+    # prof_11
+    # prof_12
+
     # check this url for the pdf field names:
     # https://www.webmerge.me/manage/documents?page=edit&step=test&document_id=14785
     # username: alexlockhart7@gmail.com
