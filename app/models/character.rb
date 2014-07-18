@@ -1,4 +1,5 @@
 class Character < ActiveRecord::Base
+  attr_accessor :item_to_take
   belongs_to :user
   belongs_to :character_class
   belongs_to :race
@@ -8,12 +9,21 @@ class Character < ActiveRecord::Base
   has_and_belongs_to_many :skills
   has_and_belongs_to_many :spells
   has_and_belongs_to_many :campaigns
-  belongs_to :left_hand_item, class_name: "Item", foreign_key: "left_hand_item_id"
-  belongs_to :right_hand_item, class_name: "Item", foreign_key: "right_hand_item_id"
-  belongs_to :body_item, class_name: "Item", foreign_key: "body_item_id"
+  belongs_to :left_hand_item, class_name: "ItemInstance", foreign_key: "left_hand_item_id"
+  belongs_to :right_hand_item, class_name: "ItemInstance", foreign_key: "right_hand_item_id"
+  belongs_to :body_item, class_name: "ItemInstance", foreign_key: "body_item_id"
   validates_presence_of :character_class_id, :race_id, :strength, :intelligence, :wisdom, :dexterity, :constitution, :looks, :charisma, :name
 
   has_many :item_instances # these are equiped items
+
+  def item_instance_names
+    # this can be done with a join sql query... but I can't figure it out TODO
+    item_instances = []
+    self.item_instances.each do |item_instance|
+      item_instances << [item_instance.item.name, item_instance.id]
+    end
+    item_instances
+  end
 
   belongs_to :mentor, :class_name => "Character"
   has_many :prodigees, :foreign_key => "mentor_id"
@@ -92,9 +102,9 @@ class Character < ActiveRecord::Base
   def calculate_speed equipment
     equipment = build_equipment(equipment)
     mod = 0
-    mod += equipment["left_hand"].speed_mod  if equipment["left_hand"]  and equipment["left_hand"].speed_mod
-    mod += equipment["right_hand"].speed_mod if equipment["right_hand"] and equipment["right_hand"].speed_mod
-    mod += equipment["body"].speed_mod       if equipment["body"]       and equipment["body"].speed_mod
+    mod += equipment["left_hand"].item.speed_mod  if equipment["left_hand"]  and equipment["left_hand"].item.speed_mod
+    mod += equipment["right_hand"].item.speed_mod if equipment["right_hand"] and equipment["right_hand"].item.speed_mod
+    mod += equipment["body"].item.speed_mod       if equipment["body"]       and equipment["body"].item.speed_mod
     mod
   end
 
@@ -103,9 +113,9 @@ class Character < ActiveRecord::Base
     mod = 0
     mod += AbilityScore.find_ability_mod("Wisdom", self.wisdom, "init_mod")
     mod += AbilityScore.find_ability_mod("Dexterity", self.dexterity, "init_mod")
-    mod += equipment["left_hand"].init_mod  if equipment["left_hand"]  and equipment["left_hand"].init_mod
-    mod += equipment["right_hand"].init_mod if equipment["right_hand"] and equipment["right_hand"].init_mod
-    mod += equipment["body"].init_mod       if equipment["body"]       and equipment["body"].init_mod
+    mod += equipment["left_hand"].item.init_mod  if equipment["left_hand"]  and equipment["left_hand"].item.init_mod
+    mod += equipment["right_hand"].item.init_mod if equipment["right_hand"] and equipment["right_hand"].item.init_mod
+    mod += equipment["body"].item.init_mod       if equipment["body"]       and equipment["body"].item.init_mod
     mod
   end
 
@@ -114,9 +124,9 @@ class Character < ActiveRecord::Base
     mod = 0
     mod += AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
     mod += AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod")
-    mod += equipment["left_hand"].attack_mod  if equipment["left_hand"]  and equipment["left_hand"].attack_mod
-    mod += equipment["right_hand"].attack_mod if equipment["right_hand"] and equipment["right_hand"].attack_mod
-    mod += equipment["body"].attack_mod       if equipment["body"]       and equipment["body"].attack_mod
+    mod += equipment["left_hand"].item.attack_mod  if equipment["left_hand"]  and equipment["left_hand"].item.attack_mod
+    mod += equipment["right_hand"].item.attack_mod if equipment["right_hand"] and equipment["right_hand"].item.attack_mod
+    mod += equipment["body"].item.attack_mod       if equipment["body"]       and equipment["body"].item.attack_mod
     mod
   end
 
@@ -125,9 +135,9 @@ class Character < ActiveRecord::Base
     mod = 0
     mod += AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod")
     mod += AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
-    mod += equipment["left_hand"].defense_mod  if equipment["left_hand"]  and equipment["left_hand"].defense_mod
-    mod += equipment["right_hand"].defense_mod if equipment["right_hand"] and equipment["right_hand"].defense_mod
-    mod += equipment["body"].defense_mod       if equipment["body"]       and equipment["body"].defense_mod
+    mod += equipment["left_hand"].item.defense_mod  if equipment["left_hand"]  and equipment["left_hand"].item.defense_mod
+    mod += equipment["right_hand"].item.defense_mod if equipment["right_hand"] and equipment["right_hand"].item.defense_mod
+    mod += equipment["body"].item.defense_mod       if equipment["body"]       and equipment["body"].item.defense_mod
     mod
   end
 
@@ -143,9 +153,9 @@ class Character < ActiveRecord::Base
     equipment = build_equipment(equipment)
     mod = 0
     # mise well add the hand items in this, who knows... maybe they magically give you damage reduction
-    mod += equipment["left_hand"].damage_reduction  if equipment["left_hand"]  and equipment["left_hand"].damage_reduction
-    mod += equipment["right_hand"].damage_reduction if equipment["right_hand"] and equipment["right_hand"].damage_reduction
-    mod += equipment["body"].damage_reduction       if equipment["body"]       and equipment["body"].damage_reduction
+    mod += equipment["left_hand"].item.damage_reduction  if equipment["left_hand"]  and equipment["left_hand"].item.damage_reduction
+    mod += equipment["right_hand"].item.damage_reduction if equipment["right_hand"] and equipment["right_hand"].item.damage_reduction
+    mod += equipment["body"].item.damage_reduction       if equipment["body"]       and equipment["body"].item.damage_reduction
     mod
   end
 
@@ -154,9 +164,9 @@ class Character < ActiveRecord::Base
     mod = 0
     mod += AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
     # TODO for now, we are assuming we are attacking with the left hand weapon
-    mod += equipment["left_hand"].damage_mod  if equipment["left_hand"]  and equipment["left_hand"].damage_mod
-    mod += equipment["right_hand"].damage_mod if equipment["right_hand"] and equipment["right_hand"].damage_mod
-    mod += equipment["body"].damage_mod       if equipment["body"]       and equipment["body"].damage_mod
+    mod += equipment["left_hand"].item.damage_mod  if equipment["left_hand"]  and equipment["left_hand"].item.damage_mod
+    mod += equipment["right_hand"].item.damage_mod if equipment["right_hand"] and equipment["right_hand"].item.damage_mod
+    mod += equipment["body"].item.damage_mod       if equipment["body"]       and equipment["body"].item.damage_mod
     mod
   end
 
@@ -164,7 +174,7 @@ class Character < ActiveRecord::Base
     equipment = build_equipment(equipment)
     mod = 0
     # TODO for now, we are assuming we are attacking with the left hand weapon
-    mod = equipment["left_hand"].reach if equipment["left_hand"] and equipment["left_hand"].reach
+    mod = equipment["left_hand"].item.reach if equipment["left_hand"] and equipment["left_hand"].item.reach
     mod
   end
 

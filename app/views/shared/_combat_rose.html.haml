@@ -38,16 +38,16 @@
       - if rose["left_hand"].nil?
         Empty 
       - else
-        = rose["left_hand"].name
+        = rose["left_hand"].item.name
     .col-md-4.text-center
       Right Hand:
       - if rose["right_hand"].nil?
         Empty 
       - else
-        = rose["right_hand"].name
+        = rose["right_hand"].item.name
     .col-md-4.text-center
       Body:
       - if rose["body"].nil?
         Empty 
       - else
-        = rose["body"].name
+        = rose["body"].item.name

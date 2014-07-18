@@ -118,29 +118,46 @@
 %br
 .row
   .col-md-6
-    Current Combat Rose:
+    .row
+      .col-md-12
+        Current Combat Rose:
+    .row
+      .col-md-12
+        = render partial: "shared/combat_rose", locals: { rose: @combat_rose }
   .col-md-6
     .row
       = simple_form_for @character, url: equip_items_character_path, method: :post do |f|
-        .col-md-3
-          = f.association :left_hand_item, collection: @character.items.where(location: "arm")
-        .col-md-3
-          = f.association :right_hand_item, collection: @character.items.where(location: "arm")
-        .col-md-3
-          = f.association :body_item, collection: @character.items.where(location: "body")
-        .col-md-3
-          = f.submit 'Equip', class: "btn btn-primary"
+        .col-md-3= f.association :left_hand_item, collection: @character.item_instance_names, input_html: { class: "string form-control" }
+        .col-md-3= f.association :right_hand_item, collection: @character.item_instance_names, input_html: { class: "string form-control" }
+        .col-md-3= f.association :body_item, collection: @character.item_instance_names, input_html: { class: "string form-control" }
+        .col-md-3= f.submit 'Equip', class: "btn btn-primary label-height"
     .row
-      %br
-      %br
-      = simple_form_for @character, url: add_items_character_path, method: :post do |f|
-        .col-md-6
-          = f.association :items, collection: Item.all
-        .col-md-6
-          = f.submit 'Take Item', class: "btn btn-primary"
-.row
-  .col-md-6
-    = render partial: "shared/combat_rose", locals: { rose: @combat_rose }
+      .col-md-12
+        %br
+        %br
+        = simple_form_for @character, url: add_items_character_path, method: :post do |f|
+          .col-md-6
+            = f.input :item_to_take, collection: Item.all.pluck(:name), input_html: { class: "string form-control" }
+          .col-md-6
+            = f.submit 'Take Item', class: "btn btn-primary label-height"
+    .row
+      .col-md-12
+        %br
+        %br
+        %table.table.table-hover.table-responsive
+          %thead
+            %tr
+              %th Item
+              %th Magic Level
+              %th
+              %th
+          %tbody
+            - @character.item_instances.each do |item_instance|
+              %tr
+                %td= link_to item_instance.item.name, item_instance
+                %td= item_instance.magic_level
+                %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_instance_path(item_instance)
+                %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item_instance, :method => :delete, :data => { :confirm => 'Are you sure?' }
 .row
   .col-md-4 
     %br
