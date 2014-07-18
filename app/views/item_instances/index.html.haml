@@ -1,0 +1,20 @@
+.row
+  .col-md-12
+    %h1 Listing Item Instances
+.row
+  .col-md-12
+    = link_to 'New Item', new_item_instance_path, class: "btn btn-primary pull-right"
+%table.table.table-hover.table-responsive
+  %thead
+    %tr
+      %th Item
+      %th Character
+      %th
+      %th
+  %tbody
+    - @item_instances.each do |item_instance|
+      %tr
+        %td= link_to item_instance.item.name, item_instance
+        %td= link_to item_instance.character.name, item_instance.character
+        %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_instance_path(item_instance)
+        %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item_instance, :method => :delete, :data => { :confirm => 'Are you sure?' }

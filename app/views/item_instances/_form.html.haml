@@ -1,0 +1,29 @@
+= simple_form_for @item_instance do |f|
+  - if @item_instance.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@item_instance.errors.count, "error")} prohibited this item_instance from being saved:"
+      %ul
+        - @item_instance.errors.full_messages.each do |msg|
+          %li= msg
+  .row
+    .col-md-4= f.association :item, input_html: { class: "string form-control" }
+    .col-md-4= f.association :character, input_html: { class: "string form-control" }
+  .row
+    .col-md-12
+      %h3 Magic Adjustments:
+  .row
+    .col-md-2= f.input :magic_level, input_html: { class: "string form-control" }
+    .col-md-2= f.input :attack_mod, input_html: { class: "string form-control" }
+    .col-md-2= f.input :speed_mod, input_html: { class: "string form-control" }
+    .col-md-2= f.input :init_mod, input_html: { class: "string form-control" }
+  .row
+    .col-md-2= f.input :defense_mod, input_html: { class: "string form-control" }
+    .col-md-2= f.input :damage_mod, input_html: { class: "string form-control" }
+    .col-md-2= f.input :damage_reduction, input_html: { class: "string form-control" }
+    .col-md-2= f.input :init_die_mod, input_html: { class: "string form-control" }
+  .row
+    .col-md-4
+      %br
+      .actions
+        .btn-group
+          = f.submit 'Save', class: "btn btn-primary"

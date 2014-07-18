@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :item_instances
+
   resources :bp_cost_by_race_classes
 
   resources :levels

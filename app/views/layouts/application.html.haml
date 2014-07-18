@@ -42,6 +42,8 @@
                 %li
                   = link_to "Items", items_path
                 %li
+                  = link_to "Item Instance", item_instances_path
+                %li
                   = link_to "Spells", spells_path
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
@@ -62,6 +64,8 @@
                   = link_to "Proficiency", new_proficiency_path
                 %li
                   = link_to "Item", new_item_path
+                %li
+                  = link_to "Item Instance", new_item_instance_path
                 %li
                   = link_to "Spell", new_spell_path
           %ul.nav.navbar-nav.navbar-right
