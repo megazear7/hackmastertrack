@@ -329,7 +329,7 @@ class Character < ActiveRecord::Base
     args["profile_1_abilities_defense"] = plusinfront (AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod") + AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod"))
 
     args["dodge_saving_throw_bonus"] = plusinfront AbilityScore.find_ability_mod("Dexterity", self.dexterity, "dodge_saving_throw_bonus")
-    args["feat_of_agility"] = plusinfront AbilityScore.find_ability_mod("Strength", self.dexterity, "physical_saving_throw_bonus")
+    args["feat_of_agility"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "feat_of_agility")
     args["physical_saving_throw_bonus"] = plusinfront AbilityScore.find_ability_mod("Dexterity", self.dexterity, "physical_saving_throw_bonus")
 
     # Constitituion
