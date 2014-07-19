@@ -16,6 +16,17 @@ class Character < ActiveRecord::Base
 
   has_many :item_instances # these are equiped items
 
+  def item_instance_location_names location
+    # this can be done with a join sql query... but I can't figure it out TODO
+    item_instances = []
+    self.item_instances.each do |item_instance|
+      if item_instance.item.location == location
+        item_instances << [item_instance.item.name, item_instance.id]
+      end
+    end
+    item_instances
+  end
+
   def item_instance_names
     # this can be done with a join sql query... but I can't figure it out TODO
     item_instances = []

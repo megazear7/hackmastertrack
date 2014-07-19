@@ -127,9 +127,9 @@
   .col-md-6
     .row
       = simple_form_for @character, url: equip_items_character_path, method: :post do |f|
-        .col-md-3= f.association :left_hand_item, collection: @character.item_instance_names, input_html: { class: "string form-control" }
-        .col-md-3= f.association :right_hand_item, collection: @character.item_instance_names, input_html: { class: "string form-control" }
-        .col-md-3= f.association :body_item, collection: @character.item_instance_names, input_html: { class: "string form-control" }
+        .col-md-3= f.association :left_hand_item, collection: @character.item_instance_location_names('arm'), input_html: { class: "string form-control" }
+        .col-md-3= f.association :right_hand_item, collection: @character.item_instance_location_names('arm'), input_html: { class: "string form-control" }
+        .col-md-3= f.association :body_item, collection: @character.item_instance_location_names('body'), input_html: { class: "string form-control" }
         .col-md-3= f.submit 'Equip', class: "btn btn-primary label-height"
     .row
       .col-md-12
