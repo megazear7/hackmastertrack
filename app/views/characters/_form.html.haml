@@ -24,6 +24,23 @@
   .row
     .col-md-4= f.input :charisma, input_html: { class: "string form-control" }
   .row
+    .col-md-4= f.input :alignment, collection: alignment_options, input_html: { class: "string form-control" }
+    .col-md-4= f.input :sex, collection: sex_options, input_html: { class: "string form-control" }
+    .col-md-4= f.input :hair, collection: hair_options, input_html: { class: "string form-control" }
+    .col-md-4= f.input :handedness, collection: handedness_options, input_html: { class: "string form-control" }
+    .col-md-4= f.input :eyes, collection: eye_options, input_html: { class: "string form-control" }
+
+    .col-md-4= f.input :age, input_html: { class: "string form-control" }
+    .col-md-4= f.input :height, input_html: { class: "string form-control" }
+    .col-md-4= f.input :weight, input_html: { class: "string form-control" }
+    .col-md-4= f.input :trade_coins, input_html: { class: "string form-control" }
+    .col-md-4= f.input :copper, input_html: { class: "string form-control" }
+    .col-md-4= f.input :silver, input_html: { class: "string form-control" }
+    .col-md-4= f.input :gold, input_html: { class: "string form-control" }
+    .col-md-4= f.input :spell_points, input_html: { class: "string form-control" }
+    .col-md-4= f.input :luck_points, input_html: { class: "string form-control" }
+
+  .row
     = f.hidden_field :user_id, value: current_user.id
     .col-md-4
       %br

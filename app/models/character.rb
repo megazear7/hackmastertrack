@@ -250,14 +250,14 @@ class Character < ActiveRecord::Base
     args["class"] = self.character_class.name if self.character_class
     args["race"] = self.race.name if self.race
     args["level"] = self.level if self.level
-    args["alignment"] = self.alignment.name if self.alignment
-    args["sex"] = self.sex.name if self.sex
+    args["alignment"] = self.alignment if self.alignment
+    args["sex"] = self.sex if self.sex
     args["age"] = self.age if self.age
     args["height"] = self.height if self.height
     args["weight"] = self.weight if self.weight
-    args["hair"] = self.hair.name if self.hair
-    args["eyes"] = self.eyes.name if self.eyes
-    args["handedness"] = self.handedness.name if self.handedness
+    args["hair"] = self.hair if self.hair
+    args["eyes"] = self.eyes if self.eyes
+    args["handedness"] = self.handedness if self.handedness
     #args["patron_gods"] = self.patron_gods.name if self.patron_gods
     #args["anointed_y"] = "X" if self.anointed == "Yes"
     #args["anointed_n"] = "X" if self.anointed == "No"

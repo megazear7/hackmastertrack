@@ -188,7 +188,21 @@ class CharactersController < ApplicationController
         :item_ids,
         :character_class_id,
         :race_id,
-        :user_id
+        :user_id,
+        :alignment,
+        :sex,
+        :age,
+        :height,
+        :weight,
+        :hair,
+        :eyes,
+        :handedness,
+        :trade_coins,
+        :copper,
+        :silver,
+        :gold,
+        :spell_points,
+        :luck_points
       )
     end
 end
