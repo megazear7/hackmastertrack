@@ -11,28 +11,52 @@
   .col-md-12
     = link_to 'New Item', new_item_path, class: "btn btn-primary pull-right"
 %br
-
+-#
+  .accordion{ "id"=>"accordion2" }
+    .accordion-group
+      .accordion-heading
+        %a.accordion-toggle{ "data-toggle"=>"collapse", "data-parent"=>"#accordion2", "href"=>"#collapseThree" }
+          Title #3
+      .accordion-body.collapse{ "id"=>"collapseThree" }
+        .accordion-inner
+          Hidden Content 3
 - @item_t.each do |itemt|
   %h3= itemt.titleize
-  %table.table.table-hover.table-responsive
-    %thead
-      %tr
-        %th Name
-        %th Cost
-        %th Weight
-        %th High Availability 
-        %th Medium Availability 
-        %th Low Availability 
-        %th
-        %th
-    %tbody
-      - @items.where(item_type: itemt).order(:name).each do |item|
+  .accordion{ "id"=>"accordion"+itemt }
+    %table.table.table-hover.table-responsive
+      %thead
         %tr
-          %td= link_to item.name, item
-          %td= item.buy_cost
-          %td= item.weight
-          %td= item.high_avail
-          %td= item.med_avail
-          %td= item.low_avail
-          %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_path(item)
-          %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item, :method => :delete, :data => { :confirm => 'Are you sure?' }
+          %th Name
+          %th Cost
+          %th Weight
+          %th High Availability 
+          %th Medium Availability 
+          %th Low Availability 
+          %th
+          %th
+      %tbody
+        - @items.where(item_type: itemt).order(:name).each_with_index do |item, index|
+          %tr
+            %td
+              .accordion-group
+                .accordion-heading
+                  %a.accordion-toggle{ "data-toggle"=>"collapse", "data-parent"=>"#accordion"+itemt, "href"=>"#collapse"+index.to_s }
+                    = item.name
+                .accordion-body.collapse{ "id"=>"collapse"+index.to_s }
+                  .accordion-inner
+                    = simple_form_for current_user.characters.first, url: add_items_character_path(id: current_user.characters.first.id), method: :post do |f|
+                      .hidden
+                        = f.input :item_to_take, input_html: { value: item.name }
+                      = collection_select(:character, "id_"+itemt+"_"+index.to_s, current_user.characters, :id, :name, {:prompt => "Select Character"}, { class: "string form-control character_select_for_item_purchase" } )
+                      .btn-group
+                        = link_to "View Details", item, class: "btn btn-default"
+                        = f.submit "Take Item", class: "btn btn-default"
+                        = f.submit "Buy Item", class: "btn btn-default"
+            %td= item.buy_cost
+            %td= item.weight
+            %td= item.high_avail
+            %td= item.med_avail
+            %td= item.low_avail
+            %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_path(item)
+            %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item, :method => :delete, :data => { :confirm => 'Are you sure?' }
+

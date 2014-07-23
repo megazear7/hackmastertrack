@@ -4,6 +4,12 @@
 
 $ ->
 
+  $(".character_select_for_item_purchase").change ->
+    id = $(this).val()
+    form = $(this).closest('form')
+    #action = form.attr('action')
+    #action.replace(//, id.to_s)
+
   $(document).on('submit', 'form', (e) ->
     item = $("#item_item_type").val()
     if item == "polearm"
