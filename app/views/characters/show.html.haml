@@ -126,6 +126,12 @@
         = render partial: "shared/combat_rose", locals: { rose: @combat_rose }
   .col-md-6
     .row
+      .col-md-6
+        Silver: 
+        = @character.silver
+        %br
+        %br
+    .row
       = simple_form_for @character, url: equip_items_character_path, method: :post do |f|
         .col-md-3= f.association :left_hand_item, collection: @character.item_instance_location_names('arm'), input_html: { class: "string form-control" }
         .col-md-3= f.association :right_hand_item, collection: @character.item_instance_location_names('arm'), input_html: { class: "string form-control" }

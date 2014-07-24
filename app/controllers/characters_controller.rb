@@ -128,6 +128,7 @@ class CharactersController < ApplicationController
       @character.silver = 0 if @character.silver.nil?
       if @character.silver > cost
         @character.silver -= cost
+        @character.save
         item_instance.character = @character
         item_instance.save
         if params[:page] == "item_index"
