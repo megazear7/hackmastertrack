@@ -1,11 +1,37 @@
 module ItemsHelper
+
+  def item_stats view
+    if ["normal", "", nil].include? view
+      [ [ "Cost"               , "buy_cost"   ],
+        [ "Weight"             , "weight"     ],
+        [ "High Availability"  , "high_avail" ],
+        [ "Medium Availability", "med_avail"  ],
+        [ "Low Availability"   , "low_avail"  ]  ]
+    elsif view == "market"
+      [ [ "Cost"               , "buy_cost"   ],
+        [ "Weight"             , "weight"     ],
+        [ "High Availability"  , "high_avail" ],
+        [ "Medium Availability", "med_avail"  ],
+        [ "Low Availability"   , "low_avail"  ]  ]
+    elsif view == "combat"
+      [ [ "Required Strength"  , "str_required"  ],
+        [ "Damage"             , "damage"        ],
+        [ "Shield Damage"      , "shield_damage" ],
+        [ "Speed"              , "attack_speed"  ],
+        [ "Jab Speed"          , "jab_speed"     ],
+        [ "Size"               , "size"          ],
+        [ "Reach"              , "reach"         ],
+        [ "Type"               , "damage_type"   ],
+        [ "Skill Level"        , "skill_level"   ]  ]
+    end
+  end
   
   def item_groups
     [ "melee", "polearm", "ranged", "armor", "shield", "consumable", "wearable", "precious", "loadbearing", "containers", "misc", "food", "lodging", "services", "transport", "religious", "illumination", "expedition gear", "tools", "scribe materials", "musical instruments", "spice and herbs", "beverages / alcohol", "livestock", "tack and harness" ]
   end
 
   def item_views
-    [ ["Normal Stats", "normal"], ["Market Stats", "market"], ["Magic Stats", "magic"] ] 
+    [ ["Normal Stats", "normal"], ["Market Stats", "market"], [ "Combat Stats", "combat" ] ] 
   end
 
   def item_types

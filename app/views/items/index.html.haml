@@ -18,11 +18,8 @@
       %thead
         %tr
           %th Name
-          %th Cost
-          %th Weight
-          %th High Availability 
-          %th Medium Availability 
-          %th Low Availability 
+          - item_stats(params[:view]).each do |header, stat_method|
+            %th= header
           %th
           %th
       %tbody
@@ -43,10 +40,7 @@
                         = link_to "View Details", item, class: "btn btn-default"
                         = f.submit "Take Item", class: "btn btn-default"
                         = f.submit "Buy Item", class: "btn btn-default"
-            %td= item.buy_cost
-            %td= item.weight
-            %td= item.high_avail
-            %td= item.med_avail
-            %td= item.low_avail
+            - item_stats(params[:view]).each do |header, stat_method|
+              %td= item.send(stat_method)
             %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_path(item)
             %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item, :method => :delete, :data => { :confirm => 'Are you sure?' }
