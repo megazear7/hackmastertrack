@@ -120,17 +120,32 @@ class CharactersController < ApplicationController
   end
 
   def add_items
-    cost = 0
     item_to_take = Item.where(name: params[:character][:item_to_take]).first
     item_instance = ItemInstance.new
     item_instance.item = item_to_take
-    item_instance.character = @character
-    item_instance.save
-    cost += item_instance.item.buy_cost
-    if params[:page] == "item_index"
-      redirect_to items_path(anchor: params[:page_location]), notice: 'Items Successfuly Added, total cost was: ' + cost.to_s
+    if params[:commit] == "Buy Item"
+      cost = item_instance.item.buy_cost
+      @character.silver = 0 if @character.silver.nil?
+      if @character.silver > cost
+        @character.silver -= cost
+        item_instance.character = @character
+        item_instance.save
+        if params[:page] == "item_index"
+          redirect_to items_path(anchor: params[:page_location]), notice: 'Items Successfuly Added, total cost was: ' + cost.to_s
+        else
+          redirect_to character_url(@character), notice: 'Items Successfuly Purchased, total cost was: ' + cost.to_s
+        end
+      else
+        redirect_to character_url(@character), notice: 'You did not have enough money, you need ' + (cost - @character.silver).to_s + ' more silver'
+      end
     else
-      redirect_to character_url(@character), notice: 'Items Successfuly Added, total cost was: ' + cost.to_s
+      item_instance.character = @character
+      item_instance.save
+      if params[:page] == "item_index"
+        redirect_to items_path(anchor: params[:page_location]), notice: 'Items Successfuly Taken'
+      else
+        redirect_to character_url(@character), notice: 'Items Successfuly Taken'
+      end
     end
   end
 
