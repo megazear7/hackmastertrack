@@ -1,7 +1,7 @@
 %h1 Listing Races
 .row
   .col-md-12
-    = link_to 'New Race', new_race_path, class: "btn btn-primary pull-right"
+    = link_to 'New Race', new_race_path, class: "btn btn-primary pull-right" if current_user.admin_level >= 1
 %table.table.table-hover.table-responsive
   %thead
     %tr

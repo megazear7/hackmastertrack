@@ -9,7 +9,7 @@
       = submit_tag "Search", :name => nil, class: "btn btn-default search-button-align search-btn"
       = link_to "Reset", items_path, class: "btn btn-default"
   .col-md-12
-    = link_to 'New Item', new_item_path, class: "btn btn-primary pull-right"
+    = link_to 'New Item', new_item_path, class: "btn btn-primary pull-right" if current_user.admin_level >= 1
 %br
 - item_groups(params[:view]).each do |item_group|
   %h3= item_group.titleize

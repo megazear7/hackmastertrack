@@ -5,4 +5,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   attr_accessor :creation_key
+  before_save :default_values
+
+  def default_values
+    self.admin_level ||= 0
+  end
+
 end
