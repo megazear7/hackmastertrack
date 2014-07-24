@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140724123842) do
+ActiveRecord::Schema.define(version: 20140724141702) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -195,7 +195,6 @@ ActiveRecord::Schema.define(version: 20140724123842) do
     t.integer  "hvy_armor"
     t.boolean  "set_for_charge"
     t.string   "pole_arm_defense"
-    t.string   "pole_arm_type"
     t.integer  "phalanx"
     t.string   "size"
     t.integer  "max_range"

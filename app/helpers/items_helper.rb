@@ -13,16 +13,41 @@ module ItemsHelper
         [ "High Availability"  , "high_avail" ],
         [ "Medium Availability", "med_avail"  ],
         [ "Low Availability"   , "low_avail"  ]  ]
-    elsif view == "combat"
+    elsif view == "melee"
       [ [ "Required Strength"  , "str_required"  ],
+        [ "Skill Level"        , "skill_level"   ],
         [ "Damage"             , "damage"        ],
         [ "Shield Damage"      , "shield_damage" ],
         [ "Speed"              , "attack_speed"  ],
         [ "Jab Speed"          , "jab_speed"     ],
         [ "Size"               , "size"          ],
         [ "Reach"              , "reach"         ],
-        [ "Type"               , "damage_type"   ],
-        [ "Skill Level"        , "skill_level"   ]  ]
+        [ "Type"               , "damage_type"   ]  ]
+    elsif view == "ranged"
+      [ [ "Required Strength"  , "str_required"  ],
+        [ "Skill Level"        , "skill_level"   ],
+        [ "Damage"             , "damage"        ],
+        [ "Shield Damage"      , "shield_damage" ],
+        [ "Base Rate of Fire"  , "attack_speed"  ],
+        [ "Size"               , "size"          ],
+        [ "Max Range"          , "max_range"     ],
+        [ "Type"               , "damage_type"   ]  ]
+    elsif view == "polearm"
+      [ [ "Required Strength"  , "str_required"     ],
+        [ "Skill Level"        , "skill_level"      ],
+        [ "Size"               , "size"             ],
+        [ "Reach"              , "reach"            ],
+        [ "Speed"              , "attack_speed"     ],
+        [ "Damage"             , "damage"           ],
+        [ "Shield Damage"      , "shield_damage"    ],
+        [ "Dismount?"          , "dismount"         ],
+        [ "Hvy Armor"          , "hvy_armor"        ],
+        [ "Set 4 Charge"       , "set_for_charge"   ],
+        [ "Jab Speed"          , "jab_speed"        ],
+        [ "Defense"            , "pole_arm_defense" ],
+        [ "Type"               , "damage_type"      ],
+        [ "Phalanx"            , "phalanx"          ]  ]
+ 
     end
   end
   
@@ -31,13 +56,17 @@ module ItemsHelper
       [ "melee", "polearm", "ranged", "armor", "shield", "consumable", "wearable", "precious", "loadbearing", "containers", "misc", "food", "lodging", "services", "transport", "religious", "illumination", "expedition gear", "tools", "scribe materials", "musical instruments", "spice and herbs", "beverages / alcohol", "livestock", "tack and harness" ]
     elsif view == "market"
       [ "melee", "polearm", "ranged", "armor", "shield", "consumable", "wearable", "precious", "loadbearing", "containers", "misc", "food", "lodging", "services", "transport", "religious", "illumination", "expedition gear", "tools", "scribe materials", "musical instruments", "spice and herbs", "beverages / alcohol", "livestock", "tack and harness" ]
-    elsif view == "combat"
-      [ "melee", "polearm", "ranged" ]
+    elsif view == "melee"
+      [ "melee" ]
+    elsif view == "ranged"
+      [ "ranged" ]
+    elsif view == "polearm"
+      [ "polearm" ]
     end
   end
 
   def item_views
-    [ ["Normal Stats", "normal"], ["Market Stats", "market"], [ "Combat Stats", "combat" ] ] 
+    [ ["Normal Stats", "normal"], ["Market Stats", "market"], [ "Melee Stats", "melee" ], [ "Ranged Stats", "ranged" ], [ "Polearm Stats", "polearm" ] ] 
   end
 
   def item_types
