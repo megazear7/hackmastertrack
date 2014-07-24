@@ -4,11 +4,14 @@
 
 $ ->
 
+  # when the user selects a character to purchase an item for, update the form with the character id
   $(".character_select_for_item_purchase").change ->
-    id = $(this).val()
+    id = $(this).attr("id")
+    char_id = $("##{id} option:selected").val()
     form = $(this).closest('form')
-    #action = form.attr('action')
-    #action.replace(//, id.to_s)
+    action = form.attr('action')
+    action = action.replace(/\d+/, char_id)
+    form.attr('action', action)
 
   $(document).on('submit', 'form', (e) ->
     item = $("#item_item_type").val()

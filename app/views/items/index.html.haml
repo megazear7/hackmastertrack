@@ -11,18 +11,9 @@
   .col-md-12
     = link_to 'New Item', new_item_path, class: "btn btn-primary pull-right"
 %br
--#
-  .accordion{ "id"=>"accordion2" }
-    .accordion-group
-      .accordion-heading
-        %a.accordion-toggle{ "data-toggle"=>"collapse", "data-parent"=>"#accordion2", "href"=>"#collapseThree" }
-          Title #3
-      .accordion-body.collapse{ "id"=>"collapseThree" }
-        .accordion-inner
-          Hidden Content 3
-- @item_t.each do |itemt|
-  %h3= itemt.titleize
-  .accordion{ "id"=>"accordion"+itemt }
+- item_groups.each do |item_group|
+  %h3= item_group.titleize
+  .accordion{ "id"=>"accordion"+item_group }
     %table.table.table-hover.table-responsive
       %thead
         %tr
@@ -35,19 +26,19 @@
           %th
           %th
       %tbody
-        - @items.where(item_type: itemt).order(:name).each_with_index do |item, index|
-          %tr
+        - @items.where(item_type: item_group).order(:name).each_with_index do |item, index|
+          %tr{ "id"=>"collapse_"+item_group+"_"+index.to_s+"_travel" }
             %td
               .accordion-group
                 .accordion-heading
-                  %a.accordion-toggle{ "data-toggle"=>"collapse", "data-parent"=>"#accordion"+itemt, "href"=>"#collapse"+index.to_s }
+                  %a.accordion-toggle{ "data-toggle"=>"collapse", "data-parent"=>"#accordion"+item_group, "href"=>"#collapse_"+item_group+"_"+index.to_s }
                     = item.name
-                .accordion-body.collapse{ "id"=>"collapse"+index.to_s }
+                .accordion-body.collapse{ "id"=>"collapse_"+item_group+"_"+index.to_s }
                   .accordion-inner
-                    = simple_form_for current_user.characters.first, url: add_items_character_path(id: current_user.characters.first.id), method: :post do |f|
+                    = simple_form_for current_user.characters.first, url: add_items_character_path(id: current_user.characters.first.id, page: "item_index", page_location: "collapse_"+item_group+"_"+index.to_s+"_travel"), method: :post do |f|
                       .hidden
                         = f.input :item_to_take, input_html: { value: item.name }
-                      = collection_select(:character, "id_"+itemt+"_"+index.to_s, current_user.characters, :id, :name, {:prompt => "Select Character"}, { class: "string form-control character_select_for_item_purchase" } )
+                      = collection_select(:character, "id_"+item_group+"_"+index.to_s, current_user.characters, :id, :name, {:prompt => nil}, { class: "string form-control character_select_for_item_purchase" } )
                       .btn-group
                         = link_to "View Details", item, class: "btn btn-default"
                         = f.submit "Take Item", class: "btn btn-default"
@@ -59,4 +50,3 @@
             %td= item.low_avail
             %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_path(item)
             %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item, :method => :delete, :data => { :confirm => 'Are you sure?' }
-

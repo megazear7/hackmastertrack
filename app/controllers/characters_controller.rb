@@ -127,7 +127,11 @@ class CharactersController < ApplicationController
     item_instance.character = @character
     item_instance.save
     cost += item_instance.item.buy_cost
-    redirect_to character_url(@character), notice: 'Items Successfuly Added, total cost was: ' + cost.to_s
+    if params[:page] == "item_index"
+      redirect_to items_path(anchor: params[:page_location]), notice: 'Items Successfuly Added, total cost was: ' + cost.to_s
+    else
+      redirect_to character_url(@character), notice: 'Items Successfuly Added, total cost was: ' + cost.to_s
+    end
   end
 
   def remove_proficiency
