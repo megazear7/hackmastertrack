@@ -11,7 +11,7 @@
   .col-md-12
     = link_to 'New Item', new_item_path, class: "btn btn-primary pull-right"
 %br
-- item_groups.each do |item_group|
+- item_groups(params[:view]).each do |item_group|
   %h3= item_group.titleize
   .accordion{ "id"=>"accordion"+item_group }
     %table.table.table-hover.table-responsive
