@@ -4,7 +4,7 @@ class ItemInstancesController < ApplicationController
   # GET /item_instances
   # GET /item_instances.json
   def index
-    @item_instances = ItemInstance.all
+    @item_instances = ItemInstance.where(display: true)
   end
 
   # GET /item_instances/1
@@ -15,10 +15,24 @@ class ItemInstancesController < ApplicationController
   # GET /item_instances/new
   def new
     @item_instance = ItemInstance.new
+    @is_display = true
   end
 
   # GET /item_instances/1/edit
   def edit
+    if @item_instance.display == false
+      @is_display = false
+    else
+      @is_display = true
+    end
+  end
+
+  def take
+    @character = Character.find(params[:character][:id])
+    @item_instance = ItemInstance.find(params[:id]).dup
+    @item_instance.display = false
+    @character.item_instances << @item_instance
+    redirect_to item_instances_url
   end
 
   # POST /item_instances
@@ -40,6 +54,10 @@ class ItemInstancesController < ApplicationController
   # PATCH/PUT /item_instances/1
   # PATCH/PUT /item_instances/1.json
   def update
+    if @item_instance.display == false
+      @new_display_item = @item_instance.dup
+      @new_display_item.save
+    end
     respond_to do |format|
       if @item_instance.update(item_instance_params)
         format.html { redirect_to @item_instance, notice: 'Item instance was successfully updated.' }
@@ -80,7 +98,9 @@ class ItemInstancesController < ApplicationController
         :damage_mod,
         :damage_reduction,
         :magic_level,
-        :init_die_mod
+        :init_die_mod,
+        :name,
+        :display
       )
     end
 end

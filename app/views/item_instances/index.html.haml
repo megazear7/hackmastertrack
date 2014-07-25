@@ -4,17 +4,31 @@
 .row
   .col-md-12
     = link_to 'New Item', new_item_instance_path, class: "btn btn-primary pull-right"
-%table.table.table-hover.table-responsive
-  %thead
-    %tr
-      %th Item
-      %th Character
-      %th
-      %th
-  %tbody
-    - @item_instances.each do |item_instance|
+.accordion{ "id"=>"accordion" }
+  %table.table.table-hover.table-responsive
+    %thead
       %tr
-        %td= link_to item_instance.item.name, item_instance
-        %td= link_to item_instance.character.name, item_instance.character
-        %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_instance_path(item_instance)
-        %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item_instance, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %th Name
+        %th Item
+        %th
+        %th
+    %tbody
+      - @item_instances.each_with_index do |item_instance, index|
+        %tr
+          %td
+            .accordion-group
+              .accordion-heading
+                %a.accordion-toggle{ "data-toggle"=>"collapse", "data-parent"=>"#accordion", "href"=>"#collapse_"+index.to_s }
+                  = item_instance.name
+              .accordion-body.collapse{ "id"=>"collapse_"+index.to_s }
+                .accordion-inner
+                  = simple_form_for item_instance, url: take_item_instance_path(id: item_instance.id), method: :post do |f|
+                    .hidden
+                      = f.input :item_instance_to_take, input_html: { value: item_instance.id }
+                    = collection_select(:character, "id", current_user.characters, :id, :name, {:prompt => nil}, { class: "string form-control character_select_for_item_purchase" } )
+                    .btn-group
+                      = link_to "View Details", item_instance, class: "btn btn-default"
+                      = f.submit "Take Item", class: "btn btn-default"
+          %td= link_to item_instance.item.name, item_instance.item
+          %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_instance_path(item_instance)
+          %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item_instance, :method => :delete, :data => { :confirm => 'Are you sure?' }

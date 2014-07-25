@@ -5,19 +5,25 @@
       %ul
         - @item_instance.errors.full_messages.each do |msg|
           %li= msg
+  .hidden= f.input :display, input_html: { checked: @is_display }
   .row
+    .col-md-4= f.input :name, input_html: { class: "string form-control" }
     .col-md-4= f.association :item, input_html: { class: "string form-control" }
-    .col-md-4= f.association :character, input_html: { class: "string form-control" }
   .row
     .col-md-12
-      %h3 Magic Adjustments:
+      %br
+      %h4 Standard Magic Adjustments:
   .row
     .col-md-2= f.input :magic_level, input_html: { class: "string form-control" }
     .col-md-2= f.input :attack_mod, input_html: { class: "string form-control" }
+    .col-md-2= f.input :defense_mod, input_html: { class: "string form-control" }
+  .row
+    .col-md-12
+      %br
+      %h4 Other Magic Adjustments:
+  .row
     .col-md-2= f.input :speed_mod, input_html: { class: "string form-control" }
     .col-md-2= f.input :init_mod, input_html: { class: "string form-control" }
-  .row
-    .col-md-2= f.input :defense_mod, input_html: { class: "string form-control" }
     .col-md-2= f.input :damage_mod, input_html: { class: "string form-control" }
     .col-md-2= f.input :damage_reduction, input_html: { class: "string form-control" }
     .col-md-2= f.input :init_die_mod, input_html: { class: "string form-control" }
