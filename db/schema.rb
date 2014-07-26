@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140725150212) do
+ActiveRecord::Schema.define(version: 20140726191511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -336,9 +336,35 @@ ActiveRecord::Schema.define(version: 20140725150212) do
     t.string   "name"
     t.string   "description"
     t.integer  "spellpoints"
-    t.string   "type"
+    t.string   "spell_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "verbal"
+    t.boolean  "somatic"
+    t.string   "material_component"
+    t.integer  "casting_time"
+    t.integer  "duration"
+    t.string   "volume_of_effect_type"
+    t.integer  "volume_of_effect"
+    t.integer  "volume_increase"
+    t.integer  "volume_increase_cost"
+    t.integer  "range"
+    t.integer  "range_increase"
+    t.integer  "range_increase_cost"
+    t.string   "target_damage"
+    t.string   "target_damage_increase"
+    t.integer  "target_damage_increase_cost"
+    t.string   "area_damage"
+    t.string   "area_damage_increase"
+    t.integer  "area_damage_increase_cost"
+    t.string   "special_increase1"
+    t.integer  "special_increase1_cost"
+    t.string   "special_increase2"
+    t.integer  "special_increase2_cost"
+    t.string   "saving_throw"
+    t.string   "saving_throw_result"
+    t.boolean  "bounce_damage"
+    t.string   "damage_type"
   end
 
   create_table "talents", force: true do |t|

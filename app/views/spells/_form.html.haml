@@ -11,7 +11,43 @@
     .col-md-4= f.input :description, input_html: { class: "string form-control" }
     .col-md-4= f.input :spellpoints, input_html: { class: "string form-control" }
   .row
-    .col-md-4= f.input :type, input_html: { class: "string form-control" }
+    .col-md-4= f.input :spell_type, collection: spell_types, input_html: { class: "string form-control" }
+    .col-md-4= f.input :verbal, input_html: { class: "string form-control" }
+    .col-md-4= f.input :somatic, input_html: { class: "string form-control" }
+    .col-md-4= f.input :material_component, input_html: { class: "string form-control" }
+    .col-md-4= f.input :casting_time, input_html: { class: "string form-control" }
+    .col-md-4= f.input :duration, input_html: { class: "string form-control" }
+  .row
+    .col-md-4= f.input :volume_of_effect_type, collection: volume_of_effect_types, input_html: { class: "string form-control" }
+    .col-md-4= f.input :volume_of_effect, input_html: { class: "string form-control" }
+    .col-md-4= f.input :volume_increase, input_html: { class: "string form-control" }
+    .col-md-4= f.input :volume_increase_cost, input_html: { class: "string form-control" }
+  .row
+    .col-md-4= f.input :range, input_html: { class: "string form-control" }
+    .col-md-4= f.input :range_increase, input_html: { class: "string form-control" }
+    .col-md-4= f.input :range_increase_cost, input_html: { class: "string form-control" }
+  .row
+    .col-md-4= f.input :target_damage, input_html: { class: "string form-control" }
+    .col-md-4= f.input :target_damage_increase, input_html: { class: "string form-control" }
+    .col-md-4= f.input :target_damage_increase_cost, input_html: { class: "string form-control" }
+    .col-md-4= f.input :bounce_damage, input_html: { class: "string form-control" }
+    .col-md-4= f.input :damage_type, collection: damage_types, input_html: { class: "string form-control" }
+  .row
+    .col-md-4= f.input :area_damage, input_html: { class: "string form-control" }
+    .col-md-4= f.input :area_damage_increase, input_html: { class: "string form-control" }
+    .col-md-4= f.input :area_damage_increase_cost, input_html: { class: "string form-control" }
+
+  .row
+    .col-md-4= f.input :special_increase1, input_html: { class: "string form-control" }
+    .col-md-4= f.input :special_increase1_cost, input_html: { class: "string form-control" }
+  .row
+    .col-md-4= f.input :special_increase2, input_html: { class: "string form-control" }
+    .col-md-4= f.input :special_increase2_cost, input_html: { class: "string form-control" }
+
+  .row
+    .col-md-4= f.input :saving_throw, collection: saving_throw_types, input_html: { class: "string form-control" }
+    .col-md-4= f.input :saving_throw_result, collection: saving_throw_result_types, input_html: { class: "string form-control" }
+
   .row
     .col-md-4
       %br

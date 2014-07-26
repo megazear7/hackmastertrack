@@ -15,5 +15,83 @@
       %td Spell Points
       %td= @spell.spellpoints
     %tr
-      %td Type
-      %td= @spell.type
+      %td Spell Type
+      %td= @spell.spell_type
+    %tr
+      %td Verbal 
+      %td= @spell.verbal
+    %tr
+      %td Somatic
+      %td= @spell.somatic
+    %tr
+      %td Material
+      %td= @spell.material_component
+    %tr
+      %td Casting  Time
+      %td= @spell.casting_time
+    %tr
+      %td Duration
+      %td= @spell.duration
+    %tr
+      %td Area of Effect Type
+      %td= @spell.volume_of_effect_type
+    %tr
+      %td How much
+      %td= @spell.volume_of_effect
+    %tr
+      %td Area Boost 
+      %td= @spell.volume_increase
+    %tr
+      %td Area Boost Cost
+      %td= @spell.volume_increase_cost
+    %tr
+      %td Range
+      %td= @spell.range
+    %tr
+      %td Range Boost
+      %td= @spell.range_increase
+    %tr
+      %td Range Boost Cost
+      %td= @spell.range_increase_cost
+    %tr
+      %td Target Damage
+      %td= @spell.target_damage
+    %tr
+      %td Target Damage Boost
+      %td= @spell.target_damage_increase
+    %tr
+      %td Target Damage Boost Cost
+      %td= @spell.target_damage_increase_cost
+    %tr
+      %td Area Damage
+      %td= @spell.area_damage
+    %tr
+      %td Area Damage Boost
+      %td= @spell.area_damage_increase
+    %tr
+      %td Area Damage Boost Cost
+      %td= @spell.area_damage_increase_cost
+    %tr
+      %td Special Boost
+      %td= @spell.special_increase1
+    %tr
+      %td Special Boost Cost
+      %td= @spell.special_increase1_cost
+    %tr
+      %td Special Boost
+      %td= @spell.special_increase2
+    %tr
+      %td Special Boost Cost
+      %td= @spell.special_increase2_cost
+    %tr
+      %td Saving Throw
+      %td= @spell.saving_throw
+    %tr
+      %td Saving Throw Success Effect
+      %td= @spell.saving_throw_result
+    %tr
+      %td Damage Type
+      %td= @spell.damage_type
+    %tr
+      %td Spell Bounces
+      %td= @spell.bounce_damage
