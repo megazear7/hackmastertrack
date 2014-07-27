@@ -73,7 +73,7 @@ class SpellsController < ApplicationController
         :name,
         :description,
         :spellpoints,
-        :type,
+        :spell_type,
         :verbal,
         :somatic,
         :material_component,

@@ -13,7 +13,7 @@ module SpellsHelper
   end
 
   def volume_of_effect_types
-    [ "personal", "creature", "cubic feet", "foot radius", "individual", "rectangle", "cone", "bolt", "sphere" ]
+    [ "personal", "creature", "individual", "target", "cubic feet", "square foot", "foot radius", "rectangle", "cone", "bolt", "sphere", "cylinder", "square foot", "individuals within earshot" ]
   end
 
   def damage_types
