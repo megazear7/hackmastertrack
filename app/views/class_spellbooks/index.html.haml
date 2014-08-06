@@ -1,0 +1,23 @@
+%h1 Listing class_spellbooks
+
+%table
+  %tr
+    %th Character class
+    %th Spell
+    %th Level
+    %th
+    %th
+    %th
+
+  - @class_spellbooks.each do |class_spellbook|
+    %tr
+      %td= class_spellbook.character_class.name
+      %td= class_spellbook.spell.name
+      %td= class_spellbook.level
+      %td= link_to 'Show', class_spellbook
+      %td= link_to 'Edit', edit_class_spellbook_path(class_spellbook)
+      %td= link_to 'Destroy', class_spellbook, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Class spellbook', new_class_spellbook_path

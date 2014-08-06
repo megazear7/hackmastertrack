@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :class_spellbooks
+
   resources :item_instances do
     member do
       post :take
