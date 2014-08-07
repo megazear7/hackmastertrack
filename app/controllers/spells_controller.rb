@@ -79,6 +79,8 @@ class SpellsController < ApplicationController
         :material_component,
         :casting_time,
         :duration,
+        :duration_increase,
+        :duration_increase_cost,
         :volume_of_effect_type,
         :volume_of_effect,
         :volume_increase,
