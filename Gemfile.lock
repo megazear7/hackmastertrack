@@ -161,6 +161,7 @@ DEPENDENCIES
   haml-rails
   jbuilder (~> 2.0)
   jquery-rails
+  json (~> 1.8.1)
   octicons-rails
   pg
   rails (= 4.1.0)
