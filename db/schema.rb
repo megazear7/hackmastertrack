@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140727231444) do
+ActiveRecord::Schema.define(version: 20140807014128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -373,6 +373,8 @@ ActiveRecord::Schema.define(version: 20140727231444) do
     t.string   "saving_throw_result"
     t.boolean  "bounce_damage"
     t.string   "damage_type"
+    t.integer  "duration_increase"
+    t.integer  "duration_increase_cost"
   end
 
   create_table "talents", force: true do |t|
