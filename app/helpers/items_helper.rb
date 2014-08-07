@@ -97,4 +97,19 @@ module ItemsHelper
     [ ["Minimal", "minimal"], ["Low", "low"], ["Medium", "medium"], ["High", "high"] ]
   end
 
+  def melee_specialization_options
+    [ ["Attack", "attack"], ["Speed", "speed"], ["Defense", "defense"], ["Damage", "damage"] ]
+  end
+
+  def ranged_specialization_options
+    [ ["Attack", "attack"], ["Speed", "speed"], ["Damage", "damage"] ]
+  end
+
+  def item_specialization_options item
+    if item.item_type == "ranged"
+      ranged_specialization_options
+    else
+      melee_specialization_options
+    end
+  end
 end

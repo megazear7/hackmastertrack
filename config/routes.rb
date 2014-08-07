@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :class_spellbooks
 
+  get '/specialization/retrieve', to: 'specializations#retrieve'
   resource :specializations
 
   resources :item_instances do

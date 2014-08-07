@@ -3,6 +3,25 @@
   = link_to 'Edit', edit_item_path(@item), class: "btn btn-primary"
 %br
 %br
+= simple_form_for @specialization do |f|
+  - if @specialization.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@specialization.errors.count, "error")} prohibited this item from being saved:"
+      %ul
+        - @specialization.errors.full_messages.each do |msg|
+          %li= msg
+  .row
+    .col-md-12
+      %h3 Specialize in this weapon:
+  .row
+    .hidden=   f.input :item_id, input_html: { value: @item.id }
+    .col-md-3= f.association :character, collection: current_user.characters, input_html: { class: "string form-control" }
+    .col-md-3= f.input :stat_name, collection: item_specialization_options(@item),input_html: { class: "string form-control" }
+    .hidden_fields
+      .col-md-2= f.input :value, input_html: { class: "string form-control" }
+      .col-md-2= f.input :bp_cost, input_html: { class: "string form-control" }
+      .col-md-2.label-height= f.submit 'Specialize', class: "btn btn-primary"
+%br
 %table.table.table-hover.table-responsive
   %tbody
     %tr

@@ -485,3 +485,44 @@ $ ->
 
   show_fields($("#item_item_type"))
 
+  ### Item Show Page ###
+
+  $(".hidden_fields").hide()
+
+  possibly_reveal_input = () ->
+    item_id = $("#specialization_item_id").val()
+    character_id = $("#specialization_character_id").val()
+    stat_name = $("#specialization_stat_name").val()
+    if character_id != "" and stat_name != ""
+      $.getJSON("/specialization/retrieve" + "?character_id=#{character_id}" + "&item_id=#{item_id}" + "&stat_name=#{stat_name}", (data) ->
+        if data
+          $("#specialization_value").val(data)
+        else
+          $("#specialization_value").val("0")
+      )
+      $(".hidden_fields").show()
+
+  $("#specialization_character_id").change ->
+    possibly_reveal_input()
+  $("#specialization_stat_name").change ->
+    possibly_reveal_input()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
