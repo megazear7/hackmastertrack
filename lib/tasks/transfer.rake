@@ -10,7 +10,7 @@ namespace :transfer do
         run "heroku pgbackups:capture -a hackmastertrack --expire"
         run "curl -o latest.dump `heroku pgbackups:url -a hackmastertrack`"
         run "rake db:reset"
-        run "pg_restore --data-only --verbose --clean --no-acl --no-owner -d hmt_development latest.dump"
+        run "pg_restore --data-only --verbose --no-acl --no-owner -d hmt_development latest.dump"
       end
     end
   end
