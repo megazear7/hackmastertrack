@@ -12,7 +12,7 @@ namespace :transfer do
         run "rake db:drop"
         run "rake db:create"
         run "rake db:migrate"
-        run "pg_restore --verbose --clean --no-acl --no-owner -d hmt_development latest.dump"
+        run "pg_restore --data-only --verbose --clean --no-acl --no-owner -d hmt_development latest.dump"
         run "rake db:migrate"
       end
     end
