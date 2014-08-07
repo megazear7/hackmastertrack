@@ -9,11 +9,8 @@ namespace :transfer do
       if answer.downcase == "y" or answer.downcase == "yes"
         run "heroku pgbackups:capture -a hackmastertrack --expire"
         run "curl -o latest.dump `heroku pgbackups:url -a hackmastertrack`"
-        run "rake db:drop"
-        run "rake db:create"
-        run "rake db:migrate"
+        run "rake db:reset"
         run "pg_restore --data-only --verbose --clean --no-acl --no-owner -d hmt_development latest.dump"
-        run "rake db:migrate"
       end
     end
   end
