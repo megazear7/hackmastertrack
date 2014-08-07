@@ -7,22 +7,17 @@ namespace :transfer do
       answer = STDIN.gets.chomp
 
       if answer.downcase == "y" or answer.downcase == "yes"
-        puts   "heroku pgbackups:capture -a hackmastertrack --expire"
-        system "heroku pgbackups:capture -a hackmastertrack --expire"
-
-        puts   "curl -o latest.dump `heroku pgbackups:url -a hackmastertrack`"
-        system "curl -o latest.dump `heroku pgbackups:url -a hackmastertrack`"
-
-        puts   "rake db:reset"
-        system "rake db:reset"
-
-        puts   "pg_restore --verbose --clean --no-acl --no-owner -d hmt_development latest.dump"
-        system "pg_restore --verbose --clean --no-acl --no-owner -d hmt_development latest.dump"
-
-        puts   "rake db:migrate"
-        system "rake db:migrate"
+        run "heroku pgbackups:capture -a hackmastertrack --expire"
+        run "curl -o latest.dump `heroku pgbackups:url -a hackmastertrack`"
+        run "rake db:reset"
+        run "pg_restore --data-only --verbose --clean --no-acl --no-owner -d hmt_development latest.dump"
       end
     end
+  end
+
+  def run str
+    puts str
+    system str
   end
 
 end

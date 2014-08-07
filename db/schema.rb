@@ -340,6 +340,15 @@ ActiveRecord::Schema.define(version: 20140807014128) do
     t.datetime "updated_at"
   end
 
+  create_table "specializations", force: true do |t|
+    t.integer  "item_id"
+    t.integer  "character_id"
+    t.integer  "value"
+    t.string   "stat_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "spells", force: true do |t|
     t.string   "name"
     t.string   "description"
