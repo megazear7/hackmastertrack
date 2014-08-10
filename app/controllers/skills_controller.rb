@@ -74,7 +74,17 @@ class SkillsController < ApplicationController
         :description,
         :bp_cost,
         :main_attr,
-        :other_attr
+        :other_attr,
+        :third_attr,
+        :universal,
+        :prerequisite,
+        :materials,
+        :unskilled,
+        :novice,
+        :average,
+        :advanced,
+        :expert,
+        :master
       )
     end
 end

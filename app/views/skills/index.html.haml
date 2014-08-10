@@ -6,7 +6,8 @@
   %thead
     %tr
       %th Name
-      %th Description
+      %th Cost
+      %th Universal
       %th
       %th
       %th
@@ -14,7 +15,8 @@
     - @skills.each do |skill|
       %tr
         %td= link_to skill.name, skill
-        %td= skill.description
+        %td= skill.bp_cost
+        %td= skill.universal
         %td= link_to 'Show', skill
         %td= link_to 'Edit', edit_skill_path(skill)
         %td= link_to 'Destroy', skill, :method => :delete, :data => { :confirm => 'Are you sure?' }

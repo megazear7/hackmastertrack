@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140807014128) do
+ActiveRecord::Schema.define(version: 20140809202557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -338,6 +338,16 @@ ActiveRecord::Schema.define(version: 20140807014128) do
     t.string   "other_attr"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "third_attr"
+    t.boolean  "universal"
+    t.string   "prerequisite"
+    t.string   "materials"
+    t.string   "unskilled"
+    t.string   "novice"
+    t.string   "average"
+    t.string   "advanced"
+    t.string   "expert"
+    t.string   "master"
   end
 
   create_table "specializations", force: true do |t|
