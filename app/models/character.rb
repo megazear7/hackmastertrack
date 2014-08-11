@@ -13,7 +13,7 @@ class Character < ActiveRecord::Base
   belongs_to :right_hand_item, class_name: "ItemInstance", foreign_key: "right_hand_item_id"
   belongs_to :body_item, class_name: "ItemInstance", foreign_key: "body_item_id"
   has_many :specializations
-  validates_presence_of :character_class_id, :race_id, :strength, :intelligence, :wisdom, :dexterity, :constitution, :looks, :charisma, :name
+  validates_presence_of :character_class_id, :race_id, :strength, :intelligence, :wisdom, :dexterity, :constitution, :looks, :charisma, :name, :building_points
 
   has_many :item_instances # these are equiped items
 
@@ -119,12 +119,37 @@ class Character < ActiveRecord::Base
     end
   end
 
+  def main_hand
+    case self.handedness
+    when "R"
+      "right"
+    when "L"
+      "left"
+    when "A"
+      "right"
+    end
+  end
+
+  def prof_adjustment item
+    adjustment = 0
+    if    item.skill_level == "minimal"
+      adjustment = 1
+    elsif item.skill_level == "low"
+      adjustment = 2
+    elsif item.skill_level == "medium"
+      adjustment = 4
+    elsif item.skill_level == "high"
+      adjustment = 6
+    end
+    self.proficiencies.pluck(:id).include?(item.proficiency_id) ? 0 : adjustment
+  end
+
   def calculate_speed equipment
     equipment = build_equipment(equipment)
     mod = 0
-    mod += equipment["left_hand"].item.speed_mod  if equipment["left_hand"]  and equipment["left_hand"].item.speed_mod
-    mod += equipment["right_hand"].item.speed_mod if equipment["right_hand"] and equipment["right_hand"].item.speed_mod
+    mod += equipment["#{main_hand}_hand"].item.speed_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.speed_mod
     mod += equipment["body"].item.speed_mod       if equipment["body"]       and equipment["body"].item.speed_mod
+    mod += prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"]
     mod
   end
 
@@ -133,8 +158,7 @@ class Character < ActiveRecord::Base
     mod = 0
     mod += AbilityScore.find_ability_mod("Wisdom", self.wisdom, "init_mod")
     mod += AbilityScore.find_ability_mod("Dexterity", self.dexterity, "init_mod")
-    mod += equipment["left_hand"].item.init_mod  if equipment["left_hand"]  and equipment["left_hand"].item.init_mod
-    mod += equipment["right_hand"].item.init_mod if equipment["right_hand"] and equipment["right_hand"].item.init_mod
+    mod += equipment["#{main_hand}_hand"].item.init_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.init_mod
     mod += equipment["body"].item.init_mod       if equipment["body"]       and equipment["body"].item.init_mod
     mod
   end
@@ -144,9 +168,9 @@ class Character < ActiveRecord::Base
     mod = 0
     mod += AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
     mod += AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod")
-    mod += equipment["left_hand"].item.attack_mod  if equipment["left_hand"]  and equipment["left_hand"].item.attack_mod
-    mod += equipment["right_hand"].item.attack_mod if equipment["right_hand"] and equipment["right_hand"].item.attack_mod
+    mod += equipment["#{main_hand}_hand"].item.attack_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.attack_mod
     mod += equipment["body"].item.attack_mod       if equipment["body"]       and equipment["body"].item.attack_mod
+    mod -= prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"]
     mod
   end
 
@@ -155,9 +179,9 @@ class Character < ActiveRecord::Base
     mod = 0
     mod += AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod")
     mod += AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
-    mod += equipment["left_hand"].item.defense_mod  if equipment["left_hand"]  and equipment["left_hand"].item.defense_mod
-    mod += equipment["right_hand"].item.defense_mod if equipment["right_hand"] and equipment["right_hand"].item.defense_mod
+    mod += equipment["#{main_hand}_hand"].item.defense_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.defense_mod
     mod += equipment["body"].item.defense_mod       if equipment["body"]       and equipment["body"].item.defense_mod
+    mod -= prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"]
     mod
   end
 
@@ -174,7 +198,7 @@ class Character < ActiveRecord::Base
     mod = 0
     # mise well add the hand items in this, who knows... maybe they magically give you damage reduction
     mod += equipment["left_hand"].item.damage_reduction  if equipment["left_hand"]  and equipment["left_hand"].item.damage_reduction
-    mod += equipment["right_hand"].item.damage_reduction if equipment["right_hand"] and equipment["right_hand"].item.damage_reduction
+    mod += equipment["#{main_hand}_hand"].item.damage_reduction if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.damage_reduction
     mod += equipment["body"].item.damage_reduction       if equipment["body"]       and equipment["body"].item.damage_reduction
     mod
   end
@@ -183,18 +207,16 @@ class Character < ActiveRecord::Base
     equipment = build_equipment(equipment)
     mod = 0
     mod += AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
-    # TODO for now, we are assuming we are attacking with the left hand weapon
-    mod += equipment["left_hand"].item.damage_mod  if equipment["left_hand"]  and equipment["left_hand"].item.damage_mod
-    mod += equipment["right_hand"].item.damage_mod if equipment["right_hand"] and equipment["right_hand"].item.damage_mod
+    mod += equipment["#{main_hand}_hand"].item.damage_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.damage_mod
     mod += equipment["body"].item.damage_mod       if equipment["body"]       and equipment["body"].item.damage_mod
+    mod -= prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"]
     mod
   end
 
   def calculate_reach equipment
     equipment = build_equipment(equipment)
     mod = 0
-    # TODO for now, we are assuming we are attacking with the left hand weapon
-    mod = equipment["left_hand"].item.reach if equipment["left_hand"] and equipment["left_hand"].item.reach
+    mod = equipment["#{main_hand}_hand"].item.reach if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.reach
     mod
   end
 
