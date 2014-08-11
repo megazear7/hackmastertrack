@@ -119,6 +119,17 @@ class Character < ActiveRecord::Base
     end
   end
 
+  def off_hand
+    case self.handedness
+    when "R"
+      "left"
+    when "L"
+      "right"
+    when "A"
+      "left"
+    end
+  end
+
   def main_hand
     case self.handedness
     when "R"
@@ -188,17 +199,27 @@ class Character < ActiveRecord::Base
   def calculate_shield_reduction equipment
     equipment = build_equipment(equipment)
     mod = 0
-    # TODO calculate shield reduction based off of shield size, first you need to figure out which item 
-    # the sheild is, left or right
+    if equipment["#{off_hand}_hand"] and equipment["#{off_hand}_hand"].item.shield_size
+      case equipment["#{off_hand}_hand"].item.shield_size
+      when "buckler"
+        mod += 4
+      when "small"
+        mod += 4
+      when "medium"
+        mod += 6
+      when "large"
+        mod += 6
+      when "body"
+        mod += 6
+      end
+    end
+    mod += equipment["#{off_hand}_hand"].item.item_instance.damage_reduction if equipment["#{off_hand}_hand"] and equipment["#{off_hand}_hand"].item.item_instance and equipment["#{off_hand}_hand"].item.item_instance.damage_reduction
     mod
   end
 
   def calculate_damage_reduction equipment
     equipment = build_equipment(equipment)
     mod = 0
-    # mise well add the hand items in this, who knows... maybe they magically give you damage reduction
-    mod += equipment["left_hand"].item.damage_reduction  if equipment["left_hand"]  and equipment["left_hand"].item.damage_reduction
-    mod += equipment["#{main_hand}_hand"].item.damage_reduction if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.damage_reduction
     mod += equipment["body"].item.damage_reduction       if equipment["body"]       and equipment["body"].item.damage_reduction
     mod
   end
