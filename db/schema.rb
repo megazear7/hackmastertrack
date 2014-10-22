@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140809202557) do
+ActiveRecord::Schema.define(version: 20141022011135) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,10 +79,10 @@ ActiveRecord::Schema.define(version: 20140809202557) do
     t.float    "charisma"
     t.float    "honor"
     t.float    "fame"
-    t.integer  "building_points"
+    t.integer  "building_points",    default: 0
     t.integer  "health"
     t.string   "name"
-    t.integer  "level"
+    t.integer  "level",              default: 1
     t.string   "alignment"
     t.string   "sex"
     t.integer  "age"
@@ -95,12 +95,12 @@ ActiveRecord::Schema.define(version: 20140809202557) do
     t.integer  "copper"
     t.integer  "silver"
     t.integer  "gold"
-    t.integer  "spell_points"
-    t.integer  "luck_points"
+    t.integer  "spell_points",       default: 0
+    t.integer  "luck_points",        default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.integer  "exp"
+    t.integer  "exp",                default: 0
     t.integer  "mentor_id"
     t.integer  "left_hand_item_id"
     t.integer  "right_hand_item_id"
