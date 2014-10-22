@@ -160,11 +160,13 @@ class CharactersController < ApplicationController
 
   def add_proficiency
     prof = Proficiency.find(params[:proficiency_id])
-    if @character.building_points > prof.bp_cost
+    if @character.building_points > prof.bp_cost and not @character.proficiencies.include? prof
       @character.proficiencies << prof
       @character.building_points -= prof.bp_cost
       @character.save
       redirect_to character_url(@character), notice: 'You now have the proficiency ' + prof.name + '!'
+    elsif @character.proficiencies.include? prof
+      redirect_to character_url(@character), notice: 'You already have the proficiency ' + prof.name + '!'
     else
       redirect_to character_url(@character), notice: 'You do not have enough building points for the proficiency ' + prof.name + '!'
     end
