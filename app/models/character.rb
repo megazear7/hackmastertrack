@@ -158,6 +158,10 @@ class Character < ActiveRecord::Base
   def calculate_speed equipment
     equipment = build_equipment(equipment)
     mod = 0
+    if equipment["#{main_hand}_hand"]
+      specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "speed");
+      mod += specialization.value if specialization
+    end
     mod += equipment["#{main_hand}_hand"].item.speed_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.speed_mod
     mod += equipment["body"].item.speed_mod       if equipment["body"]       and equipment["body"].item.speed_mod
     mod += prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"]
@@ -177,6 +181,10 @@ class Character < ActiveRecord::Base
   def calculate_attack equipment
     equipment = build_equipment(equipment)
     mod = 0
+    if equipment["#{main_hand}_hand"]
+      specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "attack");
+      mod += specialization.value if specialization
+    end
     mod += AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
     mod += AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod")
     mod += equipment["#{main_hand}_hand"].item.attack_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.attack_mod
@@ -188,6 +196,10 @@ class Character < ActiveRecord::Base
   def calculate_defense equipment
     equipment = build_equipment(equipment)
     mod = 0
+    if equipment["#{main_hand}_hand"]
+      specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "defense");
+      mod += specialization.value if specialization
+    end
     mod += AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod")
     mod += AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
     mod += equipment["#{main_hand}_hand"].item.defense_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.defense_mod
@@ -227,6 +239,10 @@ class Character < ActiveRecord::Base
   def calculate_damage_mod equipment
     equipment = build_equipment(equipment)
     mod = 0
+    if equipment["#{main_hand}_hand"]
+      specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "damage");
+      mod += specialization.value if specialization
+    end
     mod += AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
     mod += equipment["#{main_hand}_hand"].item.damage_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.damage_mod
     mod += equipment["body"].item.damage_mod       if equipment["body"]       and equipment["body"].item.damage_mod

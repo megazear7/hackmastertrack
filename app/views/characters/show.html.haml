@@ -165,6 +165,28 @@
                   %td= link_to item_instance.name, item_instance
                 %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_instance_path(item_instance)
                 %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item_instance, :method => :delete, :data => { :confirm => 'Are you sure?' }
+    .row
+      .col-md-12
+        %br
+        %br
+        %h4 Specializations
+        %table.table.table-hover.table-responsive
+          %thead
+            %tr
+              %th Weapon
+              %th Attack
+              %th Defense
+              %th Speed
+              %th Damage
+          %tbody
+            - @character.specializations.pluck(:item_id).uniq.each do |item_id|
+              - specs = @character.specializations.where(item_id: item_id)
+              %tr
+                %td= link_to specs.first.item.name, specs.first.item
+                %td= specs.find_by(stat_name: "attack").value  if specs.find_by(stat_name: "attack")
+                %td= specs.find_by(stat_name: "defense").value if specs.find_by(stat_name: "defense")
+                %td= specs.find_by(stat_name: "speed").value   if specs.find_by(stat_name: "speed")
+                %td= specs.find_by(stat_name: "damage").value  if specs.find_by(stat_name: "damage")
 .row
   .col-md-4 
     %br

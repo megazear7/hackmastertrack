@@ -9,28 +9,36 @@ class SpecializationsController < ApplicationController
   end
 
   def create
-    @specialization = Specialization.find_or_create_by(character_id: params[:specialization][:character_id],
-                                                       item_id: params[:specialization][:item_id],
-                                                       stat_name: params[:specialization][:stat_name] )
-    @specialization.update(specialization_params)
     @character = Character.find(params[:specialization][:character_id])
-    @character.building_points = 0 if @character.building_points.nil?
+    @item = Item.find(params[:specialization][:item_id])
+    if @character.proficiencies.pluck(:id).include? @item.proficiency.id
+      @specialization = Specialization.find_or_create_by(character_id: params[:specialization][:character_id],
+                                                         item_id: params[:specialization][:item_id],
+                                                         stat_name: params[:specialization][:stat_name] )
+      @specialization.update(specialization_params)
+      @character.building_points = 0 if @character.building_points.nil?
 
-    if @character.building_points > params[:specialization][:bp_cost].to_i
-      @character.building_points -= params[:specialization][:bp_cost].to_i
-      @character.save
-      respond_to do |format|
-        if @specialization.save
-          format.html { redirect_to item_path(@specialization.item.id), notice: 'Specialization was successfully created.' }
-          format.json { render action: 'show', status: :created, location: @specialization }
-        else
-          format.html { redirect_to item_path(@specialization.item.id), notice: 'Specialization was successfully created.' }
+      if @character.building_points > params[:specialization][:bp_cost].to_i
+        @character.building_points -= params[:specialization][:bp_cost].to_i
+        @character.save
+        respond_to do |format|
+          if @specialization.save
+            format.html { redirect_to item_path(@specialization.item.id), notice: 'Specialization was successfully created.' }
+            format.json { render action: 'show', status: :created, location: @specialization }
+          else
+            format.html { redirect_to item_path(@specialization.item.id), notice: 'Specialization was successfully created.' }
+            format.json { render json: @specialization.errors, status: :unprocessable_entity }
+          end
+        end
+      else
+        respond_to do |format|
+          format.html { redirect_to item_path(@specialization.item.id), notice: 'You did not have enough building points for that' }
           format.json { render json: @specialization.errors, status: :unprocessable_entity }
         end
       end
     else
       respond_to do |format|
-        format.html { redirect_to item_path(@specialization.item.id), notice: 'You did not have enough building points for that' }
+        format.html { redirect_to item_path(@item), notice: 'You need to have the proficiency first' }
         format.json { render json: @specialization.errors, status: :unprocessable_entity }
       end
     end
