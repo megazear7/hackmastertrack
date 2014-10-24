@@ -1,0 +1,45 @@
+%h4 Full Combat Calculations
+.row
+  .col-md-2
+    Left Hand:
+    - if rose["left_hand"].nil?
+      Empty 
+    - else
+      - if rose["left_hand"].name.nil?
+        = rose["left_hand"].item.name
+      - else
+        = rose["left_hand"].name
+  .col-md-2
+    Right Hand:
+    - if rose["right_hand"].nil?
+      Empty 
+    - else
+      - if rose["right_hand"].name.nil?
+        = rose["right_hand"].item.name
+      - else
+        = rose["right_hand"].name
+  .col-md-2
+    Body:
+    - if rose["body"].nil?
+      Empty 
+    - else
+      - if rose["body"].name.nil?
+        = rose["body"].item.name
+      - else
+        = rose["body"].name
+- rose.each do |attribute, modifiers|
+  .row
+    - if attribute != "left_hand" and attribute != "right_hand" and attribute != "body"
+      .col-md-2
+        = attribute + ": " + modifiers["val"].to_s
+      .col-md-10
+      - modifiers.each do |name, val|
+        - if name != "val"
+          - if val < 0
+            = "- " + val.abs.to_s + " from " + name
+          - else
+            = "+ " + val.to_s + " from " + name
+
+
+
+

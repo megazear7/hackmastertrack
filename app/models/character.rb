@@ -144,123 +144,171 @@ class Character < ActiveRecord::Base
   def prof_adjustment item
     adjustment = 0
     if    item.skill_level == "minimal"
-      adjustment = 1
+      adjustment = -1
     elsif item.skill_level == "low"
-      adjustment = 2
+      adjustment = -2
     elsif item.skill_level == "medium"
-      adjustment = 4
+      adjustment = -4
     elsif item.skill_level == "high"
-      adjustment = 6
+      adjustment = -6
     end
     self.proficiencies.pluck(:id).include?(item.proficiency_id) ? 0 : adjustment
   end
 
   def calculate_speed equipment
     equipment = build_equipment(equipment)
-    mod = 0
+    ret = {}
     if equipment["#{main_hand}_hand"]
       specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "speed");
-      mod += specialization.value if specialization
+      ret["specialization"] = specialization.value if specialization
+    else
+      ret["specialization"] = 0
     end
-    mod += equipment["#{main_hand}_hand"].item.speed_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.speed_mod
-    mod += equipment["body"].item.speed_mod       if equipment["body"]       and equipment["body"].item.speed_mod
-    mod += prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"]
-    mod
+    ret["#{main_hand}_hand_item_magic"] = equipment["#{main_hand}_hand"].item.speed_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.speed_mod
+    ret["body_item_magic"] = equipment["body"].item.speed_mod       if equipment["body"]       and equipment["body"].item.speed_mod
+    ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"]
+    mod = 0
+    ret.each do |key, val|
+      mod += val
+    end
+    ret["val"] = mod
+    ret
   end
 
   def calculate_init equipment
     equipment = build_equipment(equipment)
+    ret = {}
+    ret["wisdom"] = AbilityScore.find_ability_mod("Wisdom", self.wisdom, "init_mod")
+    ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "init_mod")
+    ret["#{main_hand}_hand_item_magic"] = equipment["#{main_hand}_hand"].item.init_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.init_mod
+    ret["body_item_magic"] = equipment["body"].item.init_mod       if equipment["body"]       and equipment["body"].item.init_mod
     mod = 0
-    mod += AbilityScore.find_ability_mod("Wisdom", self.wisdom, "init_mod")
-    mod += AbilityScore.find_ability_mod("Dexterity", self.dexterity, "init_mod")
-    mod += equipment["#{main_hand}_hand"].item.init_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.init_mod
-    mod += equipment["body"].item.init_mod       if equipment["body"]       and equipment["body"].item.init_mod
-    mod
+    ret.each do |key, val|
+      mod += val
+    end
+    ret["val"] = mod
+    ret
   end
 
   def calculate_attack equipment
     equipment = build_equipment(equipment)
-    mod = 0
+    ret = {}
     if equipment["#{main_hand}_hand"]
       specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "attack");
-      mod += specialization.value if specialization
+      ret["specialization"] = specialization.value if specialization
     end
-    mod += AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
-    mod += AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod")
-    mod += equipment["#{main_hand}_hand"].item.attack_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.attack_mod
-    mod += equipment["body"].item.attack_mod       if equipment["body"]       and equipment["body"].item.attack_mod
-    mod -= prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"]
-    mod
+    ret["intelligence"] = AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
+    ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod")
+    ret["#{main_hand}_hand_item_magic"] = equipment["#{main_hand}_hand"].item.attack_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.attack_mod
+    ret["body_item_magic"] = equipment["body"].item.attack_mod       if equipment["body"]       and equipment["body"].item.attack_mod
+    ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"]
+    mod = 0
+    ret.each do |key, val|
+      mod += val
+    end
+    ret["val"] = mod
+    ret
   end
 
   def calculate_defense equipment
     equipment = build_equipment(equipment)
-    mod = 0
+    ret = {}
     if equipment["#{main_hand}_hand"]
       specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "defense");
-      mod += specialization.value if specialization
+      ret["specialization"] = specialization.value if specialization
     end
-    mod += AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod")
-    mod += AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
-    mod += equipment["#{main_hand}_hand"].item.defense_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.defense_mod
-    mod += equipment["body"].item.defense_mod       if equipment["body"]       and equipment["body"].item.defense_mod
-    mod -= prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"]
-    mod
+    ret["wisdom"] = AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod")
+    ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
+    ret["#{main_hand}_hand_item_magic"] = equipment["#{main_hand}_hand"].item.defense_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.defense_mod
+    ret["body_item_magic"] = equipment["body"].item.defense_mod       if equipment["body"]       and equipment["body"].item.defense_mod
+    ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"]
+    mod = 0
+    ret.each do |key, val|
+      mod += val
+    end
+    ret["val"] = mod
+    ret
   end
 
   def calculate_shield_reduction equipment
     equipment = build_equipment(equipment)
-    mod = 0
+    ret = {}
     if equipment["#{off_hand}_hand"] and equipment["#{off_hand}_hand"].item.shield_size
       case equipment["#{off_hand}_hand"].item.shield_size
       when "buckler"
-        mod += 4
+        ret["buckler"] = 4
       when "small"
-        mod += 4
+        ret["small_shield"] = 4
       when "medium"
-        mod += 6
+        ret["medium_shield"] = 6
       when "large"
-        mod += 6
+        ret["large_shield"] = 6
       when "body"
-        mod += 6
+        ret["body_size_shield"] = 6
       end
     end
-    mod += equipment["#{off_hand}_hand"].item.item_instance.damage_reduction if equipment["#{off_hand}_hand"] and equipment["#{off_hand}_hand"].item.item_instance and equipment["#{off_hand}_hand"].item.item_instance.damage_reduction
-    mod
+    ret["#{off_hand}_hand_item"] = equipment["#{off_hand}_hand"].item.item_instance.damage_reduction if equipment["#{off_hand}_hand"] and equipment["#{off_hand}_hand"].item.item_instance and equipment["#{off_hand}_hand"].item.item_instance.damage_reduction
+    mod = 0
+    ret.each do |key, val|
+      mod += val
+    end
+    ret["val"] = mod
+    ret
   end
 
   def calculate_damage_reduction equipment
     equipment = build_equipment(equipment)
+    ret = {}
+    ret["body_item"] = equipment["body"].item.damage_reduction       if equipment["body"]       and equipment["body"].item.damage_reduction
     mod = 0
-    mod += equipment["body"].item.damage_reduction       if equipment["body"]       and equipment["body"].item.damage_reduction
-    mod
+    ret.each do |key, val|
+      mod += val
+    end
+    ret["val"] = mod
+    ret
   end
 
   def calculate_damage_mod equipment
     equipment = build_equipment(equipment)
-    mod = 0
+    ret = {}
     if equipment["#{main_hand}_hand"]
       specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "damage");
-      mod += specialization.value if specialization
+      ret["specialization"] = specialization.value if specialization
     end
-    mod += AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
-    mod += equipment["#{main_hand}_hand"].item.damage_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.damage_mod
-    mod += equipment["body"].item.damage_mod       if equipment["body"]       and equipment["body"].item.damage_mod
-    mod -= prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"]
-    mod
+    ret["strength"] = AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
+    ret["#{main_hand}_hand_item"] = equipment["#{main_hand}_hand"].item.damage_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.damage_mod
+    ret["body_item_magic"] = equipment["body"].item.damage_mod       if equipment["body"]       and equipment["body"].item.damage_mod
+    ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"]
+    mod = 0
+    ret.each do |key, val|
+      mod += val
+    end
+    ret["val"] = mod
+    ret
   end
 
   def calculate_reach equipment
     equipment = build_equipment(equipment)
+    ret = {}
+    ret["#{main_hand}_hand_item_reach"] = equipment["#{main_hand}_hand"].item.reach if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.reach
     mod = 0
-    mod = equipment["#{main_hand}_hand"].item.reach if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.reach
-    mod
+    ret.each do |key, val|
+      mod += val
+    end
+    ret["val"] = mod
+    ret
   end
 
   def calculate_top_save equipment
     equipment = build_equipment(equipment)
-    mod = (self.constitution / 2).round(0)
-    mod
+    ret = {}
+    ret["constitution"] = (self.constitution / 2).round(0)
+    mod = 0
+    ret.each do |key, val|
+      mod += val
+    end
+    ret["val"] = mod
+    ret
   end
 
   def actual_level

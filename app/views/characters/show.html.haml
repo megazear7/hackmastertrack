@@ -200,3 +200,6 @@
           %tr
             %td= link_to proficiency.name, proficiency
             %td= link_to raw('<span class="octicon octicon-x"></span>'), remove_proficiency_character_path(@character, proficiency_id: proficiency.id)
+.row
+  .col-md-12
+    = render partial: "shared/calculations", locals: { rose: @combat_rose }
