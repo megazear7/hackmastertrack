@@ -166,7 +166,7 @@ class Character < ActiveRecord::Base
     end
     ret["#{main_hand}_hand_item_magic"] = equipment["#{main_hand}_hand"].item.speed_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.speed_mod
     ret["body_item_magic"] = equipment["body"].item.speed_mod       if equipment["body"]       and equipment["body"].item.speed_mod
-    ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"]
+    ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
     mod = 0
     ret.each do |key, val|
       mod += val
@@ -201,7 +201,7 @@ class Character < ActiveRecord::Base
     ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod")
     ret["#{main_hand}_hand_item_magic"] = equipment["#{main_hand}_hand"].item.attack_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.attack_mod
     ret["body_item_magic"] = equipment["body"].item.attack_mod       if equipment["body"]       and equipment["body"].item.attack_mod
-    ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"]
+    ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
     mod = 0
     ret.each do |key, val|
       mod += val
@@ -221,7 +221,7 @@ class Character < ActiveRecord::Base
     ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
     ret["#{main_hand}_hand_item_magic"] = equipment["#{main_hand}_hand"].item.defense_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.defense_mod
     ret["body_item_magic"] = equipment["body"].item.defense_mod       if equipment["body"]       and equipment["body"].item.defense_mod
-    ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"]
+    ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
     mod = 0
     ret.each do |key, val|
       mod += val
@@ -278,7 +278,7 @@ class Character < ActiveRecord::Base
     ret["strength"] = AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
     ret["#{main_hand}_hand_item"] = equipment["#{main_hand}_hand"].item.damage_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.damage_mod
     ret["body_item_magic"] = equipment["body"].item.damage_mod       if equipment["body"]       and equipment["body"].item.damage_mod
-    ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"]
+    ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
     mod = 0
     ret.each do |key, val|
       mod += val
