@@ -188,9 +188,11 @@ class CharactersController < ApplicationController
 
   def step1
     @character = Character.new()
+    render layout: "character_creation"
   end
 
   def step2
+    render layout: "character_creation"
   end
 
   def step3
