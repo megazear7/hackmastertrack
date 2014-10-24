@@ -1,2 +1,7 @@
 %h1 Step 3
-= link_to 'Step 4', step4_characters_path, class: "btn btn-primary"
+= simple_form_for @character, :url => step4_character_path(@character), :method => :post do |f|
+  .row
+    .col-md-4= f.input :building_points, label: "Extra Building Points", collection: extra_bp_options, input_html: { class: "string form-control" }
+  .row
+    %br
+    .col-md-4= f.submit 'Step 4', class: "btn btn-primary"

@@ -1,2 +1,11 @@
 %h1 Step 1
-= link_to 'Step 2', step2_characters_path, class: "btn btn-primary"
+= simple_form_for @character, :url => step2_characters_path, :method => :post do |f|
+  .row
+    .col-md-4 Gain 40 Building Points
+  .row
+    %br
+    = f.input :building_points, :as => :hidden, :input_html => { value: 40 }
+    = f.hidden_field :user_id, value: current_user.id
+  .row
+    %br
+    .col-md-4= f.submit 'Step 2', class: "btn btn-primary"

@@ -1,2 +1,7 @@
 %h1 Step 10
-= link_to 'Finish', character_path(@character), class: "btn btn-primary"
+= simple_form_for @character, :url => step11_character_path(@character), :method => :post do |f|
+  .row
+    .col-md-4= f.input :health, input_html: { class: "string form-control" }
+  .row
+    %br
+    .col-md-4= f.submit 'Step 11', class: "btn btn-primary"

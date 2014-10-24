@@ -13,7 +13,8 @@ class Character < ActiveRecord::Base
   belongs_to :right_hand_item, class_name: "ItemInstance", foreign_key: "right_hand_item_id"
   belongs_to :body_item, class_name: "ItemInstance", foreign_key: "body_item_id"
   has_many :specializations
-  validates_presence_of :character_class_id, :race_id, :strength, :intelligence, :wisdom, :dexterity, :constitution, :looks, :charisma, :name, :building_points
+  # the step by step character creation does not allow for this:
+  #validates_presence_of :character_class_id, :race_id, :strength, :intelligence, :wisdom, :dexterity, :constitution, :looks, :charisma, :name, :building_points
 
   has_many :item_instances # these are equiped items
 

@@ -1,5 +1,5 @@
 class CharactersController < ApplicationController
-  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :add_items, :equip_items, :add_proficiency, :remove_proficiency, :step2, :step3, :step4, :step5, :step6, :step7, :step8, :step9, :step10]
+  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :add_items, :equip_items, :add_proficiency, :remove_proficiency, :step3, :step4, :step5, :step6, :step7, :step8, :step9, :step10, :step11, :step12, :step13, :finish]
 
   # GET /characters
   # GET /characters.json
@@ -192,33 +192,87 @@ class CharactersController < ApplicationController
   end
 
   def step2
-    render layout: "character_creation"
+    @character = Character.new(character_params)
+    if @character.save
+      render layout: "character_creation"
+    else
+    end
   end
 
   def step3
+    @character.update(character_params)
+    if @character.save
+      render layout: "character_creation"
+    else
+    end
   end
 
   def step4
+    @character.building_points += params["character"]["building_points"].to_i
+    if @character.save
+      render layout: "character_creation"
+    else
+    end
   end
 
   def step5
+    @character.update(character_params)
+    if @character.save
+      render layout: "character_creation"
+    else
+    end
   end
 
   def step6
+    render layout: "character_creation"
   end
 
   def step7
+    render layout: "character_creation"
   end
 
   def step8
+    @character.update(character_params)
+    if @character.save
+      render layout: "character_creation"
+    else
+    end
   end
 
   def step9
+    render layout: "character_creation"
   end
 
   def step10
-    # mark the character as "finished", and if the character does not get marked as finished,
-    # dont show it anywhere in the application
+    render layout: "character_creation"
+  end
+
+  def step11
+    @character.update(character_params)
+    if @character.save
+      render layout: "character_creation"
+    else
+    end
+  end
+
+  def step12
+    render layout: "character_creation"
+  end
+
+  def step13
+    @character.update(character_params)
+    if @character.save
+      render layout: "character_creation"
+    else
+    end
+ end
+
+  def finish
+    # 1) deal with the post data step13 sends
+    # 2) mark the character as "finished", and if the character does not get marked as finished then dont show it anywhere in the application
+    # 3) redirect to character show page
+    @character.finished = true
+    redirect_to @character, notice: 'Character was successfully created.'
   end
 
   private

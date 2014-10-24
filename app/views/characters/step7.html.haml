@@ -1,2 +1,22 @@
 %h1 Step 7
-= link_to 'Step 8', step8_characters_path, class: "btn btn-primary"
+= simple_form_for @character, :url => step8_character_path(@character), :method => :post do |f|
+  .row
+    .col-md-12
+      %p Determine Priors and particulars, as well as make adjustments such as luck points and spell points, and such, sense we don't do that automatically yet
+  .row
+    .col-md-4= f.input :name, input_html: { class: "string form-control" }
+    .col-md-4= f.input :sex, collection: sex_options, input_html: { class: "string form-control" }
+    .col-md-4= f.input :hair, collection: hair_options, input_html: { class: "string form-control" }
+  .row
+    .col-md-4= f.input :handedness, collection: handedness_options, input_html: { class: "string form-control" }
+    .col-md-4= f.input :eyes, collection: eye_options, input_html: { class: "string form-control" }
+    .col-md-4= f.input :age, input_html: { class: "string form-control" }
+  .row
+    .col-md-4= f.input :height, input_html: { class: "string form-control" }
+    .col-md-4= f.input :weight, input_html: { class: "string form-control" }
+  .row
+    .col-md-4= f.input :spell_points, input_html: { class: "string form-control" }
+    .col-md-4= f.input :luck_points, input_html: { class: "string form-control" }
+  .row
+    %br
+    .col-md-4= f.submit 'Step 8', class: "btn btn-primary"

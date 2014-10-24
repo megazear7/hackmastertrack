@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141022011135) do
+ActiveRecord::Schema.define(version: 20141024221147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(version: 20141022011135) do
     t.integer  "body_item_id"
     t.integer  "character_class_id"
     t.integer  "race_id"
+    t.boolean  "finished"
   end
 
   create_table "characters_items", force: true do |t|

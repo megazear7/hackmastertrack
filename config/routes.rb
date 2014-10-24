@@ -46,15 +46,22 @@ Rails.application.routes.draw do
 
     collection do
       get :step1
-      get :step2
-      get :step3
-      get :step4
-      get :step5
-      get :step6
-      get :step7
-      get :step8
-      get :step9
-      get :step10
+      post :step2
+    end
+
+    member do
+      post :step3
+      post :step4
+      post :step5
+      post :step6
+      post :step7
+      post :step8
+      post :step9
+      post :step10
+      post :step11
+      post :step12
+      post :step13
+      post :finish
     end
   end
 
