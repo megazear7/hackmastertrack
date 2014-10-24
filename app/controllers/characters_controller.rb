@@ -1,5 +1,5 @@
 class CharactersController < ApplicationController
-  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :add_items, :equip_items, :add_proficiency, :remove_proficiency]
+  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :add_items, :equip_items, :add_proficiency, :remove_proficiency, :step2, :step3, :step4, :step5, :step6, :step7, :step8, :step9, :step10]
 
   # GET /characters
   # GET /characters.json
@@ -184,6 +184,39 @@ class CharactersController < ApplicationController
     @character.body_item = @character.item_instances.find(body) if not body.nil?
     @character.save
     redirect_to character_url(@character), notice: 'Items Successfuly Equiped'
+  end
+
+  def step1
+    @character = Character.new()
+  end
+
+  def step2
+  end
+
+  def step3
+  end
+
+  def step4
+  end
+
+  def step5
+  end
+
+  def step6
+  end
+
+  def step7
+  end
+
+  def step8
+  end
+
+  def step9
+  end
+
+  def step10
+    # mark the character as "finished", and if the character does not get marked as finished,
+    # dont show it anywhere in the application
   end
 
   private

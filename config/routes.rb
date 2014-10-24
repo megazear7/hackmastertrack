@@ -43,6 +43,19 @@ Rails.application.routes.draw do
       get  :level_up_edit
       post :level_up_update
     end
+
+    collection do
+      get :step1
+      get :step2
+      get :step3
+      get :step4
+      get :step5
+      get :step6
+      get :step7
+      get :step8
+      get :step9
+      get :step10
+    end
   end
 
   resources :encounters
