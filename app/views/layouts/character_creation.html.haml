@@ -8,7 +8,14 @@
 
 %body
   .container.fill-screen
-    %h1 Character Creation
+    .row
+      .col-md-2.label-height
+        - if params["action"] != "step1"
+          = link_to "Exit", leave_character_path(@character), class: "btn btn-default", data: { confirm: 'Are you sure? Leaving character creation will destroy this unfinished character.' }
+        - else
+          = link_to "Exit", characters_path(@character), class: "btn btn-default", data: { confirm: 'Are you sure? Leaving character creation will destroy this unfinished character.' }
+      .col-md-10
+        %h1 Character Creation
     .row
       .col-md-12
         - flash.each do |name, msg|

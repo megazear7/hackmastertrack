@@ -13,4 +13,8 @@
     .col-md-4= f.input :charisma, input_html: { class: "string form-control" }
   .row
     %br
-    .col-md-4= f.submit 'Step 3', class: "btn btn-primary"
+    .col-md-4
+      %br
+      .actions
+        .btn-group
+          = f.submit 'Step 3', class: "btn btn-primary"

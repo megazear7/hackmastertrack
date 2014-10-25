@@ -1,5 +1,5 @@
 class CharactersController < ApplicationController
-  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :add_items, :equip_items, :add_proficiency, :remove_proficiency, :step3, :step4, :step5, :step6, :step7, :step8, :step9, :step10, :step11, :step12, :step13, :finish]
+  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :add_items, :equip_items, :add_proficiency, :remove_proficiency, :step3, :step4, :step5, :step6, :step7, :step8, :step9, :step10, :step11, :step12, :step13, :finish, :leave]
 
   # GET /characters
   # GET /characters.json
@@ -277,6 +277,11 @@ class CharactersController < ApplicationController
      redirect_to @character, notice: 'Character was successfully created.'
     else
     end
+ end
+
+ def leave
+   @character.destroy
+   redirect_to characters_url, notice: 'The character was unfinished and so was destroyed.'
  end
 
   private

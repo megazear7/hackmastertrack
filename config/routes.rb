@@ -62,6 +62,7 @@ Rails.application.routes.draw do
       post :step12
       post :step13
       post :finish
+      get :leave
     end
   end
 
