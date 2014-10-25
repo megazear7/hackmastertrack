@@ -1,6 +1,7 @@
 %h1 Step 13
 = simple_form_for @character, :url => finish_character_path(@character), :method => :post do |f|
   %p Equip You Character
+  = f.hidden_field :user_id, value: current_user.id
   .row
     %br
     .col-md-4= f.submit 'Finish', class: "btn btn-primary"

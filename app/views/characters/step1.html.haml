@@ -5,7 +5,6 @@
   .row
     %br
     = f.input :building_points, :as => :hidden, :input_html => { value: 40 }
-    = f.hidden_field :user_id, value: current_user.id
   .row
     %br
     .col-md-4= f.submit 'Step 2', class: "btn btn-primary"
