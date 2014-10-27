@@ -1,6 +1,6 @@
 namespace :transfer do
 
-  def src_name id
+  def app_name id
     { "prod"  => "hackmastertrack",
       "test"  => "hackmastertrack-test"
     } [id]
@@ -27,17 +27,17 @@ namespace :transfer do
     puts "Your must #{red('commit')} or stashed your local changes and " +
          "we will be executing a #{red('forceful push')} to #{dest}..."
     Bundler.with_clean_env { # heroku commands must be ran in a bundler block
-      call "heroku pgbackups:capture -a #{src_name(src)} --expire"
+      call "heroku pgbackups:capture -a #{app_name(src)} --expire"
       call "git checkout #{base_branch}"
       call "git push #{remote_url(dest)} #{base_branch}:master -f"
-      call "heroku pg:reset #{db_name(dest)} -a #{src_name(src)} " +
-           "--confirm #{src_name(src)}"
+      call "heroku pg:reset #{db_name(dest)} -a #{app_name(dest)} " +
+           "--confirm #{app_name(dest)}"
       call "heroku pgbackups:restore #{db_name(dest)} `heroku pgbackups:url " +
-           "-a #{src_name(src)}` -a #{src_name(src)} " +
-           "--confirm #{src_name(src)}"
+           "-a #{app_name(dest)}` -a #{app_name(dest)} " +
+           "--confirm #{app_name(dest)}"
       call "git checkout #{final_branch}"
       call "git push #{remote_url(dest)} #{final_branch}:master"
-      call "heroku run rake db:migrate -a #{src_name(src)}"
+      call "heroku run rake db:migrate -a #{app_name(dest)}"
     }
     puts "Transfer complete!"
   end
@@ -46,8 +46,8 @@ namespace :transfer do
     puts "You must #{red('commit')} or stash your local changes " + 
          "you must #{red('stop your server')}..."
     Bundler.with_clean_env { # heroku commands must be ran in a bundler block
-      call "heroku pgbackups:capture -a #{src_name(src)} --expire"
-      call "curl -o latest.dump `heroku pgbackups:url -a #{src_name(src)}`"
+      call "heroku pgbackups:capture -a #{app_name(src)} --expire"
+      call "curl -o latest.dump `heroku pgbackups:url -a #{app_name(src)}`"
       call "git checkout #{base_branch}"
       call "rake db:reset"
       call "pg_restore --verbose --clean --no-acl --no-owner -d " +
