@@ -33,7 +33,7 @@ namespace :transfer do
       call "heroku pg:reset #{db_name(dest)} -a #{app_name(dest)} " +
            "--confirm #{app_name(dest)}"
       call "heroku pgbackups:restore #{db_name(dest)} `heroku pgbackups:url " +
-           "-a #{app_name(dest)}` -a #{app_name(dest)} " +
+           "-a #{app_name(src)}` -a #{app_name(dest)} " +
            "--confirm #{app_name(dest)}"
       call "git checkout #{final_branch}"
       call "git push #{remote_url(dest)} #{final_branch}:master"
