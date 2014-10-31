@@ -217,6 +217,13 @@ class CharactersController < ApplicationController
 
   def step5
     @character.update(character_params)
+    @character.strength += @character.race.str_mod
+    @character.intelligence += @character.race.int_mod
+    @character.wisdom += @character.race.wis_mod
+    @character.dexterity += @character.race.dex_mod
+    @character.constitution += @character.race.con_mod
+    @character.looks += @character.race.lks_mod
+    @character.charisma += @character.race.cha_mod
     if @character.save
       render layout: "character_creation"
     else

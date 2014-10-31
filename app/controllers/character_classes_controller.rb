@@ -71,6 +71,7 @@ class CharacterClassesController < ApplicationController
     def character_class_params
       params.require(:character_class).permit(
         :name,
+        :hit_dice_size,
         :description
       )
     end

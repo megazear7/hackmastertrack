@@ -1,6 +1,16 @@
 class Race < ActiveRecord::Base
   has_many :bp_cost_by_race_classes
 
+  def hit_points
+    if self.name == "Dwarf"
+      10
+    else
+      { "s" => 5,
+        "m" => 10
+      }[self.size]
+    end
+  end
+
   def self.find_mod race, mod
     where(name: race).each do |thisrace|
       # TODO query the database instead of looping

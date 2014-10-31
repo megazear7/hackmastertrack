@@ -5,5 +5,29 @@
     .col-md-4= f.association :character_class, input_html: { class: "string form-control" }
     .col-md-4= f.input :alignment, collection: alignment_options, input_html: { class: "string form-control" }
   .row
+    .col-md-12
+      %table.table.table-hover.table-responsive
+        %thead
+          %tr
+            %th Race
+            %th Strength
+            %th Intelligence
+            %th Wisdom
+            %th Dexterity
+            %th Constitution
+            %th Looks
+            %th Charisma
+        %tbody
+          - Race.all.each do |race|
+            %tr
+              %td= race.name
+              %td= race.str_mod
+              %td= race.int_mod
+              %td= race.wis_mod
+              %td= race.dex_mod
+              %td= race.con_mod
+              %td= race.lks_mod
+              %td= race.cha_mod
+  .row
     %br
     .col-md-4= f.submit 'Step 5', class: "btn btn-primary"

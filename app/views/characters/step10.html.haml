@@ -1,7 +1,13 @@
 %h1 Step 10
 = simple_form_for @character, :url => step11_character_path(@character), :method => :post do |f|
   .row
-    .col-md-4= f.input :health, input_html: { class: "string form-control" }
+    .col-md-4= f.input :health, input_html: { class: "string form-control", value: @character.character_class.hit_dice_size + @character.constitution + @character.race.hit_points }
+    .col-md-4.label-height
+      = "+ D" + @character.character_class.hit_dice_size.to_s + " from character class"
+      %br
+      = "+ " + @character.constitution.to_s + " from constitution" 
+      %br
+      = "+ " + @character.race.hit_points.to_s + " from race"
   .row
     %br
     .col-md-4= f.submit 'Step 11', class: "btn btn-primary"
