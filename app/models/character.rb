@@ -83,11 +83,11 @@ class Character < ActiveRecord::Base
   end
 
   def main_hand_item
-    self.handedness == "right" ? self.right_hand_item : self.left_hand_item
+    self.handedness == "R" ? self.right_hand_item : self.left_hand_item
   end
 
   def off_hand_item
-    self.handedness == "right" ? self.left_hand_item : self.right_hand_item
+    self.handedness == "R" ? self.left_hand_item : self.right_hand_item
   end
 
   def calculate_combat_rose equipment = nil
@@ -173,8 +173,8 @@ class Character < ActiveRecord::Base
     else
       ret["specialization"] = 0
     end
-    ret["#{main_hand}_hand_item_magic"] = equipment["#{main_hand}_hand"].item.speed_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.speed_mod
-    ret["body_item_magic"] = equipment["body"].item.speed_mod       if equipment["body"]       and equipment["body"].item.speed_mod
+    ret["#{main_hand}_hand_item"] = equipment["#{main_hand}_hand"].item.speed_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.speed_mod
+    ret["body_item"] = equipment["body"].item.speed_mod       if equipment["body"]       and equipment["body"].item.speed_mod
     ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
     mod = 0
     ret.each do |key, val|
@@ -189,8 +189,8 @@ class Character < ActiveRecord::Base
     ret = {}
     ret["wisdom"] = AbilityScore.find_ability_mod("Wisdom", self.wisdom, "init_mod")
     ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "init_mod")
-    ret["#{main_hand}_hand_item_magic"] = equipment["#{main_hand}_hand"].item.init_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.init_mod
-    ret["body_item_magic"] = equipment["body"].item.init_mod       if equipment["body"]       and equipment["body"].item.init_mod
+    ret["#{main_hand}_hand_item"] = equipment["#{main_hand}_hand"].item.init_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.init_mod
+    ret["body_item"] = equipment["body"].item.init_mod       if equipment["body"]       and equipment["body"].item.init_mod
     mod = 0
     ret.each do |key, val|
       mod += val
@@ -208,8 +208,8 @@ class Character < ActiveRecord::Base
     end
     ret["intelligence"] = AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
     ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod")
-    ret["#{main_hand}_hand_item_magic"] = equipment["#{main_hand}_hand"].item.attack_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.attack_mod
-    ret["body_item_magic"] = equipment["body"].item.attack_mod       if equipment["body"]       and equipment["body"].item.attack_mod
+    ret["#{main_hand}_hand_item"] = equipment["#{main_hand}_hand"].item.attack_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.attack_mod
+    ret["body_item"] = equipment["body"].item.attack_mod       if equipment["body"]       and equipment["body"].item.attack_mod
     ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
     mod = 0
     ret.each do |key, val|
@@ -228,8 +228,9 @@ class Character < ActiveRecord::Base
     end
     ret["wisdom"] = AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod")
     ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
-    ret["#{main_hand}_hand_item_magic"] = equipment["#{main_hand}_hand"].item.defense_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.defense_mod
-    ret["body_item_magic"] = equipment["body"].item.defense_mod       if equipment["body"]       and equipment["body"].item.defense_mod
+    ret["#{main_hand}_hand_item"] = equipment["#{main_hand}_hand"].item.defense_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.defense_mod
+    ret["#{off_hand}_hand_item"] = equipment["#{off_hand}_hand"].item.defense_mod if equipment["#{off_hand}_hand"] and equipment["#{off_hand}_hand"].item.defense_mod
+    ret["body_item"] = equipment["body"].item.defense_mod       if equipment["body"]       and equipment["body"].item.defense_mod
     ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
     mod = 0
     ret.each do |key, val|
@@ -286,7 +287,7 @@ class Character < ActiveRecord::Base
     end
     ret["strength"] = AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
     ret["#{main_hand}_hand_item"] = equipment["#{main_hand}_hand"].item.damage_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.damage_mod
-    ret["body_item_magic"] = equipment["body"].item.damage_mod       if equipment["body"]       and equipment["body"].item.damage_mod
+    ret["body_item"] = equipment["body"].item.damage_mod       if equipment["body"]       and equipment["body"].item.damage_mod
     ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
     mod = 0
     ret.each do |key, val|
@@ -484,11 +485,11 @@ class Character < ActiveRecord::Base
 
     # Profile 1 Specialization mods.
     if self.main_hand_item
-      args["profile_1_specialization_attack"]  = self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "attack") ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "attack").value) : "0"
-      args["profile_1_specialization_speed"]   = self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "speed")  ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "speed").value)  : "0"
+      args["profile_1_specialization_attack"]  = self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "attack") ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "attack").value) : "0"
+      args["profile_1_specialization_speed"]   = self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "speed")  ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "speed").value)  : "0"
       args["profile_1_specialization_init"]    = "--"
-      args["profile_1_specialization_defense"] = self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "defense") ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "defense").value) : "0"
-      args["profile_1_specialization_damage"]  = self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "damage")  ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "damage").value)  : "0"
+      args["profile_1_specialization_defense"] = self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "defense") ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "defense").value) : "0"
+      args["profile_1_specialization_damage"]  = self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "damage")  ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "damage").value)  : "0"
     else
       args["profile_1_specialization_attack"]  = "--"
       args["profile_1_specialization_speed"]   = "--"
@@ -512,15 +513,23 @@ class Character < ActiveRecord::Base
     args["profile_1_race_damage"]  = "--"
 
     # Profile 1 Armor mods. TODO
-    args["profile_1_armor_attack"]  = "--"
-    args["profile_1_armor_speed"]   = "--"
-    args["profile_1_armor_init"]    = "--"
-    args["profile_1_armor_defense"] = "--"
-    args["profile_1_armor_damage"]  = "--"
+    if self.body_item
+      args["profile_1_armor_attack"]  = plusinfront self.body_item.item.attack_mod if body_item.item.attack_mod
+      args["profile_1_armor_speed"]   = plusinfront self.body_item.item.speed_mod if body_item.item.speed_mod
+      args["profile_1_armor_init"]    = plusinfront self.body_item.item.init_mod if body_item.item.init_mod
+      args["profile_1_armor_defense"] = plusinfront self.body_item.item.defense_mod if body_item.item.defense_mod
+      args["profile_1_armor_damage"]  = plusinfront self.body_item.item.damage_mod  if body_item.item.damage_mod
+    else
+      args["profile_1_armor_attack"]  = "--"
+      args["profile_1_armor_speed"]   = "--"
+      args["profile_1_armor_init"]    = "--"
+      args["profile_1_armor_defense"] = "--"
+      args["profile_1_armor_damage"]  = "--"
+    end
 
     # Profile 1 Shield mods. TODO
     if self.off_hand_item
-      args["profile_1_shield_defense"] = self.off_hand_item.item.item_type == "shield" ? self.off_hand_item.item.defense : "--"
+      args["profile_1_shield_defense"] = plusinfront self.off_hand_item.item.item_type == "shield" ? self.off_hand_item.item.defense_mod : "--"
     else
       args["profile_1_shield_defense"] = "--"
     end
@@ -546,35 +555,35 @@ class Character < ActiveRecord::Base
     args["profile_1_base_weapon_speed"]  = self.main_hand_item.item.attack_speed if self.main_hand_item
     args["profile_1_base_weapon_damage"] = self.main_hand_item.item.damage if self.main_hand_item
 
-    if self.main_hand_item and self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed").value >= 1
+    if self.main_hand_item and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed").value >= 1
       args["profile_1_spec_attack_1"] = "X"
       args["profile_1_spec_speed_1"] = "X"
       args["profile_1_spec_defense_1"] = "X"
       args["profile_1_spec_damage_1"] = "X"
     end
 
-    if self.main_hand_item and self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed").value >= 2
+    if self.main_hand_item and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed").value >= 2
       args["profile_1_spec_attack_2"] = "X"
       args["profile_1_spec_speed_2"] = "X"
       args["profile_1_spec_defense_2"] = "X"
       args["profile_1_spec_damage_2"] = "X"
     end
 
-    if self.main_hand_item and self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed").value >= 3
+    if self.main_hand_item and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed").value >= 3
       args["profile_1_spec_attack_3"] = "X"
       args["profile_1_spec_speed_3"] = "X"
       args["profile_1_spec_defense_3"] = "X"
       args["profile_1_spec_damage_3"] = "X"
     end
 
-    if self.main_hand_item and self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed").value >= 4
+    if self.main_hand_item and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed").value >= 4
       args["profile_1_spec_attack_4"] = "X"
       args["profile_1_spec_speed_4"] = "X"
       args["profile_1_spec_defense_4"] = "X"
       args["profile_1_spec_damage_4"] = "X"
     end
 
-    if self.main_hand_item and self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed").value >= 5
+    if self.main_hand_item and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed").value >= 5
       args["profile_1_spec_attack_5"] = "X"
       args["profile_1_spec_speed_5"] = "X"
       args["profile_1_spec_defense_5"] = "X"
