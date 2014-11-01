@@ -82,6 +82,14 @@ class Character < ActiveRecord::Base
     end
   end
 
+  def main_hand_item
+    self.handedness == "right" ? self.right_hand_item : self.left_hand_item
+  end
+
+  def off_hand_item
+    self.handedness == "right" ? self.left_hand_item : self.right_hand_item
+  end
+
   def calculate_combat_rose equipment = nil
     # if any equipment was passed in, use that in the calcultion instead of the actual equiped items
     equipment_to_calc = {}
@@ -160,7 +168,7 @@ class Character < ActiveRecord::Base
     equipment = build_equipment(equipment)
     ret = {}
     if equipment["#{main_hand}_hand"]
-      specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "speed");
+      specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "speed")
       ret["specialization"] = specialization.value if specialization
     else
       ret["specialization"] = 0
@@ -195,7 +203,7 @@ class Character < ActiveRecord::Base
     equipment = build_equipment(equipment)
     ret = {}
     if equipment["#{main_hand}_hand"]
-      specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "attack");
+      specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "attack")
       ret["specialization"] = specialization.value if specialization
     end
     ret["intelligence"] = AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
@@ -215,7 +223,7 @@ class Character < ActiveRecord::Base
     equipment = build_equipment(equipment)
     ret = {}
     if equipment["#{main_hand}_hand"]
-      specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "defense");
+      specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "defense")
       ret["specialization"] = specialization.value if specialization
     end
     ret["wisdom"] = AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod")
@@ -273,7 +281,7 @@ class Character < ActiveRecord::Base
     equipment = build_equipment(equipment)
     ret = {}
     if equipment["#{main_hand}_hand"]
-      specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "damage");
+      specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "damage")
       ret["specialization"] = specialization.value if specialization
     end
     ret["strength"] = AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
@@ -382,8 +390,8 @@ class Character < ActiveRecord::Base
     args["experience"] = self.exp if self.exp
     args["hit_points"] = self.health if self.health
 
-    # Combat Rose
-
+    # Combat Rose Character sheet doesn't have a combat rose yet
+    rose = calculate_combat_rose
     #args["shield_defense_bonus"] = self.  if self.
     #args[" shield_damage_reduction "] = self.  if self.
     #args["fatigue_factor"] = self.  if self.
@@ -394,14 +402,12 @@ class Character < ActiveRecord::Base
     # body_equiped_damage_reduction
 
     # Money
-
     args["trade_coins"] = self.trade_coins if self.trade_coins
     args["cp"] = self.copper if self.copper
     args["sp"] = self.silver if self.silver
     args["gp"] = self.gold if self.gold
 
     # Honor
-
     # hon_window
     # honor
     # fame
@@ -416,151 +422,178 @@ class Character < ActiveRecord::Base
     # cowardly_morale
 
     # Strength
-
     args["str"] = self.strength.to_i
     args["str_percent"] =  fract_extract self.strength if self.strength
-
     args["feat_of_strength"] = plusinfront AbilityScore.find_ability_mod("Strength", self.strength, "feat_of_strength")
     args["str_damage_mod"] = plusinfront AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
-    args["profile_1_abilities_damage"] = plusinfront AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
     args["str_lift"] =  AbilityScore.find_ability_mod("Strength", self.strength, "lift")
     args["str_carry"] = AbilityScore.find_ability_mod("Strength", self.strength, "carry")
     args["str_drag"] =  AbilityScore.find_ability_mod("Strength", self.strength, "drag")
 
     # Intelligence
-
     args["int"] = self.intelligence.to_i
     args["int_percent"] = fract_extract self.intelligence if self.intelligence
-
     args["int_attack_mod"] = plusinfront AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
 
     # Wisdom
     args["wis"] = self.wisdom.to_i
     args["wis_percent"] = fract_extract self.wisdom if self.wisdom
-
     args["wis_init_mod"] = plusinfront AbilityScore.find_ability_mod("Wisdom", self.wisdom, "init_mod")
     args["mental_saving_throw_bonus"] = plusinfront AbilityScore.find_ability_mod("Wisdom", self.wisdom, "mental_saving_throw_bonus")
     args["wis_defense_mod"] = plusinfront AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod")
 
     # Dexterity
-
     args["dex"] = self.dexterity.to_i
     args["dex_percent"] = fract_extract self.dexterity if self.dexterity
-
     args["des_attack_mod"] = plusinfront AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod")
-    args["profile_1_abilities_attack_bonus"] = plusinfront (AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod") + AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod"))
-
     args["des_init_mod"] = plusinfront AbilityScore.find_ability_mod("Dexterity", self.dexterity, "init_mod")
-    args["profile_1_abilities_init"] = plusinfront (AbilityScore.find_ability_mod("Dexterity", self.dexterity, "init_mod") + AbilityScore.find_ability_mod("Wisdom", self.wisdom, "init_mod"))
-
     args["dex_defense_mod"] = plusinfront AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
-    args["profile_1_abilities_defense"] = plusinfront (AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod") + AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod"))
-
     args["dodge_saving_throw_bonus"] = plusinfront AbilityScore.find_ability_mod("Dexterity", self.dexterity, "dodge_saving_throw_bonus")
     args["feat_of_agility"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "feat_of_agility")
     args["physical_saving_throw_bonus"] = plusinfront AbilityScore.find_ability_mod("Dexterity", self.dexterity, "physical_saving_throw_bonus")
 
     # Constitituion
-
     args["con"] = self.constitution.to_i
     args["con_percent"] = fract_extract self.constitution if self.constitution
 
     # Looks
-
     args["lks"] = self.looks.to_i
     args["lks_percent"] = fract_extract self.looks if self.looks
 
     # Charisma
-
     args["cha"] = self.charisma.to_i
     args["cha_percent"] = fract_extract self.charisma if self.charisma
     args["turning_mod"] = plusinfront AbilityScore.find_ability_mod("Charisma", self.charisma, "turning_mod")
     args["morale_mod"] = plusinfront AbilityScore.find_ability_mod("Charisma", self.charisma, "morale_mod")
 
-    args["profile_1_abilities_speed"] = "--"
+    # Profile 1 Level mods.
+    args["profile_1_level_attack"]  = plusinfront Level.find_mod(self.character_class.id, self.level, "attack_mod")
+    args["profile_1_level_speed"]   = plusinfront Level.find_mod(self.character_class.id, self.level, "speed_mod")
+    args["profile_1_level_init"]    = plusinfront Level.find_mod(self.character_class.id, self.level, "init_mod")
+    args["profile_1_level_defense"] = "--"
+    args["profile_1_level_damage"]  = "--"
 
-    # Profile for Level mods.
+    # Profile 1 Abilities mods.
+    args["profile_1_abilities_attack"]  = plusinfront (AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod") + AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod"))
+    args["profile_1_abilities_speed"]   = "--"
+    args["profile_1_abilities_init"]    = plusinfront (AbilityScore.find_ability_mod("Dexterity", self.dexterity, "init_mod") + AbilityScore.find_ability_mod("Wisdom", self.wisdom, "init_mod"))
+    args["profile_1_abilities_defense"] = plusinfront (AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod") + AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod"))
+    args["profile_1_abilities_damage"]  = plusinfront AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
 
-    args["profile_1_level_attack_bonus"] = plusinfront Level.find_mod(self.character_class.id, self.level, "attack_mod")
-    args["profile_1_level_speed"]        = plusinfront Level.find_mod(self.character_class.id, self.level, "speed_mod")
-    args["profile_1_level_ranged_speed"] = plusinfront Level.find_mod(self.character_class.id, self.level, "rangedspeedmod")
-    args["profile_1_level_init"]         = plusinfront Level.find_mod(self.character_class.id, self.level, "init_mod")
-    args["profile_1_level_defense"]      = "--"
-    args["profile_1_level_damage"]       = "--"
+    # Profile 1 Specialization mods.
+    args["profile_1_specialization_attack"]  = self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "attack") ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "attack").value) : "0"
+    args["profile_1_specialization_speed"]   = self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "speed")  ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "speed").value)  : "0"
+    args["profile_1_specialization_init"]    = "--"
+    args["profile_1_specialization_defense"] = self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "defense") ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "defense").value) : "0"
+    args["profile_1_specialization_damage"]  = self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "damage")  ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "damage").value)  : "0"
 
-    # Profile for Level mods.
+    # Profile 1 Talent mods. TODO
+    args["profile_1_talent_attack"]  = "--"
+    args["profile_1_talent_speed"]   = "--"
+    args["profile_1_talent_init"]    = "--"
+    args["profile_1_talent_defense"] = "--"
+    args["profile_1_talent_damage"]  = "--"
 
-    args["profile_1_race_attack_bonus"]  = "--"
-    args["profile_1_race_speed"]         = "--"
-    args["profile_1_race_init"]          = "--"
-    args["profile_1_race_defense"]      = plusinfront Race.find_mod(self.race.name, "defadj")
-    args["profile_1_race_damage"]        = "--"
+    # Profile 1 Race mods.
+    args["profile_1_race_attack"]  = "--"
+    args["profile_1_race_speed"]   = "--"
+    args["profile_1_race_init"]    = "--"
+    args["profile_1_race_defense"] = plusinfront Race.find_mod(self.race.name, "defadj")
+    args["profile_1_race_damage"]  = "--"
 
-    #args["init_die_bonus"] =  plusinfront (Race.find_mod(self.race.name, "") +  Level.find_mod(self.class.name, self.level, "initiativediemod"))  # + armor itit die adjust
+    # Profile 1 Armor mods. TODO
+    args["profile_1_armor_attack"]  = "--"
+    args["profile_1_armor_speed"]   = "--"
+    args["profile_1_armor_init"]    = "--"
+    args["profile_1_armor_defense"] = "--"
+    args["profile_1_armor_damage"]  = "--"
 
-    # and so on...
+    # Profile 1 Shield mods. TODO
+    item = self.handedness == "right" ? self.left_hand_item : self.right_hand_item
+    args["profile_1_shield_defense"] = item.item.item_type == "shield" ? item.item.defense : "--"
+    args["profile_1_shield_attack"]  = "--"
+    args["profile_1_shield_speed"]   = "--"
+    args["profile_1_shield_init"]    = "--"
+    args["profile_1_shield_damage"]  = "--"
 
-    # these are the rest that I am not sure how to map them
-    # item_1
-    # item_loc_1
-    # magic_item_1
-    # magic_item_loc_1
-    # magic_item_note_1
-    # profile_1_s_m
+    # Profile 1 Magic mods. TODO
+    args["profile_1_magic_attack"]  = "--"
+    args["profile_1_magic_speed"]   = "--"
+    args["profile_1_magic_init"]    = "--"
+    args["profile_1_magic_defense"] = "--"
+    args["profile_1_magic_damage"]  = "--"
 
     # combat_profile_weapon_1
+    args["profile_1_attack"]  = plusinfront rose["attack"]["val"]
+    args["profile_1_speed"]   = plusinfront rose["speed"]["val"]
+    args["profile_1_init"]    = plusinfront rose["init"]["val"]
+    args["profile_1_defense"] = plusinfront rose["defense"]["val"]
+    args["profile_1_damage"]  = plusinfront rose["damage_mod"]["val"]
+    args["profile_1_reach"]   = plusinfront rose["reach"]["val"]
+    args["profile_1_base_weapon_speed"]  = self.main_hand_item.item.attack_speed
+    args["profile_1_base_weapon_damage"] = self.main_hand_item.item.damage
 
-    # profile_1_attack_bonus
-    # profile_1_speed
-    # profile_1_init
-    # profile_1_defense
-    # profile_1_damage
-    # profile_1_reach
+    if self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed").value >= 1
+      args["profile_1_spec_attack_1"] = "X"
+      args["profile_1_spec_speed_1"] = "X"
+      args["profile_1_spec_defense_1"] = "X"
+      args["profile_1_spec_damage_1"] = "X"
+    end
 
-    # profile_1_base_weapon_speed
-    # profile_1_base_weapon_damage
+    if self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed").value >= 2
+      args["profile_1_spec_attack_2"] = "X"
+      args["profile_1_spec_speed_2"] = "X"
+      args["profile_1_spec_defense_2"] = "X"
+      args["profile_1_spec_damage_2"] = "X"
+    end
 
-    # profile_1_spec_attack_1
-    # profile_1_spec_speed_1
-    # profile_1_spec_defense_1
-    # profile_1_spec_damage_1
+    if self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed").value >= 3
+      args["profile_1_spec_attack_3"] = "X"
+      args["profile_1_spec_speed_3"] = "X"
+      args["profile_1_spec_defense_3"] = "X"
+      args["profile_1_spec_damage_3"] = "X"
+    end
 
-    # profile_1_spec_attack_2
-    # profile_1_spec_speed_2
-    # profile_1_spec_m_2
-    # profile_1_spec_damage_2
+    if self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed").value >= 4
+      args["profile_1_spec_attack_4"] = "X"
+      args["profile_1_spec_speed_4"] = "X"
+      args["profile_1_spec_defense_4"] = "X"
+      args["profile_1_spec_damage_4"] = "X"
+    end
 
-    # profile_1_spec_attack_3
-    # profile_1_spec_speed_3
-    # profile_1_spec_defense_3
-    # profile_1_spec_damage_3
+    if self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.item.id, stat_name: "speed").value >= 5
+      args["profile_1_spec_attack_5"] = "X"
+      args["profile_1_spec_speed_5"] = "X"
+      args["profile_1_spec_defense_5"] = "X"
+      args["profile_1_spec_damage_5"] = "X"
+    end
 
-    # profile_1_spec_attack_4
-    # profile_1_spec_speed_4
-    # profile_1_spec_defense_4
-    # profile_1_spec_damage_4
+    die_bonus = Race.find_mod(self.race.name, "initdiebonus")
+    die_bonus += Level.find_mod(self.class.name, self.level, "initiativediemod") if die_bonus
+    args["profile_1_notes"] += "Initiative die bonus: " + die_bonus if die_bonus
 
-    # profile_1_spec_attack_5
-    # profile_1_spec_speed_5
-    # profile_1_spec_defense_5
-    # profile_1_spec_damage_5
+    self.item_instances.each_with_index do |item_instance, i|
+      if item_instance.magic_level and item_instance.magic_level <= 0
+        args["item_#{i}"] = item_instance.item.name
+        args["item_loc_#{i}"] = item_instance.item.location
+      end
+    end
 
-    # location
-    # talent_1
-    # talent_benefit_1
+    self.item_instances.each_with_index do |item_instance, i|
+      if item_instance.magic_level and item_instance.magic_level > 0
+        args["magic_item_#{i}"] = item_instance.name ? item_instance.name : item_instance.item.name
+        args["magic_item_loc_#{i}"] = item_instance.item.location
+      end
+    end
 
-    # prof_1
-    # prof_2
-    # prof_3
-    # prof_4
-    # prof_5
-    # prof_6
-    # prof_7
-    # prof_8
-    # prof_9
-    # prof_10
-    # prof_11
-    # prof_12
+    self.talents.each_with_index do |talent, i|
+      args["talent_#{i}"] = talent.name
+      args["talent_benefit_#{i}"] = talent.description
+    end
+
+    self.proficiencies.each_with_index do |prof, i|
+      args["prof_#{i}"] = prof.name
+    end
 
     # check this url for the pdf field names:
     # https://www.webmerge.me/manage/documents?page=edit&step=test&document_id=14785
