@@ -467,7 +467,16 @@ class Character < ActiveRecord::Base
     args["turning_mod"] = plusinfront AbilityScore.find_ability_mod("Charisma", self.charisma, "turning_mod")
     args["morale_mod"] = plusinfront AbilityScore.find_ability_mod("Charisma", self.charisma, "morale_mod")
 
+    # Armor worn
+
+    args["body_equiped"] = self.body_item.item.name if self.body_item
+    args["shield_equiped"] = ""
+    args["body_equiped_damage_reduction"] = self.body_item.item.damage_reduction if self.body_item
+    args["shield_defense_bonus"] = ""
+    args["shield_damage_reduction"] = ""
+
     args["profile_1_notes"] = ""
+    args["combat_profile_weapon"] = self.main_hand_item.name ? self.main_hand_item.name : self.main_hand_item.item.name
 
     # Profile 1 Level mods.
     args["profile_1_level_attack"]  = plusinfront Level.find_mod(self.character_class.id, self.level, "attack_mod")
