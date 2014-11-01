@@ -476,7 +476,9 @@ class Character < ActiveRecord::Base
     args["shield_damage_reduction"] = ""
 
     args["profile_1_notes"] = ""
-    args["combat_profile_weapon"] = self.main_hand_item.name ? self.main_hand_item.name : self.main_hand_item.item.name
+    if self.main_hand_item
+      args["combat_profile_weapon"] = self.main_hand_item.name ? self.main_hand_item.name : self.main_hand_item.item.name
+    end
 
     # Profile 1 Level mods.
     args["profile_1_level_attack"]  = plusinfront Level.find_mod(self.character_class.id, self.level, "attack_mod")
