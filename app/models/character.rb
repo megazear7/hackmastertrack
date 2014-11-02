@@ -90,6 +90,18 @@ class Character < ActiveRecord::Base
     self.handedness == "R" ? self.left_hand_item : self.right_hand_item
   end
 
+  def if_off_hand_shield_is_equipped
+    yield off_hand_item if off_hand_item.item.item_type == "shield"
+  end
+
+  def if_main_hand_weapon_is_equipped
+    yield main_hand_item if main_hand_item.item.item_type == "melee" or main_hand_item.item.item_type == "ranged" or main_hand_item.item.item_type == "polearm"
+  end
+
+  def if_armor_is_worn
+    yield body_item if body_item
+  end
+
   def calculate_combat_rose equipment = nil
     # if any equipment was passed in, use that in the calcultion instead of the actual equiped items
     equipment_to_calc = {}
@@ -373,23 +385,23 @@ class Character < ActiveRecord::Base
   def pdf_fields
     args = {} 
     args["name"] = self.name
-    args["class"] = self.character_class.name if self.character_class
-    args["race"] = self.race.name if self.race
-    args["level"] = self.level if self.level
-    args["alignment"] = self.alignment if self.alignment
-    args["sex"] = self.sex if self.sex
-    args["age"] = self.age if self.age
-    args["height"] = self.height if self.height
-    args["weight"] = self.weight if self.weight
-    args["hair"] = self.hair if self.hair
-    args["eyes"] = self.eyes if self.eyes
-    args["handedness"] = self.handedness if self.handedness
+    args["class"] = self.character_class.name
+    args["race"] = self.race.name
+    args["level"] = self.level
+    args["alignment"] = self.alignment
+    args["sex"] = self.sex
+    args["age"] = self.age
+    args["height"] = self.height
+    args["weight"] = self.weight
+    args["hair"] = self.hair
+    args["eyes"] = self.eyes
+    args["handedness"] = self.handedness
     #args["patron_gods"] = self.patron_gods.name if self.patron_gods
     #args["anointed_y"] = "X" if self.anointed == "Yes"
     #args["anointed_n"] = "X" if self.anointed == "No"
-    args["building_points"] = self.building_points if self.building_points
-    args["experience"] = self.exp if self.exp
-    args["hit_points"] = self.health if self.health
+    args["building_points"] = self.building_points
+    args["experience"] = self.exp
+    args["hit_points"] = self.health
 
     # Combat Rose Character sheet doesn't have a combat rose yet
     rose = calculate_combat_rose
@@ -403,10 +415,10 @@ class Character < ActiveRecord::Base
     # body_equiped_damage_reduction
 
     # Money
-    args["trade_coins"] = self.trade_coins if self.trade_coins
-    args["cp"] = self.copper if self.copper
-    args["sp"] = self.silver if self.silver
-    args["gp"] = self.gold if self.gold
+    args["trade_coins"] = self.trade_coins
+    args["cp"] = self.copper
+    args["sp"] = self.silver
+    args["gp"] = self.gold
 
     # Honor
     # hon_window
@@ -424,7 +436,7 @@ class Character < ActiveRecord::Base
 
     # Strength
     args["str"] = self.strength.to_i
-    args["str_percent"] =  fract_extract self.strength if self.strength
+    args["str_percent"] =  fract_extract self.strength
     args["feat_of_strength"] = plusinfront AbilityScore.find_ability_mod("Strength", self.strength, "feat_of_strength")
     args["str_damage_mod"] = plusinfront AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
     args["str_lift"] =  AbilityScore.find_ability_mod("Strength", self.strength, "lift")
@@ -433,19 +445,19 @@ class Character < ActiveRecord::Base
 
     # Intelligence
     args["int"] = self.intelligence.to_i
-    args["int_percent"] = fract_extract self.intelligence if self.intelligence
+    args["int_percent"] = fract_extract self.intelligence
     args["int_attack_mod"] = plusinfront AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
 
     # Wisdom
     args["wis"] = self.wisdom.to_i
-    args["wis_percent"] = fract_extract self.wisdom if self.wisdom
+    args["wis_percent"] = fract_extract self.wisdom
     args["wis_init_mod"] = plusinfront AbilityScore.find_ability_mod("Wisdom", self.wisdom, "init_mod")
     args["mental_saving_throw_bonus"] = plusinfront AbilityScore.find_ability_mod("Wisdom", self.wisdom, "mental_saving_throw_bonus")
     args["wis_defense_mod"] = plusinfront AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod")
 
     # Dexterity
     args["dex"] = self.dexterity.to_i
-    args["dex_percent"] = fract_extract self.dexterity if self.dexterity
+    args["dex_percent"] = fract_extract self.dexterity
     args["des_attack_mod"] = plusinfront AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod")
     args["des_init_mod"] = plusinfront AbilityScore.find_ability_mod("Dexterity", self.dexterity, "init_mod")
     args["dex_defense_mod"] = plusinfront AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
@@ -455,29 +467,32 @@ class Character < ActiveRecord::Base
 
     # Constitituion
     args["con"] = self.constitution.to_i
-    args["con_percent"] = fract_extract self.constitution if self.constitution
+    args["con_percent"] = fract_extract self.constitution
 
     # Looks
     args["lks"] = self.looks.to_i
-    args["lks_percent"] = fract_extract self.looks if self.looks
+    args["lks_percent"] = fract_extract self.looks
 
     # Charisma
     args["cha"] = self.charisma.to_i
-    args["cha_percent"] = fract_extract self.charisma if self.charisma
+    args["cha_percent"] = fract_extract self.charisma
     args["turning_mod"] = plusinfront AbilityScore.find_ability_mod("Charisma", self.charisma, "turning_mod")
     args["morale_mod"] = plusinfront AbilityScore.find_ability_mod("Charisma", self.charisma, "morale_mod")
 
     # Armor worn
-
-    args["body_equiped"] = self.body_item.item.name if self.body_item
-    args["shield_equiped"] = ""
-    args["body_equiped_damage_reduction"] = self.body_item.item.damage_reduction if self.body_item
-    args["shield_defense_bonus"] = ""
-    args["shield_damage_reduction"] = ""
+    self.if_armor_is_worn do |armor|
+      args["body_equiped"] = armor.actual_name
+      args["body_equiped_damage_reduction"] = armor.item.damage_reduction
+    end
+    self.if_off_hand_shield_is_equiped do |shield|
+      args["shield_equiped"] = shield.actual_name
+      args["shield_defense_bonus"] = shield.item.shield_defense
+      args["shield_damage_reduction"] = shield.item.damage_reduction
+    end
 
     args["profile_1_notes"] = ""
-    if self.main_hand_item
-      args["combat_profile_weapon"] = self.main_hand_item.name ? self.main_hand_item.name : self.main_hand_item.item.name
+    self.if_main_hand_weapon_is_equiped do |weapon|
+      args["combat_profile_weapon"] = weapon.actual_name
     end
 
     # Profile 1 Level mods.
