@@ -11,35 +11,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141031172801) do
+ActiveRecord::Schema.define(version: 20141102170510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "ability_scores", force: true do |t|
-    t.string   "ability"
-    t.text     "value_range"
-    t.integer  "feat_of_strength"
-    t.integer  "lift"
-    t.integer  "carry"
-    t.integer  "drag"
-    t.integer  "damage_mod"
-    t.integer  "init_mod"
-    t.integer  "speed_mod"
-    t.integer  "attack_mod"
-    t.integer  "defense_mod"
-    t.integer  "turning_mod"
-    t.integer  "feat_of_agility"
-    t.integer  "mental_saving_throw_bonus"
-    t.integer  "dodge_saving_throw_bonus"
-    t.integer  "physical_saving_throw_bonus"
-    t.integer  "morale_mod"
+    t.string   "ability",                     default: ""
+    t.text     "value_range",                 default: ""
+    t.integer  "feat_of_strength",            default: 0
+    t.integer  "lift",                        default: 0
+    t.integer  "carry",                       default: 0
+    t.integer  "drag",                        default: 0
+    t.integer  "damage_mod",                  default: 0
+    t.integer  "init_mod",                    default: 0
+    t.integer  "speed_mod",                   default: 0
+    t.integer  "attack_mod",                  default: 0
+    t.integer  "defense_mod",                 default: 0
+    t.integer  "turning_mod",                 default: 0
+    t.integer  "feat_of_agility",             default: 0
+    t.integer  "mental_saving_throw_bonus",   default: 0
+    t.integer  "dodge_saving_throw_bonus",    default: 0
+    t.integer  "physical_saving_throw_bonus", default: 0
+    t.integer  "morale_mod",                  default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "min"
-    t.float    "max"
-    t.integer  "max_spells_per_level"
-    t.integer  "chance_to_learn_spell"
+    t.float    "min",                         default: 0.0
+    t.float    "max",                         default: 0.0
+    t.integer  "max_spells_per_level",        default: 0
+    t.integer  "chance_to_learn_spell",       default: 0
   end
 
   create_table "bp_cost_by_race_classes", force: true do |t|
@@ -71,44 +71,44 @@ ActiveRecord::Schema.define(version: 20141031172801) do
   end
 
   create_table "characters", force: true do |t|
-    t.float    "strength"
-    t.float    "intelligence"
-    t.float    "wisdom"
-    t.float    "dexterity"
-    t.float    "constitution"
-    t.float    "looks"
-    t.float    "charisma"
-    t.float    "honor"
-    t.float    "fame"
+    t.float    "strength",           default: 0.0
+    t.float    "intelligence",       default: 0.0
+    t.float    "wisdom",             default: 0.0
+    t.float    "dexterity",          default: 0.0
+    t.float    "constitution",       default: 0.0
+    t.float    "looks",              default: 0.0
+    t.float    "charisma",           default: 0.0
+    t.float    "honor",              default: 0.0
+    t.float    "fame",               default: 0.0
     t.integer  "building_points",    default: 0
-    t.integer  "health"
-    t.string   "name"
+    t.integer  "health",             default: 0
+    t.string   "name",               default: ""
     t.integer  "level",              default: 1
-    t.string   "alignment"
-    t.string   "sex"
-    t.integer  "age"
-    t.integer  "height"
-    t.integer  "weight"
-    t.string   "hair"
-    t.string   "eyes"
-    t.string   "handedness"
-    t.string   "trade_coins"
-    t.integer  "copper"
-    t.integer  "silver"
-    t.integer  "gold"
+    t.string   "alignment",          default: "LG"
+    t.string   "sex",                default: "M"
+    t.integer  "age",                default: 0
+    t.integer  "height",             default: 0
+    t.integer  "weight",             default: 0
+    t.string   "hair",               default: "black"
+    t.string   "eyes",               default: "brown"
+    t.string   "handedness",         default: "L"
+    t.string   "trade_coins",        default: ""
+    t.integer  "copper",             default: 0
+    t.integer  "silver",             default: 0
+    t.integer  "gold",               default: 0
     t.integer  "spell_points",       default: 0
     t.integer  "luck_points",        default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
+    t.integer  "user_id",            default: 0
     t.integer  "exp",                default: 0
-    t.integer  "mentor_id"
-    t.integer  "left_hand_item_id"
-    t.integer  "right_hand_item_id"
-    t.integer  "body_item_id"
-    t.integer  "character_class_id"
-    t.integer  "race_id"
-    t.boolean  "finished"
+    t.integer  "mentor_id",          default: 0
+    t.integer  "left_hand_item_id",  default: 0
+    t.integer  "right_hand_item_id", default: 0
+    t.integer  "body_item_id",       default: 0
+    t.integer  "character_class_id", default: 0
+    t.integer  "race_id",            default: 0
+    t.boolean  "finished",           default: false
   end
 
   create_table "characters_items", force: true do |t|
@@ -153,256 +153,256 @@ ActiveRecord::Schema.define(version: 20141031172801) do
   create_table "item_instances", force: true do |t|
     t.integer  "item_id"
     t.integer  "character_id"
-    t.integer  "durability"
-    t.integer  "attack_mod"
-    t.integer  "speed_mod"
-    t.integer  "init_mod"
-    t.integer  "defense_mod"
-    t.integer  "damage_mod"
-    t.integer  "damage_reduction"
-    t.integer  "magic_level"
-    t.integer  "init_die_mod"
+    t.integer  "durability",       default: 0
+    t.integer  "attack_mod",       default: 0
+    t.integer  "speed_mod",        default: 0
+    t.integer  "init_mod",         default: 0
+    t.integer  "defense_mod",      default: 0
+    t.integer  "damage_mod",       default: 0
+    t.integer  "damage_reduction", default: 0
+    t.integer  "magic_level",      default: 0
+    t.integer  "init_die_mod",     default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "display"
-    t.string   "name"
+    t.boolean  "display",          default: false
+    t.string   "name",             default: ""
   end
 
   create_table "items", force: true do |t|
-    t.integer  "attack_mod"
-    t.integer  "speed_mod"
-    t.integer  "init_mod"
-    t.integer  "defense_mod"
-    t.integer  "damage_mod"
-    t.integer  "damage_reduction"
-    t.integer  "magic_level"
-    t.float    "weight"
-    t.integer  "cover_value"
-    t.string   "location"
-    t.string   "damage"
+    t.integer  "attack_mod",              default: 0
+    t.integer  "speed_mod",               default: 0
+    t.integer  "init_mod",                default: 0
+    t.integer  "defense_mod",             default: 0
+    t.integer  "damage_mod",              default: 0
+    t.integer  "damage_reduction",        default: 0
+    t.integer  "magic_level",             default: 0
+    t.float    "weight",                  default: 0.0
+    t.integer  "cover_value",             default: 0
+    t.string   "location",                default: "arm"
+    t.string   "damage",                  default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "shield_size"
-    t.string   "armor_type"
-    t.string   "name"
-    t.string   "description"
-    t.integer  "attack_speed"
-    t.integer  "jab_speed"
-    t.float    "reach"
-    t.float    "buy_cost"
-    t.float    "sell_value"
-    t.string   "damage_type"
-    t.integer  "heal_value"
-    t.string   "item_type"
-    t.integer  "high_avail"
-    t.integer  "med_avail"
-    t.integer  "low_avail"
-    t.integer  "init_die_mod"
-    t.integer  "movement_rate_reduction"
-    t.integer  "crouching_cover_value"
-    t.string   "shield_damage"
-    t.integer  "str_required"
-    t.string   "skill_level"
-    t.boolean  "dismount"
-    t.integer  "hvy_armor"
-    t.boolean  "set_for_charge"
-    t.string   "pole_arm_defense"
-    t.integer  "phalanx"
-    t.string   "size"
-    t.integer  "max_range"
-    t.integer  "range_short"
-    t.integer  "range_medium"
-    t.integer  "range_long"
-    t.integer  "range_maximum"
-    t.integer  "proficiency_id"
-    t.boolean  "two_handed"
-    t.boolean  "mounted"
-    t.boolean  "sword"
-    t.float    "capacity_pounds"
-    t.float    "capacity_gallons"
-    t.integer  "number_of_days"
-    t.boolean  "requires_preparation"
-    t.integer  "distance"
+    t.string   "shield_size",             default: ""
+    t.string   "armor_type",              default: ""
+    t.string   "name",                    default: ""
+    t.string   "description",             default: ""
+    t.integer  "attack_speed",            default: 0
+    t.integer  "jab_speed",               default: 0
+    t.float    "reach",                   default: 0.0
+    t.float    "buy_cost",                default: 0.0
+    t.float    "sell_value",              default: 0.0
+    t.string   "damage_type",             default: ""
+    t.integer  "heal_value",              default: 0
+    t.string   "item_type",               default: ""
+    t.integer  "high_avail",              default: 0
+    t.integer  "med_avail",               default: 0
+    t.integer  "low_avail",               default: 0
+    t.integer  "init_die_mod",            default: 0
+    t.integer  "movement_rate_reduction", default: 0
+    t.integer  "crouching_cover_value",   default: 0
+    t.string   "shield_damage",           default: ""
+    t.integer  "str_required",            default: 0
+    t.string   "skill_level",             default: ""
+    t.boolean  "dismount",                default: false
+    t.integer  "heavy_armor",             default: 0
+    t.boolean  "set_for_charge",          default: false
+    t.string   "pole_arm_defense",        default: ""
+    t.integer  "phalanx",                 default: 0
+    t.string   "size",                    default: ""
+    t.integer  "max_range",               default: 0
+    t.integer  "range_short",             default: 0
+    t.integer  "range_medium",            default: 0
+    t.integer  "range_long",              default: 0
+    t.integer  "range_maximum",           default: 0
+    t.integer  "proficiency_id",          default: 0
+    t.boolean  "two_handed",              default: false
+    t.boolean  "mounted",                 default: false
+    t.boolean  "sword",                   default: false
+    t.float    "capacity_pounds",         default: 0.0
+    t.float    "capacity_gallons",        default: 0.0
+    t.integer  "number_of_days",          default: 0
+    t.boolean  "requires_preparation",    default: false
+    t.integer  "distance",                default: 0
   end
 
   create_table "levels", force: true do |t|
-    t.integer  "level_value"
-    t.integer  "init_mod"
-    t.integer  "attack_mod"
-    t.integer  "speed_mod"
-    t.integer  "spell_points"
+    t.integer  "level_value",        default: 0
+    t.integer  "init_mod",           default: 0
+    t.integer  "attack_mod",         default: 0
+    t.integer  "speed_mod",          default: 0
+    t.integer  "spell_points",       default: 0
     t.integer  "character_class_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "stvsspells"
-    t.string   "addedspells"
-    t.integer  "rangedspeedmod"
-    t.integer  "initiativediemod"
-    t.string   "hitdice"
+    t.integer  "stvsspells",         default: 0
+    t.string   "added_spells",       default: ""
+    t.integer  "ranged_speed_mod",   default: 0
+    t.integer  "init_die_mod",       default: 0
+    t.string   "hit_dice",           default: ""
   end
 
   create_table "monsters", force: true do |t|
-    t.string   "name"
-    t.text     "description"
-    t.text     "combat_and_tactics"
-    t.text     "habitat_and_society"
-    t.text     "ecology"
-    t.text     "attack_description"
-    t.integer  "health"
-    t.boolean  "template"
-    t.string   "size"
-    t.string   "weight"
-    t.string   "intelligence"
-    t.integer  "fatigue_factor"
-    t.integer  "crawl"
-    t.integer  "walk"
-    t.integer  "jog"
-    t.integer  "run"
-    t.integer  "sprint"
-    t.integer  "physical_save"
-    t.integer  "mental_save"
-    t.integer  "dodge_save"
-    t.string   "activity_cycle"
-    t.string   "no_appearing"
-    t.integer  "chance_in_lair"
-    t.string   "frequency"
-    t.string   "alignment"
-    t.string   "vision_type"
-    t.string   "awareness_and_senses"
-    t.string   "habitat"
-    t.string   "diet"
-    t.string   "organization"
-    t.string   "climate"
-    t.string   "medicinal_yield"
-    t.string   "spell_component_yield"
-    t.string   "hide_or_trophy"
-    t.string   "treasure"
-    t.string   "edible"
-    t.string   "other_yield"
-    t.integer  "exp_value"
-    t.integer  "will_factor"
-    t.integer  "speed"
-    t.integer  "attack"
-    t.integer  "init"
-    t.integer  "defense"
-    t.integer  "damage_reduction"
-    t.string   "reach"
-    t.integer  "damage"
-    t.integer  "top_save"
-    t.integer  "top_threshold"
+    t.string   "name",                  default: ""
+    t.text     "description",           default: ""
+    t.text     "combat_and_tactics",    default: ""
+    t.text     "habitat_and_society",   default: ""
+    t.text     "ecology",               default: ""
+    t.text     "attack_description",    default: ""
+    t.integer  "health",                default: 0
+    t.boolean  "template",              default: false
+    t.string   "size",                  default: ""
+    t.string   "weight",                default: ""
+    t.string   "intelligence",          default: ""
+    t.integer  "fatigue_factor",        default: 0
+    t.integer  "crawl",                 default: 0
+    t.integer  "walk",                  default: 0
+    t.integer  "jog",                   default: 0
+    t.integer  "run",                   default: 0
+    t.integer  "sprint",                default: 0
+    t.integer  "physical_save",         default: 0
+    t.integer  "mental_save",           default: 0
+    t.integer  "dodge_save",            default: 0
+    t.string   "activity_cycle",        default: ""
+    t.string   "no_appearing",          default: ""
+    t.integer  "chance_in_lair",        default: 0
+    t.string   "frequency",             default: ""
+    t.string   "alignment",             default: ""
+    t.string   "vision_type",           default: ""
+    t.string   "awareness_and_senses",  default: ""
+    t.string   "habitat",               default: ""
+    t.string   "diet",                  default: ""
+    t.string   "organization",          default: ""
+    t.string   "climate",               default: ""
+    t.string   "medicinal_yield",       default: ""
+    t.string   "spell_component_yield", default: ""
+    t.string   "hide_or_trophy",        default: ""
+    t.string   "treasure",              default: ""
+    t.string   "edible",                default: ""
+    t.string   "other_yield",           default: ""
+    t.integer  "exp_value",             default: 0
+    t.integer  "will_factor",           default: 0
+    t.integer  "speed",                 default: 0
+    t.integer  "attack",                default: 0
+    t.integer  "init",                  default: 0
+    t.integer  "defense",               default: 0
+    t.integer  "damage_reduction",      default: 0
+    t.string   "reach",                 default: ""
+    t.integer  "damage",                default: 0
+    t.integer  "top_save",              default: 0
+    t.integer  "top_threshold",         default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "proficiencies", force: true do |t|
-    t.string   "name"
-    t.string   "description"
-    t.string   "requirements"
-    t.integer  "bp_cost"
+    t.string   "name",         default: ""
+    t.string   "description",  default: ""
+    t.string   "requirements", default: ""
+    t.integer  "bp_cost",      default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "races", force: true do |t|
-    t.string   "name"
-    t.string   "description"
-    t.integer  "str_mod"
-    t.integer  "int_mod"
-    t.integer  "wis_mod"
-    t.integer  "dex_mod"
-    t.integer  "con_mod"
-    t.integer  "lks_mod"
-    t.integer  "cha_mod"
+    t.string   "name",                        default: ""
+    t.string   "description",                 default: ""
+    t.integer  "str_mod",                     default: 0
+    t.integer  "int_mod",                     default: 0
+    t.integer  "wis_mod",                     default: 0
+    t.integer  "dex_mod",                     default: 0
+    t.integer  "con_mod",                     default: 0
+    t.integer  "lks_mod",                     default: 0
+    t.integer  "cha_mod",                     default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "hpsizeadj"
-    t.integer  "defadjvslarge"
-    t.integer  "defadj"
-    t.integer  "hideinnatsur"
-    t.float    "basemv"
-    t.float    "reachadj"
-    t.string   "size"
-    t.string   "knockbacksize"
-    t.boolean  "lowlightvision"
-    t.boolean  "initdiebonus"
-    t.integer  "maleheight"
-    t.integer  "femaleheight"
-    t.integer  "maleweight"
-    t.integer  "femaleweight"
-    t.integer  "lifespan"
+    t.integer  "hp_size_adjustment",          default: 0
+    t.integer  "defense_adjustment_vs_large", default: 0
+    t.integer  "defense_adjustment",          default: 0
+    t.integer  "hide_in_natural",             default: 0
+    t.float    "base_movement",               default: 0.0
+    t.float    "reach_adjustment",            default: 0.0
+    t.string   "size",                        default: ""
+    t.string   "knock_back_size",             default: ""
+    t.boolean  "low_light_vision",            default: false
+    t.boolean  "init_die_bonus",              default: false
+    t.integer  "male_height",                 default: 0
+    t.integer  "female_height",               default: 0
+    t.integer  "male_weight",                 default: 0
+    t.integer  "female_weight",               default: 0
+    t.integer  "lifespan",                    default: 0
   end
 
   create_table "skills", force: true do |t|
-    t.string   "name"
-    t.string   "description"
-    t.integer  "bp_cost"
-    t.string   "main_attr"
-    t.string   "other_attr"
+    t.string   "name",         default: ""
+    t.string   "description",  default: ""
+    t.integer  "bp_cost",      default: 0
+    t.string   "main_attr",    default: ""
+    t.string   "other_attr",   default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "third_attr"
-    t.boolean  "universal"
-    t.string   "prerequisite"
-    t.string   "materials"
-    t.string   "unskilled"
-    t.string   "novice"
-    t.string   "average"
-    t.string   "advanced"
-    t.string   "expert"
-    t.string   "master"
+    t.string   "third_attr",   default: ""
+    t.boolean  "universal",    default: false
+    t.string   "prerequisite", default: ""
+    t.string   "materials",    default: ""
+    t.string   "unskilled",    default: ""
+    t.string   "novice",       default: ""
+    t.string   "average",      default: ""
+    t.string   "advanced",     default: ""
+    t.string   "expert",       default: ""
+    t.string   "master",       default: ""
   end
 
   create_table "specializations", force: true do |t|
     t.integer  "item_id"
     t.integer  "character_id"
-    t.integer  "value"
+    t.integer  "value",        default: 0
     t.string   "stat_name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "spells", force: true do |t|
-    t.string   "name"
-    t.string   "description"
-    t.integer  "spellpoints"
-    t.string   "spell_type"
+    t.string   "name",                        default: ""
+    t.string   "description",                 default: ""
+    t.integer  "spellpoints",                 default: 0
+    t.string   "spell_type",                  default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "verbal"
-    t.boolean  "somatic"
-    t.string   "material_component"
-    t.integer  "casting_time"
-    t.integer  "duration"
-    t.string   "volume_of_effect_type"
-    t.integer  "volume_of_effect"
-    t.integer  "volume_increase"
-    t.integer  "volume_increase_cost"
-    t.integer  "range"
-    t.integer  "range_increase"
-    t.integer  "range_increase_cost"
-    t.string   "target_damage"
-    t.string   "target_damage_increase"
-    t.integer  "target_damage_increase_cost"
-    t.string   "area_damage"
-    t.string   "area_damage_increase"
-    t.integer  "area_damage_increase_cost"
-    t.string   "special_increase1"
-    t.integer  "special_increase1_cost"
-    t.string   "special_increase2"
-    t.integer  "special_increase2_cost"
-    t.string   "saving_throw"
-    t.string   "saving_throw_result"
-    t.boolean  "bounce_damage"
-    t.string   "damage_type"
-    t.integer  "duration_increase"
-    t.integer  "duration_increase_cost"
+    t.boolean  "verbal",                      default: false
+    t.boolean  "somatic",                     default: false
+    t.string   "material_component",          default: ""
+    t.integer  "casting_time",                default: 0
+    t.integer  "duration",                    default: 0
+    t.string   "volume_of_effect_type",       default: ""
+    t.integer  "volume_of_effect",            default: 0
+    t.integer  "volume_increase",             default: 0
+    t.integer  "volume_increase_cost",        default: 0
+    t.integer  "range",                       default: 0
+    t.integer  "range_increase",              default: 0
+    t.integer  "range_increase_cost",         default: 0
+    t.string   "target_damage",               default: ""
+    t.string   "target_damage_increase",      default: ""
+    t.integer  "target_damage_increase_cost", default: 0
+    t.string   "area_damage",                 default: ""
+    t.string   "area_damage_increase",        default: ""
+    t.integer  "area_damage_increase_cost",   default: 0
+    t.string   "special_increase1",           default: ""
+    t.integer  "special_increase1_cost",      default: 0
+    t.string   "special_increase2",           default: ""
+    t.integer  "special_increase2_cost",      default: 0
+    t.string   "saving_throw",                default: ""
+    t.string   "saving_throw_result",         default: ""
+    t.boolean  "bounce_damage",               default: false
+    t.string   "damage_type",                 default: ""
+    t.integer  "duration_increase",           default: 0
+    t.integer  "duration_increase_cost",      default: 0
   end
 
   create_table "talents", force: true do |t|
-    t.string   "name"
-    t.string   "description"
-    t.string   "requirements"
-    t.integer  "bp_cost"
+    t.string   "name",         default: ""
+    t.string   "description",  default: ""
+    t.string   "requirements", default: ""
+    t.integer  "bp_cost",      default: 0
     t.integer  "item_id"
     t.datetime "created_at"
     t.datetime "updated_at"
