@@ -91,11 +91,11 @@ class Character < ActiveRecord::Base
   end
 
   def if_off_hand_shield_is_equiped
-    yield off_hand_item if off_hand_item.item.item_type == "shield"
+    yield off_hand_item if off_hand_item and off_hand_item.item.item_type == "shield"
   end
 
   def if_main_hand_weapon_is_equiped
-    yield main_hand_item if main_hand_item.item.item_type == "melee" or main_hand_item.item.item_type == "ranged" or main_hand_item.item.item_type == "polearm"
+    yield main_hand_item if main_hand_item and (main_hand_item.item.item_type == "melee" or main_hand_item.item.item_type == "ranged" or main_hand_item.item.item_type == "polearm")
   end
 
   def if_armor_is_worn
