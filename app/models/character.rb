@@ -535,7 +535,7 @@ class Character < ActiveRecord::Base
     args["profile_1_race_attack"]  = "--"
     args["profile_1_race_speed"]   = "--"
     args["profile_1_race_init"]    = "--"
-    args["profile_1_race_defense"] = plusinfront Race.find_mod(self.race.name, "defadj")
+    args["profile_1_race_defense"] = plusinfront Race.find_mod(self.race.name, "defense_adjustment")
     args["profile_1_race_damage"]  = "--"
 
     # Profile 1 Armor mods. TODO
@@ -555,7 +555,7 @@ class Character < ActiveRecord::Base
 
     # Profile 1 Shield mods. TODO
     if self.off_hand_item
-      args["profile_1_shield_defense"] = plusinfront self.off_hand_item.item.item_type == "shield" ? self.off_hand_item.item.defense_mod : "--"
+      args["profile_1_shield_defense"] = self.off_hand_item.item.item_type == "shield" ? plusinfront(self.off_hand_item.item.defense_mod) : "--"
     else
       args["profile_1_shield_defense"] = "--"
     end
@@ -616,8 +616,8 @@ class Character < ActiveRecord::Base
       args["profile_1_spec_damage_5"] = "X"
     end
 
-    die_bonus = Race.find_mod(self.race.name, "initdiebonus") ? 1 : 0
-    die_bonus += Level.find_mod(self.class.name, self.level, "initiativediemod") if die_bonus
+    die_bonus = Race.find_mod(self.race.name, "init_die_bonus") ? 1 : 0
+    die_bonus += Level.find_mod(self.class.name, self.level, "init_die_mod") if die_bonus
     args["profile_1_notes"] += "Initiative die bonus: " + die_bonus.to_s if die_bonus
 
     self.item_instances.each_with_index do |item_instance, i|

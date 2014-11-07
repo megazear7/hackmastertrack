@@ -51,7 +51,7 @@ namespace :transfer do
       call "git checkout #{base_branch}"
       call "rake db:reset"
       call "pg_restore --verbose --clean --no-acl --no-owner -d " +
-           "qb_development latest.dump"
+           "hmt_development latest.dump"
       call "git checkout #{final_branch}"
       call "rake db:migrate"
       call "rake db:migrate RAILS_ENV=test"
