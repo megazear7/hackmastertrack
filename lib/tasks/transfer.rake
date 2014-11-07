@@ -49,7 +49,8 @@ namespace :transfer do
       call "heroku pgbackups:capture -a #{app_name(src)} --expire"
       call "curl -o latest.dump `heroku pgbackups:url -a #{app_name(src)}`"
       call "git checkout #{base_branch}"
-      call "rake db:reset"
+      call "rake db:drop"
+      call "rake db:create"
       call "pg_restore --verbose --clean --no-acl --no-owner -d " +
            "qb_development latest.dump"
       call "git checkout #{final_branch}"
