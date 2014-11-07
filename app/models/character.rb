@@ -90,11 +90,11 @@ class Character < ActiveRecord::Base
     self.handedness == "R" ? self.left_hand_item : self.right_hand_item
   end
 
-  def if_off_hand_shield_is_equipped
+  def if_off_hand_shield_is_equiped
     yield off_hand_item if off_hand_item.item.item_type == "shield"
   end
 
-  def if_main_hand_weapon_is_equipped
+  def if_main_hand_weapon_is_equiped
     yield main_hand_item if main_hand_item.item.item_type == "melee" or main_hand_item.item.item_type == "ranged" or main_hand_item.item.item_type == "polearm"
   end
 
@@ -486,7 +486,7 @@ class Character < ActiveRecord::Base
     end
     self.if_off_hand_shield_is_equiped do |shield|
       args["shield_equiped"] = shield.actual_name
-      args["shield_defense_bonus"] = shield.item.shield_defense
+      args["shield_defense_bonus"] = shield.shield_defense
       args["shield_damage_reduction"] = shield.item.damage_reduction
     end
 
