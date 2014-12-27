@@ -1,19 +1,22 @@
 %h1 Listing class_spells
-
-%table
+.row
+  .col-md-12
+    = link_to 'New Class spell', new_class_spell_path, class: "btn btn-primary pull-right" if current_user.admin_level >= 1
+%table.table.table-hover.table-responsive
   %thead
     %tr
+      %th Spell
+      %th Class
+      %th Level
       %th
       %th
       %th
-      
   %tbody
     - @class_spells.each do |class_spell|
       %tr
+        %td= class_spell.spell.name
+        %td= class_spell.character_class.name
+        %td= class_spell.level
         %td= link_to 'Show', class_spell
         %td= link_to 'Edit', edit_class_spell_path(class_spell)
         %td= link_to 'Destroy', class_spell, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Class spell', new_class_spell_path
