@@ -7,7 +7,6 @@ class Character < ActiveRecord::Base
   has_and_belongs_to_many :talents
   has_and_belongs_to_many :proficiencies
   has_and_belongs_to_many :skills
-  has_and_belongs_to_many :spells
   has_and_belongs_to_many :campaigns
   belongs_to :left_hand_item, class_name: "ItemInstance", foreign_key: "left_hand_item_id"
   belongs_to :right_hand_item, class_name: "ItemInstance", foreign_key: "right_hand_item_id"
