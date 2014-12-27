@@ -2,6 +2,26 @@ class ItemInstance < ActiveRecord::Base
   belongs_to :item
   belongs_to :character
 
+  def magic?
+    if self.magic_level and self.magic_level >= 6
+      true
+    else
+      false
+    end
+  end
+
+  def masterwork?
+    if self.magic_level and self.magic_level > 0 and self.magic_level < 6
+      true
+    else
+      false
+    end
+  end
+
+  def magic_or_masterwork?
+    self.magic? or self.masterwork?
+  end
+
   def actual_name
     self.name == "" || self.name.nil? ? self.item.name : self.name
   end

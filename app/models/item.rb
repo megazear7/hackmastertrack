@@ -7,13 +7,4 @@ class Item < ActiveRecord::Base
   scope :magic_items, -> { where("magic_level > 5") }
   scope :non_magic_items, -> { where("magic_level < 5") }
   scope :normal_items, -> { where("magic_level = 0") }
-
-  def magic?
-    if self.magic_level > 5
-      true
-    else
-      false
-    end
-  end
-
 end

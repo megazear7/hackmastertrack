@@ -622,7 +622,7 @@ class Character < ActiveRecord::Base
     args["profile_1_notes"] += "Initiative die bonus: " + die_bonus.to_s if die_bonus
 
     self.item_instances.each_with_index do |item_instance, i|
-      if (item_instance.magic_level and item_instance.magic_level <= 0) or (not item_instance.magic_level)
+      if not item_instance.magic_or_masterwork?
         args["item_#{i+1}"] = item_instance.item.name
         args["item_loc_#{i+1}"] = item_instance.item.location
       end
