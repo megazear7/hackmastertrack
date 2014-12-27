@@ -141,6 +141,7 @@ class CharactersController < ApplicationController
       end
     else
       item_instance.character = @character
+      item_instance.display = false
       item_instance.save
       if params[:page] == "item_index"
         redirect_to items_path(anchor: params[:page_location]), notice: 'Items Successfuly Taken'

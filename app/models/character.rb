@@ -244,6 +244,7 @@ class Character < ActiveRecord::Base
     ret["#{off_hand}_hand_item"] = equipment["#{off_hand}_hand"].item.defense_mod if equipment["#{off_hand}_hand"] and equipment["#{off_hand}_hand"].item.defense_mod
     ret["body_item"] = equipment["body"].item.defense_mod       if equipment["body"]       and equipment["body"].item.defense_mod
     ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
+    ret["race"] = Race.find_mod(self.race.name, "defense_adjustment")
     mod = 0
     ret.each do |key, val|
       mod += val

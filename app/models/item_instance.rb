@@ -3,7 +3,7 @@ class ItemInstance < ActiveRecord::Base
   belongs_to :character
 
   def actual_name
-    self.name == "" ? self.item.name : self.name
+    self.name == "" || self.name.nil? ? self.item.name : self.name
   end
 
   def shield_defense

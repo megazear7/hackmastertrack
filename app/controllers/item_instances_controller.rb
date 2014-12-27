@@ -39,7 +39,10 @@ class ItemInstancesController < ApplicationController
   # POST /item_instances.json
   def create
     @item_instance = ItemInstance.new(item_instance_params)
-
+    #if @item_instance.display == true
+    #  @new_display_item = @item_instance.dup
+    #  @new_display_item.save
+    #end
     respond_to do |format|
       if @item_instance.save
         format.html { redirect_to @item_instance, notice: 'Item instance was successfully created.' }
@@ -54,10 +57,6 @@ class ItemInstancesController < ApplicationController
   # PATCH/PUT /item_instances/1
   # PATCH/PUT /item_instances/1.json
   def update
-    if @item_instance.display == false
-      @new_display_item = @item_instance.dup
-      @new_display_item.save
-    end
     respond_to do |format|
       if @item_instance.update(item_instance_params)
         format.html { redirect_to @item_instance, notice: 'Item instance was successfully updated.' }
@@ -72,9 +71,10 @@ class ItemInstancesController < ApplicationController
   # DELETE /item_instances/1 
   # DELETE /item_instances/1.json 
   def destroy
+    session[:return_to] ||= request.referer
     @item_instance.destroy
     respond_to do |format|
-      format.html { redirect_to item_instances_url, notice: 'Item instance was successfully destroyed.' }
+      format.html { redirect_to session.delete(:return_to), notice: 'Item instance was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
