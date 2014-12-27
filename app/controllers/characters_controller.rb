@@ -125,7 +125,6 @@ class CharactersController < ApplicationController
     item_instance.item = item_to_take
     if params[:commit] == "Buy Item"
       cost = item_instance.item.buy_cost
-      @character.silver = 0 if @character.silver.nil?
       if @character.silver > cost
         @character.silver -= cost
         @character.save

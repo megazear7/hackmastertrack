@@ -16,7 +16,6 @@ class SpecializationsController < ApplicationController
                                                          item_id: params[:specialization][:item_id],
                                                          stat_name: params[:specialization][:stat_name] )
       @specialization.update(specialization_params)
-      @character.building_points = 0 if @character.building_points.nil?
 
       if @character.building_points > params[:specialization][:bp_cost].to_i
         @character.building_points -= params[:specialization][:bp_cost].to_i

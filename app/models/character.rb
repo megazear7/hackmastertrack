@@ -23,7 +23,7 @@ class Character < ActiveRecord::Base
     item_instances = []
     self.item_instances.each do |item_instance|
       if item_instance.item.location == location
-        if item_instance.name.nil?
+        if item_instance.name.present?
           item_instances << [item_instance.item.name, item_instance.id]
         else
           item_instances << [item_instance.name, item_instance.id]
@@ -37,7 +37,7 @@ class Character < ActiveRecord::Base
     # this can be done with a join sql query... but I can't figure it out TODO
     item_instances = []
     self.item_instances.each do |item_instance|
-      if item_instance.name.nil?
+      if item_instance.name.present?
         item_instances << [item_instance.item.name, item_instance.id]
       else
         item_instances << [item_instance.name, item_instance.id]
@@ -360,7 +360,7 @@ class Character < ActiveRecord::Base
   end
 
   def needs_to_level
-    if not self.level.nil? and self.level < self.actual_level
+    if self.level < self.actual_level
       true
     else
       false
