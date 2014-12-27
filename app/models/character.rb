@@ -24,9 +24,9 @@ class Character < ActiveRecord::Base
     self.item_instances.each do |item_instance|
       if item_instance.item.location == location
         if item_instance.name.present?
-          item_instances << [item_instance.item.name, item_instance.id]
+          item_instances << [item_instance.actual_name, item_instance.id]
         else
-          item_instances << [item_instance.name, item_instance.id]
+          item_instances << [item_instance.actual_name, item_instance.id]
         end
       end
     end
@@ -231,6 +231,15 @@ class Character < ActiveRecord::Base
     ret
   end
 
+  def shield_equiped equipment
+    if (equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.item_type == "shield") or
+       (equipment["#{off_hand}_hand"] and equipment["#{off_hand}_hand"].item.item_type == "shield")
+      true
+    else
+      false
+    end
+  end
+
   def calculate_defense equipment
     equipment = build_equipment(equipment)
     ret = {}
@@ -242,6 +251,11 @@ class Character < ActiveRecord::Base
     ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
     ret["#{main_hand}_hand_item"] = equipment["#{main_hand}_hand"].item.defense_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.defense_mod
     ret["#{off_hand}_hand_item"] = equipment["#{off_hand}_hand"].item.defense_mod if equipment["#{off_hand}_hand"] and equipment["#{off_hand}_hand"].item.defense_mod
+
+    if not shield_equiped(equipment)
+      ret["shield_defense_penalty"] = -4
+    end
+
     ret["body_item"] = equipment["body"].item.defense_mod       if equipment["body"]       and equipment["body"].item.defense_mod
     ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
     ret["race"] = Race.find_mod(self.race.name, "defense_adjustment")

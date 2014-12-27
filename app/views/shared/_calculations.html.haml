@@ -5,28 +5,19 @@
     - if rose["left_hand"].nil?
       Empty 
     - else
-      - if rose["left_hand"].name.nil?
-        = rose["left_hand"].item.name
-      - else
-        = rose["left_hand"].name
+      = rose["left_hand"].actual_name
   .col-md-2
     Right Hand:
     - if rose["right_hand"].nil?
       Empty 
     - else
-      - if rose["right_hand"].name.nil?
-        = rose["right_hand"].item.name
-      - else
-        = rose["right_hand"].name
+      = rose["right_hand"].actual_name
   .col-md-2
     Body:
     - if rose["body"].nil?
       Empty 
     - else
-      - if rose["body"].name.nil?
-        = rose["body"].item.name
-      - else
-        = rose["body"].name
+      = rose["body"].actual_name
 - rose.each do |attribute, modifiers|
   .row
     - if attribute != "left_hand" and attribute != "right_hand" and attribute != "body"
