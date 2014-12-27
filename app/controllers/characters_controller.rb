@@ -26,28 +26,17 @@ class CharactersController < ApplicationController
   # POST /characters.json
   def create
     @character = Character.new(character_params)
-    @character.level = 1
-    @character.exp = 0
-    @character.building_points += 40
-    class_cost = BpCostByRaceClass.where(
-                        character_class_id: @character.character_class_id,
-                        race_id: @character.race_id).first
     @character.give_class_benefits
     @character.give_race_benefits
-    if class_cost.nil?
-      #flash[:notice] << 'That Character Class combination is not in the system.'
-      render :new
-    else
-      @character.building_points -= class_cost.bp_cost
-      
-      respond_to do |format|
-        if @character.save
-          format.html { redirect_to @character, notice: 'Character was successfully created.' }
-          format.json { render :show, status: :created, location: @character }
-        else
-          format.html { render :new }
-          format.json { render json: @character.errors, status: :unprocessable_entity }
-        end
+    @character.level = 1
+    
+    respond_to do |format|
+      if @character.save
+        format.html { redirect_to @character, notice: 'Character was successfully created.' }
+        format.json { render :show, status: :created, location: @character }
+      else
+        format.html { render :new }
+        format.json { render json: @character.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -80,6 +69,14 @@ class CharactersController < ApplicationController
   end
 
   def level_up_update
+
+    @character.strength     ||= 0
+    @character.intelligence ||= 0
+    @character.wisdom       ||= 0
+    @character.dexterity    ||= 0
+    @character.constitution ||= 0
+    @character.charisma     ||= 0
+    @character.health       ||= 0
 
     @character.strength     += params[:character][:strength].to_f/100
     @character.intelligence += params[:character][:intelligence].to_f/100
