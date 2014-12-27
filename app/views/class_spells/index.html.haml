@@ -1,0 +1,19 @@
+%h1 Listing class_spells
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+      
+  %tbody
+    - @class_spells.each do |class_spell|
+      %tr
+        %td= link_to 'Show', class_spell
+        %td= link_to 'Edit', edit_class_spell_path(class_spell)
+        %td= link_to 'Destroy', class_spell, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Class spell', new_class_spell_path

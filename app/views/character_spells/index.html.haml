@@ -1,0 +1,19 @@
+%h1 Listing character_spells
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+      
+  %tbody
+    - @character_spells.each do |character_spell|
+      %tr
+        %td= link_to 'Show', character_spell
+        %td= link_to 'Edit', edit_character_spell_path(character_spell)
+        %td= link_to 'Destroy', character_spell, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Character spell', new_character_spell_path

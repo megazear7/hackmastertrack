@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141102170510) do
+ActiveRecord::Schema.define(version: 20141227210830) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,14 @@ ActiveRecord::Schema.define(version: 20141102170510) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "hit_dice_size", default: 0
+  end
+
+  create_table "character_spells", force: true do |t|
+    t.integer  "character_id"
+    t.integer  "spell_id"
+    t.integer  "level"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "characters", force: true do |t|
@@ -136,7 +144,7 @@ ActiveRecord::Schema.define(version: 20141102170510) do
     t.integer "talent_id"
   end
 
-  create_table "class_spellbooks", force: true do |t|
+  create_table "class_spells", force: true do |t|
     t.integer  "character_class_id"
     t.integer  "spell_id"
     t.integer  "level"

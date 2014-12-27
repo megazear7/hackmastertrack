@@ -1,0 +1,10 @@
+= form_for @class_spell do |f|
+  - if @class_spell.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@class_spell.errors.count, "error")} prohibited this class_spell from being saved:"
+      %ul
+        - @class_spell.errors.full_messages.each do |msg|
+          %li= msg
+
+  .actions
+    = f.submit 'Save'

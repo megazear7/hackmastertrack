@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :class_spells
+
+  resources :character_spells
+
   resources :class_spellbooks
 
   get '/specialization/retrieve', to: 'specializations#retrieve'

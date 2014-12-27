@@ -1,0 +1,10 @@
+= form_for @character_spell do |f|
+  - if @character_spell.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@character_spell.errors.count, "error")} prohibited this character_spell from being saved:"
+      %ul
+        - @character_spell.errors.full_messages.each do |msg|
+          %li= msg
+
+  .actions
+    = f.submit 'Save'
