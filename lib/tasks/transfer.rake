@@ -27,12 +27,12 @@ namespace :transfer do
     puts "Your must #{red('commit')} or stashed your local changes and " +
          "we will be executing a #{red('forceful push')} to #{dest}..."
     Bundler.with_clean_env { # heroku commands must be ran in a bundler block
-      call "heroku pgbackups:capture -a #{app_name(src)} --expire"
+      call "heroku pg:backups capture -a #{app_name(src)}"
       call "git checkout #{base_branch}"
       call "git push #{remote_url(dest)} #{base_branch}:master -f"
       call "heroku pg:reset #{db_name(dest)} -a #{app_name(dest)} " +
            "--confirm #{app_name(dest)}"
-      call "heroku pgbackups:restore #{db_name(dest)} `heroku pgbackups:url " +
+      call "heroku pg:backups restore #{db_name(dest)} `heroku pg:backups public-url " +
            "-a #{app_name(src)}` -a #{app_name(dest)} " +
            "--confirm #{app_name(dest)}"
       call "git checkout #{final_branch}"
@@ -46,8 +46,8 @@ namespace :transfer do
     puts "You must #{red('commit')} or stash your local changes " + 
          "you must #{red('stop your server')}..."
     Bundler.with_clean_env { # heroku commands must be ran in a bundler block
-      call "heroku pgbackups:capture -a #{app_name(src)} --expire"
-      call "curl -o latest.dump `heroku pgbackups:url -a #{app_name(src)}`"
+      call "heroku pg:backups capture -a #{app_name(src)}"
+      call "curl -o latest.dump `heroku pg:backups public-url -a #{app_name(src)}`"
       call "git checkout #{base_branch}"
       call "rake db:reset"
       call "pg_restore --verbose --clean --no-acl --no-owner -d " +
