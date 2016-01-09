@@ -495,6 +495,10 @@ class Character < ActiveRecord::Base
     return x
   end
 
+  def has_specialization itemInstance, spec, val
+    self.specializations.find_by(item_id: itemInstance.item.id, stat_name: spec) and self.specializations.find_by(item_id: itemInstance.item.id, stat_name: spec).value >= val
+  end
+
   def pdf_fields
     args = {} 
     args["name"] = self.name
@@ -605,13 +609,19 @@ class Character < ActiveRecord::Base
 
     args["profile_1_notes"] = ""
     self.if_main_hand_weapon_is_equiped do |weapon|
-      args["combat_profile_weapon"] = weapon.actual_name
+      args["combat_profile_weapon_1"] = weapon.actual_name
     end
 
     # Profile 1 Level mods.
-    args["profile_1_level_attack"]  = plusinfront Level.find_mod(self.character_class.id, self.level, "attack_mod")
-    args["profile_1_level_speed"]   = plusinfront Level.find_mod(self.character_class.id, self.level, "speed_mod")
-    args["profile_1_level_init"]    = plusinfront Level.find_mod(self.character_class.id, self.level, "init_mod")
+    attack_level_mod = Level.find_mod(self.character_class.id, self.level, "attack_mod")
+    args["profile_1_level_attack"] = attack_level_mod != 0 ? plusinfront(attack_level_mod) : "--"
+
+    speed_level_mod = Level.find_mod(self.character_class.id, self.level, "speed_mod")
+    args["profile_1_level_speed"] = speed_level_mod != 0 ? plusinfront(speed_level_mod) : "--"
+
+    init_level_mod = Level.find_mod(self.character_class.id, self.level, "init_mod")
+    args["profile_1_level_init"] = init_level_mod != 0 ? plusinfront(init_level_mod) : "--"
+
     args["profile_1_level_defense"] = "--"
     args["profile_1_level_damage"]  = "--"
 
@@ -624,11 +634,11 @@ class Character < ActiveRecord::Base
 
     # Profile 1 Specialization mods.
     if self.main_hand_item
-      args["profile_1_specialization_attack"]  = self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "attack") ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "attack").value) : "0"
-      args["profile_1_specialization_speed"]   = self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "speed")  ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "speed").value)  : "0"
+      args["profile_1_specialization_attack"]  = self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "attack") ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "attack").value) : "--"
+      args["profile_1_specialization_speed"]   = self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "speed")  ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "speed").value)  : "--"
       args["profile_1_specialization_init"]    = "--"
-      args["profile_1_specialization_defense"] = self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "defense") ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "defense").value) : "0"
-      args["profile_1_specialization_damage"]  = self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "damage")  ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "damage").value)  : "0"
+      args["profile_1_specialization_defense"] = self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "defense") ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "defense").value) : "--"
+      args["profile_1_specialization_damage"]  = self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "damage")  ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "damage").value)  : "--"
     else
       args["profile_1_specialization_attack"]  = "--"
       args["profile_1_specialization_speed"]   = "--"
@@ -677,12 +687,12 @@ class Character < ActiveRecord::Base
     args["profile_1_shield_init"]    = "--"
     args["profile_1_shield_damage"]  = "--"
 
-    # Profile 1 Magic mods. TODO
-    args["profile_1_magic_attack"]  = rose["attack"]["magic"]
-    args["profile_1_magic_speed"]   = rose["speed"]["magic"]
-    args["profile_1_magic_init"]    = rose["init"]["magic"]
-    args["profile_1_magic_defense"] = rose["defense"]["magic"]
-    args["profile_1_magic_damage"]  = rose["damage_mod"]["magic"]
+    # Profile 1 Magic mods.
+    args["profile_1_magic_attack"]  = plusinfront rose["attack"]["magic"]
+    args["profile_1_magic_speed"]   = plusinfront rose["speed"]["magic"]
+    args["profile_1_magic_init"]    = plusinfront rose["init"]["magic"]
+    args["profile_1_magic_defense"] = plusinfront rose["defense"]["magic"]
+    args["profile_1_magic_damage"]  = plusinfront rose["damage_mod"]["magic"]
 
     # combat_profile_weapon_1
     args["profile_1_attack"]  = plusinfront rose["attack"]["val"]
@@ -690,46 +700,80 @@ class Character < ActiveRecord::Base
     args["profile_1_init"]    = plusinfront rose["init"]["val"]
     args["profile_1_defense"] = plusinfront rose["defense"]["val"]
     args["profile_1_damage"]  = plusinfront rose["damage_mod"]["val"]
-    args["profile_1_reach"]   = plusinfront rose["reach"]["val"]
-    args["profile_1_base_weapon_speed"]  = self.main_hand_item.item.attack_speed if self.main_hand_item
-    args["profile_1_base_weapon_damage"] = self.main_hand_item.item.damage if self.main_hand_item
-
-    if self.main_hand_item and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed").value >= 1
-      args["profile_1_spec_attack_1"] = "X"
-      args["profile_1_spec_speed_1"] = "X"
-      args["profile_1_spec_defense_1"] = "X"
-      args["profile_1_spec_damage_1"] = "X"
+    args["profile_1_reach"]   = rose["reach"]["val"].to_s + " ft"
+    self.if_main_hand_weapon_is_equiped do |weapon|
+      args["profile_1_base_weapon_speed"]  = weapon.item.attack_speed
+      args["profile_1_base_weapon_damage"] = weapon.item.damage
     end
 
-    if self.main_hand_item and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed").value >= 2
-      args["profile_1_spec_attack_2"] = "X"
-      args["profile_1_spec_speed_2"] = "X"
-      args["profile_1_spec_defense_2"] = "X"
-      args["profile_1_spec_damage_2"] = "X"
+    self.if_main_hand_weapon_is_equiped do |weapon|
+      if has_specialization(weapon, "speed", 1)
+        args["profile_1_spec_speed_1"] = "X"
+      end
+      if has_specialization(weapon, "attack", 1)
+        args["profile_1_spec_attack_1"] = "X"
+      end
+      if has_specialization(weapon, "defense", 1)
+        args["profile_1_spec_defense_1"] = "X"
+      end
+      if has_specialization(weapon, "damage", 1)
+        args["profile_1_spec_damage_1"] = "X"
+      end
+
+      if has_specialization(weapon, "speed", 2)
+        args["profile_1_spec_speed_2"] = "X"
+      end
+      if has_specialization(weapon, "attack", 2)
+        args["profile_1_spec_attack_2"] = "X"
+      end
+      if has_specialization(weapon, "defense", 2)
+        args["profile_1_spec_defense_2"] = "X"
+      end
+      if has_specialization(weapon, "damage", 2)
+        args["profile_1_spec_damage_2"] = "X"
+      end
+
+      if has_specialization(weapon, "speed", 3)
+        args["profile_1_spec_speed_3"] = "X"
+      end
+      if has_specialization(weapon, "attack", 3)
+        args["profile_1_spec_attack_3"] = "X"
+      end
+      if has_specialization(weapon, "defense", 3)
+        args["profile_1_spec_defense_3"] = "X"
+      end
+      if has_specialization(weapon, "damage", 3)
+        args["profile_1_spec_damage_3"] = "X"
+      end
+
+      if has_specialization(weapon, "speed", 4)
+        args["profile_1_spec_speed_4"] = "X"
+      end
+      if has_specialization(weapon, "attack", 4)
+        args["profile_1_spec_attack_4"] = "X"
+      end
+      if has_specialization(weapon, "defense", 4)
+        args["profile_1_spec_defense_4"] = "X"
+      end
+      if has_specialization(weapon, "damage", 4)
+        args["profile_1_spec_damage_4"] = "X"
+      end
+
+      if has_specialization(weapon, "speed", 5)
+        args["profile_1_spec_speed_5"] = "X"
+      end
+      if has_specialization(weapon, "attack", 5)
+        args["profile_1_spec_attack_5"] = "X"
+      end
+      if has_specialization(weapon, "defense", 5)
+        args["profile_1_spec_defense_5"] = "X"
+      end
+      if has_specialization(weapon, "damage", 5)
+        args["profile_1_spec_damage_5"] = "X"
+      end
     end
 
-    if self.main_hand_item and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed").value >= 3
-      args["profile_1_spec_attack_3"] = "X"
-      args["profile_1_spec_speed_3"] = "X"
-      args["profile_1_spec_defense_3"] = "X"
-      args["profile_1_spec_damage_3"] = "X"
-    end
-
-    if self.main_hand_item and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed").value >= 4
-      args["profile_1_spec_attack_4"] = "X"
-      args["profile_1_spec_speed_4"] = "X"
-      args["profile_1_spec_defense_4"] = "X"
-      args["profile_1_spec_damage_4"] = "X"
-    end
-
-    if self.main_hand_item and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed") and self.specializations.find_by(item_id: main_hand_item.id, stat_name: "speed").value >= 5
-      args["profile_1_spec_attack_5"] = "X"
-      args["profile_1_spec_speed_5"] = "X"
-      args["profile_1_spec_defense_5"] = "X"
-      args["profile_1_spec_damage_5"] = "X"
-    end
-
-    args["profile_1_notes"] += "Initiative die bonus: " + rose["init_die_bonus"].to_s
+    args["profile_1_notes"] += "Initiative die bonus: " + rose["init_die_bonus"]["val"].to_s
 
     self.item_instances.each_with_index do |item_instance, i|
       if not item_instance.magic_or_masterwork?
