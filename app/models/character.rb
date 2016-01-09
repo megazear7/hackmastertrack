@@ -197,9 +197,15 @@ class Character < ActiveRecord::Base
     else
       ret["specialization"] = 0
     end
-    ret["#{main_hand}_hand_item"] = equipment["#{main_hand}_hand"].item.speed_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.speed_mod
-    ret["body_item"] = equipment["body"].item.speed_mod       if equipment["body"]       and equipment["body"].item.speed_mod
-    ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
+    if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.speed_mod
+      ret[equipment["#{main_hand}_hand"].actual_name] = equipment["#{main_hand}_hand"].item.speed_mod
+    end
+    if equipment["body"] and equipment["body"].item.speed_mod
+      ret[equipment["body"].actual_name] = equipment["body"].item.speed_mod       
+    end
+    if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
+      ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item)
+    end
     magic_mod = calculate_magic_mod(equipment, "speed_mod")
     if magic_mod != 0
       ret["magic"] = magic_mod 
@@ -216,14 +222,20 @@ class Character < ActiveRecord::Base
   def calculate_init equipment
     equipment = build_equipment(equipment)
     ret = {}
+
     ret["wisdom"] = AbilityScore.find_ability_mod("Wisdom", self.wisdom, "init_mod")
     ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "init_mod")
-    ret["#{main_hand}_hand_item"] = equipment["#{main_hand}_hand"].item.init_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.init_mod
-    ret["body_item"] = equipment["body"].item.init_mod       if equipment["body"]       and equipment["body"].item.init_mod
+    if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.init_mod
+      ret[equipment["#{main_hand}_hand"].actual_name] = equipment["#{main_hand}_hand"].item.init_mod
+    end
+    if equipment["body"] and equipment["body"].item.init_mod
+      ret[equipment["body"].actual_name] = equipment["body"].item.init_mod
+    end
     magic_mod = calculate_magic_mod(equipment, "init_mod")
     if magic_mod != 0
       ret["magic"] = magic_mod 
     end
+
     mod = 0
     ret.each do |key, val|
       mod += val
@@ -267,10 +279,10 @@ class Character < ActiveRecord::Base
     ret["intelligence"] = AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
     ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod")
     if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.attack_mod
-      ret["#{main_hand}_hand_item"] = equipment["#{main_hand}_hand"].item.attack_mod
+      ret[equipment["#{main_hand}_hand"].actual_name] = equipment["#{main_hand}_hand"].item.attack_mod
     end
     if equipment["body"] and equipment["body"].item.attack_mod
-      ret["body_item"] = equipment["body"].item.attack_mod       
+      ret[equipment["body"].actual_name] = equipment["body"].item.attack_mod       
     end
     if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
       ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) 
@@ -308,8 +320,12 @@ class Character < ActiveRecord::Base
     end
     ret["wisdom"] = AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod")
     ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
-    ret["#{main_hand}_hand_item"] = equipment["#{main_hand}_hand"].item.defense_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.defense_mod
-    ret["#{off_hand}_hand_item"] = equipment["#{off_hand}_hand"].item.defense_mod if equipment["#{off_hand}_hand"] and equipment["#{off_hand}_hand"].item.defense_mod
+    if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.defense_mod
+      ret[equipment["#{main_hand}_hand"].actual_name] = equipment["#{main_hand}_hand"].item.defense_mod
+    end
+    if equipment["#{off_hand}_hand"] and equipment["#{off_hand}_hand"].item.defense_mod
+      ret[equipment["#{off_hand}_hand"].actual_name] = equipment["#{off_hand}_hand"].item.defense_mod
+    end
 
     if not shield_equiped(equipment)
       ret["shield_defense_penalty"] = -4
@@ -384,9 +400,15 @@ class Character < ActiveRecord::Base
       ret["specialization"] = specialization.value if specialization
     end
     ret["strength"] = AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
-    ret["#{main_hand}_hand_item"] = equipment["#{main_hand}_hand"].item.damage_mod if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.damage_mod
-    ret["body_item"] = equipment["body"].item.damage_mod       if equipment["body"]       and equipment["body"].item.damage_mod
-    ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
+    if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.damage_mod
+      ret[equipment["#{main_hand}_hand"].actual_name] = equipment["#{main_hand}_hand"].item.damage_mod
+    end
+    if equipment["body"] and equipment["body"].item.damage_mod != 0
+      ret[equipment["body"].actual_name] = equipment["body"].item.damage_mod
+    end
+    if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
+      ret[equipment["#{main_hand}_hand"].actual_name] = prof_adjustment(equipment["#{main_hand}_hand"].item)
+    end
     magic_mod = calculate_magic_mod(equipment, "damage_mod")
     if magic_mod != 0
       ret["magic"] = magic_mod 
