@@ -572,7 +572,7 @@ class Character < ActiveRecord::Base
     if self.off_hand_item
       args["profile_1_shield_defense"] = self.off_hand_item.item.item_type == "shield" ? plusinfront(self.off_hand_item.item.defense_mod) : "--"
     else
-      args["profile_1_shield_defense"] = "--"
+      args["profile_1_shield_defense"] = "-4"
     end
     args["profile_1_shield_attack"]  = "--"
     args["profile_1_shield_speed"]   = "--"
