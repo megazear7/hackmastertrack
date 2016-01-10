@@ -130,7 +130,7 @@ class Character < ActiveRecord::Base
   def calculate_magic_mod equipment, stat
     enhancement = 0
     equipment.each do |location, itemInstance|
-      if itemInstance.magic_or_masterwork? and itemInstance.send(stat)
+      if itemInstance and itemInstance.magic_or_masterwork? and itemInstance.send(stat)
         enhancement += itemInstance.send(stat)
       end
     end
@@ -637,7 +637,7 @@ class Character < ActiveRecord::Base
       args["profile_1_specialization_attack"]  = self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "attack") ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "attack").value) : "--"
       args["profile_1_specialization_speed"]   = self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "speed")  ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "speed").value)  : "--"
       args["profile_1_specialization_init"]    = "--"
-      args["profile_1_specialization_defense"] = self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "defense") ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.id, stat_name: "defense").value) : "--"
+      args["profile_1_specialization_defense"] = self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "defense") ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "defense").value) : "--"
       args["profile_1_specialization_damage"]  = self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "damage")  ? (plusinfront self.specializations.find_by(item_id: self.main_hand_item.item.id, stat_name: "damage").value)  : "--"
     else
       args["profile_1_specialization_attack"]  = "--"
@@ -688,11 +688,11 @@ class Character < ActiveRecord::Base
     args["profile_1_shield_damage"]  = "--"
 
     # Profile 1 Magic mods.
-    args["profile_1_magic_attack"]  = plusinfront rose["attack"]["magic"]
-    args["profile_1_magic_speed"]   = plusinfront rose["speed"]["magic"]
-    args["profile_1_magic_init"]    = plusinfront rose["init"]["magic"]
-    args["profile_1_magic_defense"] = plusinfront rose["defense"]["magic"]
-    args["profile_1_magic_damage"]  = plusinfront rose["damage_mod"]["magic"]
+    args["profile_1_magic_attack"]  = rose["attack"]["magic"] ? plusinfront(rose["attack"]["magic"]) : "--"
+    args["profile_1_magic_speed"]   = rose["speed"]["magic"] ? plusinfront(rose["speed"]["magic"]) : "--"
+    args["profile_1_magic_init"]    = rose["init"]["magic"] ? plusinfront(rose["init"]["magic"]) : "--"
+    args["profile_1_magic_defense"] = rose["defense"]["magic"] ? plusinfront(rose["defense"]["magic"]) : "--"
+    args["profile_1_magic_damage"]  = rose["damage_mod"]["magic"] ? plusinfront(rose["damage_mod"]["magic"]) : "--"
 
     # combat_profile_weapon_1
     args["profile_1_attack"]  = plusinfront rose["attack"]["val"]
