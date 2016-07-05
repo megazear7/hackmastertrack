@@ -3,7 +3,6 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-
   # when the user selects a character to purchase an item for, update the form with the character id
   $(".character_select_for_item_purchase").change ->
     id = $(this).attr("id")
@@ -485,32 +484,9 @@ $ ->
 
   show_fields($("#item_item_type"))
 
-  ### Item Show Page ###
-
-  updateSpecializations = (characterId) ->
-    $(".specializations").each (index, specialization) ->
-      $(specialization).find(".specialization_character_id input").val(characterId)
-      character_id = characterId
-      item_id = $(specialization).find(".specialization_item_id input").val()
-      stat_name = $(specialization).find(".specialization_stat_name input").val()
-
-      if character_id != "" and stat_name != ""
-        $.getJSON("/specialization/retrieve" + "?character_id=#{character_id}" + "&item_id=#{item_id}" + "&stat_name=#{stat_name}", (data) ->
-          if data
-            console.log(data.value);
-            $(specialization).find(".specialization_value input").val(data.value + 1)
-            $(specialization).find(".bp-cost").text(data.cost)
-
-            $(specialization).find(".current-value").empty()
-
-            for [0...data.value]
-              $(specialization).find(".current-value").append("<span class='glyphicon glyphicon-stop'></span>")
-            for [data.value...5]
-              $(specialization).find(".current-value").append("<span class='glyphicon glyphicon-unchecked'></span>")
-        )
+  if $(".character-select").val()
+    updateSpecializations($(".character-select").val())
 
   $(".character-select").change (e) ->
-    updateSpecializations($(e.target).val())
-
-  $(document).ready ->
-    updateSpecializations($(".character-select").val())
+    if $(e.target).val()
+      updateSpecializations($(e.target).val())

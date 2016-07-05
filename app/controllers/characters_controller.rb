@@ -11,6 +11,7 @@ class CharactersController < ApplicationController
   # GET /characters/1.json
   def show
     @combat_rose = @character.calculate_combat_rose
+    @specialization = Specialization.new
   end
 
   # GET /characters/new

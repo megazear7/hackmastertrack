@@ -22,24 +22,7 @@
               %li= msg
 .row
   .col-md-6
-    %table.table.table-hover.table-responsive
-      %tbody
-        - item_specialization_options(@item).each do |stat|
-          %tr.specializations{ class: stat[1] }
-            %td
-              = stat[0]
-            %td.current-value
-            %td
-              %span.bp-cost
-              BP's
-            %td
-              = simple_form_for @specialization do |f|
-                = f.input :item_id, :as => :hidden, input_html: { value: @item.id }
-                = f.input :value, :as => :hidden
-                = f.input :stat_name, :as => :hidden,  input_html: { value: stat[1] }
-                = f.input :character_id, :as => :hidden
-                = button_tag(type: 'submit', class: "btn btn-primary") do
-                  %span.glyphicon.glyphicon-plus
+    = render partial: "characters/specializations", locals: { item: @item, specialization: @specialization }
 %br
 %table.table.table-hover.table-responsive
   %tbody

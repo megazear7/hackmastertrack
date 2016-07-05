@@ -19,6 +19,11 @@
             %td= specs.find_by(stat_name: "defense").value if specs.find_by(stat_name: "defense")
             %td= specs.find_by(stat_name: "speed").value   if specs.find_by(stat_name: "speed")
             %td= specs.find_by(stat_name: "damage").value  if specs.find_by(stat_name: "damage")
+
+  .col-md-6
+    - @character.specialized_weapons.each do |item|
+      %h4= item.name
+      = render partial: "specializations", locals: { item: item, specialization: @specialization }
   .col-md-6
     %h4 Proficiencies
     %table.table.table-hover.table-responsive

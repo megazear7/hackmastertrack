@@ -7,7 +7,7 @@
     = hidden_field_tag key, val
 %br
 %br
-.container
+.container.character-show-page{ data: { character_id: @character.id } }
   %ul.nav.nav-tabs.character-tabs{role: "tablist"}
     %li.nav.active{role: "presentation"}
       %a{href: "#overview", :"aria-controls" => "overview", role: "tab", data: { toggle: "tab" }} Overview

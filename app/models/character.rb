@@ -65,6 +65,10 @@ class Character < ActiveRecord::Base
     end
   end
 
+  def specialized_weapons
+    Item.find(self.specializations.pluck(:item_id))
+  end
+
   def specialization_cost item, stat_name
     spec = self.specializations.find_by(item_id: item.id, stat_name: stat_name)
     base_cost = self.character_class.send(stat_name + "_specialization_cost")
