@@ -13,34 +13,49 @@ class SpecializationsController < ApplicationController
   def create
     @character = Character.find(params[:specialization][:character_id])
     @item = Item.find(params[:specialization][:item_id])
-    if @character.proficiencies.pluck(:id).include? @item.proficiency.id
-      cost = @character.specialization_cost(@item, params[:specialization][:stat_name])
-      if @character.building_points > cost
-        @character.building_points -= cost
-        @specialization = Specialization.find_or_create_by(character_id: params[:specialization][:character_id],
-                                                         item_id: params[:specialization][:item_id],
-                                                         stat_name: params[:specialization][:stat_name] )
-        @specialization.update(specialization_params)
+    stat_name = params[:specialization][:stat_name]
+    if params[:specialization][:value].to_i < 5
+      if @character.proficiencies.pluck(:id).include? @item.proficiency.id
+        if @character.specialization_available(@item, stat_name)
+          cost = @character.specialization_cost(@item, stat_name)
+          if @character.building_points > cost
+            @character.building_points -= cost
+            @specialization = Specialization.find_or_create_by(character_id: params[:specialization][:character_id],
+                                                               item_id: params[:specialization][:item_id],
+                                                               stat_name: stat_name)
+            @specialization.update(specialization_params)
 
-        @character.save
-        respond_to do |format|
-          if @specialization.save
-            format.html { redirect_to item_path(@specialization.item.id), notice: 'Specialization was successfully created.' }
-            format.json { render action: 'show', status: :created, location: @specialization }
+            @character.save
+            respond_to do |format|
+              if @specialization.save
+                format.html { redirect_to request.referer, notice: 'Specialization was successfully created.' }
+                format.json { render action: 'show', status: :created, location: @specialization }
+              else
+                format.html { redirect_to request.referer, notice: 'Specialization was successfully created.' }
+                format.json { render json: @specialization.errors, status: :unprocessable_entity }
+              end
+            end
           else
-            format.html { redirect_to item_path(@specialization.item.id), notice: 'Specialization was successfully created.' }
+            respond_to do |format|
+              format.html { redirect_to request.referer, notice: 'You did not have enough building points for that' }
+              format.json { render json: @specialization.errors, status: :unprocessable_entity }
+            end
+          end
+        else
+          respond_to do |format|
+            format.html { redirect_to request.referer, notice: 'You must specialize in the other attributes before you can specialize in ' + stat_name}
             format.json { render json: @specialization.errors, status: :unprocessable_entity }
           end
         end
       else
         respond_to do |format|
-          format.html { redirect_to character_path(@character), notice: 'You did not have enough building points for that' }
+          format.html { redirect_to request.referer, notice: 'You need to have the proficiency first' }
           format.json { render json: @specialization.errors, status: :unprocessable_entity }
         end
       end
     else
       respond_to do |format|
-        format.html { redirect_to item_path(@item), notice: 'You need to have the proficiency first' }
+        format.html { redirect_to request.referer, notice: 'You cannot specialize more than 5.' }
         format.json { render json: @specialization.errors, status: :unprocessable_entity }
       end
     end

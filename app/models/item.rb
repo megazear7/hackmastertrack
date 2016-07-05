@@ -7,4 +7,20 @@ class Item < ActiveRecord::Base
   scope :magic_items, -> { where("magic_level > 5") }
   scope :non_magic_items, -> { where("magic_level < 5") }
   scope :normal_items, -> { where("magic_level = 0") }
+
+  def self.melee_specializations
+    [ "attack", "speed", "defense", "damage" ]
+  end
+
+  def self.ranged_specializations
+    [ "attack", "speed", "damage" ]
+  end
+
+  def specializations
+    if self.item_type == "ranged"
+      Item.ranged_specializations
+    else
+      Item.melee_specializations
+    end
+  end
 end

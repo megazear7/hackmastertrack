@@ -75,6 +75,33 @@ class Character < ActiveRecord::Base
     end
   end
 
+  def specialization_available item, stat_name
+    lowest_value = 999
+ 
+    # Find the lowest value
+    item.specializations.each do |other_stat_name|
+      spec = self.specializations.find_by(item: item, stat_name: other_stat_name)
+      if spec
+        if spec.value < lowest_value
+          lowest_value = spec.value
+        end
+      else
+        lowest_value = 0
+      end
+    end
+
+    # Find the value of this specialization
+    spec = self.specializations.find_by(item_id: item.id, stat_name: stat_name)
+    if spec
+      spec_value = spec.value
+    else
+      spec_value = 0
+    end
+
+    # Return true if this specialization is available to be increased.
+    spec_value <= lowest_value
+  end
+
   def give_class_benefits
     # TODO make sure the names are correct and build associations
     # between skills, talents and proficiencies and 'self' character

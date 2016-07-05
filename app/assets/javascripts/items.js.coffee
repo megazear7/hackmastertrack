@@ -486,10 +486,11 @@ $ ->
   show_fields($("#item_item_type"))
 
   ### Item Show Page ###
-  $(".character-select").change (e) ->
+
+  updateSpecializations = (characterId) ->
     $(".specializations").each (index, specialization) ->
-      $(specialization).find(".specialization_character_id input").val($(e.target).val())
-      character_id = $(e.target).val()
+      $(specialization).find(".specialization_character_id input").val(characterId)
+      character_id = characterId
       item_id = $(specialization).find(".specialization_item_id input").val()
       stat_name = $(specialization).find(".specialization_stat_name input").val()
 
@@ -507,3 +508,9 @@ $ ->
             for [data.value...5]
               $(specialization).find(".current-value").append("<span class='glyphicon glyphicon-unchecked'></span>")
         )
+
+  $(".character-select").change (e) ->
+    updateSpecializations($(e.target).val())
+
+  $(document).ready ->
+    updateSpecializations($(".character-select").val())

@@ -98,11 +98,19 @@ module ItemsHelper
   end
 
   def melee_specialization_options
-    [ ["Attack", "attack"], ["Speed", "speed"], ["Defense", "defense"], ["Damage", "damage"] ]
+    options = [ ]
+    Item.melee_specializations.each do |name|
+      options << [ name.titleize, name ]
+    end
+    options
   end
 
   def ranged_specialization_options
-    [ ["Attack", "attack"], ["Speed", "speed"], ["Damage", "damage"] ]
+    options = [ ]
+    Item.ranged_specialization.each do |name|
+      options << [ name.titleize, name ]
+    end
+    options
   end
 
   def item_specialization_options item
