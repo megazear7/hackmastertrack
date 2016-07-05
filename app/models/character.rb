@@ -65,6 +65,10 @@ class Character < ActiveRecord::Base
     end
   end
 
+  def specialization_cost item, stat_name
+    self.character_class.send(stat_name + "_specialization_cost")
+  end
+
   def give_class_benefits
     # TODO make sure the names are correct and build associations
     # between skills, talents and proficiencies and 'self' character

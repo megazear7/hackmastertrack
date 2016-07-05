@@ -4,8 +4,10 @@ class SpecializationsController < ApplicationController
     item = Item.find(params[:item_id])
     stat_name = params[:stat_name]
     @specialization = Specialization.find_by(character_id: character.id, item_id: item.id, stat_name: stat_name)
-    value = @specialization.nil? ? 0 : @specialization.value
-    render json: value
+    spec = {}
+    spec["value"] = @specialization.nil? ? 0 : @specialization.value
+    spec["cost"] = character.specialization_cost(item, stat_name)
+    render json: spec
   end
 
   def create

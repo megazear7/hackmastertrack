@@ -72,7 +72,11 @@ class CharacterClassesController < ApplicationController
       params.require(:character_class).permit(
         :name,
         :hit_dice_size,
-        :description
+        :description,
+        :attack_specialization_cost,
+        :speed_specialization_cost,
+        :defense_specialization_cost,
+        :damage_specialization_cost
       )
     end
 end

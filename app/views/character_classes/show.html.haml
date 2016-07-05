@@ -3,11 +3,28 @@
   = link_to 'Edit', edit_character_class_path(@character_class), class: "btn btn-primary"
 %br
 %br
-%table.table.table-hover.table-responsive
-  %tbody
-    %tr
-      %td Name
-      %td= @character_class.name
-    %tr
-      %td Description
-      %td= @character_class.description
+.row
+  .col-md-12
+    %h3= @character_class.name
+.row
+  .col-md-12
+    %p= @character_class.description
+.row
+  .col-md-12
+    %h5 Specialization Costs
+.row
+  .col-md-3
+    %table.table.table-hover.table-responsive
+      %tbody
+        %tr
+          %td Attack 
+          %td= @character_class.attack_specialization_cost
+        %tr
+          %td Speed
+          %td= @character_class.speed_specialization_cost
+        %tr
+          %td Defense
+          %td= @character_class.defense_specialization_cost
+        %tr
+          %td Damage
+          %td= @character_class.damage_specialization_cost

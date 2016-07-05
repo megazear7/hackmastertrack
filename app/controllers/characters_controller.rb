@@ -69,7 +69,6 @@ class CharactersController < ApplicationController
   end
 
   def level_up_update
-
     @character.strength     ||= 0
     @character.intelligence ||= 0
     @character.wisdom       ||= 0

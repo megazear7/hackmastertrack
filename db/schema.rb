@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141227212319) do
+ActiveRecord::Schema.define(version: 20160705145418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,7 +67,11 @@ ActiveRecord::Schema.define(version: 20141227212319) do
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "hit_dice_size", default: 0
+    t.integer  "hit_dice_size",               default: 0
+    t.integer  "attack_specialization_cost",  default: 10
+    t.integer  "speed_specialization_cost",   default: 10
+    t.integer  "defense_specialization_cost", default: 10
+    t.integer  "damage_specialization_cost",  default: 10
   end
 
   create_table "character_spells", force: true do |t|

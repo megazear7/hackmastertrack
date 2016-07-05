@@ -486,43 +486,25 @@ $ ->
   show_fields($("#item_item_type"))
 
   ### Item Show Page ###
+  $(".character-select").change (e) ->
+    $(".specializations").each (index, specialization) ->
+      $(specialization).find(".specialization_character_id input").val($(e.target).val())
+      character_id = $(e.target).val()
+      item_id = $(specialization).find(".specialization_item_id input").val()
+      stat_name = $(specialization).find(".specialization_stat_name input").val()
 
-  $(".hidden_fields").hide()
+      if character_id != "" and stat_name != ""
+        $.getJSON("/specialization/retrieve" + "?character_id=#{character_id}" + "&item_id=#{item_id}" + "&stat_name=#{stat_name}", (data) ->
+          if data
+            console.log(data.value);
+            $(specialization).find(".specialization_bp_cost input").val(data.cost)
+            $(specialization).find(".specialization_value input").val(data.value + 1)
+            $(specialization).find(".bp-cost").text(data.cost * (data.value + 1))
 
-  possibly_reveal_input = () ->
-    item_id = $("#specialization_item_id").val()
-    character_id = $("#specialization_character_id").val()
-    stat_name = $("#specialization_stat_name").val()
-    if character_id != "" and stat_name != ""
-      $.getJSON("/specialization/retrieve" + "?character_id=#{character_id}" + "&item_id=#{item_id}" + "&stat_name=#{stat_name}", (data) ->
-        if data
-          $("#specialization_value").val(data)
-        else
-          $("#specialization_value").val("0")
-      )
-      $(".hidden_fields").show()
+            $(specialization).find(".current-value").empty()
 
-  $("#specialization_character_id").change ->
-    possibly_reveal_input()
-  $("#specialization_stat_name").change ->
-    possibly_reveal_input()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            for [0...data.value]
+              $(specialization).find(".current-value").append("<span class='glyphicon glyphicon-stop'></span>")
+            for [data.value...5]
+              $(specialization).find(".current-value").append("<span class='glyphicon glyphicon-unchecked'></span>")
+        )
