@@ -241,11 +241,11 @@ class Character < ActiveRecord::Base
     ret = {}
  
     if Race.find_mod(self.race.name, "init_die_bonus")
-      ret["race"] = 1
+      ret[self.race.name] = 1
     end
     level_mod = Level.find_mod(self.class.name, self.level, "init_die_mod")
     if level_mod and level_mod != 0
-      ret["class"] = level_mod
+      ret[self.class.name] = level_mod
     end
     ret.merge!(calculate_magic_mod(equipment, "init_die_mod"))
 
@@ -324,7 +324,7 @@ class Character < ActiveRecord::Base
     end
     def_adjustment = Race.find_mod(self.race.name, "defense_adjustment")
     if def_adjustment != 0
-        ret["race"] = def_adjustment
+        ret[self.race.name] = def_adjustment
     end
     ret.merge!(calculate_magic_mod(equipment, "defense_mod"))
 
