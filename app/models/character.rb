@@ -193,14 +193,12 @@ class Character < ActiveRecord::Base
 
     if equipment["#{main_hand}_hand"]
       specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "speed")
-      ret["specialization"] = specialization.value if specialization
-    else
-      ret["specialization"] = 0
+      ret["specialization"] = specialization.value if specialization and specialization.value != 0
     end
     if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.speed_mod
       ret[equipment["#{main_hand}_hand"].actual_name] = equipment["#{main_hand}_hand"].item.speed_mod
     end
-    if equipment["body"] and equipment["body"].item.speed_mod
+    if equipment["body"] and equipment["body"].item.speed_mod and equipment["body"].item.speed_mod != 0
       ret[equipment["body"].actual_name] = equipment["body"].item.speed_mod       
     end
     if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
@@ -228,7 +226,7 @@ class Character < ActiveRecord::Base
     if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.init_mod
       ret[equipment["#{main_hand}_hand"].actual_name] = equipment["#{main_hand}_hand"].item.init_mod
     end
-    if equipment["body"] and equipment["body"].item.init_mod
+    if equipment["body"] and equipment["body"].item.init_mod 
       ret[equipment["body"].actual_name] = equipment["body"].item.init_mod
     end
     magic_mod = calculate_magic_mod(equipment, "init_mod")
@@ -330,9 +328,16 @@ class Character < ActiveRecord::Base
     if not shield_equiped(equipment)
       ret["shield_defense_penalty"] = -4
     end
-    ret["body_item"] = equipment["body"].item.defense_mod       if equipment["body"]       and equipment["body"].item.defense_mod
-    ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
-    ret["race"] = Race.find_mod(self.race.name, "defense_adjustment")
+    if equipment["body"] and equipment["body"].item.defense_mod
+        ret["body_item"] = equipment["body"].item.defense_mod 
+    end
+    if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
+        ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) 
+    end
+    def_adjustment = Race.find_mod(self.race.name, "defense_adjustment")
+    if def_adjustment != 0
+        ret["race"] = def_adjustment
+    end
     magic_mod = calculate_magic_mod(equipment, "defense_mod")
     if magic_mod != 0
       ret["magic"] = magic_mod 
