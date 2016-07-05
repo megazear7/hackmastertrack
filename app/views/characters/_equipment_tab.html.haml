@@ -5,11 +5,10 @@
 .row
   .col-md-12
     = simple_form_for @character, url: equip_items_character_path, method: :post do |f|
-      .col-md-3= f.association :left_hand_item, collection: @character.item_instance_location_names('arm'), input_html: { class: "string form-control" }
-      .col-md-3= f.association :right_hand_item, collection: @character.item_instance_location_names('arm'), input_html: { class: "string form-control" }
-      .col-md-3= f.association :body_item, collection: @character.item_instance_location_names('body'), input_html: { class: "string form-control" }
+      .col-md-3= f.association :left_hand_item, collection: @character.item_instance_location_names('arm'), include_blank: "Nothing", input_html: { class: "string form-control" }
+      .col-md-3= f.association :right_hand_item, collection: @character.item_instance_location_names('arm'), include_blank: "Nothing", input_html: { class: "string form-control" }
+      .col-md-3= f.association :body_item, collection: @character.item_instance_location_names('body'), include_blank: "Nothing", input_html: { class: "string form-control" }
       .col-md-3= f.submit 'Equip', class: "btn btn-primary label-height"
-
 %br
 .row
   .col-md-6

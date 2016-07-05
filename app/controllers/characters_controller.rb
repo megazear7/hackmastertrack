@@ -176,9 +176,25 @@ class CharactersController < ApplicationController
     right = nil if right == ""
     body = params[:character][:body_item_id]
     body = nil if body == ""
-    @character.left_hand_item = @character.item_instances.find(left) if not left.nil?
-    @character.right_hand_item = @character.item_instances.find(right) if not right.nil?
-    @character.body_item = @character.item_instances.find(body) if not body.nil?
+
+    if not left.nil?
+        @character.left_hand_item = @character.item_instances.find(left)
+    else
+        @character.left_hand_item = nil
+    end
+
+    if not right.nil?
+        @character.right_hand_item = @character.item_instances.find(right)
+    else
+        @character.right_hand_item = nil
+    end
+
+    if not body.nil?
+        @character.body_item = @character.item_instances.find(body)
+    else
+        @character.body_item = nil
+    end
+
     @character.save
     redirect_to character_url(@character), notice: 'Items Successfuly Equiped'
   end
