@@ -7,196 +7,22 @@
     = hidden_field_tag key, val
 %br
 %br
-.row
-  .col-md-2
-    %h3= @character.name
-    %p 
-      Level
-      = @character.level
-  .col-md-2
-    %p= @character.race.name
-    %p= @character.character_class.name
-.row
-  .col-md-1 Experience:
-  .col-md-1= @character.exp
-  .col-md-1
-    - if @character.needs_to_level
-      = link_to "Level Up!", level_up_edit_character_path, class: "btn btn-success"
-  = simple_form_for @character, url: add_xp_character_path, method: :post do |f|
-    .col-md-2
-      = f.input :exp, label: false, input_html: { value: 0, class: "string form-control" }
-    .col-md-1
-      = f.submit 'Add XP', class: "btn btn-primary"
-.row
-  .col-md-1 
-    Building Points:
-    = @character.building_points
-.row
-  .col-md-12
-    %hr
-.row
-  .col-md-1 
-    Health:
-    = @character.health
-.row
-  .col-md-12
-    %hr
-.row
-  .col-md-1 Strength:
-  .col-md-1= number_with_precision(@character.strength, precision: 2)
-  .col-md-2
-    Damage Mod:
-    = ability = AbilityScore.find_ability_mod("Strength", @character.strength, "damage_mod")
-  .col-md-2
-    Feat Of Strength:
-    = ability = AbilityScore.find_ability_mod("Strength", @character.strength, "feat_of_strength")
-  .col-md-2
-    Lift:
-    = ability = AbilityScore.find_ability_mod("Strength", @character.strength, "lift")
-  .col-md-2
-    Carry:
-    = ability = AbilityScore.find_ability_mod("Strength", @character.strength, "carry")
-  .col-md-2
-    Drag:
-    = ability = AbilityScore.find_ability_mod("Strength", @character.strength, "drag")
-.row
-  .col-md-1 Intelligence:
-  .col-md-1= number_with_precision(@character.intelligence, precision: 2)
-  .col-md-2
-    Attak Mod:
-    = ability = AbilityScore.find_ability_mod("Intelligence", @character.intelligence, "attack_mod")
-.row
-  .col-md-1 Wisdom:
-  .col-md-1= number_with_precision(@character.wisdom, precision: 2)
-  .col-md-2
-    Initiative Mod:
-    = ability = AbilityScore.find_ability_mod("Wisdom", @character.wisdom, "init_mod")
-  .col-md-2
-    Defense Mod:
-    = ability = AbilityScore.find_ability_mod("Wisdom", @character.wisdom, "defense_mod")
-  .col-md-2
-    Mental Saving Throw:
-    = ability = AbilityScore.find_ability_mod("Wisdom", @character.wisdom, "mental_saving_throw_bonus")
-.row
-  .col-md-1 Dexterity:
-  .col-md-1= number_with_precision(@character.dexterity, precision: 2)
-  .col-md-2
-    Initiative Mod:
-    = ability = AbilityScore.find_ability_mod("Dexterity", @character.dexterity, "init_mod")
-  .col-md-2
-    Attack Mod:
-    = ability = AbilityScore.find_ability_mod("Dexterity", @character.dexterity, "attack_mod")
-  .col-md-2
-    Defense Mod:
-    = ability = AbilityScore.find_ability_mod("Dexterity", @character.dexterity, "defense_mod")
-  .col-md-2
-    Dodge Saving Throw:
-    = ability = AbilityScore.find_ability_mod("Dexterity", @character.dexterity, "dodge_saving_throw_bonus")
-  .col-md-2
-    Feat of Agility:
-    = ability = AbilityScore.find_ability_mod("Dexterity", @character.dexterity, "feat_of_agility")
-.row
-  .col-md-1 Constitution:
-  .col-md-1= number_with_precision(@character.constitution, precision: 2)
-  .col-md-2
-    Physical Saving Throw:
-    = ability = AbilityScore.find_ability_mod("Constitution", @character.constitution, "physical_saving_throw_bonus")
-.row
-  .col-md-1 Looks:
-  .col-md-1= number_with_precision(@character.looks, precision: 2)
-.row
-  .col-md-1 Charisma:
-  .col-md-1= number_with_precision(@character.charisma, precision: 2)
-  .col-md-2
-    Turning Mod:
-    = ability = AbilityScore.find_ability_mod("Charisma", @character.charisma, "turning_mod")
-  .col-md-2
-    Morale Mod:
-    = ability = AbilityScore.find_ability_mod("Charisma", @character.charisma, "morale_mod")
-%br
-%br
-%br
-.row
-  .col-md-6
-    .row
-      .col-md-12
-        Current Combat Rose:
-    .row
-      .col-md-12
-        = render partial: "shared/combat_rose", locals: { rose: @combat_rose }
-  .col-md-6
-    .row
-      .col-md-6
-        Silver: 
-        = @character.silver
-        %br
-        %br
-    .row
-      = simple_form_for @character, url: equip_items_character_path, method: :post do |f|
-        .col-md-3= f.association :left_hand_item, collection: @character.item_instance_location_names('arm'), input_html: { class: "string form-control" }
-        .col-md-3= f.association :right_hand_item, collection: @character.item_instance_location_names('arm'), input_html: { class: "string form-control" }
-        .col-md-3= f.association :body_item, collection: @character.item_instance_location_names('body'), input_html: { class: "string form-control" }
-        .col-md-3= f.submit 'Equip', class: "btn btn-primary label-height"
-    .row
-      .col-md-12
-        %br
-        %br
-        = simple_form_for @character, url: add_items_character_path, method: :post do |f|
-          .col-md-6
-            = f.input :item_to_take, collection: Item.all.pluck(:name), input_html: { class: "string form-control" }
-          .col-md-6
-            = f.submit 'Take Item', class: "btn btn-primary label-height"
-    .row
-      .col-md-12
-        %br
-        %br
-        %table.table.table-hover.table-responsive
-          %thead
-            %tr
-              %th Item
-              %th
-              %th
-          %tbody
-            - @character.item_instances.each do |item_instance|
-              %tr
-                %td= link_to item_instance.actual_name, item_instance
-                %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_instance_path(item_instance)
-                %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item_instance, :method => :delete, :data => { :confirm => 'Are you sure?' }
-    .row
-      .col-md-12
-        %br
-        %br
-        %h4 Specializations
-        %table.table.table-hover.table-responsive
-          %thead
-            %tr
-              %th Weapon
-              %th Attack
-              %th Defense
-              %th Speed
-              %th Damage
-          %tbody
-            - @character.specializations.pluck(:item_id).uniq.each do |item_id|
-              - specs = @character.specializations.where(item_id: item_id)
-              %tr
-                %td= link_to specs.first.item.name, specs.first.item
-                %td= specs.find_by(stat_name: "attack").value  if specs.find_by(stat_name: "attack")
-                %td= specs.find_by(stat_name: "defense").value if specs.find_by(stat_name: "defense")
-                %td= specs.find_by(stat_name: "speed").value   if specs.find_by(stat_name: "speed")
-                %td= specs.find_by(stat_name: "damage").value  if specs.find_by(stat_name: "damage")
-.row
-  .col-md-4 
-    %br
-    %table.table.table-hover.table-responsive
-      %thead
-        %tr
-          %th Proficiencies
-          %th
-      %tbody
-        - @character.proficiencies.each do |proficiency|
-          %tr
-            %td= link_to proficiency.name, proficiency
-            %td= link_to raw('<span class="octicon octicon-x"></span>'), remove_proficiency_character_path(@character, proficiency_id: proficiency.id)
-.row
-  .col-md-12
-    = render partial: "shared/calculations", locals: { rose: @combat_rose }
+.container
+  %ul.nav.nav-tabs.character-tabs{role: "tablist"}
+    %li.nav.active{role: "presentation"}
+      %a{href: "#overview", :"aria-controls" => "overview", role: "tab", data: { toggle: "tab" }} Overview
+    %li.nav{role: "presentation"}
+      %a{href: "#equipment", :"aria-controls" => "equipment", role: "tab", data: { toggle: "tab" }} Equipment
+    %li.nav{role: "presentation"}
+      %a{href: "#particulars", :"aria-controls" => "particulars", role: "tab", data: { toggle: "tab" }} Particulars
+    %li.nav{role: "presentation"}
+      %a{href: "#combat", :"aria-controls" => "combat", role: "tab", data: { toggle: "tab" }} Combat
+  .tab-content
+    .tab-pane.fade.in.active{id: "overview", role: "tabpanel"}
+      = render partial: "overview_tab", locals: { character: @character }
+    .tab-pane.fade{id: "equipment", role: "tabpanel"}
+      = render partial: "equipment_tab", locals: { character: @character }
+    .tab-pane.fade{id: "particulars", role: "tabpanel"}
+      = render partial: "particulars_tab", locals: { character: @character }
+    .tab-pane.fade{id: "combat", role: "tabpanel"}
+      = render partial: "combat_tab", locals: { character: @character }

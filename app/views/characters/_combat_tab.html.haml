@@ -1,0 +1,8 @@
+%br
+.row
+  .col-md-6
+    = render partial: "shared/combat_rose", locals: { rose: @combat_rose }
+%br
+.row
+  .col-md-12
+    = render partial: "shared/calculations", locals: { rose: @combat_rose }

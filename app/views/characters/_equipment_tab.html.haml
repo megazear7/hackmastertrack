@@ -1,0 +1,45 @@
+%br
+.row
+  .col-md-6
+    %h4 Equiped Items
+.row
+  .col-md-12
+    = simple_form_for @character, url: equip_items_character_path, method: :post do |f|
+      .col-md-3= f.association :left_hand_item, collection: @character.item_instance_location_names('arm'), input_html: { class: "string form-control" }
+      .col-md-3= f.association :right_hand_item, collection: @character.item_instance_location_names('arm'), input_html: { class: "string form-control" }
+      .col-md-3= f.association :body_item, collection: @character.item_instance_location_names('body'), input_html: { class: "string form-control" }
+      .col-md-3= f.submit 'Equip', class: "btn btn-primary label-height"
+
+%br
+.row
+  .col-md-6
+    %h4 Browse Items
+.row
+  .col-md-6
+    = simple_form_for @character, url: add_items_character_path, method: :post do |f|
+      .col-md-6
+        = f.input :item_to_take, collection: Item.all.pluck(:name), input_html: { class: "string form-control" }
+      .col-md-6
+        = f.submit 'Take Item', class: "btn btn-primary label-height"
+%br
+.row
+  .col-md-6
+    %h4 Inventory
+.row
+  .col-md-6
+    %table.table.table-hover.table-responsive
+      %thead
+        %tr
+          %th Item
+          %th
+          %th
+      %tbody
+        - @character.item_instances.each do |item_instance|
+          %tr
+            %td= link_to item_instance.actual_name, item_instance
+            %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_instance_path(item_instance)
+            %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item_instance, :method => :delete, :data => { :confirm => 'Are you sure?' }
+.row
+  .col-md-6
+    Silver: 
+    = @character.silver

@@ -1,0 +1,33 @@
+%br
+.row
+  .col-md-6
+    %h4 Specializations
+    %table.table.table-hover.table-responsive
+      %thead
+        %tr
+          %th Weapon
+          %th Attack
+          %th Defense
+          %th Speed
+          %th Damage
+      %tbody
+        - @character.specializations.pluck(:item_id).uniq.each do |item_id|
+          - specs = @character.specializations.where(item_id: item_id)
+          %tr
+            %td= link_to specs.first.item.name, specs.first.item
+            %td= specs.find_by(stat_name: "attack").value  if specs.find_by(stat_name: "attack")
+            %td= specs.find_by(stat_name: "defense").value if specs.find_by(stat_name: "defense")
+            %td= specs.find_by(stat_name: "speed").value   if specs.find_by(stat_name: "speed")
+            %td= specs.find_by(stat_name: "damage").value  if specs.find_by(stat_name: "damage")
+  .col-md-6
+    %h4 Proficiencies
+    %table.table.table-hover.table-responsive
+      %thead
+        %tr
+          %th
+          %th
+      %tbody
+        - @character.proficiencies.each do |proficiency|
+          %tr
+            %td= link_to proficiency.name, proficiency
+            %td= link_to raw('<span class="octicon octicon-x"></span>'), remove_proficiency_character_path(@character, proficiency_id: proficiency.id)
