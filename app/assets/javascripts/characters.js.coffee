@@ -5,3 +5,8 @@
 $ ->
   if $(".character-show-page").data("character-id")
     updateSpecializations($(".character-show-page").data("character-id"))
+
+  tab = getUrlParameter("tab");
+  if $("a[href='#"+tab+"']").length > 0
+    $("a[href='#"+tab+"']").tab("show")
+

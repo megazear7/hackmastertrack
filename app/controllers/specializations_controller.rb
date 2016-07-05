@@ -28,34 +28,34 @@ class SpecializationsController < ApplicationController
             @character.save
             respond_to do |format|
               if @specialization.save
-                format.html { redirect_to request.referer, notice: 'Specialization was successfully created.' }
+                format.html { redirect_to character_path(@character, tab: "particulars"), notice: 'Specialization was successfully created.' }
                 format.json { render action: 'show', status: :created, location: @specialization }
               else
-                format.html { redirect_to request.referer, notice: 'Specialization was successfully created.' }
+                format.html { redirect_to character_path(@character, tab: "particulars"), notice: 'Specialization was successfully created.' }
                 format.json { render json: @specialization.errors, status: :unprocessable_entity }
               end
             end
           else
             respond_to do |format|
-              format.html { redirect_to request.referer, notice: 'You did not have enough building points for that' }
+              format.html { redirect_to character_path(@character, tab: "particulars"), notice: 'You did not have enough building points for that' }
               format.json { render json: @specialization.errors, status: :unprocessable_entity }
             end
           end
         else
           respond_to do |format|
-            format.html { redirect_to request.referer, notice: 'You must specialize in the other attributes before you can specialize in ' + stat_name}
+            format.html { redirect_to character_path(@character, tab: "particulars"), notice: 'You must specialize in the other attributes before you can specialize in ' + stat_name}
             format.json { render json: @specialization.errors, status: :unprocessable_entity }
           end
         end
       else
         respond_to do |format|
-          format.html { redirect_to request.referer, notice: 'You need to have the proficiency first' }
+          format.html { redirect_to character_path(@character, tab: "particulars"), notice: 'You need to have the proficiency first' }
           format.json { render json: @specialization.errors, status: :unprocessable_entity }
         end
       end
     else
       respond_to do |format|
-        format.html { redirect_to request.referer, notice: 'You cannot specialize more than 5.' }
+        format.html { redirect_to character_path(@character, tab: "particulars"), notice: 'You cannot specialize more than 5.' }
         format.json { render json: @specialization.errors, status: :unprocessable_entity }
       end
     end
