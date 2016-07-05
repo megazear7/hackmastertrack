@@ -326,10 +326,10 @@ class Character < ActiveRecord::Base
     end
 
     if not shield_equiped(equipment)
-      ret["shield_defense_penalty"] = -4
+      ret["no_shield"] = -4
     end
     if equipment["body"] and equipment["body"].item.defense_mod
-        ret["body_item"] = equipment["body"].item.defense_mod 
+        ret[equipment["body"].actual_name] = equipment["body"].item.defense_mod
     end
     if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
         ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) 
@@ -382,7 +382,7 @@ class Character < ActiveRecord::Base
     equipment = build_equipment(equipment)
     ret = {}
 
-    ret["body_item"] = equipment["body"].item.damage_reduction       if equipment["body"]       and equipment["body"].item.damage_reduction
+    ret[equipment["body"].actual_name] = equipment["body"].item.damage_reduction       if equipment["body"]       and equipment["body"].item.damage_reduction
     magic_mod = calculate_magic_mod(equipment, "damage_reduction")
     if magic_mod != 0
       ret["magic"] = magic_mod 
@@ -430,7 +430,7 @@ class Character < ActiveRecord::Base
   def calculate_reach equipment
     equipment = build_equipment(equipment)
     ret = {}
-    ret["#{main_hand}_hand_item_reach"] = equipment["#{main_hand}_hand"].item.reach if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.reach
+    ret[equipment["#{main_hand}_hand"].actual_name] = equipment["#{main_hand}_hand"].item.reach if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.reach
     mod = 0
     ret.each do |key, val|
       mod += val
