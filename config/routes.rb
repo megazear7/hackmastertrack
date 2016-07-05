@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     member do
       get  :remove_proficiency
       get  :add_proficiency
+      get  :add_talent
       post :add_xp
       post :equip_items
       post :add_items

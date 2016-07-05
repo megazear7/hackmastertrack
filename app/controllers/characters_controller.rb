@@ -1,5 +1,5 @@
 class CharactersController < ApplicationController
-  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :add_items, :equip_items, :add_proficiency, :remove_proficiency, :step3, :step4, :step5, :step6, :step7, :step8, :step9, :step10, :step11, :step12, :step13, :finish, :leave]
+  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :add_items, :equip_items, :add_proficiency, :remove_proficiency, :add_talent, :step3, :step4, :step5, :step6, :step7, :step8, :step9, :step10, :step11, :step12, :step13, :finish, :leave]
 
   # GET /characters
   # GET /characters.json
@@ -166,6 +166,28 @@ class CharactersController < ApplicationController
       redirect_to character_url(@character), notice: 'You already have the proficiency ' + prof.name + '!'
     else
       redirect_to character_url(@character), notice: 'You do not have enough building points for the proficiency ' + prof.name + '!'
+    end
+  end
+
+  def remove_talent
+    talent = Talent.find(params[:talent_id])
+    @character.talents.delete(talent)
+    @character.building_points += talent.bp_cost
+    @character.save
+    redirect_to character_url(@character), notice: 'You no longer have the talent ' + talent.name
+  end
+
+  def add_talent
+    talent = Talent.find(params[:talent_id])
+    if @character.building_points > talent.bp_cost and not @character.talents.include? talent
+      @character.talents << talent
+      @character.building_points -= talent.bp_cost
+      @character.save
+      redirect_to character_url(@character), notice: 'You now have the talent ' + talent.name + '!'
+    elsif @character.talents.include? talent
+      redirect_to character_url(@character), notice: 'You already have the talent ' + talent.name + '!'
+    else
+      redirect_to character_url(@character), notice: 'You do not have enough building points for the talent ' + talent.name + '!'
     end
   end
 

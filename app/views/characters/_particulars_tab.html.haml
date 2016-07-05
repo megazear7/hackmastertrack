@@ -9,20 +9,15 @@
     .row
       .col-md-12
         %h4 Proficiencies
-        %table.table.table-hover.table-responsive
-          %thead
-            %tr
-              %th
-              %th
-          %tbody
-            - @character.proficiencies.each do |proficiency|
-              %tr
-                %td= link_to proficiency.name, proficiency
-                %td= link_to raw('<span class="octicon octicon-x"></span>'), remove_proficiency_character_path(@character, proficiency_id: proficiency.id)
+        - @character.proficiencies.each do |proficiency|
+          %h5
+            = link_to proficiency.name, proficiency
     .row
       .col-md-12
         %h4 Talents
-        %p Coming Soon
+        - @character.talents.each do |talent|
+          %h5
+            = link_to talent.name, talent 
     .row
       .col-md-12
         %h4 Skills
