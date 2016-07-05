@@ -128,13 +128,13 @@ class Character < ActiveRecord::Base
   end
 
   def calculate_magic_mod equipment, stat
-    enhancement = 0
+    ret = {}
     equipment.each do |location, itemInstance|
-      if itemInstance and itemInstance.magic_or_masterwork? and itemInstance.send(stat)
-        enhancement += itemInstance.send(stat)
+      if itemInstance and itemInstance.magic_or_masterwork? and itemInstance.send(stat) and itemInstance.send(stat) != 0
+        ret[itemInstance.actual_name + " (Magic)"] = itemInstance.send(stat)
       end
     end
-    enhancement
+    ret
   end
 
   def build_equipment equipment
@@ -204,10 +204,7 @@ class Character < ActiveRecord::Base
     if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
       ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item)
     end
-    magic_mod = calculate_magic_mod(equipment, "speed_mod")
-    if magic_mod != 0
-      ret["magic"] = magic_mod 
-    end
+    ret.merge!(calculate_magic_mod(equipment, "speed_mod"))
 
     mod = 0
     ret.each do |key, val|
@@ -229,10 +226,7 @@ class Character < ActiveRecord::Base
     if equipment["body"] and equipment["body"].item.init_mod 
       ret[equipment["body"].actual_name] = equipment["body"].item.init_mod
     end
-    magic_mod = calculate_magic_mod(equipment, "init_mod")
-    if magic_mod != 0
-      ret["magic"] = magic_mod 
-    end
+    ret.merge!(calculate_magic_mod(equipment, "init_mod"))
 
     mod = 0
     ret.each do |key, val|
@@ -253,10 +247,7 @@ class Character < ActiveRecord::Base
     if level_mod and level_mod != 0
       ret["class"] = level_mod
     end
-    magic_mod = calculate_magic_mod(equipment, "init_die_mod")
-    if magic_mod != 0
-      ret["magic"] = magic_mod 
-    end
+    ret.merge!(calculate_magic_mod(equipment, "init_die_mod"))
 
     mod = 0
     ret.each do |key, val|
@@ -285,10 +276,7 @@ class Character < ActiveRecord::Base
     if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
       ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) 
     end
-    magic_mod = calculate_magic_mod(equipment, "attack_mod")
-    if magic_mod != 0
-      ret["magic"] = magic_mod 
-    end
+    ret.merge!(calculate_magic_mod(equipment, "attack_mod"))
 
     mod = 0
     ret.each do |key, val|
@@ -338,10 +326,7 @@ class Character < ActiveRecord::Base
     if def_adjustment != 0
         ret["race"] = def_adjustment
     end
-    magic_mod = calculate_magic_mod(equipment, "defense_mod")
-    if magic_mod != 0
-      ret["magic"] = magic_mod 
-    end
+    ret.merge!(calculate_magic_mod(equipment, "defense_mod"))
 
     mod = 0
     ret.each do |key, val|
@@ -383,10 +368,7 @@ class Character < ActiveRecord::Base
     ret = {}
 
     ret[equipment["body"].actual_name] = equipment["body"].item.damage_reduction       if equipment["body"]       and equipment["body"].item.damage_reduction
-    magic_mod = calculate_magic_mod(equipment, "damage_reduction")
-    if magic_mod != 0
-      ret["magic"] = magic_mod 
-    end
+    ret.merge!(calculate_magic_mod(equipment, "damage_reduction"))
 
     mod = 0
     ret.each do |key, val|
@@ -414,10 +396,7 @@ class Character < ActiveRecord::Base
     if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
       ret[equipment["#{main_hand}_hand"].actual_name] = prof_adjustment(equipment["#{main_hand}_hand"].item)
     end
-    magic_mod = calculate_magic_mod(equipment, "damage_mod")
-    if magic_mod != 0
-      ret["magic"] = magic_mod 
-    end
+    ret.merge!(calculate_magic_mod(equipment, "damage_mod"))
 
     mod = 0
     ret.each do |key, val|
