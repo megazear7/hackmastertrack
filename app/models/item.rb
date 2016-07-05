@@ -23,4 +23,8 @@ class Item < ActiveRecord::Base
       Item.melee_specializations
     end
   end
+
+  def is_weapon
+    Item.weapons.pluck(:id).include? self.id
+  end
 end

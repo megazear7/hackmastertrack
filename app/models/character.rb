@@ -66,7 +66,15 @@ class Character < ActiveRecord::Base
   end
 
   def specialized_weapons
-    Item.find(self.specializations.pluck(:item_id))
+    weapons = []
+    self.proficiencies.each do |prof|
+      prof.items.each do |item|
+        if item.is_weapon
+          weapons << item
+        end
+      end
+    end
+    weapons
   end
 
   def specialization_cost item, stat_name
