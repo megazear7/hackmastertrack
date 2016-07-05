@@ -497,9 +497,8 @@ $ ->
         $.getJSON("/specialization/retrieve" + "?character_id=#{character_id}" + "&item_id=#{item_id}" + "&stat_name=#{stat_name}", (data) ->
           if data
             console.log(data.value);
-            $(specialization).find(".specialization_bp_cost input").val(data.cost)
             $(specialization).find(".specialization_value input").val(data.value + 1)
-            $(specialization).find(".bp-cost").text(data.cost * (data.value + 1))
+            $(specialization).find(".bp-cost").text(data.cost)
 
             $(specialization).find(".current-value").empty()
 

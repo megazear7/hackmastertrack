@@ -66,7 +66,13 @@ class Character < ActiveRecord::Base
   end
 
   def specialization_cost item, stat_name
-    self.character_class.send(stat_name + "_specialization_cost")
+    spec = self.specializations.find_by(item_id: item.id, stat_name: stat_name)
+    base_cost = self.character_class.send(stat_name + "_specialization_cost")
+    if spec
+      base_cost * (spec.value+1)
+    else
+      base_cost
+    end
   end
 
   def give_class_benefits

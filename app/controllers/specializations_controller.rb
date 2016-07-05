@@ -14,8 +14,9 @@ class SpecializationsController < ApplicationController
     @character = Character.find(params[:specialization][:character_id])
     @item = Item.find(params[:specialization][:item_id])
     if @character.proficiencies.pluck(:id).include? @item.proficiency.id
-      if @character.building_points > params[:specialization][:bp_cost].to_i
-        @character.building_points -= params[:specialization][:bp_cost].to_i
+      cost = @character.specialization_cost(@item, params[:specialization][:stat_name])
+      if @character.building_points > cost
+        @character.building_points -= cost
         @specialization = Specialization.find_or_create_by(character_id: params[:specialization][:character_id],
                                                          item_id: params[:specialization][:item_id],
                                                          stat_name: params[:specialization][:stat_name] )
