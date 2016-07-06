@@ -1,6 +1,6 @@
 .btn-group
   = link_to 'Back', characters_path, class: "btn btn-default"
-  = link_to 'Edit', edit_character_path(@character), class: "btn btn-primary"
+  = link_to 'Edit', edit_character_path(@character), class: "btn btn-primary", data: { confirm: "This will mark this character as custom." }
 = form_tag @character.pdf_url, style: "display:inline;" do
   = submit_tag 'Download Character Sheet', class: "btn btn-default"
   - @character.pdf_fields.each do |key, val|

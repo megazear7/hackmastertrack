@@ -24,15 +24,15 @@
       - @levels.where(character_class_id: c.id).order(:character_class_id, :level_value).each do |level|
         %tr
           %td= level.level_value
-          %td= level.hitdice
+          %td= level.hit_dice
           %td= level.init_mod
-          %td= level.initiativediemod
+          %td= level.init_die_mod
           %td= level.attack_mod
           %td= level.speed_mod
-          %td= level.rangedspeedmod
+          %td= level.ranged_speed_mod
           %td= level.spell_points
           %td= level.stvsspells
-          %td= level.addedspells
+          %td= level.added_spells
           %td= link_to 'Show', level
           %td= link_to 'Edit', edit_level_path(level)
           %td= link_to 'Destroy', level, :method => :delete, :data => { :confirm => 'Are you sure?' }
