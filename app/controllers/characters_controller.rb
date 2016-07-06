@@ -120,6 +120,10 @@ class CharactersController < ApplicationController
     item_to_take = Item.where(name: params[:character][:item_to_take]).first
     item_instance = ItemInstance.new
     item_instance.item = item_to_take
+
+
+    aa
+
     if params[:commit] == "Buy Item"
       cost = item_instance.item.buy_cost
       if @character.silver > cost
@@ -279,11 +283,23 @@ class CharactersController < ApplicationController
 
     if @character.save
       render layout: "character_creation"
-    else
     end
   end
 
   def step6
+    honor = @character.strength
+    honor += @character.strength
+    honor += @character.intelligence
+    honor += @character.wisdom
+    honor += @character.dexterity
+    honor += @character.constitution
+    honor += @character.looks
+    honor += @character.charisma
+
+    honor = honor / 7
+
+    @character.honor = honor
+
     render layout: "character_creation"
   end
 
@@ -321,6 +337,7 @@ class CharactersController < ApplicationController
 
   def step13
     @character.update(character_params)
+    @items = Item.all
     if @character.save
       render layout: "character_creation"
     else

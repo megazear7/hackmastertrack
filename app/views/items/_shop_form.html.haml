@@ -1,0 +1,11 @@
+= simple_form_for current_user.characters.first, url: add_items_character_path(id: current_user.characters.first.id, page: "item_index", page_location: "collapse_"+item_group+"_"+index.to_s+"_travel"), method: :post do |f|
+  .hidden
+    = f.input :item_to_take, input_html: { value: item.name }
+  = collection_select(:character, "id_"+item_group+"_"+index.to_s, current_user.characters, :id, :name, {:prompt => nil}, { class: "string form-control character_select_for_item_purchase" } )
+  .btn-group
+    - if view_details
+      = link_to "View Details", item, class: "btn btn-default"
+    - if take_item
+      = f.submit "Take Item", class: "btn btn-default"
+    - if buy_item
+      = f.submit "Buy Item", class: "btn btn-default"

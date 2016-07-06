@@ -1,6 +1,8 @@
 %h1 Step 11
 = simple_form_for @character, :url => step12_character_path(@character), :method => :post do |f|
-  %p Record Base Attack, Defense, Damage, and Initiative. We do this later on automatically so this step is kind of pointless
+  .row
+    .col-md-12
+      = render partial: "shared/calculations", locals: { rose: @character.calculate_combat_rose }
   .row
     %br
     .col-md-4= f.submit 'Step 12', class: "btn btn-primary"
