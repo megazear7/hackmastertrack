@@ -15,9 +15,8 @@
     .row
       .col-md-12
         %h4 Talents
-        - @character.talents.each do |talent|
-          %h5
-            = link_to talent.name, talent 
+        - @character.characters_talents.each do |char_talent|
+          %h5= link_to char_talent.name, char_talent.talent 
     .row
       .col-md-12
         %h4 Skills

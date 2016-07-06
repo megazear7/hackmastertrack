@@ -10,6 +10,11 @@ class TalentsController < ApplicationController
   # GET /talents/1
   # GET /talents/1.json
   def show
+    if params[:character_id]
+      @character = Character.find(params[:character_id])
+    else
+      @character = current_user.characters.first
+    end
   end
 
   # GET /talents/new
@@ -73,7 +78,8 @@ class TalentsController < ApplicationController
 	:name,
 	:description,
 	:requirements,
-	:bp_cost
+	:bp_cost,
+	:item_specific
       )
     end
 end

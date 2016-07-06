@@ -1,13 +1,40 @@
 .btn-group
   = link_to 'Back', talents_path, class: "btn btn-default"
   = link_to 'Edit', edit_talent_path(@talent), class: "btn btn-primary"
+%h3= @talent.name
 %br
+.row
+  - if @talent.item_specific
+    = form_tag add_talent_character_path(@character) do
+      %input{ type: "hidden", name: "talent_id", value: @talent.id }
+      .col-md-2
+        = select :item, :id, @talent.item_options.collect { |i| [i.name, i.id] }, {}, { :class => "form-control" }
+      .col-md-2
+        = button_tag(type: 'submit', class: "btn btn-primary") do
+          %span.glyphicon.glyphicon-plus
+          Learn with
+          = @character.name
+    .col-md-6
+    .col-md-2
+      .dropdown
+      %button#dropdownMenu1.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", :type => "button"}
+        Change Character
+        %span.caret
+      %ul.dropdown-menu{"aria-labelledby" => "dropdownMenu1", :role => "menu"}
+        - current_user.characters.each do |character|
+          %li= link_to character.name, talent_path(@talent, character_id: character.id)
+  - else
+    .col-md-2
+      .dropdown
+        %button#dropdownMenu1.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", :type => "button"}
+          Learn
+          %span.caret
+        %ul.dropdown-menu{"aria-labelledby" => "dropdownMenu1", :role => "menu"}
+          - current_user.characters.each do |character|
+            %li= link_to character.name, add_talent_character_path(character, talent_id: @talent.id)
 %br
 %table.table.table-hover.table-responsive
   %tbody
-    %tr
-      %td Name
-      %td= @talent.name
     %tr
       %td Description
       %td= @talent.description
@@ -15,5 +42,8 @@
       %td Requirements
       %td= @talent.requirements
     %tr
-      %td bp_cost
+      %td BP Cost
       %td= @talent.bp_cost
+    %tr
+      %td Item Specific?
+      %td= @talent.item_specific

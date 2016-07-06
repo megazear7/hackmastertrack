@@ -3,8 +3,9 @@ class Character < ActiveRecord::Base
   belongs_to :user
   belongs_to :character_class
   belongs_to :race
+  has_many :characters_talents
+  has_many :talents, through: :characters_talents
   has_and_belongs_to_many :items
-  has_and_belongs_to_many :talents
   has_and_belongs_to_many :proficiencies
   has_and_belongs_to_many :skills
   has_and_belongs_to_many :campaigns
@@ -363,14 +364,14 @@ class Character < ActiveRecord::Base
         ret[equipment["body"].actual_name] = equipment["body"].item.defense_mod
     end
 
-    if equipment["left_hand"].item and equipment["left_hand"].item.is_shield?
+    if equipment["left_hand"] and equipment["left_hand"].item and equipment["left_hand"].item.is_shield?
         shield = equipment["right_hand"]
         if prof_adjustment(shield.item) != 0
             ret["no_shield_proficiency"] = prof_adjustment(shield.item) 
         end
     end
 
-    if equipment["right_hand"].item and equipment["right_hand"].item.is_shield?
+    if equipment["right_hand"] and equipment["right_hand"].item and equipment["right_hand"].item.is_shield?
         shield = equipment["right_hand"]
         if prof_adjustment(shield.item) != 0
             ret["no_shield_proficiency"] = prof_adjustment(shield.item)
@@ -828,9 +829,9 @@ class Character < ActiveRecord::Base
       end
     end
 
-    self.talents.each_with_index do |talent, i|
-      args["talent_#{i+1}"] = talent.name
-      args["talent_benefit_#{i+1}"] = talent.description
+    self.characters_talents.each_with_index do |char_talent, i|
+      args["talent_#{i+1}"] = char_talent.name
+      args["talent_benefit_#{i+1}"] = char_talent.talent.description
     end
 
     self.proficiencies.each_with_index do |prof, i|

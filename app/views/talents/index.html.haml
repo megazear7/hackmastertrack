@@ -22,6 +22,9 @@
               %span.caret
             %ul.dropdown-menu{"aria-labelledby" => "dropdownMenu1", :role => "menu"}
               - current_user.characters.each do |character|
-                %li= link_to character.name, add_talent_character_path(character, talent_id: talent.id)
+                - if not talent.item_specific
+                  %li= link_to character.name, add_talent_character_path(character, talent_id: talent.id)
+                - else
+                  %li= link_to character.name, talent_path(talent, character_id: character.id)
         %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_talent_path(talent)
         %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), talent, :method => :delete, :data => { :confirm => 'Are you sure?' }

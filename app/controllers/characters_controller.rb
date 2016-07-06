@@ -169,25 +169,30 @@ class CharactersController < ApplicationController
     end
   end
 
-  def remove_talent
-    talent = Talent.find(params[:talent_id])
-    @character.talents.delete(talent)
-    @character.building_points += talent.bp_cost
-    @character.save
-    redirect_to character_url(@character), notice: 'You no longer have the talent ' + talent.name
-  end
-
   def add_talent
     talent = Talent.find(params[:talent_id])
-    if @character.building_points > talent.bp_cost and not @character.talents.include? talent
-      @character.talents << talent
-      @character.building_points -= talent.bp_cost
-      @character.save
-      redirect_to character_url(@character), notice: 'You now have the talent ' + talent.name + '!'
-    elsif @character.talents.include? talent
-      redirect_to character_url(@character), notice: 'You already have the talent ' + talent.name + '!'
+
+    if talent.item_specific
+      if @character.building_points > talent.bp_cost
+        item = Item.find(params[:item][:id])
+        char_tal = CharactersTalent.create(talent_id: talent.id, item_id: item.id, character_id: @character.id)
+        redirect_to character_url(@character), notice: 'You now have the talent ' + talent.name + ' (' + char_tal.item.name + ')!'
+        @character.building_points -= talent.bp_cost
+        @character.save
+      else
+        redirect_to character_url(@character), notice: 'You do not have enough building points for the talent ' + talent.name + '!'
+      end
     else
-      redirect_to character_url(@character), notice: 'You do not have enough building points for the talent ' + talent.name + '!'
+      if @character.building_points > talent.bp_cost and not @character.talents.include? talent
+        @character.characters_talents.new(talent_id: talent.id, character_id: @character.id)
+        @character.building_points -= talent.bp_cost
+        @character.save
+        redirect_to character_url(@character), notice: 'You now have the talent ' + talent.name + '!'
+      elsif @character.talents.include? talent
+        redirect_to character_url(@character), notice: 'You already have the talent ' + talent.name + '!'
+      else
+        redirect_to character_url(@character), notice: 'You do not have enough building points for the talent ' + talent.name + '!'
+      end
     end
   end
 

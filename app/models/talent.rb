@@ -1,13 +1,10 @@
 class Talent < ActiveRecord::Base
   has_and_belongs_to_many :characters
-  belongs_to :item # this is the item required to benefit from this talent
+  has_many :character_talents
 
-  def requires_item?
-    if self.item.nil?
-      false
-    else
-      true
-    end
+  def item_options
+    # I assume that only melee, ranged and polearm items ever get talents specific
+    # to them, this assumption may not hold at all times.
+    Item.where(item_type: ["melee", "ranged", "polearm"])
   end
-
 end
