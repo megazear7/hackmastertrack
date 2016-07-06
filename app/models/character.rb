@@ -267,8 +267,14 @@ class Character < ActiveRecord::Base
     equipment = build_equipment(equipment)
     ret = {}
 
-    ret["wisdom"] = AbilityScore.find_ability_mod("Wisdom", self.wisdom, "init_mod")
-    ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "init_mod")
+    wisdom_bonus = AbilityScore.find_ability_mod("Wisdom", self.wisdom, "init_mod")
+    if wisdom_bonus != 0
+      ret["wisdom"] = wisdom_bonus
+    end
+    dex_bonus = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "init_mod")
+    if dex_bonus != 0
+      ret["dexterity"] = dex_bonus
+    end
     if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.init_mod
       ret[equipment["#{main_hand}_hand"].actual_name] = equipment["#{main_hand}_hand"].item.init_mod
     end
@@ -354,14 +360,20 @@ class Character < ActiveRecord::Base
     equipment = build_equipment(equipment)
     ret = {}
 
-    if equipment["#{main_hand}_hand"]
-      specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "defense")
+    itemInstance = equipment["#{main_hand}_hand"]
+    if itemInstance
+      specialization = self.specializations.find_by(item_id: itemInstance.item.id, stat_name: "defense")
       ret["specialization"] = specialization.value if specialization
-    end
-    ret["wisdom"] = AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod")
-    ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
-    if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.defense_mod
-      ret[equipment["#{main_hand}_hand"].actual_name] = equipment["#{main_hand}_hand"].item.defense_mod
+      characters_talents.each do |char_talent|
+        if char_talent.talent.name == "Dodge"
+          ret[char_talent.name] = 1
+        end
+      end
+      ret["wisdom"] = AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod")
+      ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
+      if itemInstance.item.defense_mod
+        ret[itemInstance.actual_name] = itemInstance.item.defense_mod
+      end
     end
     if equipment["#{off_hand}_hand"] and equipment["#{off_hand}_hand"].item.defense_mod
       ret[equipment["#{off_hand}_hand"].actual_name] = equipment["#{off_hand}_hand"].item.defense_mod
