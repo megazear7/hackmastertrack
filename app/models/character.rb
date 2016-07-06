@@ -224,7 +224,7 @@ class Character < ActiveRecord::Base
   end
 
   def prof_adjustment item
-    if item.is_shield?
+    if item.shield?
       self.proficiencies.pluck(:id).include?(item.proficiency_id) ? 0 : Item.shield_penalty
     else
       self.proficiencies.pluck(:id).include?(item.proficiency_id) ? 0 : item.prof_adjustment
@@ -234,19 +234,24 @@ class Character < ActiveRecord::Base
   def calculate_speed equipment
     equipment = build_equipment(equipment)
     ret = {}
-
-    if equipment["#{main_hand}_hand"]
-      specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "speed")
+    itemInstance = equipment["#{main_hand}_hand"]
+    if itemInstance
+      characters_talents.each do |char_talent|
+        if char_talent.talent.name == "Swift Blade" and char_talent.item.id == itemInstance.item.id and itemInstance.item.melee?
+          ret[char_talent.name] = 1
+        end
+      end
+      specialization = self.specializations.find_by(item_id: itemInstance.item.id, stat_name: "speed")
       ret["specialization"] = specialization.value if specialization and specialization.value != 0
-    end
-    if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.speed_mod
-      ret[equipment["#{main_hand}_hand"].actual_name] = equipment["#{main_hand}_hand"].item.speed_mod
-    end
-    if equipment["body"] and equipment["body"].item.speed_mod and equipment["body"].item.speed_mod != 0
-      ret[equipment["body"].actual_name] = equipment["body"].item.speed_mod       
-    end
-    if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
-      ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item)
+      if itemInstance.item.speed_mod
+        ret[itemInstance.actual_name] = itemInstance.item.speed_mod
+      end
+      if equipment["body"] and equipment["body"].item.speed_mod and equipment["body"].item.speed_mod != 0
+        ret[equipment["body"].actual_name] = equipment["body"].item.speed_mod       
+      end
+      if prof_adjustment(itemInstance.item) != 0
+        ret["proficiency"] = prof_adjustment(itemInstance.item)
+      end
     end
     ret.merge!(calculate_magic_mod(equipment, "speed_mod"))
 
@@ -304,21 +309,26 @@ class Character < ActiveRecord::Base
   def calculate_attack equipment
     equipment = build_equipment(equipment)
     ret = {}
-
-    if equipment["#{main_hand}_hand"]
-      specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "attack")
+    itemInstance = equipment["#{main_hand}_hand"]
+    if itemInstance
+      characters_talents.each do |char_talent|
+        if char_talent.talent.name == "Attack Bonus" and char_talent.item.id == itemInstance.item.id and itemInstance.item.melee?
+          ret[char_talent.name] = 1
+        end
+      end
+      specialization = self.specializations.find_by(item_id: itemInstance.item.id, stat_name: "attack")
       ret["specialization"] = specialization.value if specialization
-    end
-    ret["intelligence"] = AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
-    ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod")
-    if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.attack_mod
-      ret[equipment["#{main_hand}_hand"].actual_name] = equipment["#{main_hand}_hand"].item.attack_mod
-    end
-    if equipment["body"] and equipment["body"].item.attack_mod
-      ret[equipment["body"].actual_name] = equipment["body"].item.attack_mod       
-    end
-    if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
-      ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) 
+      ret["intelligence"] = AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
+      ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod")
+      if itemInstance.item.attack_mod
+        ret[itemInstance.actual_name] = itemInstance.item.attack_mod
+      end
+      if equipment["body"] and equipment["body"].item.attack_mod
+        ret[equipment["body"].actual_name] = equipment["body"].item.attack_mod       
+      end
+      if prof_adjustment(itemInstance.item) != 0
+        ret["proficiency"] = prof_adjustment(itemInstance.item) 
+      end
     end
     ret.merge!(calculate_magic_mod(equipment, "attack_mod"))
 
@@ -364,14 +374,14 @@ class Character < ActiveRecord::Base
         ret[equipment["body"].actual_name] = equipment["body"].item.defense_mod
     end
 
-    if equipment["left_hand"] and equipment["left_hand"].item and equipment["left_hand"].item.is_shield?
+    if equipment["left_hand"] and equipment["left_hand"].item and equipment["left_hand"].item.shield?
         shield = equipment["right_hand"]
         if prof_adjustment(shield.item) != 0
             ret["no_shield_proficiency"] = prof_adjustment(shield.item) 
         end
     end
 
-    if equipment["right_hand"] and equipment["right_hand"].item and equipment["right_hand"].item.is_shield?
+    if equipment["right_hand"] and equipment["right_hand"].item and equipment["right_hand"].item.shield?
         shield = equipment["right_hand"]
         if prof_adjustment(shield.item) != 0
             ret["no_shield_proficiency"] = prof_adjustment(shield.item)
@@ -422,10 +432,10 @@ class Character < ActiveRecord::Base
   def calculate_damage_reduction equipment
     equipment = build_equipment(equipment)
     ret = {}
-
-    ret[equipment["body"].actual_name] = equipment["body"].item.damage_reduction       if equipment["body"]       and equipment["body"].item.damage_reduction
+    if equipment["body"] and equipment["body"].item.damage_reduction
+      ret[equipment["body"].actual_name] = equipment["body"].item.damage_reduction       
+    end
     ret.merge!(calculate_magic_mod(equipment, "damage_reduction"))
-
     mod = 0
     ret.each do |key, val|
       mod += val
@@ -437,20 +447,25 @@ class Character < ActiveRecord::Base
   def calculate_damage_mod equipment
     equipment = build_equipment(equipment)
     ret = {}
-
-    if equipment["#{main_hand}_hand"]
-      specialization = self.specializations.find_by(item_id: equipment["#{main_hand}_hand"].item.id, stat_name: "damage")
+    itemInstance = equipment["#{main_hand}_hand"]
+    if itemInstance
+      characters_talents.each do |char_talent|
+        if char_talent.talent.name == "Damage Bonus" and char_talent.item.id == itemInstance.item.id and itemInstance.item.melee?
+          ret[char_talent.name] = 1
+        end
+      end
+      specialization = self.specializations.find_by(item_id: itemInstance.item.id, stat_name: "damage")
       ret["specialization"] = specialization.value if specialization
-    end
-    ret["strength"] = AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
-    if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.damage_mod
-      ret[equipment["#{main_hand}_hand"].actual_name] = equipment["#{main_hand}_hand"].item.damage_mod
-    end
-    if equipment["body"] and equipment["body"].item.damage_mod != 0
-      ret[equipment["body"].actual_name] = equipment["body"].item.damage_mod
-    end
-    if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
-      ret[equipment["#{main_hand}_hand"].actual_name] = prof_adjustment(equipment["#{main_hand}_hand"].item)
+      ret["strength"] = AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
+      if itemInstance.item.damage_mod
+        ret[itemInstance.actual_name] = itemInstance.item.damage_mod
+      end
+      if equipment["body"] and equipment["body"].item.damage_mod != 0
+        ret[equipment["body"].actual_name] = equipment["body"].item.damage_mod
+      end
+      if prof_adjustment(itemInstance.item) != 0
+        ret[itemInstance.actual_name] = prof_adjustment(itemInstance.item)
+      end
     end
     ret.merge!(calculate_magic_mod(equipment, "damage_mod"))
 
@@ -465,7 +480,16 @@ class Character < ActiveRecord::Base
   def calculate_reach equipment
     equipment = build_equipment(equipment)
     ret = {}
-    ret[equipment["#{main_hand}_hand"].actual_name] = equipment["#{main_hand}_hand"].item.reach if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.reach
+    if equipment["#{main_hand}_hand"]
+      characters_talents.each do |char_talent|
+        if char_talent.talent.name == "Improved Reach" and char_talent.item.id == equipment["#{main_hand}_hand"].item.id and equipment["#{main_hand}_hand"].item.melee?
+          ret[char_talent.name] = 1
+        end
+      end
+    end
+    if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.reach
+      ret[equipment["#{main_hand}_hand"].actual_name] = equipment["#{main_hand}_hand"].item.reach 
+    end
     mod = 0
     ret.each do |key, val|
       mod += val

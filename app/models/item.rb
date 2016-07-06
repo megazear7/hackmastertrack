@@ -28,8 +28,12 @@ class Item < ActiveRecord::Base
     Item.weapons.pluck(:id).include? self.id
   end
 
-  def is_shield?
+  def shield?
     item_type == "shield"
+  end
+
+  def melee?
+    item_type == "melee"
   end
 
   def prof_adjustment
