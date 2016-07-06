@@ -3,27 +3,6 @@
   = link_to 'Edit', edit_item_path(@item), class: "btn btn-primary"
 %br
 %br
-.row
-  .col-md-12
-    %h3 Specialize in this weapon:
-.row
-  .col-md-2
-    %select.string.form-control.character-select
-      = current_user.characters.each do |character|
-        %option{ value: character.id }= character.name
-.row
-  .col-md-2
-    - if @specialization.errors.any?
-      %td
-        #error_explanation
-          %h2= "#{pluralize(@specialization.errors.count, "error")} prohibited this item from being saved:"
-          %ul
-            - @specialization.errors.full_messages.each do |msg|
-              %li= msg
-.row
-  .col-md-6
-    = render partial: "characters/specializations", locals: { item: @item, specialization: @specialization }
-%br
 %table.table.table-hover.table-responsive
   %tbody
     %tr

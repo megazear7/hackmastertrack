@@ -223,17 +223,11 @@ class Character < ActiveRecord::Base
   end
 
   def prof_adjustment item
-    adjustment = 0
-    if    item.skill_level == "minimal"
-      adjustment = -1
-    elsif item.skill_level == "low"
-      adjustment = -2
-    elsif item.skill_level == "medium"
-      adjustment = -4
-    elsif item.skill_level == "high"
-      adjustment = -6
+    if item.is_shield?
+      self.proficiencies.pluck(:id).include?(item.proficiency_id) ? 0 : Item.shield_penalty
+    else
+      self.proficiencies.pluck(:id).include?(item.proficiency_id) ? 0 : item.prof_adjustment
     end
-    self.proficiencies.pluck(:id).include?(item.proficiency_id) ? 0 : adjustment
   end
 
   def calculate_speed equipment
@@ -272,7 +266,7 @@ class Character < ActiveRecord::Base
     if equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.init_mod
       ret[equipment["#{main_hand}_hand"].actual_name] = equipment["#{main_hand}_hand"].item.init_mod
     end
-    if equipment["body"] and equipment["body"].item.init_mod 
+    if equipment["body"] and equipment["body"].item.init_mod and equipment["body"].item.init_mod != 0
       ret[equipment["body"].actual_name] = equipment["body"].item.init_mod
     end
     ret.merge!(calculate_magic_mod(equipment, "init_mod"))
@@ -368,9 +362,21 @@ class Character < ActiveRecord::Base
     if equipment["body"] and equipment["body"].item.defense_mod
         ret[equipment["body"].actual_name] = equipment["body"].item.defense_mod
     end
-    if equipment["#{main_hand}_hand"] and prof_adjustment(equipment["#{main_hand}_hand"].item) != 0
-        ret["proficiency"] = prof_adjustment(equipment["#{main_hand}_hand"].item) 
+
+    if equipment["left_hand"].item and equipment["left_hand"].item.is_shield?
+        shield = equipment["right_hand"]
+        if prof_adjustment(shield.item) != 0
+            ret["no_shield_proficiency"] = prof_adjustment(shield.item) 
+        end
     end
+
+    if equipment["right_hand"].item and equipment["right_hand"].item.is_shield?
+        shield = equipment["right_hand"]
+        if prof_adjustment(shield.item) != 0
+            ret["no_shield_proficiency"] = prof_adjustment(shield.item)
+        end
+    end
+
     def_adjustment = Race.find_mod(self.race.name, "defense_adjustment")
     if def_adjustment != 0
         ret[self.race.name] = def_adjustment

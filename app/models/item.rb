@@ -27,4 +27,27 @@ class Item < ActiveRecord::Base
   def is_weapon
     Item.weapons.pluck(:id).include? self.id
   end
+
+  def is_shield?
+    item_type == "shield"
+  end
+
+  def prof_adjustment
+    adjustment = 0
+    if    skill_level == "minimal"
+      adjustment = -1
+    elsif skill_level == "low"
+      adjustment = -2
+    elsif skill_level == "medium"
+      adjustment = -4
+    elsif skill_level == "high"
+      adjustment = -6
+    end
+    adjustment
+  end
+
+  def self.shield_penalty
+    # The penalty for using a shield but not having the proficiency
+    -4
+  end
 end
