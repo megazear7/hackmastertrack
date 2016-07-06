@@ -1,6 +1,43 @@
 %h1 Step 5
 = simple_form_for @character, :url => step6_character_path(@character), :method => :post do |f|
-  %p TODO: Adjust Stats based on Race...
   .row
-    %br
+    .col-md-6
+      %table.table.table-responsive.race-options
+        %thead
+          %tr
+            %th Old Stats
+            %th
+              = @character.race.name
+              Adjustments
+            %th New Stats
+        %tbody
+          %tr
+            %td= number_with_precision(@oldStats["strength"], precision: 2)
+            %td Strength
+            %td= number_with_precision(@character.strength, precision: 2)
+          %tr
+            %td= number_with_precision(@oldStats["intelligence"], precision: 2)
+            %td Intelligence
+            %td= number_with_precision(@character.intelligence, precision: 2)
+          %tr
+            %td= number_with_precision(@oldStats["wisdom"], precision: 2)
+            %td Wisdom
+            %td= number_with_precision(@character.wisdom, precision: 2)
+          %tr
+            %td= number_with_precision(@oldStats["dexterity"], precision: 2)
+            %td Dexterity
+            %td= number_with_precision(@character.dexterity, precision: 2)
+          %tr
+            %td= number_with_precision(@oldStats["constitution"], precision: 2)
+            %td Constitution
+            %td= number_with_precision(@character.constitution, precision: 2)
+          %tr
+            %td= number_with_precision(@oldStats["looks"], precision: 2)
+            %td Looks
+            %td= number_with_precision(@character.looks, precision: 2)
+          %tr
+            %td= number_with_precision(@oldStats["charisma"], precision: 2)
+            %td Charisma
+            %td= number_with_precision(@character.charisma, precision: 2)
+  .row
     .col-md-4= f.submit 'Step 6', class: "btn btn-primary"

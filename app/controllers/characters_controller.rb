@@ -251,6 +251,15 @@ class CharactersController < ApplicationController
   end
 
   def step5
+    @oldStats = { }
+    @oldStats["strength"] = @character.strength
+    @oldStats["intelligence"] = @character.intelligence
+    @oldStats["wisdom"] = @character.wisdom
+    @oldStats["dexterity"] = @character.dexterity
+    @oldStats["constitution"] = @character.constitution
+    @oldStats["looks"] = @character.looks
+    @oldStats["charisma"] = @character.charisma
+
     @character.update(character_params)
     @character.strength += @character.race.str_mod
     @character.intelligence += @character.race.int_mod
@@ -259,6 +268,15 @@ class CharactersController < ApplicationController
     @character.constitution += @character.race.con_mod
     @character.looks += @character.race.lks_mod
     @character.charisma += @character.race.cha_mod
+
+    @character.strength = 0 if @character.strength < 0
+    @character.intelligence = 0 if @character.intelligence < 0
+    @character.wisdom = 0 if @character.wisdom < 0
+    @character.dexterity = 0 if @character.dexterity < 0
+    @character.constitution = 0 if @character.constitution < 0
+    @character.looks = 0 if @character.looks < 0
+    @character.charisma = 0 if @character.charisma < 0
+
     if @character.save
       render layout: "character_creation"
     else

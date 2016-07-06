@@ -10,3 +10,10 @@ $ ->
   if $("a[href='#"+tab+"']").length > 0
     $("a[href='#"+tab+"']").tab("show")
 
+  race = $("#character_race_id")
+  if race
+    race.change (e) ->
+      raceId = $(e.target).val()
+      $(".race-options tr").removeClass("selected");
+      $(".race-options tr[data-race-id='"+raceId+"'").addClass("selected");
+
