@@ -201,6 +201,38 @@ class Character < ActiveRecord::Base
     end
   end
 
+  def alignment_name
+    case alignment
+    when "LG"
+      "Lawful Good"
+    when "NG"
+      "Neutral Good"
+    when "CG"
+      "Chaotic Good"
+    when "LN"
+      "Lawful Neutral"
+    when "TN"
+      "True Neutral"
+    when "CN"
+      "Chaotic Neutral"
+    when "LE"
+      "Lawful Evil"
+    when "NE"
+      "Neutral Evil"
+    when "CE"
+      "Chaotic Eveil"
+    end
+  end
+
+  def gender_name
+   case self.sex
+   when "M"
+     "Male"
+   when "F"
+     "Female"
+   end
+  end
+
   def off_hand
     case self.handedness
     when "R"
@@ -324,8 +356,14 @@ class Character < ActiveRecord::Base
       end
       specialization = self.specializations.find_by(item_id: itemInstance.item.id, stat_name: "attack")
       ret["specialization"] = specialization.value if specialization
-      ret["intelligence"] = AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
-      ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod")
+      int_mod = AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
+      if int_mod != 0
+        ret["intelligence"] = int_mod
+      end
+      dex_mod = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod")
+      if dex_mod != 0
+        ret["dexterity"] = dex_mod
+      end
       if itemInstance.item.attack_mod
         ret[itemInstance.actual_name] = itemInstance.item.attack_mod
       end
@@ -387,16 +425,16 @@ class Character < ActiveRecord::Base
     end
 
     if equipment["left_hand"] and equipment["left_hand"].item and equipment["left_hand"].item.shield?
-        shield = equipment["right_hand"]
+        shield = equipment["left_hand"]
         if prof_adjustment(shield.item) != 0
-            ret["no_shield_proficiency"] = prof_adjustment(shield.item) 
+            ret["not_having_shield_proficiency"] = prof_adjustment(shield.item)
         end
     end
 
     if equipment["right_hand"] and equipment["right_hand"].item and equipment["right_hand"].item.shield?
         shield = equipment["right_hand"]
         if prof_adjustment(shield.item) != 0
-            ret["no_shield_proficiency"] = prof_adjustment(shield.item)
+            ret["not_having_shield_proficiency"] = prof_adjustment(shield.item)
         end
     end
 

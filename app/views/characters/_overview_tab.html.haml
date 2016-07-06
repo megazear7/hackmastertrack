@@ -97,3 +97,37 @@
       .col-md-2
         Morale Mod:
         = ability = AbilityScore.find_ability_mod("Charisma", @character.charisma, "morale_mod")
+%hr
+.row
+  .col-md-12
+    = @character.main_hand.titleize
+    Handed
+.row
+  .col-md-12
+    = @character.age
+    year old
+    = @character.gender_name.downcase
+    = @character.race.name.downcase
+.row
+  .col-md-12
+    = @character.height
+    inches tall and
+    = @character.weight
+    pounds
+.row
+  .col-md-12
+    = @character.eyes.titleize
+    eyes and
+    = @character.hair
+    hair
+.row
+  .col-md-12
+    = @character.alignment_name
+.row
+  .col-md-12
+    = @character.honor
+    Honor
+.row
+  .col-md-12
+    = @character.fame
+    Fame
