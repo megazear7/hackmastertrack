@@ -1,11 +1,7 @@
-%h1 Step 13
+%h3 Step 13
 = simple_form_for @character, :url => finish_character_path(@character), :method => :post do |f|
-  %p Equip You Character
+  %p You will be able to equip your character after you are done with character creation.
   = f.hidden_field :user_id, value: current_user.id
-  .row
-    .col-md-12
-      = render partial: "items/shop_for_character", locals: { items: @items, character: @character, view_details: false, buy_item: true, take_item: false, shop_for_character: true }
   .row
     %br
     .col-md-4= f.submit 'Finish', class: "btn btn-primary"
-

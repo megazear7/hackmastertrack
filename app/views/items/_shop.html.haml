@@ -32,9 +32,9 @@
                 .accordion-body.collapse{ "id"=>"collapse_"+item_group+"_"+index.to_s }
                   .accordion-inner
                     - if shop_for_character
-                      = render partial: "shop_for_character_form", locals: { character: character, view_details: true, buy_item: true, take_item: true, item_group: item_group, index: index, item: item }
+                      = render partial: "items/shop_for_character_form", locals: { character: character, view_details: view_details, buy_item: buy_item, take_item: take_item, item_group: item_group, index: index, item: item }
                     - else
-                      = render partial: "shop_form", locals: { view_details: true, buy_item: true, take_item: true, item_group: item_group, index: index, item: item }
+                      = render partial: "items/shop_form", locals: { view_details: view_details, buy_item: buy_item, take_item: take_item, item_group: item_group, index: index, item: item }
             - item_stats(params[:view]).each do |header, stat_method|
               %td= item.send(stat_method)
             %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_path(item)

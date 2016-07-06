@@ -1,6 +1,6 @@
-%h1 Step 9
+%h3 Step 9
 = simple_form_for @character, :url => step10_character_path(@character), :method => :post do |f|
-  %p Purchase Skils, Talents and Proficiencies
+  %p You will be able to purchase skils, talents and proficiencies after you are done with character creation.
   .row
     %br
-    .col-md-4= f.submit 'Step 10', class: "btn btn-primary"
+    .col-md-4= f.submit 'Continue', class: "btn btn-primary"

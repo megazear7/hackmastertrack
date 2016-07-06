@@ -120,10 +120,6 @@ class CharactersController < ApplicationController
     item_to_take = Item.where(name: params[:character][:item_to_take]).first
     item_instance = ItemInstance.new
     item_instance.item = item_to_take
-
-
-    aa
-
     if params[:commit] == "Buy Item"
       cost = item_instance.item.buy_cost
       if @character.silver > cost

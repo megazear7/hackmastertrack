@@ -1,4 +1,4 @@
-%h1 Step 5
+%h3 Step 5
 = simple_form_for @character, :url => step6_character_path(@character), :method => :post do |f|
   .row
     .col-md-6
@@ -40,4 +40,4 @@
             %td Charisma
             %td= number_with_precision(@character.charisma, precision: 2)
   .row
-    .col-md-4= f.submit 'Step 6', class: "btn btn-primary"
+    .col-md-4= f.submit 'Continue', class: "btn btn-primary"

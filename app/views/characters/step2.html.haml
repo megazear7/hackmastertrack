@@ -1,24 +1,27 @@
-%h1 Step 2
+%h3 Step 2
 %p
   %div You are allowed to leave the stats in the order you rolled them, swap two stats, or rearrange all of the stats.
   %div In the next step you will be asked what swap method you used and will be awarded either 50, 25, or 0 building points.
   %div Enter the full stat value including the percentile.
 = simple_form_for @character, :url => step3_character_path(@character), :method => :post do |f|
   .row
-    .col-md-4= f.input :strength, input_html: { class: "string form-control" }
-    .col-md-4= f.input :intelligence, input_html: { class: "string form-control" }
+    .col-md-2= f.input :strength, input_html: { class: "string form-control" }
+    .col-md-2= f.input :intelligence, input_html: { class: "string form-control" }
   .row
-    .col-md-4= f.input :wisdom, input_html: { class: "string form-control" }
-    .col-md-4= f.input :dexterity, input_html: { class: "string form-control" }
+    %br
+    .col-md-2= f.input :wisdom, input_html: { class: "string form-control" }
+    .col-md-2= f.input :dexterity, input_html: { class: "string form-control" }
   .row
-    .col-md-4= f.input :constitution, input_html: { class: "string form-control" }
-    .col-md-4= f.input :looks, input_html: { class: "string form-control" }
+    %br
+    .col-md-2= f.input :constitution, input_html: { class: "string form-control" }
+    .col-md-2= f.input :looks, input_html: { class: "string form-control" }
   .row
-    .col-md-4= f.input :charisma, input_html: { class: "string form-control" }
+    %br
+    .col-md-2= f.input :charisma, input_html: { class: "string form-control" }
   .row
     %br
     .col-md-4
       %br
       .actions
         .btn-group
-          = f.submit 'Step 3', class: "btn btn-primary"
+          = f.submit 'Continue', class: "btn btn-primary"
