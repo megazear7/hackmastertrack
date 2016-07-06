@@ -257,7 +257,7 @@ class Character < ActiveRecord::Base
 
   def prof_adjustment item
     if item.shield?
-      self.proficiencies.pluck(:id).include?(item.proficiency_id) ? 0 : Item.shield_penalty
+      self.proficiencies.pluck(:id).include?(item.proficiency_id) ? 0 : item.shield_penalty
     else
       self.proficiencies.pluck(:id).include?(item.proficiency_id) ? 0 : item.prof_adjustment
     end

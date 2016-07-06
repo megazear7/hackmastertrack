@@ -50,8 +50,8 @@ class Item < ActiveRecord::Base
     adjustment
   end
 
-  def self.shield_penalty
+  def shield_penalty
     # The penalty for using a shield but not having the proficiency
-    -4
+    -1 * defense_mod
   end
 end

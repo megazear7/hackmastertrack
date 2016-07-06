@@ -301,6 +301,8 @@ class CharactersController < ApplicationController
 
     @character.honor = honor
 
+    @character.save
+
     render layout: "character_creation"
   end
 
