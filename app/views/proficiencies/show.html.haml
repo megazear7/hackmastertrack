@@ -2,12 +2,10 @@
   = link_to 'Back', proficiencies_path, class: "btn btn-default"
   = link_to 'Edit', edit_proficiency_path(@proficiency), class: "btn btn-primary"
 %br
+%h3= @proficiency.name
 %br
 %table.table.table-hover.table-responsive
   %tbody
-    %tr
-      %td Name
-      %td= @proficiency.name
     %tr
       %td Description
       %td= @proficiency.description

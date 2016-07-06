@@ -2,7 +2,9 @@
   = link_to 'Back', proficiencies_path, class: "btn btn-default"
   = link_to 'Show', @proficiency, class: "btn btn-default"
 %br
+%h3
+  Editing 
+  = @proficiency.name
 %br
-%h1 Editing proficiency
 = render 'form'
 
