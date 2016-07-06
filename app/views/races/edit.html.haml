@@ -2,7 +2,9 @@
   = link_to 'Back', races_path, class: "btn btn-default"
   = link_to 'Show', @race, class: "btn btn-default"
 %br
+%h3
+  Editing
+  = @race.name
 %br
-%h1 Editing race
 = render 'form'
 

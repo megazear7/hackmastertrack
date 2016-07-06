@@ -6,6 +6,15 @@
   - @character.pdf_fields.each do |key, val|
     = hidden_field_tag key, val
 %br
+.row
+  .col-md-12
+    %h3= @character.name
+.row
+  .col-md-12
+    Level
+    = @character.level
+    = @character.race.name
+    = @character.character_class.name
 %br
 .container.character-show-page{ data: { character_id: @character.id } }
   %ul.nav.nav-tabs.character-tabs{role: "tablist"}
