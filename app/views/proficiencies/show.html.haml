@@ -4,14 +4,22 @@
 %br
 %h3= @proficiency.name
 %br
-%table.table.table-hover.table-responsive
-  %tbody
-    %tr
-      %td Description
-      %td= @proficiency.description
-    %tr
-      %td requirements
-      %td= @proficiency.requirements
-    %tr
-      %td BP Cost
-      %td= @proficiency.bp_cost
+- current_user.characters.each do |character|
+  .col-md-2
+    = link_to raw("<span class='glyphicon glyphicon-plus'></span> Learn with " + character.name), add_proficiency_character_path(character, proficiency_id: @proficiency.id), :class => "btn btn-primary"
+%br
+%br
+%br
+.row
+  .col-md-6
+    %table.table.table-hover.table-responsive
+      %tbody
+        %tr
+          %td Description
+          %td= @proficiency.description
+        %tr
+          %td requirements
+          %td= @proficiency.requirements
+        %tr
+          %td BP Cost
+          %td= @proficiency.bp_cost
