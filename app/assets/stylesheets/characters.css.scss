@@ -14,3 +14,43 @@
     background-color: #8fd3fb;
 }
 
+.shop-link {
+    height: 200px;
+    background-color: #428bca;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 35px;
+    text-shadow: 1px 1px #333;
+    box-shadow: 1px 1px 1px #333;
+    transition: box-shadow 250ms, text-shadow 250ms, background-color 250ms;
+    cursor: pointer;
+}
+
+.shop-link .image {
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    background-image: url("http://www.ambient-mixer.com/images_template/1/0/8/108da8bbd6c4c5ed24b7efa7886f6b79_full.jpg");
+    background-size: auto 100%;
+    transition: -webkit-filter 250ms, -moz-filter 250ms, -o-filter 250ms, -ms-filter 250ms, filter 250ms;
+    -webkit-filter: blur(0.25px);
+    -moz-filter: blur(0.25px);
+    -o-filter: blur(0.25px);
+    -ms-filter: blur(0.25px);
+    filter: blur(0.25px);
+}
+
+.shop-link:hover {
+    text-shadow: 3px 3px #333;
+    box-shadow: 5px 5px 5px #333;
+}
+
+.shop-link a {
+    position: relative;
+    bottom: 130px;
+    color: #ffffff;
+}
+
+.shop-link a:hover {
+    color: #ffffff;
+}

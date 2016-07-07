@@ -12,7 +12,6 @@
       %th Race
       %th Class
       %th
-      %th
   %tbody
     - @characters.each do |character|
       %tr
@@ -20,5 +19,4 @@
         %td= character.user.email
         %td= character.race.name
         %td= character.character_class.name
-        %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_character_path(character)
         %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), character, :method => :delete, :data => { :confirm => 'Are you sure?' }
