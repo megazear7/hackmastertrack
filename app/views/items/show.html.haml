@@ -5,6 +5,26 @@
 %h3= @item.name
 %br
 .row
+  .col-md-2
+    .row
+      .col-md-6
+        %h5 Buy:
+    .row
+      .col-md-6
+        .btn-group-vertical
+          - current_user.characters.each do |character|
+            = link_to raw("<span class='glyphicon glyphicon-plus'></span> " + character.name), add_items_character_path(character, :"character[item_to_take]" => @item.id, commit: "Buy Item"), :class => "btn btn-default"
+  .col-md-2
+    .row
+      .col-md-6
+        %h5 Take:
+    .row
+      .col-md-6
+        .btn-group-vertical
+          - current_user.characters.each do |character|
+            = link_to raw("<span class='glyphicon glyphicon-plus'></span> " + character.name), add_items_character_path(character, :"character[item_to_take]" => @item.id), :class => "btn btn-default"
+%br
+.row
   .col-md-4
     %table.table.table-hover.table-responsive
       %tbody

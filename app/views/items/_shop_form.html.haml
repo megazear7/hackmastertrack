@@ -1,6 +1,6 @@
 = simple_form_for current_user.characters.first, url: add_items_character_path(id: current_user.characters.first.id, page: "item_index", page_location: "collapse_"+item_group+"_"+index.to_s+"_travel"), method: :post do |f|
   .hidden
-    = f.input :item_to_take, input_html: { value: item.name }
+    = f.input :item_to_take, input_html: { value: item.id }
   %br
   = collection_select(:character, "id_"+item_group+"_"+index.to_s, current_user.characters, :id, lambda { |character| character.name + " (" + character.silver.to_s + " silver)" }, {:prompt => nil}, { class: "string form-control character_select_for_item_purchase" } )
   %br

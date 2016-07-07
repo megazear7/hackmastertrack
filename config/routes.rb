@@ -48,6 +48,7 @@ Rails.application.routes.draw do
       post :add_xp
       post :equip_items
       post :add_items
+      get :add_items
       get  :level_up_edit
       post :level_up_update
     end

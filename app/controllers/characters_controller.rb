@@ -117,32 +117,32 @@ class CharactersController < ApplicationController
   end
 
   def add_items
-    item_to_take = Item.where(name: params[:character][:item_to_take]).first
+    item_to_take = Item.find(params[:character][:item_to_take])
     item_instance = ItemInstance.new
     item_instance.item = item_to_take
     if params[:commit] == "Buy Item"
       cost = item_instance.item.buy_cost
-      if @character.silver > cost
+      if @character.silver >= cost
         @character.silver -= cost
         @character.save
         item_instance.character = @character
         item_instance.save
         if params[:page] == "item_index"
-          redirect_to items_path(anchor: params[:page_location]), notice: 'Items Successfuly Added, total cost was: ' + cost.to_s
+          redirect_to items_path(anchor: params[:page_location]), notice: item_to_take.name + ' purchased, total cost was: ' + cost.to_s + ' silver'
         else
-          redirect_to character_url(@character), notice: 'Items Successfuly Purchased, total cost was: ' + cost.to_s
+          redirect_to character_url(@character), notice: item_to_take.name + ' purchased, total cost was: ' + cost.to_s + ' silver'
         end
       else
-        redirect_to character_url(@character), notice: 'You did not have enough money, you need ' + (cost - @character.silver).to_s + ' more silver'
+        redirect_to character_url(@character), notice: 'You did not have enough money to buy a ' + item_to_take.name + ', you need ' + (cost - @character.silver).to_s + ' more silver'
       end
     else
       item_instance.character = @character
       item_instance.display = false
       item_instance.save
       if params[:page] == "item_index"
-        redirect_to items_path(anchor: params[:page_location]), notice: 'Items Successfuly Taken'
+        redirect_to items_path(anchor: params[:page_location]), notice: item_to_take.name + ' Taken'
       else
-        redirect_to character_url(@character), notice: 'Items Successfuly Taken'
+        redirect_to character_url(@character), notice: item_to_take.name + ' Taken'
       end
     end
   end
