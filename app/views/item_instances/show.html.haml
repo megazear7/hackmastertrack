@@ -2,12 +2,10 @@
   = link_to 'Back', item_instances_path, class: "btn btn-default"
   = link_to 'Edit', edit_item_instance_path(@item_instance), class: "btn btn-primary"
 %br
+%h3= @item_instance.actual_name
 %br
 %table.table.table-hover.table-responsive
   %tbody
-    %tr
-      %td Name
-      %td= @item_instance.name
     %tr
       %td Item
       %td= @item_instance.item.name

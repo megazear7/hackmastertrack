@@ -12,11 +12,13 @@
         - @character.proficiencies.each do |proficiency|
           %h5
             = link_to proficiency.name, proficiency
+        %h5= link_to raw('<span class="glyphicon glyphicon-plus"></span> Add Proficiency'), proficiencies_path
     .row
       .col-md-12
         %h4 Talents
         - @character.characters_talents.each do |char_talent|
           %h5= link_to char_talent.name, char_talent.talent 
+        %h5= link_to raw('<span class="glyphicon glyphicon-plus"></span> Add Talent'), talents_path
     .row
       .col-md-12
         %h4 Skills

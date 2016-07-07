@@ -21,7 +21,7 @@
       %tbody
         - @character.item_instances.each do |item_instance|
           %tr
-            %td= link_to item_instance.actual_name, item_instance
+            %td= link_to item_instance.actual_name, item_instance.item
             %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_instance_path(item_instance)
             %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item_instance, :method => :delete, :data => { :confirm => 'Are you sure?' }
         %tr

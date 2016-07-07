@@ -2,239 +2,239 @@
   = link_to 'Back', items_path, class: "btn btn-default"
   = link_to 'Edit', edit_item_path(@item), class: "btn btn-primary"
 %br
+%h3= @item.name
 %br
-%table.table.table-hover.table-responsive
-  %tbody
-    %tr
-      %td Name
-      %td= @item.name
-    %tr
-      %td Item Type
-      %td= @item.item_type
-    %tr
-      %td Location
-      %td= @item.location 
-    %tr
-      %td Magic Level
-      %td= @item.magic_level
-    %tr
-      %td Buy Cost
-      %td= @item.buy_cost
-    %tr
-      %td Sell Value
-      %td= @item.sell_value
-    %tr
-      %td Weight 
-      %td= @item.weight
-    %tr
-      %td High
-      %td= @item.high_avail
-    %tr
-      %td Med
-      %td= @item.med_avail
-    %tr
-      %td Low
-      %td= @item.low_avail
+.row
+  .col-md-4
+    %table.table.table-hover.table-responsive
+      %tbody
+        %tr
+          %td Item Type
+          %td= @item.item_type
+        %tr
+          %td Location
+          %td= @item.location 
+        %tr
+          %td Magic Level
+          %td= @item.magic_level
+        %tr
+          %td Buy Cost
+          %td= @item.buy_cost
+        %tr
+          %td Sell Value
+          %td= @item.sell_value
+        %tr
+          %td Weight 
+          %td= @item.weight
+        %tr
+          %td High
+          %td= @item.high_avail
+        %tr
+          %td Med
+          %td= @item.med_avail
+        %tr
+          %td Low
+          %td= @item.low_avail
 
-  - if @item.item_type == "armor"
-    %tr
-      %td Type
-      %td= @item.armor_type
-    %tr
-      %td Damage Reduction
-      %td= @item.damage_reduction
-    %tr
-      %td Defense Modifier
-      %td= @item.defense_mod
-    %tr
-      %td Initiative Modifier
-      %td= @item.init_mod
-    %tr
-      %td Init Die Modifier
-      %td= @item.init_die_mod
-    %tr
-      %td Speed Modifier
-      %td= @item.speed_mod
-    %tr
-      %td Movment Rate Reduction
-      %td= @item.movement_rate_reduction
+      - if @item.item_type == "armor"
+        %tr
+          %td Type
+          %td= @item.armor_type
+        %tr
+          %td Damage Reduction
+          %td= @item.damage_reduction
+        %tr
+          %td Defense Modifier
+          %td= @item.defense_mod
+        %tr
+          %td Initiative Modifier
+          %td= @item.init_mod
+        %tr
+          %td Init Die Modifier
+          %td= @item.init_die_mod
+        %tr
+          %td Speed Modifier
+          %td= @item.speed_mod
+        %tr
+          %td Movment Rate Reduction
+          %td= @item.movement_rate_reduction
 
-  - if @item.item_type == "shield"
-    %tr
-      %td Sheild Size
-      %td= @item.shield_size
-    %tr
-      %td Damage Reduction
-      %td= @item.damage_reduction
-    %tr
-      %td Defense Modifier
-      %td= @item.defense_mod
-    %tr
-      %td Crouching Cover Value
-      %td= @item.crouching_cover_value
-    %tr
-      %td Initiative Die Modifier
-      %td= @item.init_die_mod
+      - if @item.item_type == "shield"
+        %tr
+          %td Sheild Size
+          %td= @item.shield_size
+        %tr
+          %td Damage Reduction
+          %td= @item.damage_reduction
+        %tr
+          %td Defense Modifier
+          %td= @item.defense_mod
+        %tr
+          %td Crouching Cover Value
+          %td= @item.crouching_cover_value
+        %tr
+          %td Initiative Die Modifier
+          %td= @item.init_die_mod
 
-  - if @item.item_type == "melee"
-    %tr
-      %td Sword
-      %td= @item.sword
-    %tr
-      %td Two Handed
-      %td= @item.two_handed
-    %tr
-      %td Mounted
-      %td= @item.mounted
-    %tr
-      %td Strength Required
-      %td= @item.str_required
-    %tr
-      %td Skill Level
-      %td= @item.skill_level
-    %tr
-      %td Damage
-      %td= @item.damage
-    %tr
-      %td Shield Damage
-      %td= @item.shield_damage
-    %tr
-      %td Heavy Armor
-      %td= @item.heavy_armor
-    %tr
-      %td Attack Speed
-      %td= @item.attack_speed
-    %tr
-      %td Jab Speed
-      %td= @item.jab_speed
-    %tr
-      %td Size
-      %td= @item.size
-    %tr
-      %td Reach
-      %td= @item.reach
-    %tr
-      %td Damage Type
-      %td= @item.damage_type
+      - if @item.item_type == "melee"
+        %tr
+          %td Sword
+          %td= @item.sword
+        %tr
+          %td Two Handed
+          %td= @item.two_handed
+        %tr
+          %td Mounted
+          %td= @item.mounted
+        %tr
+          %td Strength Required
+          %td= @item.str_required
+        %tr
+          %td Skill Level
+          %td= @item.skill_level
+        %tr
+          %td Damage
+          %td= @item.damage
+        %tr
+          %td Shield Damage
+          %td= @item.shield_damage
+        %tr
+          %td Heavy Armor
+          %td= @item.heavy_armor
+        %tr
+          %td Attack Speed
+          %td= @item.attack_speed
+        %tr
+          %td Jab Speed
+          %td= @item.jab_speed
+        %tr
+          %td Size
+          %td= @item.size
+        %tr
+          %td Reach
+          %td= @item.reach
+        %tr
+          %td Damage Type
+          %td= @item.damage_type
 
-  - if @item.item_type == "ranged"
-    %tr
-      %td Two Handed
-      %td= @item.two_handed
-    %tr
-      %td Strength Required
-      %td= @item.str_required
-    %tr
-      %td Skill Level
-      %td= @item.skill_level
-    %tr
-      %td Damage
-      %td= @item.damage
-    %tr
-      %td Shield Damage
-      %td= @item.shield_damage
-    %tr
-      %td Attack Speed
-      %td= @item.attack_speed
-    %tr
-      %td Damage Type
-      %td= @item.damage_type
-    %tr
-      %td Size
-      %td= @item.size
-    %tr
-      %td Reach
-      %td= @item.reach
-    %tr
-      %td Range Short
-      %td= @item.range_short
-    %tr
-      %td Range Medium
-      %td= @item.range_medium
-    %tr
-      %td Range Long
-      %td= @item.range_long
-    %tr
-      %td Range Maximum
-      %td= @item.range_maximum
+      - if @item.item_type == "ranged"
+        %tr
+          %td Two Handed
+          %td= @item.two_handed
+        %tr
+          %td Strength Required
+          %td= @item.str_required
+        %tr
+          %td Skill Level
+          %td= @item.skill_level
+        %tr
+          %td Damage
+          %td= @item.damage
+        %tr
+          %td Shield Damage
+          %td= @item.shield_damage
+        %tr
+          %td Attack Speed
+          %td= @item.attack_speed
+        %tr
+          %td Damage Type
+          %td= @item.damage_type
+        %tr
+          %td Size
+          %td= @item.size
+        %tr
+          %td Reach
+          %td= @item.reach
+        %tr
+          %td Range Short
+          %td= @item.range_short
+        %tr
+          %td Range Medium
+          %td= @item.range_medium
+        %tr
+          %td Range Long
+          %td= @item.range_long
+        %tr
+          %td Range Maximum
+          %td= @item.range_maximum
 
-  - if @item.item_type == "polearm"
-    %tr
-      %td Two Handed
-      %td= @item.two_handed
-    %tr
-      %td Strength Required
-      %td= @item.str_required
-    %tr
-      %td Skill Level
-      %td= @item.skill_level
-    %tr
-      %td Size
-      %td= @item.size
-    %tr
-      %td Reach
-      %td= @item.reach
-    %tr
-      %td Attack Speed
-      %td= @item.attack_speed
-    %tr
-      %td Damage
-      %td= @item.damage
-    %tr
-      %td Shield Damage
-      %td= @item.shield_damage
-    %tr
-      %td  Dismount
-      %td= @item.dismount
-    %tr
-      %td Heavy Armor
-      %td= @item.heavy_armor
-    %tr
-      %td Set for Charge
-      %td= @item.set_for_charge
-    %tr
-      %td Jab Speed
-      %td= @item.jab_speed
-    %tr
-      %td Pole Arm Defense
-      %td= @item.pole_arm_defense
-    %tr
-      %td Damage Type
-      %td= @item.damage_type
-    %tr
-      %td Phalanx
-      %td= @item.phalanx
+      - if @item.item_type == "polearm"
+        %tr
+          %td Two Handed
+          %td= @item.two_handed
+        %tr
+          %td Strength Required
+          %td= @item.str_required
+        %tr
+          %td Skill Level
+          %td= @item.skill_level
+        %tr
+          %td Size
+          %td= @item.size
+        %tr
+          %td Reach
+          %td= @item.reach
+        %tr
+          %td Attack Speed
+          %td= @item.attack_speed
+        %tr
+          %td Damage
+          %td= @item.damage
+        %tr
+          %td Shield Damage
+          %td= @item.shield_damage
+        %tr
+          %td  Dismount
+          %td= @item.dismount
+        %tr
+          %td Heavy Armor
+          %td= @item.heavy_armor
+        %tr
+          %td Set for Charge
+          %td= @item.set_for_charge
+        %tr
+          %td Jab Speed
+          %td= @item.jab_speed
+        %tr
+          %td Pole Arm Defense
+          %td= @item.pole_arm_defense
+        %tr
+          %td Damage Type
+          %td= @item.damage_type
+        %tr
+          %td Phalanx
+          %td= @item.phalanx
 
-  - if @item.item_type == "consumable"
-    %tr
-      %td Healing
-      %td= @item.heal_value
+      - if @item.item_type == "consumable"
+        %tr
+          %td Healing
+          %td= @item.heal_value
 
-  - if @item.item_type == "loadbearing"
-    %tr
-      %td Load Bearing
-      %td= @item.capacity_pounds
+      - if @item.item_type == "loadbearing"
+        %tr
+          %td Load Bearing
+          %td= @item.capacity_pounds
 
-  - if @item.item_type == "containers"
-    %tr
-      %td  Capacity
-      %td= @item.capacity_gallons
+      - if @item.item_type == "containers"
+        %tr
+          %td  Capacity
+          %td= @item.capacity_gallons
 
-  - if @item.item_type == "food"
-    %tr
-      %td Number of Days of Rations
-      %td= @item.number_of_days
-    %tr
-      %td Requires Preperation?
-      %td= @item.requires_preparation
+      - if @item.item_type == "food"
+        %tr
+          %td Number of Days of Rations
+          %td= @item.number_of_days
+        %tr
+          %td Requires Preperation?
+          %td= @item.requires_preparation
 
-  - if @item.item_type == "lodging"
-    %tr
-      %td Number of Days of Lodging
-      %td= @item.number_of_days
+      - if @item.item_type == "lodging"
+        %tr
+          %td Number of Days of Lodging
+          %td= @item.number_of_days
 
-  - if @item.item_type == "transport"
-    %tr
-      %td Distance Traveled
-      %td= @item.distance
+      - if @item.item_type == "transport"
+        %tr
+          %td Distance Traveled
+          %td= @item.distance
 
