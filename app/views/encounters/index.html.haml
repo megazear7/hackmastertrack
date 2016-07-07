@@ -1,17 +1,16 @@
-%h1 Listing encounters
-
-%table
+.row
+  .col-md-6
+    %h3 Encounters
+  .col-md-6
+    %br
+    = link_to 'New Encounter', new_encounter_path, class: "btn btn-primary pull-right"
+%table.table.table-hover.table-responsive
   %tr
     %th
     %th
     %th
-
   - @encounters.each do |encounter|
     %tr
       %td= link_to 'Show', encounter
       %td= link_to 'Edit', edit_encounter_path(encounter)
       %td= link_to 'Destroy', encounter, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Encounter', new_encounter_path
