@@ -2,12 +2,22 @@
   = link_to 'Back', skills_path, class: "btn btn-default"
   = link_to 'Edit', edit_skill_path(@skill), class: "btn btn-primary"
 %br
+%h3= @skill.name
+%br
+= form_tag add_skill_character_path do
+  %input{ type: "hidden", name: "skill_id", value: @skill.id }
+  .col-md-2
+    = number_field_tag :value, 0, class: "integer form-control"
+  - current_user.characters.each do |character|
+    .col-md-2
+      %button{type: 'submit', class: "btn btn-primary", name: "character_id", value: character.id}
+        %span.glyphicon.glyphicon-plus
+        Learn with
+        = character.name
+%br
 %br
 %table.table.table-hover.table-responsive
   %tbody
-    %tr
-      %td Name
-      %td= @skill.name
     %tr
       %td Description
       %td= @skill.description

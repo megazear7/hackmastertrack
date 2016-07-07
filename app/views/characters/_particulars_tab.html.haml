@@ -22,4 +22,8 @@
     .row
       .col-md-12
         %h4 Skills
-        %p Coming Soon
+        - @character.characters_skills.each do |char_skill|
+          %h5
+            = link_to char_skill.skill.name, char_skill.skill
+            = ": " + char_skill.value.to_s
+        %h5= link_to raw('<span class="glyphicon glyphicon-plus"></span> Add Skill'), skills_path

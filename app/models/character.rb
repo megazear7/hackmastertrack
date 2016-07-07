@@ -7,7 +7,8 @@ class Character < ActiveRecord::Base
   has_many :talents, through: :characters_talents
   has_and_belongs_to_many :items
   has_and_belongs_to_many :proficiencies
-  has_and_belongs_to_many :skills
+  has_many :characters_skills
+  has_many :skills, through: :characters_skills
   has_and_belongs_to_many :campaigns
   belongs_to :left_hand_item, class_name: "ItemInstance", foreign_key: "left_hand_item_id"
   belongs_to :right_hand_item, class_name: "ItemInstance", foreign_key: "right_hand_item_id"
@@ -600,6 +601,33 @@ class Character < ActiveRecord::Base
     end
     ret["val"] = mod
     ret
+  end
+
+  def value_for_attr attr_str
+    case attr_str
+    when "str"
+      strength.floor
+    when "int"
+      intelligence.floor
+    when "wis"
+      wisdom.floor
+    when "dex"
+      dexterity.floor
+    when "con"
+      constitution.floor
+    when "cha"
+      charisma.floor
+    when "lks"
+      looks.floor
+    else
+      999
+    end
+  end
+
+  def attr_value_for skill
+    [value_for_attr(skill.main_attr),
+     value_for_attr(skill.other_attr),
+     value_for_attr(skill.third_attr)].min
   end
 
   def calculate_top_save equipment

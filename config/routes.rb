@@ -43,6 +43,8 @@ Rails.application.routes.draw do
       get  :add_proficiency
       get  :add_talent
       post :add_talent
+      get  :add_skill
+      post :add_skill
       post :add_xp
       post :equip_items
       post :add_items

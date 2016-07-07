@@ -11,7 +11,7 @@
         = select :item, :id, @talent.item_options.collect { |i| [i.name, i.id] }, {}, { :class => "form-control" }
       - current_user.characters.each do |character|
         .col-md-2
-          = button_tag(type: 'submit', class: "btn btn-primary") do
+          %button{type: 'submit', class: "btn btn-primary", name: "character_id", value: character.id}
             %span.glyphicon.glyphicon-plus
             Learn with
             = character.name

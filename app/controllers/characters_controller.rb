@@ -169,16 +169,45 @@ class CharactersController < ApplicationController
     end
   end
 
+  def add_skill
+    skill = Skill.find(params[:skill_id])
+
+    if not params[:character_id].nil?
+      @character = Character.find(params[:character_id])
+    end
+
+    if @character.building_points > skill.bp_cost
+        char_skill = @character.characters_skills.find_by(skill_id: skill.id, character_id: @character.id)
+        if char_skill.nil?
+          # set value based on the lowest of the abiilities related to the skill, plus the die roll result (i.e. params[:value])
+          starting_value = @character.attr_value_for(skill) + params[:value].to_i
+          char_skill = @character.characters_skills.new(skill_id: skill.id, character_id: @character.id, value: starting_value)
+        else
+          char_skill.value += params[:value].to_i
+          char_skill.save
+        end
+        @character.building_points -= skill.bp_cost
+        @character.save
+        redirect_to character_url(@character), notice: 'You now have a ' + char_skill.value.to_s + ' score in the skill ' + skill.name
+    else
+      redirect_to character_url(@character), notice: 'You do not have enough building points for the talent ' + skill.name + '!'
+    end
+  end
+
   def add_talent
     talent = Talent.find(params[:talent_id])
+
+    if not params[:character_id].nil?
+      @character = Character.find(params[:character_id])
+    end
 
     if talent.item_specific
       if @character.building_points > talent.bp_cost
         item = Item.find(params[:item][:id])
         char_tal = CharactersTalent.create(talent_id: talent.id, item_id: item.id, character_id: @character.id)
-        redirect_to character_url(@character), notice: 'You now have the talent ' + talent.name + ' (' + char_tal.item.name + ')!'
         @character.building_points -= talent.bp_cost
         @character.save
+        redirect_to character_url(@character), notice: 'You now have the talent ' + talent.name + ' (' + char_tal.item.name + ')!'
       else
         redirect_to character_url(@character), notice: 'You do not have enough building points for the talent ' + talent.name + '!'
       end
