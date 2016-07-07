@@ -2,9 +2,14 @@
 .row
   .col-md-6
     %h4 Specializations
-    - @character.specialized_weapons.each do |item|
-      %h5= item.name
-      = render partial: "specializations", locals: { item: item, specialization: @specialization }
+    - if @character.specialized_weapons.count > 0
+      - @character.specialized_weapons.each do |item|
+        %h5= item.name
+        = render partial: "specializations", locals: { item: item, specialization: @specialization }
+    - else
+      You must 
+      = link_to "buy a proficiency", proficiencies_path
+      with a weapon before you can specialize.
   .col-md-6
     .row
       .col-md-12

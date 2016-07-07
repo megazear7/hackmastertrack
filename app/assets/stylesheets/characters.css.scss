@@ -20,8 +20,8 @@
     text-align: center;
     border-radius: 5px;
     font-size: 35px;
-    text-shadow: 1px 1px #333;
-    box-shadow: 1px 1px 1px #333;
+    text-shadow: 2px 2px #444;
+    box-shadow: 1px 1px 1px #666;
     transition: box-shadow 250ms, text-shadow 250ms, background-color 250ms;
     cursor: pointer;
 }
@@ -41,16 +41,15 @@
 }
 
 .shop-link:hover {
-    text-shadow: 3px 3px #333;
-    box-shadow: 5px 5px 5px #333;
+    box-shadow: 5px 5px 5px #999;
 }
 
-.shop-link a {
+.shop-link span {
     position: relative;
     bottom: 130px;
     color: #ffffff;
 }
 
-.shop-link a:hover {
-    color: #ffffff;
+.shop-link a {
+    text-decoration: none !important;
 }
