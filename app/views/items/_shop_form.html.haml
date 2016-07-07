@@ -2,7 +2,7 @@
   .hidden
     = f.input :item_to_take, input_html: { value: item.name }
   %br
-  = collection_select(:character, "id_"+item_group+"_"+index.to_s, current_user.characters, :id, :name, {:prompt => nil}, { class: "string form-control character_select_for_item_purchase" } )
+  = collection_select(:character, "id_"+item_group+"_"+index.to_s, current_user.characters, :id, lambda { |character| character.name + " (" + character.silver.to_s + " silver)" }, {:prompt => nil}, { class: "string form-control character_select_for_item_purchase" } )
   %br
   .btn-group-vertical
     - if buy_item
