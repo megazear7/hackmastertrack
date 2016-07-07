@@ -184,6 +184,9 @@ class CharactersController < ApplicationController
           char_skill = @character.characters_skills.new(skill_id: skill.id, character_id: @character.id, value: starting_value)
         else
           char_skill.value += params[:value].to_i
+          if char_skill.value > 100
+            char_skill.value = 100
+          end
           char_skill.save
         end
         @character.building_points -= skill.bp_cost
