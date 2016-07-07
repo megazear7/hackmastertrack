@@ -24,3 +24,26 @@
             %td= character.race.name
             %td= character.character_class.name
             %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), character, :method => :delete, :data => { :confirm => 'Are you sure?' }
+- if current_user.admin_level >= 1
+  .row
+    .col-md-12
+      %h3 All Characters
+      %p You see this because you are an admin.
+  .row
+    .col-md-12
+      %table.table.table-hover.table-responsive
+        %thead
+          %tr
+            %th Name
+            %th Player
+            %th Race
+            %th Class
+            %th
+        %tbody
+          - Character.all.each do |character|
+            %tr
+              %td= link_to character.name, character_path(character)
+              %td= character.user.email
+              %td= character.race.name
+              %td= character.character_class.name
+              %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), character, :method => :delete, :data => { :confirm => 'Are you sure?' }
