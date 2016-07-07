@@ -1,6 +1,8 @@
-%h3 Talents
 .row
-  .col-md-12
+  .col-md-6
+    %h3 Talents
+  .col-md-6
+    %br
     = link_to 'New Talent', new_talent_path, class: "btn btn-primary pull-right" if current_user.admin_level >= 1
 %table.table.table-hover.table-responsive
   %thead
@@ -9,8 +11,9 @@
       %th
       %th BP Cost
       %th Description
-      %th
-      %th
+      - if current_user.admin_level >= 1
+        %th
+        %th
   %tbody
     - @talents.each do |talent|
       %tr
@@ -28,5 +31,6 @@
                   %li= link_to character.name, talent_path(talent, character_id: character.id)
         %td= talent.bp_cost
         %td= talent.description
-        %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_talent_path(talent)
-        %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), talent, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        - if current_user.admin_level >= 1
+          %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_talent_path(talent)
+          %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), talent, :method => :delete, :data => { :confirm => 'Are you sure?' }

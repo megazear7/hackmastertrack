@@ -1,22 +1,26 @@
-%h1 Listing Skills
+.row
+  .col-md-6
+    %h3 Skills
+  .col-md-6
+    %br
+    = link_to 'New Skill', new_skill_path, class: "btn btn-primary pull-right" if current_user.admin_level >= 1
 .row
   .col-md-12
-    = link_to 'New Skill', new_skill_path, class: "btn btn-primary pull-right" if current_user.admin_level >= 1
-%table.table.table-hover.table-responsive
-  %thead
-    %tr
-      %th Name
-      %th Cost
-      %th Universal
-      %th
-      %th
-      %th
-  %tbody
-    - @skills.each do |skill|
-      %tr
-        %td= link_to skill.name, skill
-        %td= skill.bp_cost
-        %td= skill.universal
-        %td= link_to 'Show', skill
-        %td= link_to 'Edit', edit_skill_path(skill)
-        %td= link_to 'Destroy', skill, :method => :delete, :data => { :confirm => 'Are you sure?' }
+    %table.table.table-hover.table-responsive
+      %thead
+        %tr
+          %th Name
+          %th Cost
+          %th Universal
+          - if current_user.admin_level >= 1
+            %th
+            %th
+      %tbody
+        - @skills.each do |skill|
+          %tr
+            %td= link_to skill.name, skill
+            %td= skill.bp_cost
+            %td= skill.universal
+            - if current_user.admin_level >= 1
+              %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_skill_path(skill)
+              %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), skill, :method => :delete, :data => { :confirm => 'Are you sure?' }

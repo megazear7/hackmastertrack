@@ -1,6 +1,8 @@
-%h3 Proficiencies
 .row
-  .col-md-12
+  .col-md-6
+    %h3 Proficiencies
+  .col-md-6
+    %br
     = link_to 'New Proficiency', new_proficiency_path, class: "btn btn-primary pull-right" if current_user.admin_level >= 1
 %table.table.table-hover.table-responsive
   %thead
@@ -10,8 +12,9 @@
       %th BP Cost
       %th Description
       %th Requirements
-      %th
-      %th
+      - if current_user.admin_level >= 1
+        %th
+        %th
   %tbody
     - @proficiencies.each do |proficiency|
       %tr
@@ -27,5 +30,6 @@
         %td= proficiency.bp_cost
         %td= proficiency.description
         %td= proficiency.requirements
-        %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_proficiency_path(proficiency)
-        %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), proficiency, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        - if current_user.admin_level >= 1
+          %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_proficiency_path(proficiency)
+          %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), proficiency, :method => :delete, :data => { :confirm => 'Are you sure?' }

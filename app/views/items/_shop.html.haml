@@ -11,7 +11,7 @@
     = link_to 'New Item', new_item_path, class: "btn btn-primary pull-right" if current_user.admin_level >= 1
 %br
 - item_groups(params[:view]).each do |item_group|
-  %h3= item_group.titleize
+  %h4= item_group.titleize
   .accordion{ "id"=>"accordion"+item_group }
     %table.table.table-hover.table-responsive
       %thead
@@ -19,8 +19,9 @@
           %th Name
           - item_stats(params[:view]).each do |header, stat_method|
             %th= header
-          %th
-          %th
+          - if current_user.admin_level >= 1
+            %th
+            %th
       %tbody
         - items.where(item_type: item_group).order(:name).each_with_index do |item, index|
           %tr{ "id"=>"collapse_"+item_group+"_"+index.to_s+"_travel" }
@@ -37,5 +38,6 @@
                       = render partial: "items/shop_form", locals: { view_details: view_details, buy_item: buy_item, take_item: take_item, item_group: item_group, index: index, item: item }
             - item_stats(params[:view]).each do |header, stat_method|
               %td= item.send(stat_method)
-            %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_path(item)
-            %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item, :method => :delete, :data => { :confirm => 'Are you sure?' }
+            - if current_user.admin_level >= 1
+              %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_path(item)
+              %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item, :method => :delete, :data => { :confirm => 'Are you sure?' }
