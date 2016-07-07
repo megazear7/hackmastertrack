@@ -274,7 +274,7 @@ class Character < ActiveRecord::Base
         end
       end
       specialization = self.specializations.find_by(item_id: itemInstance.item.id, stat_name: "speed")
-      ret["specialization"] = specialization.value if specialization and specialization.value != 0
+      ret["specialization"] = -1 * specialization.value if specialization and specialization.value != 0
       if itemInstance.item.speed_mod
         ret[itemInstance.actual_name] = itemInstance.item.speed_mod
       end
@@ -284,8 +284,21 @@ class Character < ActiveRecord::Base
       if prof_adjustment(itemInstance.item) != 0
         ret["proficiency"] = prof_adjustment(itemInstance.item)
       end
+      if itemInstance.item.melee?
+        level_mod = Level.find_mod(self.character_class.id, self.level, "speed_mod")
+        if level_mod and level_mod != 0
+            ret["level_bonus"] = level_mod
+        end
+      elsif itemInstance.item.ranged?
+        level_mod = Level.find_mod(self.character_class.id, self.level, "speed_mod")
+        if level_mod and level_mod != 0
+            ret["level_bonus"] = level_mod
+        end
+      end
     end
     ret.merge!(calculate_magic_mod(equipment, "speed_mod"))
+
+
 
     mod = 0
     ret.each do |key, val|
@@ -315,6 +328,11 @@ class Character < ActiveRecord::Base
     end
     ret.merge!(calculate_magic_mod(equipment, "init_mod"))
 
+    level_mod = Level.find_mod(self.character_class.id, self.level, "init_mod")
+    if level_mod and level_mod != 0
+        ret["level_bonus"] = level_mod
+    end
+
     mod = 0
     ret.each do |key, val|
       mod += val
@@ -330,10 +348,12 @@ class Character < ActiveRecord::Base
     if Race.find_mod(self.race.name, "init_die_bonus")
       ret[self.race.name] = 1
     end
-    level_mod = Level.find_mod(self.class.name, self.level, "init_die_mod")
+
+    level_mod = Level.find_mod(self.character_class.id, self.level, "init_die_mod")
     if level_mod and level_mod != 0
-      ret[self.class.name] = level_mod
+        ret["level_bonus"] = level_mod
     end
+
     ret.merge!(calculate_magic_mod(equipment, "init_die_mod"))
 
     mod = 0
@@ -374,6 +394,12 @@ class Character < ActiveRecord::Base
         ret["proficiency"] = prof_adjustment(itemInstance.item) 
       end
     end
+
+    level_mod = Level.find_mod(self.character_class.id, self.level, "attack_mod")
+    if level_mod and level_mod != 0
+        ret["level_bonus"] = level_mod
+    end
+
     ret.merge!(calculate_magic_mod(equipment, "attack_mod"))
 
     mod = 0

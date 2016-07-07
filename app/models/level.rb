@@ -1,19 +1,17 @@
 class Level < ActiveRecord::Base
   belongs_to :character_class
 
-  def self.find_mod theclass, level, mod
-    where(character_class_id: theclass).each do |ability_score|
-      # TODO query the database instead of looping
-      if ability_score.level_value == level
-        mod_val = ability_score.send(mod)
-        if mod_val.nil?
-          return 0
-        else
-          return mod_val
-        end
+  def self.find_mod class_id, character_level, mod
+    mod_val = 0
+    where(character_class_id: class_id).each do |level|
+      if level.level_value == character_level
+        mod_val = level.send(mod)
       end
     end
-    0
+    if mod_val.nil?
+      0
+    else
+      mod_val
+    end
   end
-
 end
