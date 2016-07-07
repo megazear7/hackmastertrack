@@ -1,5 +1,5 @@
 class CharactersController < ApplicationController
-  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :add_items, :equip_items, :add_proficiency, :remove_proficiency, :add_talent, :step3, :step4, :step5, :step6, :step7, :step8, :step9, :step10, :step11, :step12, :step13, :finish, :leave]
+  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :add_items, :equip_items, :add_proficiency, :remove_proficiency, :add_talent, :add_skill, :add_silver, :step3, :step4, :step5, :step6, :step7, :step8, :step9, :step10, :step11, :step12, :step13, :finish, :leave]
 
   # GET /characters
   # GET /characters.json
@@ -166,6 +166,15 @@ class CharactersController < ApplicationController
       redirect_to character_url(@character), notice: 'You already have the proficiency ' + prof.name + '!'
     else
       redirect_to character_url(@character), notice: 'You do not have enough building points for the proficiency ' + prof.name + '!'
+    end
+  end
+
+  def add_silver
+    @character.silver += params[:silver].to_i
+    if @character.save
+      redirect_to character_url(@character), notice: params[:silver] + ' silver was added. You now have ' + @character.silver.to_s + ' silver.'
+    else
+      redirect_to character_url(@character), notice: 'There was a problem adding silver.'
     end
   end
 
