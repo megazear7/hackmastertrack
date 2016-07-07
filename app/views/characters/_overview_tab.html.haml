@@ -136,3 +136,8 @@
     .col-md-12
       = @character.spell_points_this_level
       spell points
+- if @character.has_luck_points
+  .row
+    .col-md-12
+      = @character.luck_points_this_level
+      luck points

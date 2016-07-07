@@ -76,7 +76,8 @@ class CharacterClassesController < ApplicationController
         :attack_specialization_cost,
         :speed_specialization_cost,
         :defense_specialization_cost,
-        :damage_specialization_cost
+        :damage_specialization_cost,
+        :luck_points
       )
     end
 end

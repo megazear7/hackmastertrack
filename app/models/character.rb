@@ -594,6 +594,19 @@ class Character < ActiveRecord::Base
     Level.find_mod(self.character_class.id, self.level, "spell_points") > 0
   end
 
+  def luck_points_this_level
+    character_class.luck_points + level - 1
+  end
+
+  def has_luck_points
+    points = character_class.luck_points
+    if points.nil?
+      false
+    else
+      points > 0
+    end
+  end
+
   def actual_level
     case self.exp
     when 0..399

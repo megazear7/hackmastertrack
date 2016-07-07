@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160706171833) do
+ActiveRecord::Schema.define(version: 20160707142159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 20160706171833) do
     t.integer  "speed_specialization_cost",   default: 10
     t.integer  "defense_specialization_cost", default: 10
     t.integer  "damage_specialization_cost",  default: 10
+    t.integer  "luck_points"
   end
 
   create_table "character_spells", force: true do |t|

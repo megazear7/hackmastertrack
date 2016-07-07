@@ -2,7 +2,9 @@
   = link_to 'Back', character_classes_path, class: "btn btn-default"
   = link_to 'Show', @character_class, class: "btn btn-default"
 %br
+%h3
+  Editing
+  = @character_class.name
 %br
-%h1 Editing character_class
 = render 'form'
 
