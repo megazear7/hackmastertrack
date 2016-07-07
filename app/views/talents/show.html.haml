@@ -9,15 +9,15 @@
       %input{ type: "hidden", name: "talent_id", value: @talent.id }
       .col-md-2
         = select :item, :id, @talent.item_options.collect { |i| [i.name, i.id] }, {}, { :class => "form-control" }
-      - current_user.characters.each do |character|
-        .col-md-2
+      .btn-group
+        - current_user.characters.each do |character|
           %button{type: 'submit', class: "btn btn-primary", name: "character_id", value: character.id}
             %span.glyphicon.glyphicon-plus
             Learn with
             = character.name
   - else
-    - current_user.characters.each do |character|
-      .col-md-2
+    .btn-group
+      - current_user.characters.each do |character|
         = link_to raw("<span class='glyphicon glyphicon-plus'></span> Learn with " + character.name), add_talent_character_path(character, talent_id: @talent.id), :class => "btn btn-primary"
 %br
 %table.table.table-hover.table-responsive

@@ -3,9 +3,9 @@
     = f.input :item_to_take, input_html: { value: item.name }
     = f.input :character_id, input_html: { value: character.id }
   .btn-group
+    - if take_item
+      = f.submit "Take Item", class: "btn btn-primary"
+    - if buy_item
+      = f.submit "Buy Item", class: "btn btn-primary"
     - if view_details
       = link_to "View Details", item, class: "btn btn-default"
-    - if take_item
-      = f.submit "Take Item", class: "btn btn-default"
-    - if buy_item
-      = f.submit "Buy Item", class: "btn btn-default"

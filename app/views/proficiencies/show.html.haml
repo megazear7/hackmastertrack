@@ -4,8 +4,8 @@
 %br
 %h3= @proficiency.name
 %br
-- current_user.characters.each do |character|
-  .col-md-2
+.btn-group
+  - current_user.characters.each do |character|
     = link_to raw("<span class='glyphicon glyphicon-plus'></span> Learn with " + character.name), add_proficiency_character_path(character, proficiency_id: @proficiency.id), :class => "btn btn-primary"
 %br
 %br
