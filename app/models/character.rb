@@ -586,6 +586,14 @@ class Character < ActiveRecord::Base
     ret
   end
 
+  def spell_points_this_level
+    Level.find_mod(self.character_class.id, self.level, "spell_points")
+  end
+
+  def has_spell_points
+    Level.find_mod(self.character_class.id, self.level, "spell_points") > 0
+  end
+
   def actual_level
     case self.exp
     when 0..399

@@ -131,3 +131,8 @@
   .col-md-12
     = @character.fame
     Fame
+- if @character.has_spell_points
+  .row
+    .col-md-12
+      = @character.spell_points_this_level
+      spell points

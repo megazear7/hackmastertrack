@@ -14,9 +14,10 @@
   .row
     .col-md-4= f.input :height, input_html: { class: "string form-control" }
     .col-md-4= f.input :weight, input_html: { class: "string form-control" }
-  .row
-    .col-md-4= f.input :spell_points, input_html: { class: "string form-control" }
-    .col-md-4= f.input :luck_points, input_html: { class: "string form-control" }
+  - if @character.has_spell_points
+    .row
+      .col-md-4= f.input :spell_points, disabled: true, input_html: { class: "string form-control", value: @character.spell_points_this_level }
+      .col-md-4= f.input :spell_points, as: :hidden, input_html: { value: @character.spell_points_this_level }
   .row
     %br
     .col-md-4= f.submit 'Continue', class: "btn btn-primary"
