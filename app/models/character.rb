@@ -272,6 +272,9 @@ class Character < ActiveRecord::Base
         if char_talent.talent.name == "Swift Blade" and char_talent.item.id == itemInstance.item.id and itemInstance.item.melee?
           ret[char_talent.name] = 1
         end
+        if char_talent.talent.name == "Greased Lightning" and char_talent.item.id == itemInstance.item.id and itemInstance.item.ranged?
+          ret[char_talent.name] = 1
+        end
       end
       specialization = self.specializations.find_by(item_id: itemInstance.item.id, stat_name: "speed")
       ret["specialization"] = -1 * specialization.value if specialization and specialization.value != 0
@@ -349,6 +352,12 @@ class Character < ActiveRecord::Base
       ret[self.race.name] = 1
     end
 
+    characters_talents.each do |char_talent|
+      if char_talent.talent.name == "Improved Awareness"
+        ret[char_talent.name] = 1
+      end
+    end
+
     level_mod = Level.find_mod(self.character_class.id, self.level, "init_die_mod")
     if level_mod and level_mod != 0
         ret["level_bonus"] = level_mod
@@ -371,6 +380,9 @@ class Character < ActiveRecord::Base
     if itemInstance
       characters_talents.each do |char_talent|
         if char_talent.talent.name == "Attack Bonus" and char_talent.item.id == itemInstance.item.id and itemInstance.item.melee?
+          ret[char_talent.name] = 1
+        end
+        if char_talent.talent.name == "Crack Shot" and char_talent.item.id == itemInstance.item.id and itemInstance.item.ranged?
           ret[char_talent.name] = 1
         end
       end
@@ -424,8 +436,19 @@ class Character < ActiveRecord::Base
     equipment = build_equipment(equipment)
     ret = {}
 
+    characters_talents.each do |char_talent|
+      if char_talent.talent.name == "Dodge"
+        ret[char_talent.name] = 1
+      end
+    end
+
     itemInstance = equipment["#{main_hand}_hand"]
     if itemInstance
+      characters_talents.each do |char_talent|
+        if char_talent.talent.name == "Parry Bonus" and char_talent.item.id == itemInstance.item.id and itemInstance.item.melee?
+          ret[char_talent.name] = 1
+        end
+      end
       specialization = self.specializations.find_by(item_id: itemInstance.item.id, stat_name: "defense")
       ret["specialization"] = specialization.value if specialization
       characters_talents.each do |char_talent|
@@ -508,6 +531,11 @@ class Character < ActiveRecord::Base
   def calculate_damage_reduction equipment
     equipment = build_equipment(equipment)
     ret = {}
+    characters_talents.each do |char_talent|
+      if char_talent.talent.name == "Tough Hide"
+        ret[char_talent.name] = 1
+      end
+    end
     if equipment["body"] and equipment["body"].item.damage_reduction
       ret[equipment["body"].actual_name] = equipment["body"].item.damage_reduction       
     end

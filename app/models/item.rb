@@ -36,6 +36,10 @@ class Item < ActiveRecord::Base
     item_type == "melee"
   end
 
+  def ranged?
+    item_type == "ranged"
+  end
+  
   def prof_adjustment
     adjustment = 0
     if    skill_level == "minimal"
