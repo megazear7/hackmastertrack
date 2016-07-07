@@ -1,7 +1,7 @@
 %h3 Step 4
 = simple_form_for @character, :url => step5_character_path(@character), :method => :post do |f|
+  = f.input :race_id, as: :hidden
   .row
-    .col-md-4= f.association :race, include_blank: false, input_html: { class: "string form-control" }
     .col-md-4= f.association :character_class, include_blank: false, input_html: { class: "string form-control" }
     .col-md-4= f.input :alignment, collection: alignment_options, include_blank: false, input_html: { class: "string form-control" }
   .row
