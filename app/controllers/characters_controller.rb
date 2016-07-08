@@ -325,6 +325,14 @@ class CharactersController < ApplicationController
     @character.looks = 0 if @character.looks < 0
     @character.charisma = 0 if @character.charisma < 0
 
+    @character.race.proficiencies.each do |prof|
+      @character.proficiencies << prof
+    end
+
+    @character.race.talents.each do |talent|
+      @character.talents << talent
+    end
+
     if @character.save
       render layout: "character_creation"
     end

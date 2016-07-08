@@ -1,6 +1,23 @@
 %h3 Step 9
 = simple_form_for @character, :url => step10_character_path(@character), :method => :post do |f|
-  %p You will be able to purchase skils, talents and proficiencies after you are done with character creation.
+  %p You will be able to purchase more skils, talents and proficiencies after you are done with character creation.
+  .row
+    .col-md-4
+      %h4
+        = @character.race.name
+        Proficiencies:
+      - @character.race.proficiencies.each do |prof|
+        %h5= prof.name
+  .row
+    .col-md-4
+      %br
+      %h4
+        = @character.race.name
+        Talents:
+      - @character.race.talents.each do |talent|
+        %h5= talent.name
   .row
     %br
     .col-md-4= f.submit 'Continue', class: "btn btn-primary"
+
+
