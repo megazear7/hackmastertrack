@@ -10,6 +10,12 @@
       %td Description
       %td= @race.description
     %tr
+      %td Starting Skills
+      %td
+        - @race.races_skills.each do |races_skill|
+          = link_to races_skill.skill.name + " (#{races_skill.count} purchases)", races_skill.skill
+          %br
+    %tr
       %td Starting Talents
       %td
         - @race.talents.each do |talent|

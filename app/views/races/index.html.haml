@@ -15,8 +15,6 @@
       %th Con mod
       %th Lks mod
       %th Cha mod
-      %th Starting Talents
-      %th Starting Proficiencies
       - if current_user.admin_level >= 1
         %th
         %th
@@ -31,12 +29,6 @@
         %td= race.con_mod
         %td= race.lks_mod
         %td= race.cha_mod
-        %td
-          - race.talents.each do |talent|
-            = link_to talent.name, talent
-        %td
-          - race.proficiencies.each do |proficiency|
-            = link_to proficiency.name, proficiency
         - if current_user.admin_level >= 1
           %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_race_path(race)
           %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), race, :method => :delete, :data => { :confirm => 'Are you sure?' }
