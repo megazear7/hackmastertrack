@@ -1,48 +1,51 @@
 .row
-  .col-md-6
+  .col-md-10
     %h3 Skills
-  .col-md-6
-    %br
-    = link_to 'New Skill', new_skill_path, class: "btn btn-primary pull-right" if current_user.admin_level >= 1
+  .col-md-2
+    .pull-right
+      %br
+      .input-group
+        %span.input-group-addon
+          Shopping with
+        .hidden
+          %input
+        %span.input-group-btn
+          - if @current_character
+            = link_to @current_character.name, @current_character, class: "btn btn-default"
+          - else
+            .btn.btn-default Select Character
 .row
   .col-md-12
-    .accordion{ "id"=>"accordion_skills"}
-      %table.table.table-hover.table-responsive
-        %thead
-          %tr
-            %th Name
-            %th Cost
-            %th Universal
+    %table.table.table-hover.table-responsive
+      %thead
+        %tr
+          %th Name
+          - if @current_character
+            %th
+          %th Cost
+          %th Universal
+          - if current_user.admin_level >= 1
+            %th
+            %th
+      %tbody
+        - @skills.each do |skill|
+          %tr{ "data-show" => "skill_"+skill.id.to_s, class: "show-on-hover" }
+            %td{ style: 'width: 300px' }= link_to skill.name, skill
+            %td{ style: 'width: 300px' }
+              - if @current_character
+                = form_tag add_skill_character_path(@current_character) do
+                  %input{ type: "hidden", name: "skill_id", value: skill.id }
+                  .input-group{ class: "skill_"+skill.id.to_s }
+                    %span.input-group-addon
+                      Learn Skill:
+                    = number_field_tag :value, nil, class: "integer form-control limit-width", placeholder: "Die Roll"
+                    %span.input-group-btn
+                      %button{type: 'submit', class: "btn btn-primary", name: "character_id", value: @current_character.id}
+                        %span.glyphicon.glyphicon-plus
+                        = @current_character.name
+            %td= skill.bp_cost
+            %td= skill.universal
             - if current_user.admin_level >= 1
-              %th
-              %th
-        %tbody
-          - @skills.each do |skill|
-            %tr{ "id"=>"collapse_skills_"+skill.id.to_s+"_travel" }
-              %td
-                .accordion-group
-                  .accordion-heading
-                    %a.accordion-toggle{ "data-toggle"=>"collapse", "data-parent"=>"#accordion_skills", "href"=>"#collapse_skills_"+skill.id.to_s }
-                      = skill.name
-                  .accordion-body.collapse{ "id"=>"collapse_skills_"+skill.id.to_s }
-                    .accordion-inner
-                      = form_tag add_skill_character_path(1) do
-                        %input{ type: "hidden", name: "skill_id", value: skill.id }
-                        %h5 Learn Skill:
-                        .row
-                          .col-md-3
-                            = number_field_tag :value, nil, class: "integer form-control", placeholder: "Die Roll"
-                        %br
-                        .btn-group-vertical
-                          - current_user.characters.each do |character|
-                            %button{type: 'submit', class: "btn btn-primary", name: "character_id", value: character.id}
-                              %span.glyphicon.glyphicon-plus
-                              = character.name
-                        %br
-                        %br
-                        = link_to raw("Details <span class='glyphicon glyphicon-arrow-right'></span>"), skill, class: "btn btn-default"
-              %td= skill.bp_cost
-              %td= skill.universal
-              - if current_user.admin_level >= 1
-                %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_skill_path(skill)
-                %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), skill, :method => :delete, :data => { :confirm => 'Are you sure?' }
+              %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_skill_path(skill)
+              %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), skill, :method => :delete, :data => { :confirm => 'Are you sure?' }
+= link_to 'New Skill', new_skill_path, class: "btn btn-primary" if current_user.admin_level >= 1

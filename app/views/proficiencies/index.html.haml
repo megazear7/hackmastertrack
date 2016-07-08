@@ -1,35 +1,41 @@
 .row
-  .col-md-6
+  .col-md-10
     %h3 Proficiencies
-  .col-md-6
+  .col-md-2
     %br
-    = link_to 'New Proficiency', new_proficiency_path, class: "btn btn-primary pull-right" if current_user.admin_level >= 1
+    .pull-right
+      .input-group
+        %span.input-group-addon
+          Shopping with
+        .hidden
+          %input
+        %span.input-group-btn
+          - if @current_character
+            = link_to @current_character.name, @current_character, class: "btn btn-default"
+          - else
+            .btn.btn-default Select Character
 %table.table.table-hover.table-responsive
   %thead
     %tr
       %th Name
-      %th
       %th BP Cost
       %th Description
       %th Requirements
+      - if @current_character
+        %th
       - if current_user.admin_level >= 1
         %th
         %th
   %tbody
     - @proficiencies.each do |proficiency|
-      %tr
+      %tr{ "data-show" => "prof_"+proficiency.id.to_s, class: "show-on-hover" }
         %td= link_to proficiency.name, proficiency
-        %td
-          .dropdown
-            %button#dropdownMenu1.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", :type => "button"}
-              Learn
-              %span.caret
-            %ul.dropdown-menu{"aria-labelledby" => "dropdownMenu1", :role => "menu"}
-              - current_user.characters.each do |character|
-                %li= link_to character.name, add_proficiency_character_path(character, proficiency_id: proficiency.id)
         %td= proficiency.bp_cost
         %td= proficiency.description
         %td= proficiency.requirements
+        - if @current_character
+          %td= link_to raw("<span class='glyphicon glyphicon-plus'></span> " + @current_character.name), add_proficiency_character_path(@current_character, proficiency_id: proficiency.id), class: "btn btn-default prof_"+proficiency.id.to_s
         - if current_user.admin_level >= 1
           %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_proficiency_path(proficiency)
           %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), proficiency, :method => :delete, :data => { :confirm => 'Are you sure?' }
+= link_to 'New Proficiency', new_proficiency_path, class: "btn btn-primary" if current_user.admin_level >= 1

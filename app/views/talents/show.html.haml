@@ -1,36 +1,52 @@
-.btn-group
-  = link_to 'Back', talents_path, class: "btn btn-default"
-  = link_to 'Edit', edit_talent_path(@talent), class: "btn btn-primary"
+.row
+  .col-md-10
+    .btn-group
+      = link_to 'Back', talents_path, class: "btn btn-default"
+      = link_to 'Edit', edit_talent_path(@talent), class: "btn btn-primary"
+  .col-md-2
+    .pull-right
+      .input-group
+        %span.input-group-addon
+          Shopping with
+        .hidden
+          %input
+        %span.input-group-btn
+          - if @current_character
+            = link_to @current_character.name, @current_character, class: "btn btn-default"
+          - else
+            .btn.btn-default Select Character
 %h3= @talent.name
 %br
+- if @current_character
+  .row
+    .col-md-12
+      - if @talent.item_specific
+        = form_tag add_talent_character_path(@current_character) do
+          %input{ type: "hidden", name: "talent_id", value: @talent.id }
+          .col-md-2
+            = select :item, :id, @talent.item_options.collect { |i| [i.name, i.id] }, {}, { :class => "form-control" }
+          .btn-group
+            %button{type: 'submit', class: "btn btn-primary", name: "character_id", value: @current_character.id}
+              %span.glyphicon.glyphicon-plus
+              Learn with
+              = @current_character.name
+      - else
+        .btn-group
+          = link_to raw("<span class='glyphicon glyphicon-plus'></span> Learn with " + @current_character.name), add_talent_character_path(@current_character, talent_id: @talent.id), :class => "btn btn-primary"
+  %br
 .row
-  - if @talent.item_specific
-    = form_tag add_talent_character_path(@character) do
-      %input{ type: "hidden", name: "talent_id", value: @talent.id }
-      .col-md-2
-        = select :item, :id, @talent.item_options.collect { |i| [i.name, i.id] }, {}, { :class => "form-control" }
-      .btn-group
-        - current_user.characters.each do |character|
-          %button{type: 'submit', class: "btn btn-primary", name: "character_id", value: character.id}
-            %span.glyphicon.glyphicon-plus
-            Learn with
-            = character.name
-  - else
-    .btn-group
-      - current_user.characters.each do |character|
-        = link_to raw("<span class='glyphicon glyphicon-plus'></span> Learn with " + character.name), add_talent_character_path(character, talent_id: @talent.id), :class => "btn btn-primary"
-%br
-%table.table.table-hover.table-responsive
-  %tbody
-    %tr
-      %td Description
-      %td= @talent.description
-    %tr
-      %td Requirements
-      %td= @talent.requirements
-    %tr
-      %td BP Cost
-      %td= @talent.bp_cost
-    %tr
-      %td Item Specific?
-      %td= @talent.item_specific
+  .col-md-12
+    %table.table.table-hover.table-responsive
+      %tbody
+        %tr
+          %td Description
+          %td= @talent.description
+        %tr
+          %td Requirements
+          %td= @talent.requirements
+        %tr
+          %td BP Cost
+          %td= @talent.bp_cost
+        %tr
+          %td Item Specific?
+          %td= @talent.item_specific

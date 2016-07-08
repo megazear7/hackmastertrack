@@ -1,15 +1,29 @@
-.btn-group
-  = link_to 'Back', proficiencies_path, class: "btn btn-default"
-  = link_to 'Edit', edit_proficiency_path(@proficiency), class: "btn btn-primary"
+.row
+  .col-md-10
+    .btn-group
+      = link_to 'Back', proficiencies_path, class: "btn btn-default"
+      = link_to 'Edit', edit_proficiency_path(@proficiency), class: "btn btn-primary"
+  .col-md-2
+    .pull-right
+      .input-group
+        %span.input-group-addon
+          Shopping with
+        .hidden
+          %input
+        %span.input-group-btn
+          - if @current_character
+            = link_to @current_character.name, @current_character, class: "btn btn-default"
+          - else
+            .btn.btn-default Select Character
+.row
+  .col-md-12
+    %h3= @proficiency.name
 %br
-%h3= @proficiency.name
-%br
-.btn-group
-  - current_user.characters.each do |character|
-    = link_to raw("<span class='glyphicon glyphicon-plus'></span> Learn with " + character.name), add_proficiency_character_path(character, proficiency_id: @proficiency.id), :class => "btn btn-primary"
-%br
-%br
-%br
+- if @current_character
+  .btn-group
+    = link_to raw("<span class='glyphicon glyphicon-plus'></span> Learn with " + @current_character.name), add_proficiency_character_path(@current_character, proficiency_id: @proficiency.id), :class => "btn btn-primary"
+  %br
+  %br
 .row
   .col-md-6
     %table.table.table-hover.table-responsive

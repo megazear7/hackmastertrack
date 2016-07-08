@@ -7,12 +7,21 @@ class ApplicationController < ActionController::Base
 
   before_filter :check_if_devise
 
-  private
+  before_action :set_current_character
 
+  def set_current_character
+    if cookies[:character_id].nil? or not Character.exists?(cookies[:character_id])
+      return nil
+    else
+      @current_character ||= Character.find(cookies[:character_id])
+    end
+  end
+
+  private
     def check_if_devise
-        if params[:controller].include? "devise/registrations" and params[:action].include? "create"
-          redirect_to new_user_registration_path, alert: "invalid registration key" unless params[:user][:creation_key] == "dontopenthecrypt"
-        end
+      if params[:controller].include? "devise/registrations" and params[:action].include? "create"
+        redirect_to new_user_registration_path, alert: "invalid registration key" unless params[:user][:creation_key] == "dontopenthecrypt"
+      end
     end
 
     def require_login

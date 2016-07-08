@@ -1,28 +1,27 @@
-.btn-group
-  = link_to 'Back', items_path, class: "btn btn-default"
-  = link_to 'Edit', edit_item_path(@item), class: "btn btn-primary"
-%br
-%h3= @item.name
-%br
 .row
+  .col-md-10
+    .btn-group
+      = link_to 'Back', items_path, class: "btn btn-default"
+      = link_to 'Edit', edit_item_path(@item), class: "btn btn-primary"
   .col-md-2
-    .row
-      .col-md-6
-        %h5 Buy:
-    .row
-      .col-md-6
-        .btn-group-vertical
-          - current_user.characters.each do |character|
-            = link_to raw("<span class='glyphicon glyphicon-plus'></span> " + character.name), add_items_character_path(character, :"character[item_to_take]" => @item.id, commit: "Buy Item"), :class => "btn btn-default"
-  .col-md-2
-    .row
-      .col-md-6
-        %h5 Take:
-    .row
-      .col-md-6
-        .btn-group-vertical
-          - current_user.characters.each do |character|
-            = link_to raw("<span class='glyphicon glyphicon-plus'></span> " + character.name), add_items_character_path(character, :"character[item_to_take]" => @item.id), :class => "btn btn-default"
+    .pull-right
+      .input-group
+        %span.input-group-addon
+          Shopping with
+        .hidden
+          %input
+        %span.input-group-btn
+          - if @current_character
+            = link_to @current_character.name, @current_character, class: "btn btn-default"
+          - else
+            .btn.btn-default Select Character
+- if @current_character
+  .row
+    .col-md-6
+      %br
+      .btn-group
+        = link_to raw("<span class='glyphicon glyphicon-plus'></span> Buy"), add_items_character_path(@current_character, :"character[item_to_take]" => @item.id, commit: "Buy Item"), :class => "btn btn-default"
+        = link_to raw("<span class='glyphicon glyphicon-plus'></span> Take"), add_items_character_path(@current_character, :"character[item_to_take]" => @item.id), :class => "btn btn-default"
 %br
 .row
   .col-md-4

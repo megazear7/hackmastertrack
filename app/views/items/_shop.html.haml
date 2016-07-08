@@ -7,8 +7,19 @@
         .col-md-4
           = submit_tag "Search", :name => nil, class: "btn btn-default search-button-align search-btn"
           = link_to "Reset", items_path, class: "btn btn-default"
-  .col-md-6
-    = link_to 'New Item', new_item_path, class: "btn btn-primary pull-right" if current_user.admin_level >= 1
+  .col-md-3
+  .col-md-3
+    .pull-right
+      .input-group
+        %span.input-group-addon
+          Shopping with
+        .hidden
+          %input
+        %span.input-group-btn
+          - if @current_character
+            = link_to @current_character.name, @current_character, class: "btn btn-default"
+          - else
+            .btn.btn-default Select Charater
 %br
 - item_groups(params[:view]).each do |item_group|
   %h4= item_group.titleize
@@ -19,25 +30,27 @@
           %th Name
           - item_stats(params[:view]).each do |header, stat_method|
             %th= header
+          - if @current_character
+            %th
           - if current_user.admin_level >= 1
             %th
             %th
       %tbody
         - items.where(item_type: item_group).order(:name).each_with_index do |item, index|
-          %tr{ "id"=>"collapse_"+item_group+"_"+index.to_s+"_travel" }
-            %td
-              .accordion-group
-                .accordion-heading
-                  %a.accordion-toggle{ "data-toggle"=>"collapse", "data-parent"=>"#accordion"+item_group, "href"=>"#collapse_"+item_group+"_"+index.to_s }
-                    = item.name
-                .accordion-body.collapse{ "id"=>"collapse_"+item_group+"_"+index.to_s }
-                  .accordion-inner
-                    - if shop_for_character
-                      = render partial: "items/shop_for_character_form", locals: { character: character, view_details: view_details, buy_item: buy_item, take_item: take_item, item_group: item_group, index: index, item: item }
-                    - else
-                      = render partial: "items/shop_form", locals: { view_details: view_details, buy_item: buy_item, take_item: take_item, item_group: item_group, index: index, item: item }
+          %tr{ "data-show" => "item_"+item.id.to_s, class: "show-on-hover" }
+            %td= link_to item.name, item
             - item_stats(params[:view]).each do |header, stat_method|
               %td= item.send(stat_method)
+            - if @current_character
+              %td
+                = simple_form_for @current_character, url: add_items_character_path(id: @current_character, page: "item_index", page_location: "collapse_"+item_group+"_"+index.to_s+"_travel"), method: :post do |f|
+                  .hidden
+                    = f.input :item_to_take, input_html: { value: item.id }
+                    = f.input :character_id, input_html: { value: @current_character.id }
+                  .btn-group{ class: "item_"+item.id.to_s }
+                    = f.submit "Take Item", class: "btn btn-default"
+                    = f.submit "Buy Item", class: "btn btn-default"
             - if current_user.admin_level >= 1
               %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_path(item)
               %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item, :method => :delete, :data => { :confirm => 'Are you sure?' }
+= link_to 'New Item', new_item_path, class: "btn btn-primary" if current_user.admin_level >= 1

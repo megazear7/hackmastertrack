@@ -4,6 +4,8 @@ class CharacterClassesController < ApplicationController
   # GET /character_classes
   # GET /character_classes.json
   def index
+    @characters = current_user.characters
+    @current_character = nil
     @character_classes = CharacterClass.all
   end
 

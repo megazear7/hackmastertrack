@@ -4,6 +4,8 @@ class RacesController < ApplicationController
   # GET /races
   # GET /races.json
   def index
+    @characters = current_user.characters
+    @current_character = nil
     @races = Race.all
   end
 

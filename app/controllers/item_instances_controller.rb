@@ -4,6 +4,8 @@ class ItemInstancesController < ApplicationController
   # GET /item_instances
   # GET /item_instances.json
   def index
+    @characters = current_user.characters
+    @current_character = nil
     @item_instances = ItemInstance.where(display: true)
   end
 

@@ -12,3 +12,16 @@ var getUrlParameter = function getUrlParameter(sParam) {
         }
     }
 };
+
+$(document).ready(function() {
+  $(".show-on-hover").each(function(index, element) {
+    var show = $(element).data("show");
+    $("."+show).hide();
+    $(element).mouseenter(function(e) {
+      $("."+show).show();
+    });
+    $(element).mouseleave(function(e) {
+      $("."+show).hide();
+    });
+  });
+});

@@ -17,25 +17,38 @@
     .navbar.navbar-default.navbar-fixed-top{role: "navigation"}
       .container
         .navbar-header
-          = link_to "Hackmaster Track", characters_path, class: "navbar-brand"
+          - if @current_character.nil?
+            = link_to "Hackmaster Track", characters_path, class: "navbar-brand"
+          - else
+            = link_to @current_character.name, character_path(@current_character), class: "navbar-brand"
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           %ul.nav.navbar-nav
-            %li
-              = link_to "Your Characters", characters_path
+            %li.dropdown
+              %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+                Your Characters
+                %b.caret
+              %ul.dropdown-menu
+                - current_user.characters.each do |character|
+                  %li= link_to character.name, character
+            %li.dropdown
+              %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+                Purchase
+                %b.caret
+              %ul.dropdown-menu
+                %li= link_to "Items", items_path
+                %li= link_to "Proficiencies", proficiencies_path
+                %li= link_to "Talents", talents_path
+                %li= link_to "Skills", skills_path
+                %li= link_to "Spells", spells_path
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
                 Browse
                 %b.caret
               %ul.dropdown-menu
                 %li= link_to "Characters", characters_path
-                %li= link_to "Classes", character_classes_path
-                %li= link_to "Races", races_path
-                %li= link_to "Talents", talents_path
-                %li= link_to "Skills", skills_path
-                %li= link_to "Proficiencies", proficiencies_path
-                %li= link_to "Items", items_path
                 %li= link_to "Magic Items", item_instances_path
-                %li= link_to "Spells", spells_path
+                %li= link_to "Races", races_path
+                %li= link_to "Classes", character_classes_path
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
                 Create

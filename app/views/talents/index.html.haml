@@ -1,36 +1,42 @@
 .row
-  .col-md-6
+  .col-md-10
     %h3 Talents
-  .col-md-6
-    %br
-    = link_to 'New Talent', new_talent_path, class: "btn btn-primary pull-right" if current_user.admin_level >= 1
-%table.table.table-hover.table-responsive
-  %thead
-    %tr
-      %th Name
-      %th
-      %th BP Cost
-      %th Description
-      - if current_user.admin_level >= 1
-        %th
-        %th
-  %tbody
-    - @talents.each do |talent|
-      %tr
-        %td= link_to talent.name, talent
-        %td
-          .dropdown
-            %button#dropdownMenu1.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", :type => "button"}
-              Learn
-              %span.caret
-            %ul.dropdown-menu{"aria-labelledby" => "dropdownMenu1", :role => "menu"}
-              - current_user.characters.each do |character|
+  .col-md-2
+    .pull-right
+      %br
+      .input-group
+        %span.input-group-addon
+          Shopping with
+        %span.input-group-btn
+          - if @current_character
+            = link_to @current_character.name, @current_character, class: "btn btn-default"
+          - else
+            .btn.btn-default Select Character
+.row
+  .col-md-12
+    %table.table.table-hover.table-responsive
+      %thead
+        %tr
+          %th Name
+          %th BP Cost
+          %th Description
+          %th
+          - if current_user.admin_level >= 1
+            %th
+            %th
+      %tbody
+        - @talents.each do |talent|
+          %tr{ "data-show" => "talent_"+talent.id.to_s, class: "show-on-hover" }
+            %td= link_to talent.name, talent
+            %td= talent.bp_cost
+            %td= talent.description
+            %td
+              - if @current_character
                 - if not talent.item_specific
-                  %li= link_to character.name, add_talent_character_path(character, talent_id: talent.id)
+                  = link_to raw("<span class='glyphicon glyphicon-plus'></span> " + @current_character.name), add_talent_character_path(@current_character, talent_id: talent.id), class: "btn btn-default talent_#{talent.id.to_s}"
                 - else
-                  %li= link_to character.name, talent_path(talent, character_id: character.id)
-        %td= talent.bp_cost
-        %td= talent.description
-        - if current_user.admin_level >= 1
-          %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_talent_path(talent)
-          %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), talent, :method => :delete, :data => { :confirm => 'Are you sure?' }
+                  = link_to raw("<span class='glyphicon glyphicon-plus'></span> " + @current_character.name), talent_path(talent, character_id: @current_character.id), class: "btn btn-default talent_#{talent.id.to_s}"
+            - if current_user.admin_level >= 1
+              %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_talent_path(talent)
+              %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), talent, :method => :delete, :data => { :confirm => 'Are you sure?' }
+    = link_to 'New Talent', new_talent_path, class: "btn btn-primary" if current_user.admin_level >= 1

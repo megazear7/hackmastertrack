@@ -5,11 +5,15 @@ class CharactersController < ApplicationController
   # GET /characters.json
   def index
     @characters = current_user.characters
+    @current_character = nil
+    cookies.delete :character_id
   end
 
   # GET /characters/1
   # GET /characters/1.json
   def show
+    cookies[:character_id] = @character.id
+    @current_character = @character
     @combat_rose = @character.calculate_combat_rose
     @specialization = Specialization.new
   end
