@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160708113941) do
+ActiveRecord::Schema.define(version: 20160708123521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -345,6 +345,12 @@ ActiveRecord::Schema.define(version: 20160708113941) do
     t.integer  "male_weight",                 default: 0
     t.integer  "female_weight",               default: 0
     t.integer  "lifespan",                    default: 0
+  end
+
+  create_table "races_skills", force: true do |t|
+    t.integer "race_id"
+    t.integer "skill_id"
+    t.integer "count",    default: 1
   end
 
   create_table "races_talents", force: true do |t|

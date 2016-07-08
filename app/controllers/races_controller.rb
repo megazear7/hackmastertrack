@@ -40,6 +40,16 @@ class RacesController < ApplicationController
   # PATCH/PUT /races/1
   # PATCH/PUT /races/1.json
   def update
+
+    params[:skill_counts].each do |id_count|
+      id = id_count[0]
+      count = id_count[1]
+
+      races_skill = RacesSkill.find(id)
+      races_skill.count = count
+      races_skill.save
+    end
+
     respond_to do |format|
       if @race.update(race_params)
         format.html { redirect_to @race, notice: 'Race was successfully updated.' }
@@ -95,7 +105,8 @@ class RacesController < ApplicationController
         :femaleweight,
         :lifespan,
         talent_ids: [],
-        proficiency_ids: []
+        proficiency_ids: [],
+        skill_ids: []
       )
     end
 end

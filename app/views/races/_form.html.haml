@@ -39,6 +39,17 @@
   .row
     .col-md-4= f.association :talents, collection: Talent.all.order(:name), input_html: { class: "string form-control" }
     .col-md-4= f.association :proficiencies, collection: Proficiency.all.order(:name), input_html: { class: "string form-control" }
+    .col-md-4= f.association :skills, collection: Skill.all.order(:name), input_html: { class: "string form-control" }
+
+  - @race.races_skills.each do |races_skill|
+    .row
+      .col-md-4
+        %br
+        .input-group
+          %span.input-group-addon
+            Free Purchases of
+            = races_skill.skill.name + ":"
+          = number_field_tag "skill_counts[#{races_skill.id}]", races_skill.count, class: "string form-control"
 
   .row
     .col-md-4

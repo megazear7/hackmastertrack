@@ -17,6 +17,20 @@
       - @character.race.talents.each do |talent|
         %h5= talent.name
   .row
+    .col-md-4
+      %br
+      %h4
+        = @character.race.name
+        Skills:
+  - @character.race.races_skills.each do |races_skill|
+    .row
+      .col-md-3
+        %br
+        .input-group
+          %span.input-group-addon
+            = races_skill.skill.name
+          = number_field_tag "skills[#{races_skill.skill.id}]", nil, class: "string form-control", placeholder: "#{races_skill.count} D12 Die Rolls"
+  .row
     %br
     .col-md-4= f.submit 'Continue', class: "btn btn-primary"
 
