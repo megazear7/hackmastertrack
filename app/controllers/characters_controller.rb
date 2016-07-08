@@ -247,26 +247,29 @@ class CharactersController < ApplicationController
     body = params[:character][:body_item_id]
     body = nil if body == ""
 
+    item_names = ""
+
     if not left.nil?
         @character.left_hand_item = @character.item_instances.find(left)
-    else
-        @character.left_hand_item = nil
+        item_names += @character.item_instances.find(left).actual_name + ", "
     end
 
     if not right.nil?
         @character.right_hand_item = @character.item_instances.find(right)
-    else
-        @character.right_hand_item = nil
+        item_names += @character.item_instances.find(right).actual_name + ", "
     end
 
     if not body.nil?
         @character.body_item = @character.item_instances.find(body)
-    else
-        @character.body_item = nil
+        item_names += @character.item_instances.find(body).actual_name + ", "
+    end
+
+    if item_names.ends_with? ", "
+      item_names.chomp!(", ")
     end
 
     @character.save
-    redirect_to character_url(@character), notice: 'Items Successfuly Equiped'
+    redirect_to character_url(@character), notice: item_names + ' Equiped'
   end
 
   def step1
