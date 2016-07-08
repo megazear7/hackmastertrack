@@ -457,8 +457,14 @@ class Character < ActiveRecord::Base
           ret[char_talent.name] = 1
         end
       end
-      ret["wisdom"] = AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod")
-      ret["dexterity"] = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
+      wis_mod = AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod")
+      if wis_mod != 0
+        ret["wisdom"] = wis_mod
+      end
+      dex_mod = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
+      if dex_mod != 0
+        ret["dexterity"] = dex_mod
+      end
       if itemInstance.item.defense_mod
         ret[itemInstance.actual_name] = itemInstance.item.defense_mod
       end

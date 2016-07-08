@@ -107,7 +107,7 @@ module ItemsHelper
 
   def ranged_specialization_options
     options = [ ]
-    Item.ranged_specialization.each do |name|
+    Item.ranged_specializations.each do |name|
       options << [ name.titleize, name ]
     end
     options
