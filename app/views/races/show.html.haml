@@ -10,6 +10,16 @@
       %td Description
       %td= @race.description
     %tr
+      %td Starting Talents
+      %td
+        - @race.talents.each do |talent|
+          = link_to talent.name, talent
+    %tr
+      %td Starting Proficiencies
+      %td
+        - @race.proficiencies.each do |proficiency|
+          = link_to proficiency.name, proficiency
+    %tr
       %td  Strength Modifier
       %td= @race.str_mod
     %tr

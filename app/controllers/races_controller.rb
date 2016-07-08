@@ -93,7 +93,9 @@ class RacesController < ApplicationController
         :femaleheight,
         :maleweight,
         :femaleweight,
-        :lifespan
+        :lifespan,
+        talent_ids: [],
+        proficiency_ids: []
       )
     end
 end

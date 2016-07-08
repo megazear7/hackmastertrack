@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160707154300) do
+ActiveRecord::Schema.define(version: 20160708113941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -313,6 +313,11 @@ ActiveRecord::Schema.define(version: 20160707154300) do
     t.datetime "updated_at"
   end
 
+  create_table "proficiencies_races", force: true do |t|
+    t.integer "proficiency_id"
+    t.integer "race_id"
+  end
+
   create_table "races", force: true do |t|
     t.string   "name",                        default: ""
     t.string   "description",                 default: ""
@@ -340,6 +345,11 @@ ActiveRecord::Schema.define(version: 20160707154300) do
     t.integer  "male_weight",                 default: 0
     t.integer  "female_weight",               default: 0
     t.integer  "lifespan",                    default: 0
+  end
+
+  create_table "races_talents", force: true do |t|
+    t.integer "race_id"
+    t.integer "talent_id"
   end
 
   create_table "skills", force: true do |t|

@@ -1,5 +1,7 @@
 class Race < ActiveRecord::Base
   has_many :bp_cost_by_race_classes
+  has_and_belongs_to_many :talents
+  has_and_belongs_to_many :proficiencies
 
   def hit_points
     if self.name == "Dwarf"
