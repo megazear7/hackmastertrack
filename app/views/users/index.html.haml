@@ -1,0 +1,23 @@
+.row
+  .col-md-6
+    %h3 Users
+%table.table.table-hover.table-responsive
+  %thead
+    %tr
+      %th Email
+      %th Admin Level
+      %th Last Sign In
+      %th Sign Up Date
+      %th Characters
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= user.email
+        %td= user.admin_level
+        %td= user.last_sign_in_at.strftime("%b, %e, %Y")
+        %td= user.created_at.strftime("%b, %e, %Y")
+        %td
+          - user.characters.each_with_index do |character, index|
+            = link_to character.name, character
+            - if index < user.characters.length - 1
+              \-

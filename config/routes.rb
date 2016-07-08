@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   resources :class_spellbooks
 
+  get '/users/', to: 'users#index'
+
   get '/specialization/retrieve', to: 'specializations#retrieve'
   resource :specializations
 
