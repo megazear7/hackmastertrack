@@ -23,7 +23,13 @@ class ItemInstance < ActiveRecord::Base
   end
 
   def actual_name
-    self.name.present? ? self.name : self.item.name
+    if self.name.present?
+      self.name
+    elsif not self.item.nil?
+      self.item.name
+    else
+      ""
+    end
   end
 
   def shield_defense

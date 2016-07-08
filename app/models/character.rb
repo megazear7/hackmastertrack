@@ -32,7 +32,7 @@ class Character < ActiveRecord::Base
         end
       end
     end
-    item_instances
+    item_instances.sort_by!{ |m| m[0].downcase }
   end
 
   def item_instance_names

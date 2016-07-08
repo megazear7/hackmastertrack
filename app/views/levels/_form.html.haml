@@ -6,18 +6,18 @@
         - @level.errors.full_messages.each do |msg|
           %li= msg
   .row
-    .col-md-4= f.association :character_class, input_html: { class: "string form-control" }
+    .col-md-4= f.association :character_class, collection: CharacterClass.order(:name), input_html: { class: "string form-control" }
     .col-md-4= f.input :level_value, input_html: { class: "string form-control" }
-    .col-md-4= f.input :hitdice, input_html: { class: "string form-control" }
+    .col-md-4= f.input :hit_dice, input_html: { class: "string form-control" }
     .col-md-4= f.input :init_mod, input_html: { class: "string form-control" }
-    .col-md-4= f.input :initiativediemod, input_html: { class: "string form-control" }
+    .col-md-4= f.input :init_die_mod, input_html: { class: "string form-control" }
     .col-md-4= f.input :attack_mod, input_html: { class: "string form-control" }
   .row
     .col-md-4= f.input :speed_mod, input_html: { class: "string form-control" }
-    .col-md-4= f.input :rangedspeedmod, input_html: { class: "string form-control" }
+    .col-md-4= f.input :ranged_speed_mod, input_html: { class: "string form-control" }
     .col-md-4= f.input :spell_points, input_html: { class: "string form-control" }
     .col-md-4= f.input :stvsspells, input_html: { class: "string form-control" }
-    .col-md-4= f.input :addedspells, input_html: { class: "string form-control" }
+    .col-md-4= f.input :added_spells, input_html: { class: "string form-control" }
   .row
     .col-md-4
       %br

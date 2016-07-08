@@ -7,8 +7,8 @@
           %li= msg
   .hidden= f.input :display, input_html: { checked: @is_display }
   .row
-    .col-md-4= f.input :name, input_html: { class: "string form-control", placeholder: @item_instance.item.name }
-    .col-md-4= f.association :item, input_html: { class: "string form-control" }
+    .col-md-4= f.input :name, input_html: { class: "string form-control", placeholder: @item_instance.actual_name }
+    .col-md-4= f.association :item, collection: Item.all.order(:name), input_html: { class: "string form-control" }
   .row
     .col-md-12
       %br

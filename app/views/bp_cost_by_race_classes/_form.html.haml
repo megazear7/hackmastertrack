@@ -5,10 +5,9 @@
       %ul
         - @bp_cost_by_race_class.errors.full_messages.each do |msg|
           %li= msg
-
   .row
-    .col-md-4= f.association :character_class, input_html: { class: "string form-control" }
-    .col-md-4= f.association :race, input_html: { class: "string form-control" }
+    .col-md-4= f.association :character_class, collection: CharacterClass.all.order(:name), input_html: { class: "string form-control" }
+    .col-md-4= f.association :race, collection: Race.all.order(:name), input_html: { class: "string form-control" }
     .col-md-4= f.input :bp_cost, input_html: { class: "string form-control" }
   .row
     .col-md-4
