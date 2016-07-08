@@ -1,5 +1,5 @@
 class CharactersController < ApplicationController
-  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :add_items, :equip_items, :add_proficiency, :remove_proficiency, :add_talent, :add_skill, :add_silver, :step3, :step4, :step5, :step6, :step7, :step8, :step9, :step10, :step11, :step12, :step13, :finish, :leave]
+  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :add_items, :equip_items, :add_proficiency, :remove_proficiency, :add_talent, :add_silver, :step3, :step4, :step5, :step6, :step7, :step8, :step9, :step10, :step11, :step12, :step13, :finish, :leave]
 
   # GET /characters
   # GET /characters.json
@@ -181,7 +181,9 @@ class CharactersController < ApplicationController
   def add_skill
     skill = Skill.find(params[:skill_id])
 
-    if not params[:character_id].nil?
+    if params[:character_id].nil?
+      @character = Character.find(params[:id])
+    else
       @character = Character.find(params[:character_id])
     end
 
