@@ -23,7 +23,7 @@ class Character < ActiveRecord::Base
   def unequiped_item_instance_location_names equiped_item, location
     # this can be done with a join sql query... but I can't figure it out TODO
     item_instances = []
-    item_instances << [equiped_item.actual_name, equiped_item.id]
+    item_instances << [equiped_item.actual_name, equiped_item.id] if equiped_item
     self.item_instances.each do |item_instance|
       if item_instance.item.location == location and not item_instance.equiped? and item_instance != equiped_item
         item_instances << [item_instance.actual_name, item_instance.id]
