@@ -2,6 +2,14 @@ class ItemInstance < ActiveRecord::Base
   belongs_to :item
   belongs_to :character
 
+  def equiped?
+    if character.left_hand_item == self and character.right_hand_item == self and character.body_item == self
+      true
+    else
+      false
+    end
+  end
+
   def magic?
     if self.magic_level and self.magic_level >= 6
       true

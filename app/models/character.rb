@@ -20,16 +20,24 @@ class Character < ActiveRecord::Base
 
   has_many :item_instances # these are equiped items
 
+  def unequiped_item_instance_location_names equiped_item, location
+    # this can be done with a join sql query... but I can't figure it out TODO
+    item_instances = []
+    item_instances << [equiped_item.actual_name, equiped_item.id]
+    self.item_instances.each do |item_instance|
+      if item_instance.item.location == location and not item_instance.equiped? and item_instance != equiped_item
+        item_instances << [item_instance.actual_name, item_instance.id]
+      end
+    end
+    item_instances.sort_by!{ |m| m[0].downcase }
+  end
+
   def item_instance_location_names location
     # this can be done with a join sql query... but I can't figure it out TODO
     item_instances = []
     self.item_instances.each do |item_instance|
       if item_instance.item.location == location
-        if item_instance.name.present?
-          item_instances << [item_instance.actual_name, item_instance.id]
-        else
-          item_instances << [item_instance.actual_name, item_instance.id]
-        end
+        item_instances << [item_instance.actual_name, item_instance.id]
       end
     end
     item_instances.sort_by!{ |m| m[0].downcase }
@@ -39,11 +47,7 @@ class Character < ActiveRecord::Base
     # this can be done with a join sql query... but I can't figure it out TODO
     item_instances = []
     self.item_instances.each do |item_instance|
-      if item_instance.name.present?
-        item_instances << [item_instance.item.name, item_instance.id]
-      else
-        item_instances << [item_instance.name, item_instance.id]
-      end
+      item_instances << [item_instance.name, item_instance.id]
     end
     item_instances
   end
