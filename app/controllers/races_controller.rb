@@ -41,13 +41,14 @@ class RacesController < ApplicationController
   # PATCH/PUT /races/1.json
   def update
 
-    params[:skill_counts].each do |id_count|
-      id = id_count[0]
-      count = id_count[1]
-
-      races_skill = RacesSkill.find(id)
-      races_skill.count = count
-      races_skill.save
+    if not params[:skill_counts].nil?
+      params[:skill_counts].each do |id_count|
+        id = id_count[0]
+        count = id_count[1]
+        races_skill = RacesSkill.find(id)
+        races_skill.count = count
+        races_skill.save
+      end
     end
 
     respond_to do |format|
