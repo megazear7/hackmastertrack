@@ -1,33 +1,54 @@
 %br
 .row
-  .col-md-4
-    = simple_form_for @character, url: equip_items_character_path, method: :post do |f|
-      .input-group
-        %span.input-group-addon Main Hand:
-        = f.association :"#{@character.main_hand}_hand_item", collection: @character.unequiped_item_instance_location_names(@character.main_hand_item, 'arm'), label: false, include_blank: "Nothing", input_html: { class: "string form-control remove-bootstrap-radius" }
-        %span.input-group-btn
-          = f.submit 'Equip', wrapper: false, class: "btn btn-primary"
-.row
-  %br
-  .col-md-4
-    = simple_form_for @character, url: equip_items_character_path, method: :post do |f|
-      .input-group
-        %span.input-group-addon Off Hand:
-        = f.association :"#{@character.off_hand}_hand_item", collection: @character.unequiped_item_instance_location_names(@character.off_hand_item, 'arm'), label: false, include_blank: "Nothing", input_html: { class: "string form-control remove-bootstrap-radius" }
-        %span.input-group-btn
-          = f.submit 'Equip', wrapper: false, class: "btn btn-primary"
-.row
-  %br
-  .col-md-4
-    = simple_form_for @character, url: equip_items_character_path, method: :post do |f|
-      .input-group
-        %span.input-group-addon Body:
-        = f.association :body_item, collection: @character.unequiped_item_instance_location_names(@character.body_item, 'body'), label: false, include_blank: "Nothing", input_html: { class: "string form-control remove-bootstrap-radius" }
-        %span.input-group-btn
-          = f.submit 'Equip', wrapper: false, class: "btn btn-primary"
-%br
+  .col-md-6
+    .row
+      .col-md-6
+        %h4
+          Silver: 
+          = @character.silver
+    .row
+      .col-md-6
+        = form_tag add_silver_character_path(@character), method: "post" do
+          .input-group
+            %input{ name: "silver", placeholder: "Silver", class: "integer form-control", type: "number" }
+            %span.input-group-btn
+              %button{ type: "submit", class: "btn btn-default" }
+                Add Silver
+    .row
+      .col-md-8
+        %br
+        %br
+        = simple_form_for @character, url: equip_items_character_path, method: :post do |f|
+          .input-group
+            %span.input-group-addon Main Hand:
+            = f.association :"#{@character.main_hand}_hand_item", collection: @character.unequiped_item_instance_location_names(@character.main_hand_item, 'arm'), label: false, include_blank: "Nothing", input_html: { class: "string form-control remove-bootstrap-radius" }
+            %span.input-group-btn
+              = f.submit 'Equip', wrapper: false, class: "btn btn-primary"
+    .row
+      %br
+      .col-md-8
+        = simple_form_for @character, url: equip_items_character_path, method: :post do |f|
+          .input-group
+            %span.input-group-addon Off Hand:
+            = f.association :"#{@character.off_hand}_hand_item", collection: @character.unequiped_item_instance_location_names(@character.off_hand_item, 'arm'), label: false, include_blank: "Nothing", input_html: { class: "string form-control remove-bootstrap-radius" }
+            %span.input-group-btn
+              = f.submit 'Equip', wrapper: false, class: "btn btn-primary"
+    .row
+      %br
+      .col-md-8
+        = simple_form_for @character, url: equip_items_character_path, method: :post do |f|
+          .input-group
+            %span.input-group-addon Body:
+            = f.association :body_item, collection: @character.unequiped_item_instance_location_names(@character.body_item, 'body'), label: false, include_blank: "Nothing", input_html: { class: "string form-control remove-bootstrap-radius" }
+            %span.input-group-btn
+              = f.submit 'Equip', wrapper: false, class: "btn btn-primary"
+  .col-md-6
+    .shop-link
+      = link_to raw("<div class='image'></div><span>Shop for Items</span>"), items_path
 .row
   .col-md-6
+    %br
+    %br
     %h4 Inventory
 .row
   .col-md-6
@@ -47,20 +68,6 @@
           %td= link_to raw('<span class="glyphicon glyphicon-plus"></span> Shop for Items'), items_path
           %td
           %td
-  .col-md-6
-    .shop-link
-      = link_to raw("<div class='image'></div><span>Shop for Items</span>"), items_path
 .row
   .col-md-6
-    %h4
-      Silver: 
-      = @character.silver
-%br
-= form_tag add_silver_character_path(@character), method: "post" do
-  .row
-    .col-md-2
-      .input-group
-        %input{ name: "silver", placeholder: "Silver", class: "integer form-control", type: "number" }
-        %span.input-group-btn
-          %button{ type: "submit", class: "btn btn-default" }
-            Add Silver
+
