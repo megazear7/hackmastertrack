@@ -1,8 +1,13 @@
 %h3 Step 12
-%p You begin with 35 + 2d12 silver. Enter your results here:
 = simple_form_for @character, :url => step13_character_path(@character), :method => :post do |f|
   .row
-    .col-md-4= f.input :silver, input_html: { class: "string form-control" }
+    .col-md-4
+      %br
+      .input-group
+        %span.input-group-addon
+          Silver
+        = f.input :silver, label: false, input_html: { class: "string form-control", min: 35, max: 59, placeholder: "35 + 2D12", value: nil }
   .row
+    %br
     %br
     .col-md-4= f.submit 'Continue', class: "btn btn-primary"

@@ -382,10 +382,12 @@ class CharactersController < ApplicationController
 
   def step10
 
-    params[:skills].each do |id_value|
-      skill = Skill.find(id_value[0])
-      value = id_value[1]
-      @character.characters_skills.create(skill_id: skill.id, value: value)
+    if params[:skills]
+      params[:skills].each do |id_value|
+        skill = Skill.find(id_value[0])
+        value = id_value[1]
+        @character.characters_skills.create(skill_id: skill.id, value: value)
+      end
     end
 
     render layout: "character_creation"
