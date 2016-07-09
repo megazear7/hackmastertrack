@@ -4,14 +4,7 @@
   .col-md-2
     .pull-right
       %br
-      .input-group
-        %span.input-group-addon
-          Shopping with
-        %span.input-group-btn
-          - if @current_character
-            = link_to @current_character.name, @current_character, class: "btn btn-default"
-          - else
-            .btn.btn-default Select Character
+      = render partial: "shared/shopping_with"
 .row
   .col-md-12
     %table.table.table-hover.table-responsive.purchase

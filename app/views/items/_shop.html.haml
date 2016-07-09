@@ -10,16 +10,7 @@
   .col-md-3
   .col-md-3
     .pull-right
-      .input-group
-        %span.input-group-addon
-          Shopping with
-        .hidden
-          %input
-        %span.input-group-btn
-          - if @current_character
-            = link_to @current_character.name, @current_character, class: "btn btn-default"
-          - else
-            .btn.btn-default Select Charater
+      = render partial: "shared/shopping_with"
 %br
 - item_groups(params[:view]).each do |item_group|
   %h4= item_group.titleize

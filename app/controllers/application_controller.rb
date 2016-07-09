@@ -10,9 +10,10 @@ class ApplicationController < ActionController::Base
   before_action :set_current_character
 
   def set_current_character
-    if cookies[:character_id].nil? or not Character.exists?(cookies[:character_id])
-      return nil
-    else
+    if params[:character_id] and Character.exists?(params[:character_id])
+      @current_character ||= Character.find(params[:character_id])
+      cookies[:character_id] = params[:character_id]
+    elsif cookies[:character_id] and Character.exists?(cookies[:character_id])
       @current_character ||= Character.find(cookies[:character_id])
     end
   end

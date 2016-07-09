@@ -5,16 +5,7 @@
       = link_to 'Edit', edit_skill_path(@skill), class: "btn btn-primary"
   .col-md-2
     .pull-right
-      .input-group
-        %span.input-group-addon
-          Shopping with
-        .hidden
-          %input
-        %span.input-group-btn
-          - if @current_character
-            = link_to @current_character.name, @current_character, class: "btn btn-default"
-          - else
-            .btn.btn-default Select Character
+      = render partial: "shared/shopping_with"
 %h3= @skill.name
 %br
 - if @current_character

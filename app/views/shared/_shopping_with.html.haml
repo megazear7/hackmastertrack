@@ -1,0 +1,15 @@
+.input-group
+  %span.input-group-addon
+    Shopping with
+  %input.hidden
+  .input-group-btn
+    %button.btn.btn-default.dropdown-toggle{ :"data-toggle" => "dropdown", :"aria-haspopup" => "true", :"aria-expanded" => "false" }
+      - if @current_character
+        = @current_character.name
+      - else
+        Select Character
+      %b.caret
+    %ul.dropdown-menu.dropdown-menu-right
+      - current_user.characters.each do |character|
+        %li
+          = link_to character.name, url_for(character_id: character.id)
