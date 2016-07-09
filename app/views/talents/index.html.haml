@@ -14,12 +14,13 @@
             .btn.btn-default Select Character
 .row
   .col-md-12
-    %table.table.table-hover.table-responsive
+    %table.table.table-hover.table-responsive.purchase
       %thead
         %tr
           %th Name
           %th BP Cost
           %th Description
+          %th
           %th
           - if current_user.admin_level >= 1
             %th
@@ -30,12 +31,23 @@
             %td= link_to talent.name, talent
             %td= talent.bp_cost
             %td= talent.description
-            %td
+            - if talent.item_specific
               - if @current_character
-                - if not talent.item_specific
-                  = link_to raw("<span class='glyphicon glyphicon-plus'></span> " + @current_character.name), add_talent_character_path(@current_character, talent_id: talent.id), class: "btn btn-default talent_#{talent.id.to_s}"
-                - else
-                  = link_to raw("<span class='glyphicon glyphicon-plus'></span> " + @current_character.name), talent_path(talent, character_id: @current_character.id), class: "btn btn-default talent_#{talent.id.to_s}"
+                = form_tag add_talent_character_path(@current_character) do
+                  %input{ type: "hidden", name: "talent_id", value: talent.id }
+                  %td.actions
+                    .action
+                      = select :item, :id, talent.item_options.order(:name).collect { |i| [i.name, i.id] }, {}, { :class => "form-control talent_#{talent.id.to_s}" }
+                  %td.actions
+                    .action
+                      %button{type: 'submit', class: "btn btn-default talent_#{talent.id.to_s}", name: "character_id", value: @current_character.id}
+                        %span.glyphicon.glyphicon-plus
+                        = @current_character.name
+            - else
+              - if @current_character
+                %td
+                %td.actions
+                  = link_to raw("<span class='glyphicon glyphicon-plus'></span> " + @current_character.name), add_talent_character_path(@current_character, talent_id: talent.id), class: "btn btn-default talent_#{talent.id.to_s} action"
             - if current_user.admin_level >= 1
               %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_talent_path(talent)
               %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), talent, :method => :delete, :data => { :confirm => 'Are you sure?' }

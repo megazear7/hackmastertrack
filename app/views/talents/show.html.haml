@@ -24,7 +24,7 @@
         = form_tag add_talent_character_path(@current_character) do
           %input{ type: "hidden", name: "talent_id", value: @talent.id }
           .col-md-2
-            = select :item, :id, @talent.item_options.collect { |i| [i.name, i.id] }, {}, { :class => "form-control" }
+            = select :item, :id, @talent.item_options.order(:name).collect { |i| [i.name, i.id] }, {}, { :class => "form-control" }
           .btn-group
             %button{type: 'submit', class: "btn btn-primary", name: "character_id", value: @current_character.id}
               %span.glyphicon.glyphicon-plus
