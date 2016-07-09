@@ -17,7 +17,7 @@
           %th Class
           %th
       %tbody
-        - @characters.each do |character|
+        - @characters.where(finished: true).each do |character|
           %tr
             %td= link_to character.name, character_path(character)
             %td= character.user.email
@@ -27,8 +27,8 @@
 - if current_user.admin_level >= 1
   .row
     .col-md-12
-      %h3 All Characters
-      %p You see this because you are an admin.
+      %h3 All Characters 
+      %h5 Admin only
   .row
     .col-md-12
       %table.table.table-hover.table-responsive
@@ -40,10 +40,28 @@
             %th Class
             %th
         %tbody
-          - Character.all.each do |character|
+          - Character.where(finished: true).each do |character|
             %tr
               %td= link_to character.name, character_path(character)
               %td= character.user.email
               %td= character.race.name
               %td= character.character_class.name
               %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), character, :method => :delete, :data => { :confirm => 'Are you sure?' }
+  .row
+    .col-md-12
+      %h4 Unfinished Characters
+      %h5 Admin only: These characters probably need deleted.
+  .row
+    .col-md-12
+      %table.table.table-hover.table-responsive
+        %thead
+          %tr
+            %th Name
+            %th
+        %tbody
+          - Character.where(finished: [false, nil]).each do |character|
+            %tr
+              %td= link_to character.name.present? ? character.name : "no-name", character
+              %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), character, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+

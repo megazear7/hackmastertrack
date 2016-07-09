@@ -10,10 +10,10 @@
   .row
     .col-md-4= f.input :handedness, collection: handedness_options, include_blank: false, input_html: { class: "string form-control" }
     .col-md-4= f.input :eyes, collection: eye_options, include_blank: false, input_html: { class: "string form-control" }
-    .col-md-4= f.input :age, input_html: { class: "string form-control", min: 10, max: @character.race.lifespan, placeholder: "Up to " + @character.race.lifespan.to_s, value: nil }
+    .col-md-4= f.input :age, input_html: { class: "string form-control", min: 10, max: @character.race.lifespan, placeholder: "Up to " + @character.race.lifespan.to_s, value: nil, required: true }
   .row
-    .col-md-4= f.input :height, input_html: { class: "string form-control", min: (@character.race.male_height * 0.75).floor, max: (@character.race.male_height * 1.25).ceil, placeholder: "Between #{(@character.race.male_height * 0.75).floor.to_s} and #{(@character.race.male_height * 1.25).ceil.to_s} Inches", value: nil }
-    .col-md-4= f.input :weight, input_html: { class: "string form-control", min: (@character.race.male_weight * 0.75).floor, max: (@character.race.male_weight * 1.25).ceil, placeholder: "Between #{(@character.race.male_weight * 0.75).floor.to_s} and #{(@character.race.male_weight * 1.25).ceil.to_s} Pounds", value: nil }
+    .col-md-4= f.input :height, input_html: { class: "string form-control", min: (@character.race.male_height * 0.75).floor, max: (@character.race.male_height * 1.25).ceil, placeholder: "Between #{(@character.race.male_height * 0.75).floor.to_s} and #{(@character.race.male_height * 1.25).ceil.to_s} Inches", value: nil, required: true }
+    .col-md-4= f.input :weight, input_html: { class: "string form-control", min: (@character.race.male_weight * 0.75).floor, max: (@character.race.male_weight * 1.25).ceil, placeholder: "Between #{(@character.race.male_weight * 0.75).floor.to_s} and #{(@character.race.male_weight * 1.25).ceil.to_s} Pounds", value: nil, required: true }
   - if @character.has_spell_points
     .row
       .col-md-4= f.input :spell_points, disabled: true, input_html: { class: "string form-control", value: @character.spell_points_this_level }

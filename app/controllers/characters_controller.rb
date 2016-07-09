@@ -419,10 +419,9 @@ class CharactersController < ApplicationController
     # 2) mark the character as "finished", and if the character does not get marked as finished then dont show it anywhere in the application
     # 3) redirect to character show page
     @character.update(character_params)
+    @character.finished = true
     if @character.save
-      @character.finished = true
-     redirect_to @character, notice: 'Character was successfully created.'
-    else
+       redirect_to @character, notice: 'Character was successfully created.'
     end
  end
 

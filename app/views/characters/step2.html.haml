@@ -6,19 +6,19 @@
   %div Enter the full stat value including the percentile.
 = simple_form_for @character, :url => step3_character_path(@character), :method => :post do |f|
   .row
-    .col-md-2= f.input :strength, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3 D6", value: "" }
+    .col-md-2= f.input :strength, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true }
   .row
-    .col-md-2= f.input :intelligence, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3 D6", value: "" }
+    .col-md-2= f.input :intelligence, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true }
   .row
-    .col-md-2= f.input :wisdom, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3 D6", value: "" }
+    .col-md-2= f.input :wisdom, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true }
   .row
-    .col-md-2= f.input :dexterity, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3 D6", value: "" }
+    .col-md-2= f.input :dexterity, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true }
   .row
-    .col-md-2= f.input :constitution, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3 D6", value: "" }
+    .col-md-2= f.input :constitution, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true }
   .row
-    .col-md-2= f.input :looks, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3 D6", value: "" }
+    .col-md-2= f.input :looks, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true }
   .row
-    .col-md-2= f.input :charisma, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3 D6", value: "" }
+    .col-md-2= f.input :charisma, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true }
   .row
     %br
     .col-md-4
