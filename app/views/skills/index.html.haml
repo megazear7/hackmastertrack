@@ -19,7 +19,7 @@
             %th
             %th
       %tbody
-        - @skills.each do |skill|
+        - @skills.order(:name).each do |skill|
           %tr{ "data-show" => "skill_"+skill.id.to_s, class: "show-on-hover" }
             %td{ style: 'width: 300px' }= link_to skill.name, skill
             %td= skill.bp_cost

@@ -17,7 +17,7 @@
           %th Class
           %th
       %tbody
-        - @characters.where(finished: true).each do |character|
+        - @characters.where(finished: true).order(:name).each do |character|
           %tr
             %td= link_to character.name, character_path(character)
             %td= character.user.email
@@ -40,7 +40,7 @@
             %th Class
             %th
         %tbody
-          - Character.where(finished: true).where.not(user_id: current_user.id).each do |character|
+          - Character.where(finished: true).where.not(user_id: current_user.id).order(:user_id, :name).each do |character|
             %tr
               %td= link_to character.name, character_path(character)
               %td= character.user.email

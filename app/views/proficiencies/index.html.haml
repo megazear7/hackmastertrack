@@ -18,7 +18,7 @@
         %th
         %th
   %tbody
-    - @proficiencies.each do |proficiency|
+    - @proficiencies.order(:name).each do |proficiency|
       %tr{ "data-show" => "prof_"+proficiency.id.to_s, class: "show-on-hover" }
         %td= link_to proficiency.name, proficiency
         %td= proficiency.bp_cost

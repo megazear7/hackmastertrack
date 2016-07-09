@@ -18,7 +18,7 @@
         %th
         %th
   %tbody
-    - @character_classes.each do |character_class|
+    - @character_classes.order(:name).each do |character_class|
       %tr
         %td= link_to character_class.name, character_class
         %td= character_class.description

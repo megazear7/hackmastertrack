@@ -13,7 +13,7 @@
         %th
         %th
     %tbody
-      - @item_instances.each_with_index do |item_instance, index|
+      - @item_instances.order(:name).each_with_index do |item_instance, index|
         %tr
           %td
             .accordion-group

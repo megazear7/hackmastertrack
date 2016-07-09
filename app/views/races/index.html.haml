@@ -19,7 +19,7 @@
         %th
         %th
   %tbody
-    - @races.each do |race|
+    - @races.order(:name).each do |race|
       %tr
         %td= link_to race.name, race
         %td= race.str_mod
