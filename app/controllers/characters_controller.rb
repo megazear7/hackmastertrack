@@ -161,7 +161,7 @@ class CharactersController < ApplicationController
 
   def add_proficiency
     prof = Proficiency.find(params[:proficiency_id])
-    if @character.building_points > prof.bp_cost and not @character.proficiencies.include? prof
+    if @character.building_points >= prof.bp_cost and not @character.proficiencies.include? prof
       @character.proficiencies << prof
       @character.building_points -= prof.bp_cost
       @character.save
@@ -220,7 +220,7 @@ class CharactersController < ApplicationController
     end
 
     if talent.item_specific
-      if @character.building_points > talent.bp_cost
+      if @character.building_points >= talent.bp_cost
         item = Item.find(params[:item][:id])
         char_tal = CharactersTalent.create(talent_id: talent.id, item_id: item.id, character_id: @character.id)
         @character.building_points -= talent.bp_cost
@@ -230,7 +230,7 @@ class CharactersController < ApplicationController
         redirect_to character_url(@character), notice: 'You do not have enough building points for the talent ' + talent.name + '!'
       end
     else
-      if @character.building_points > talent.bp_cost and not @character.talents.include? talent
+      if @character.building_points >= talent.bp_cost and not @character.talents.include? talent
         @character.characters_talents.new(talent_id: talent.id, character_id: @character.id)
         @character.building_points -= talent.bp_cost
         @character.save
