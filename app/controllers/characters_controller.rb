@@ -191,7 +191,7 @@ class CharactersController < ApplicationController
       @character = Character.find(params[:character_id])
     end
 
-    if @character.building_points > skill.bp_cost
+    if @character.building_points >= skill.bp_cost
         char_skill = @character.characters_skills.find_by(skill_id: skill.id, character_id: @character.id)
         if char_skill.nil?
           # set value based on the lowest of the abiilities related to the skill, plus the die roll result (i.e. params[:value])
