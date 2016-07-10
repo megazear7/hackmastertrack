@@ -4,7 +4,7 @@
   .col-md-2
     %br
     .pull-right
-      = render partial: "shared/shopping_with"
+      = render partial: "shared/shopping_with", locals: { message: @current_character.building_points.to_s + " Building Points" }
 %table.table.table-hover.table-responsive.purchase
   %thead
     %tr

@@ -1,4 +1,7 @@
 .input-group
+  - if defined? message
+    %span.input-group-addon
+      = message
   %span.input-group-addon
     Shopping with
   %input.hidden

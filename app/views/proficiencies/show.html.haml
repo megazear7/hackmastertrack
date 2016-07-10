@@ -5,7 +5,7 @@
       = link_to 'Edit', edit_proficiency_path(@proficiency), class: "btn btn-primary"
   .col-md-2
     .pull-right
-      = render partial: "shared/shopping_with"
+      = render partial: "shared/shopping_with", locals: { message: @current_character.building_points.to_s + " Building Points" }
 .row
   .col-md-12
     %h3= @proficiency.name

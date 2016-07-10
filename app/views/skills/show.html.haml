@@ -5,7 +5,7 @@
       = link_to 'Edit', edit_skill_path(@skill), class: "btn btn-primary"
   .col-md-2
     .pull-right
-      = render partial: "shared/shopping_with"
+      = render partial: "shared/shopping_with", locals: { message: @current_character.building_points.to_s + " Building Points" }
 %h3= @skill.name
 %br
 - if @current_character
