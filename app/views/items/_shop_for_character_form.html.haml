@@ -1,4 +1,4 @@
-= simple_form_for character, url: add_items_character_path(id: character, page: "item_index", page_location: "collapse_"+item_group+"_"+index.to_s+"_travel"), method: :post do |f|
+= simple_form_for character, url: add_items_character_path(id: character, page: "item_index"), method: :post do |f|
   .hidden
     = f.input :item_to_take, input_html: { value: item.id }
     = f.input :character_id, input_html: { value: character.id }
