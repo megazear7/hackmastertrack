@@ -3,6 +3,11 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
+
+  $("select.equip-item").each (index, select) ->
+    $(select).change ->
+      select.closest("form").submit()
+
   if $(".character-show-page").data("character-id")
     updateSpecializations($(".character-show-page").data("character-id"))
 
