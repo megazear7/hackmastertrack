@@ -261,7 +261,7 @@ class CharactersController < ApplicationController
         @character.off_hand_item = nil
       end
 
-      if loc.include? @character.off_hand and @character.main_hand_item.item.two_handed
+      if loc.include? @character.off_hand and @character.main_hand_item and @character.main_hand_item.item.two_handed
         @character.main_hand_item = nil 
       end
 
@@ -275,20 +275,37 @@ class CharactersController < ApplicationController
       end
 
       do_equip = true
+    elsif not loc.nil?
+      do_equip = true
+      item = nil
     end
 
     if do_equip
+      if not item.nil?
+        message = item.actual_name + " equiped."
+      else
+        message = ""
+      end
       case params[:location]
       when "body_item"
+        if item.nil? and @character.body_item
+          message = @character.body_item.actual_name + " unequiped."
+        end
         @character.body_item = item
       when "left_hand_item"
+        if item.nil? and @character.left_hand_item
+          message = @character.left_hand_item.actual_name + " unequiped."
+        end
         @character.left_hand_item = item
       when "right_hand_item"
+        if item.nil? and @character.right_hand_item
+          message = @character.right_hand_item.actual_name + " unequiped."
+        end
         @character.right_hand_item = item
       end
 
       if @character.save
-        redirect_to character_url(@character, tab: "equipment"), notice: item.actual_name + ' equiped.'
+        redirect_to character_url(@character, tab: "equipment"), notice: message
       else
         redirect_to character_url(@character, tab: "equipment"), notice: 'Error saving character.'
       end
