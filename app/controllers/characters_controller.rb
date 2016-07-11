@@ -256,8 +256,8 @@ class CharactersController < ApplicationController
     do_equip = false
     if not loc.nil? and @character.item_instances.exists? params[:character][loc+"_id"]
       item = @character.item_instances.find(params[:character][loc+"_id"])
-      if item.item.two_handed or (@character.race.size = "s" and item.item.size = "m")
-        # small races treat medium size weapons as two handed
+      if item.item.two_handed or (@character.race.size == "s" and not @character.race.name == "Elf" and item.item.size == "m")
+        # small races (except for elf) treat medium size weapons as two handed
         @character.off_hand_item = nil
       end
 
