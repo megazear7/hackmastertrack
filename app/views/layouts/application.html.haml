@@ -8,7 +8,7 @@
 
 %body
   - if not current_user
-    .navbar.navbar-default{role: "navigation"}
+    .navbar.navbar-default.navbar-fixed-top{role: "navigation"}
       .container
         .navbar-header
           = link_to "Hackmaster Track", characters_path, class: "navbar-brand"
