@@ -21,6 +21,7 @@
         = simple_form_for @character, url: equip_items_character_path, method: :post do |f|
           .input-group
             %span.input-group-addon Main Hand:
+            = hidden_field_tag :location, "#{@character.main_hand}_hand_item"
             = f.association :"#{@character.main_hand}_hand_item", collection: @character.unequiped_item_instance_location_names(@character.main_hand_item, 'arm'), label: false, include_blank: "Nothing", input_html: { class: "string form-control remove-bootstrap-radius" }
             %span.input-group-btn
               = f.submit 'Equip', wrapper: false, class: "btn btn-primary"
@@ -30,7 +31,8 @@
         = simple_form_for @character, url: equip_items_character_path, method: :post do |f|
           .input-group
             %span.input-group-addon Off Hand:
-            = f.association :"#{@character.off_hand}_hand_item", collection: @character.unequiped_item_instance_location_names(@character.off_hand_item, 'arm'), label: false, include_blank: "Nothing", input_html: { class: "string form-control remove-bootstrap-radius" }
+            = hidden_field_tag :location, "#{@character.off_hand}_hand_item"
+            = f.association :"#{@character.off_hand}_hand_item", collection: @character.one_handed_unequiped_item_instance_location_names(@character.off_hand_item, 'arm'), label: false, include_blank: "Nothing", input_html: { class: "string form-control remove-bootstrap-radius" }
             %span.input-group-btn
               = f.submit 'Equip', wrapper: false, class: "btn btn-primary"
     .row
@@ -39,6 +41,7 @@
         = simple_form_for @character, url: equip_items_character_path, method: :post do |f|
           .input-group
             %span.input-group-addon Body:
+            = hidden_field_tag :location, "body_item"
             = f.association :body_item, collection: @character.unequiped_item_instance_location_names(@character.body_item, 'body'), label: false, include_blank: "Nothing", input_html: { class: "string form-control remove-bootstrap-radius" }
             %span.input-group-btn
               = f.submit 'Equip', wrapper: false, class: "btn btn-primary"

@@ -3,11 +3,7 @@ class ItemInstance < ActiveRecord::Base
   belongs_to :character
 
   def equiped?
-    if character.left_hand_item == self and character.right_hand_item == self and character.body_item == self
-      true
-    else
-      false
-    end
+    character.left_hand_item == self or character.right_hand_item == self or character.body_item == self
   end
 
   def magic?

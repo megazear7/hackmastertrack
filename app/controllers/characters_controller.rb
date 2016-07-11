@@ -244,36 +244,57 @@ class CharactersController < ApplicationController
   end
 
   def equip_items
-    left = params[:character][:left_hand_item_id]
-    left = nil if left == ""
-    right = params[:character][:right_hand_item_id]
-    right = nil if right == ""
-    body = params[:character][:body_item_id]
-    body = nil if body == ""
-
-    item_names = ""
-
-    if not left.nil?
-        @character.left_hand_item = @character.item_instances.find(left)
-        item_names += @character.item_instances.find(left).actual_name + ", "
+    case params[:location]
+    when "body_item"
+      loc = "body_item"
+    when "left_hand_item"
+      loc = "left_hand_item"
+    when "right_hand_item"
+      loc = "right_hand_item"
     end
 
-    if not right.nil?
-        @character.right_hand_item = @character.item_instances.find(right)
-        item_names += @character.item_instances.find(right).actual_name + ", "
+    do_equip = false
+    if not loc.nil? and @character.item_instances.exists? params[:character][loc+"_id"]
+      item = @character.item_instances.find(params[:character][loc+"_id"])
+      if item.item.two_handed or (@character.race.size = "s" and item.item.size = "m")
+        # small races treat medium size weapons as two handed
+        @character.off_hand_item = nil
+      end
+
+      if loc.include? @character.off_hand and @character.main_hand_item.item.two_handed
+        @character.main_hand_item = nil 
+      end
+
+      if item.equiped?
+        case item.id
+        when @character.main_hand_item.id
+          @character.main_hand_item = nil
+        when @character.off_hand_item.id
+          @character.off_hand_item = nil
+        end
+      end
+
+      do_equip = true
     end
 
-    if not body.nil?
-        @character.body_item = @character.item_instances.find(body)
-        item_names += @character.item_instances.find(body).actual_name + ", "
-    end
+    if do_equip
+      case params[:location]
+      when "body_item"
+        @character.body_item = item
+      when "left_hand_item"
+        @character.left_hand_item = item
+      when "right_hand_item"
+        @character.right_hand_item = item
+      end
 
-    if item_names.ends_with? ", "
-      item_names.chomp!(", ")
+      if @character.save
+        redirect_to character_url(@character, tab: "equipment"), notice: item.actual_name + ' equiped.'
+      else
+        redirect_to character_url(@character, tab: "equipment"), notice: 'Error saving character.'
+      end
+    else
+      redirect_to character_url(@character, tab: "equipment")
     end
-
-    @character.save
-    redirect_to character_url(@character, tab: "equipment"), notice: item_names + ' Equiped'
   end
 
   def step1
