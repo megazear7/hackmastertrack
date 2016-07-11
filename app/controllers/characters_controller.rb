@@ -132,12 +132,12 @@ class CharactersController < ApplicationController
         item_instance.character = @character
         item_instance.save
         if params[:page] == "item_index"
-          redirect_to items_path(anchor: params[:page_location]), notice: item_to_take.name + ' purchased, total cost was: ' + cost.to_s + ' silver'
+          redirect_to items_path, notice: item_to_take.name + ' purchased, total cost was: ' + cost.to_s + ' silver'
         else
-          redirect_to character_url(@character), notice: item_to_take.name + ' purchased, total cost was: ' + cost.to_s + ' silver'
+          redirect_to items_path, notice: item_to_take.name + ' purchased, total cost was: ' + cost.to_s + ' silver'
         end
       else
-        redirect_to character_url(@character), notice: 'You did not have enough money to buy a ' + item_to_take.name + ', you need ' + (cost - @character.silver).to_s + ' more silver'
+        redirect_to items_path, notice: 'You did not have enough money to buy a ' + item_to_take.name + ', you need ' + (cost - @character.silver).to_s + ' more silver'
       end
     else
       item_instance.character = @character
@@ -156,7 +156,7 @@ class CharactersController < ApplicationController
     @character.proficiencies.delete(prof)
     @character.building_points += prof.bp_cost
     @character.save
-    redirect_to character_url(@character), notice: 'You no longer have the proficiency ' + prof.name
+    redirect_to proficiencies_path, notice: 'You no longer have the proficiency ' + prof.name
   end
 
   def add_proficiency
@@ -165,20 +165,20 @@ class CharactersController < ApplicationController
       @character.proficiencies << prof
       @character.building_points -= prof.bp_cost
       @character.save
-      redirect_to character_url(@character), notice: 'You now have the proficiency ' + prof.name + '!'
+      redirect_to proficiencies_path, notice: 'You now have the proficiency ' + prof.name + '!'
     elsif @character.proficiencies.include? prof
-      redirect_to character_url(@character), notice: 'You already have the proficiency ' + prof.name + '!'
+      redirect_to proficiencies_path, notice: 'You already have the proficiency ' + prof.name + '!'
     else
-      redirect_to character_url(@character), notice: 'You do not have enough building points for the proficiency ' + prof.name + '!'
+      redirect_to proficiencies_path, notice: 'You do not have enough building points for the proficiency ' + prof.name + '!'
     end
   end
 
   def add_silver
     @character.silver += params[:silver].to_i
     if @character.save
-      redirect_to character_url(@character), notice: params[:silver] + ' silver was added. You now have ' + @character.silver.to_s + ' silver.'
+      redirect_to character_url(@character, tab: "equipment"), notice: params[:silver] + ' silver was added. You now have ' + @character.silver.to_s + ' silver.'
     else
-      redirect_to character_url(@character), notice: 'There was a problem adding silver.'
+      redirect_to character_url(@character, tab: "equipment"), notice: 'There was a problem adding silver.'
     end
   end
 
@@ -206,9 +206,9 @@ class CharactersController < ApplicationController
         end
         @character.building_points -= skill.bp_cost
         @character.save
-        redirect_to character_url(@character), notice: 'You now have a ' + char_skill.value.to_s + ' score in the skill ' + skill.name
+        redirect_to skills_path, notice: 'You now have a ' + char_skill.value.to_s + ' score in the skill ' + skill.name
     else
-      redirect_to character_url(@character), notice: 'You do not have enough building points for the talent ' + skill.name + '!'
+      redirect_to skills_path, notice: 'You do not have enough building points for the talent ' + skill.name + '!'
     end
   end
 
@@ -225,20 +225,20 @@ class CharactersController < ApplicationController
         char_tal = CharactersTalent.create(talent_id: talent.id, item_id: item.id, character_id: @character.id)
         @character.building_points -= talent.bp_cost
         @character.save
-        redirect_to character_url(@character), notice: 'You now have the talent ' + talent.name + ' (' + char_tal.item.name + ')!'
+        redirect_to talents_path, notice: 'You now have the talent ' + talent.name + ' (' + char_tal.item.name + ')!'
       else
-        redirect_to character_url(@character), notice: 'You do not have enough building points for the talent ' + talent.name + '!'
+        redirect_to talents_path, notice: 'You do not have enough building points for the talent ' + talent.name + '!'
       end
     else
       if @character.building_points >= talent.bp_cost and not @character.talents.include? talent
         @character.characters_talents.new(talent_id: talent.id, character_id: @character.id)
         @character.building_points -= talent.bp_cost
         @character.save
-        redirect_to character_url(@character), notice: 'You now have the talent ' + talent.name + '!'
+        redirect_to talents_path, notice: 'You now have the talent ' + talent.name + '!'
       elsif @character.talents.include? talent
-        redirect_to character_url(@character), notice: 'You already have the talent ' + talent.name + '!'
+        redirect_to talents_path, notice: 'You already have the talent ' + talent.name + '!'
       else
-        redirect_to character_url(@character), notice: 'You do not have enough building points for the talent ' + talent.name + '!'
+        redirect_to talents_path, notice: 'You do not have enough building points for the talent ' + talent.name + '!'
       end
     end
   end
@@ -273,7 +273,7 @@ class CharactersController < ApplicationController
     end
 
     @character.save
-    redirect_to character_url(@character), notice: item_names + ' Equiped'
+    redirect_to character_url(@character, tab: "equipment"), notice: item_names + ' Equiped'
   end
 
   def step1
