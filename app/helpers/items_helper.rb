@@ -1,5 +1,4 @@
 module ItemsHelper
-
   def item_stats view
     if ["normal", "", nil].include? view
       [ [ "Cost"               , "buy_cost"   ],
@@ -66,7 +65,7 @@ module ItemsHelper
   end
 
   def item_views
-    [ ["Normal Stats", "normal"], ["Market Stats", "market"], [ "Melee Stats", "melee" ], [ "Ranged Stats", "ranged" ], [ "Polearm Stats", "polearm" ] ] 
+    [ ["All", "market"], [ "Melee", "melee" ], [ "Ranged", "ranged" ], [ "Polearm", "polearm" ] ] 
   end
 
   def item_types

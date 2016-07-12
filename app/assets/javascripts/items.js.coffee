@@ -2,8 +2,14 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+$ ->
   if $(".character-select").val()
     updateSpecializations($(".character-select").val())
+
+  itemGroupSelect = $("select.item-groups")
+  if itemGroupSelect.length > 0
+    itemGroupSelect.change (e) ->
+      itemGroupSelect.closest("form").submit()
 
   $(".character-select").change (e) ->
     if $(e.target).val()
