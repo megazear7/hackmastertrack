@@ -1,69 +1,92 @@
-= form_tag @character.pdf_url, style: "display:inline;" do
-  - @character.pdf_fields.each do |key, val|
-    = hidden_field_tag key, val
-  .btn-group
-    = link_to 'Back', characters_path, class: "btn btn-default"
-    = submit_tag 'Download Character Sheet', class: "btn btn-default"
-.pull-right= link_to 'Edit', edit_character_path(@character), class: "btn btn-default", data: { confirm: "This will mark this character as custom." }
-%br
-.row
-  .col-md-12
-    %h3= @character.name
-.row
-  .col-md-12
-    Level
-    = @character.level
-    = @character.race.name
-    = @character.character_class.name
-%br
+.row.sub-nav
+  .col-md-6
+    .row
+      .col-md-12
+        %h3= @character.name
+      .col-md-12
+        Level
+        = @character.level
+        = @character.race.name
+        = @character.character_class.name
+      .col-md-12
+        = @character.health
+        Health
+        \/
+        = @character.building_points
+        Building Points
+      .col-md-6
+  .col-md-3
+    %br
+    = simple_form_for @character, url: add_xp_character_path, method: :post do |f|
+      - if @character.needs_to_level
+        = link_to "Level Up!", level_up_edit_character_path, class: "btn btn-success"
+      - else
+        .input-group
+          %span.input-group-addon
+            = @character.exp
+            XP
+          = f.input_field :exp, label: false, value: nil, class: "form-control", placeholder: "Gained XP"
+          %span.input-group-btn
+            %button{ type: "submit", class: "btn btn-default" }
+              Add XP
+  .col-md-3
+    %br
+    = form_tag @character.pdf_url, style: "display:inline;" do
+      - @character.pdf_fields.each do |key, val|
+        = hidden_field_tag key, val
+      .btn-group.pull-right
+        = submit_tag 'Download Character Sheet', class: "btn btn-default"
+        = link_to 'Edit', edit_character_path(@character), class: "btn btn-default", data: { confirm: "This will mark this character as custom." }
 .container.character-show-page{ data: { character_id: @character.id } }
-  %ul.nav.nav-tabs.character-tabs{role: "tablist"}
-    - if params[:tab] == "overview" or not params[:tab].present?
-      %li.nav.active{role: "presentation"}
-        %a{href: "#overview", :"aria-controls" => "overview", role: "tab", data: { toggle: "tab" }} Overview
-    - else
-      %li.nav{role: "presentation"}
-        %a{href: "#overview", :"aria-controls" => "overview", role: "tab", data: { toggle: "tab" }} Overview
-    - if params[:tab] == "equipment"
-      %li.nav.active{role: "presentation"}
-        %a{href: "#equipment", :"aria-controls" => "equipment", role: "tab", data: { toggle: "tab" }} Equipment
-    - else
-      %li.nav{role: "presentation"}
-        %a{href: "#equipment", :"aria-controls" => "equipment", role: "tab", data: { toggle: "tab" }} Equipment
-    - if params[:tab] == "particulars"
-      %li.nav.active{role: "presentation"}
-        %a{href: "#particulars", :"aria-controls" => "particulars", role: "tab", data: { toggle: "tab" }} Particulars
-    - else
-      %li.nav{role: "presentation"}
-        %a{href: "#particulars", :"aria-controls" => "particulars", role: "tab", data: { toggle: "tab" }} Particulars
-    - if params[:tab] == "combat"
-      %li.nav.active{role: "presentation"}
-        %a{href: "#combat", :"aria-controls" => "combat", role: "tab", data: { toggle: "tab" }} Combat
-    - else
-      %li.nav{role: "presentation"}
-        %a{href: "#combat", :"aria-controls" => "combat", role: "tab", data: { toggle: "tab" }} Combat
-  .tab-content
-    - if params[:tab] == "overview" or not params[:tab].present?
-      .tab-pane.fade.in.active{id: "overview", role: "tabpanel"}
-        = render partial: "overview_tab", locals: { character: @character }
-    - else
-      .tab-pane.fade{id: "overview", role: "tabpanel"}
-        = render partial: "overview_tab", locals: { character: @character }
-    - if params[:tab] == "equipment"
-      .tab-pane.fade.in.active{id: "equipment", role: "tabpanel"}
-        = render partial: "equipment_tab", locals: { character: @character }
-    - else
-      .tab-pane.fade{id: "equipment", role: "tabpanel"}
-        = render partial: "equipment_tab", locals: { character: @character }
-    - if params[:tab] == "particulars"
-      .tab-pane.fade.in.active{id: "particulars", role: "tabpanel"}
-        = render partial: "particulars_tab", locals: { character: @character }
-    - else
-      .tab-pane.fade{id: "particulars", role: "tabpanel"}
-        = render partial: "particulars_tab", locals: { character: @character }
-    - if params[:tab] == "combat"
-      .tab-pane.fade.in.active{id: "combat", role: "tabpanel"}
-        = render partial: "combat_tab", locals: { character: @character }
-    - else
-      .tab-pane.fade{id: "combat", role: "tabpanel"}
-        = render partial: "combat_tab", locals: { character: @character }
+  .row
+    .col-md-12
+      %ul.nav.nav-tabs.character-tabs{role: "tablist"}
+        - if params[:tab] == "overview" or not params[:tab].present?
+          %li.nav.active{role: "presentation"}
+            %a{href: "#overview", :"aria-controls" => "overview", role: "tab", data: { toggle: "tab" }} Overview
+        - else
+          %li.nav{role: "presentation"}
+            %a{href: "#overview", :"aria-controls" => "overview", role: "tab", data: { toggle: "tab" }} Overview
+        - if params[:tab] == "equipment"
+          %li.nav.active{role: "presentation"}
+            %a{href: "#equipment", :"aria-controls" => "equipment", role: "tab", data: { toggle: "tab" }} Equipment
+        - else
+          %li.nav{role: "presentation"}
+            %a{href: "#equipment", :"aria-controls" => "equipment", role: "tab", data: { toggle: "tab" }} Equipment
+        - if params[:tab] == "particulars"
+          %li.nav.active{role: "presentation"}
+            %a{href: "#particulars", :"aria-controls" => "particulars", role: "tab", data: { toggle: "tab" }} Particulars
+        - else
+          %li.nav{role: "presentation"}
+            %a{href: "#particulars", :"aria-controls" => "particulars", role: "tab", data: { toggle: "tab" }} Particulars
+        - if params[:tab] == "combat"
+          %li.nav.active{role: "presentation"}
+            %a{href: "#combat", :"aria-controls" => "combat", role: "tab", data: { toggle: "tab" }} Combat
+        - else
+          %li.nav{role: "presentation"}
+            %a{href: "#combat", :"aria-controls" => "combat", role: "tab", data: { toggle: "tab" }} Combat
+      .tab-content
+        - if params[:tab] == "overview" or not params[:tab].present?
+          .tab-pane.fade.in.active{id: "overview", role: "tabpanel"}
+            = render partial: "overview_tab", locals: { character: @character }
+        - else
+          .tab-pane.fade{id: "overview", role: "tabpanel"}
+            = render partial: "overview_tab", locals: { character: @character }
+        - if params[:tab] == "equipment"
+          .tab-pane.fade.in.active{id: "equipment", role: "tabpanel"}
+            = render partial: "equipment_tab", locals: { character: @character }
+        - else
+          .tab-pane.fade{id: "equipment", role: "tabpanel"}
+            = render partial: "equipment_tab", locals: { character: @character }
+        - if params[:tab] == "particulars"
+          .tab-pane.fade.in.active{id: "particulars", role: "tabpanel"}
+            = render partial: "particulars_tab", locals: { character: @character }
+        - else
+          .tab-pane.fade{id: "particulars", role: "tabpanel"}
+            = render partial: "particulars_tab", locals: { character: @character }
+        - if params[:tab] == "combat"
+          .tab-pane.fade.in.active{id: "combat", role: "tabpanel"}
+            = render partial: "combat_tab", locals: { character: @character }
+        - else
+          .tab-pane.fade{id: "combat", role: "tabpanel"}
+            = render partial: "combat_tab", locals: { character: @character }
