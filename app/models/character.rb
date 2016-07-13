@@ -472,6 +472,32 @@ class Character < ActiveRecord::Base
     ret
   end
 
+  def die_size(skill)
+    value = value_with(skill)
+    if value < 25
+      12
+    elsif skill < 35
+      10
+    elsif skill < 75
+      8
+    elsif skill < 90
+      6
+    else
+      4
+    end 
+  end
+
+  def has_skill(skill)
+    characters_skills.exists?(skill_id: skill.id)
+  end
+
+  def value_with(skill)
+    if characters_skills.exists?(skill_id: skill.id)
+      characters_skills.find_by(skill_id: skill.id).value
+    else
+      0
+    end
+  end
 
   def shield_equiped equipment
     if (equipment["#{main_hand}_hand"] and equipment["#{main_hand}_hand"].item.item_type == "shield") or

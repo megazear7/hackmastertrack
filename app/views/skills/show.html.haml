@@ -12,18 +12,33 @@
         = render partial: "shared/shopping_with"
 %h3= @skill.name
 %br
-- if @current_character
-  = form_tag add_skill_character_path do
-    %input{ type: "hidden", name: "skill_id", value: @skill.id }
-    .col-md-3
-      .input-group
-        = number_field_tag :value, nil, class: "integer form-control", placeholder: "Die Roll"
-        %span.input-group-btn
-          %button{type: 'submit', class: "btn btn-primary", name: "character_id", value: @current_character.id}
-            %span.glyphicon.glyphicon-plus
-            = @current_character.name
-  %br
-  %br
+.row
+  .col-md-3
+    - if @current_character
+      = form_tag add_skill_character_path(@current_character) do
+        %input{ type: "hidden", name: "skill_id", value: @skill.id }
+        - if @current_character.has_skill(@skill)
+          .input-group
+            %span.input-group-addon
+              %span{ style: "color: green" } &#10004;
+              Skill of
+              = @current_character.value_with(@skill)
+            = number_field_tag :value, nil, class: "integer form-control limit-width", placeholder: "D" + @current_character.die_size(@skill).to_s
+            %span.input-group-btn
+              %button{type: 'submit', class: "btn btn-primary", name: "character_id", value: @current_character.id}
+                %span.glyphicon.glyphicon-plus
+                = @current_character.name
+        - else
+          .input-group{ class: "skill_"+@skill.id.to_s }
+            %span.input-group-addon
+              Learn Skill:
+            = number_field_tag :value, nil, class: "integer form-control limit-width", placeholder: "D" + @current_character.die_size(@skill).to_s
+            %span.input-group-btn
+              %button{type: 'submit', class: "btn btn-primary", name: "character_id", value: @current_character.id}
+                %span.glyphicon.glyphicon-plus
+                = @current_character.name
+%br
+%br
 %table.table.table-hover.table-responsive
   %tbody
     %tr
