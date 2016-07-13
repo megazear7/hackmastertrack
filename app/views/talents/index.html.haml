@@ -36,14 +36,14 @@
                       = select :item, :id, talent.item_options.order(:name).collect { |i| [i.name, i.id] }, {}, { :class => "form-control talent_#{talent.id.to_s}" }
                   %td.actions
                     .action
-                      %button{type: 'submit', class: "btn btn-default talent_#{talent.id.to_s}", name: "character_id", value: @current_character.id}
+                      %button{type: 'submit', class: "btn btn-primary talent_#{talent.id.to_s}", name: "character_id", value: @current_character.id}
                         %span.glyphicon.glyphicon-plus
                         = @current_character.name
             - else
               - if @current_character
                 %td
                 %td.actions
-                  = link_to raw("<span class='glyphicon glyphicon-plus'></span> " + @current_character.name), add_talent_character_path(@current_character, talent_id: talent.id), class: "btn btn-default talent_#{talent.id.to_s} action"
+                  = link_to raw("<span class='glyphicon glyphicon-plus'></span> " + @current_character.name), add_talent_character_path(@current_character, talent_id: talent.id), class: "btn btn-primary talent_#{talent.id.to_s} action"
             - if current_user.admin_level >= 1
               %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_talent_path(talent)
               %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), talent, :method => :delete, :data => { :confirm => 'Are you sure?' }

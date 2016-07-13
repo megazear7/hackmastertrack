@@ -28,7 +28,7 @@
         %td= proficiency.description
         %td= proficiency.requirements
         - if @current_character
-          %td.actions= link_to raw("<span class='glyphicon glyphicon-plus'></span> " + @current_character.name), add_proficiency_character_path(@current_character, proficiency_id: proficiency.id), class: "btn btn-default prof_#{proficiency.id.to_s} action"
+          %td.actions= link_to raw("<span class='glyphicon glyphicon-plus'></span> " + @current_character.name), add_proficiency_character_path(@current_character, proficiency_id: proficiency.id), class: "btn btn-primary prof_#{proficiency.id.to_s} action"
         - if current_user.admin_level >= 1
           %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_proficiency_path(proficiency)
           %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), proficiency, :method => :delete, :data => { :confirm => 'Are you sure?' }

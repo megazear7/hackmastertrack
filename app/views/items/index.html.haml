@@ -44,7 +44,7 @@
                         = f.input :item_to_take, input_html: { value: item.id }
                         = f.input :character_id, input_html: { value: @current_character.id }
                       .btn-group{ class: "item_#{item.id.to_s} action" }
-                        = f.submit "Buy Item", class: "btn btn-default"
+                        = f.submit "Buy Item", class: "btn btn-primary"
                         = f.submit "Take Item", class: "btn btn-default"
                 - if current_user.admin_level >= 1
                   %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_path(item)
