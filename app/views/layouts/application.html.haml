@@ -79,15 +79,16 @@
                   %li= link_to "New Proficiency", new_proficiency_path
                   %li= link_to "New Item", new_item_path
                   %li= link_to "New Spell", new_spell_path
-          %ul.nav.navbar-nav.navbar-right
-            %li.dropdown
-              %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
-                Dungeon Master Tools
-                %span.octicon.octicon-repo
-              %ul.dropdown-menu
-                %li= link_to "Campaigns", campaigns_path
-                %li= link_to "Encounters", encounters_path
-                %li= link_to "Monsters", monsters_path
+          - if current_user.admin_level >= 1
+            %ul.nav.navbar-nav.navbar-right
+              %li.dropdown
+                %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+                  Dungeon Master Tools
+                  %span.octicon.octicon-repo
+                %ul.dropdown-menu
+                  %li= link_to "Campaigns", campaigns_path
+                  %li= link_to "Encounters", encounters_path
+                  %li= link_to "Monsters", monsters_path
           %ul.nav.navbar-nav.navbar-right
             - if current_user
               %li.dropdown
