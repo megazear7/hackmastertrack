@@ -289,8 +289,12 @@ class Character < ActiveRecord::Base
   def calculate_speed equipment
     equipment = build_equipment(equipment)
     ret = {}
+
+    ret.merge!(calculate_magic_mod(equipment, "speed_mod"))
+
     itemInstance = equipment["#{main_hand}_hand"]
     if itemInstance
+      ret["base_weapon_speed"] = itemInstance.item.attack_speed
       characters_talents.each do |char_talent|
         if char_talent.talent.name == "Swift Blade" and char_talent.item.id == itemInstance.item.id and itemInstance.item.melee?
           ret[char_talent.name] = 1
@@ -321,15 +325,25 @@ class Character < ActiveRecord::Base
             ret["level_bonus"] = level_mod
         end
       end
+
+
     end
-    ret.merge!(calculate_magic_mod(equipment, "speed_mod"))
-
-
 
     mod = 0
     ret.each do |key, val|
       mod += val
     end
+
+    if itemInstance
+      if itemInstance.item.size == "l" and mod < 4
+        mod = 4
+      elsif itemInstance.item.size == "m" and mod < 3
+        mod = 3
+      elsif itemInstance.item.size == "s" and mod < 2
+        mod = 2
+      end
+    end
+
     ret["val"] = mod
     ret
   end
