@@ -312,7 +312,7 @@ class Character < ActiveRecord::Base
         ret[equipment["body"].actual_name] = equipment["body"].item.speed_mod       
       end
       if prof_adjustment(itemInstance.item) != 0
-        ret["proficiency"] = prof_adjustment(itemInstance.item)
+        ret["proficiency"] = -1 * prof_adjustment(itemInstance.item)
       end
       if itemInstance.item.melee?
         level_mod = Level.find_mod(self.character_class.id, self.level, "speed_mod")
