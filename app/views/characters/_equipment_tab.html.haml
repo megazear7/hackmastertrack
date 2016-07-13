@@ -1,23 +1,8 @@
-%br
 .row
   .col-md-6
     .row
-      .col-md-6
-        %h4
-          Silver: 
-          = @character.silver
-    .row
-      .col-md-6
-        = form_tag add_silver_character_path(@character), method: "post" do
-          .input-group
-            %input{ name: "silver", placeholder: "Silver", class: "integer form-control", type: "number" }
-            %span.input-group-btn
-              %button{ type: "submit", class: "btn btn-default" }
-                Add Silver
-    .row
+      %br
       .col-md-8
-        %br
-        %br
         = simple_form_for @character, url: equip_items_character_path, method: :post do |f|
           .input-group
             %span.input-group-addon Main Hand:
@@ -39,32 +24,27 @@
             %span.input-group-addon Body:
             = hidden_field_tag :location, "body_item"
             = f.association :body_item, collection: @character.unequiped_item_instance_location_names(@character.body_item, 'body'), label: false, include_blank: "Nothing", input_html: { class: "string form-control remove-bootstrap-radius bootstrap-radius-right equip-item" }
+    .row
+      .col-md-12
+        %br
+        %h4 Inventory
+        %table.table.table-hover.table-responsive
+          %thead
+            %tr
+              %th Item
+              %th
+              %th
+          %tbody
+            - @character.item_instances.each do |item_instance|
+              %tr
+                %td= link_to item_instance.actual_name, item_instance.item
+                %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_instance_path(item_instance)
+                %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item_instance, :method => :delete, :data => { :confirm => 'Are you sure?' }
+            %tr
+              %td= link_to raw('<span class="glyphicon glyphicon-plus"></span> Shop for Items'), items_path
+              %td
+              %td
   .col-md-6
+    %br
     .shop-link
       = link_to raw("<div class='image'></div><span>Shop for Items</span>"), items_path
-.row
-  .col-md-6
-    %br
-    %br
-    %h4 Inventory
-.row
-  .col-md-6
-    %table.table.table-hover.table-responsive
-      %thead
-        %tr
-          %th Item
-          %th
-          %th
-      %tbody
-        - @character.item_instances.each do |item_instance|
-          %tr
-            %td= link_to item_instance.actual_name, item_instance.item
-            %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_instance_path(item_instance)
-            %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item_instance, :method => :delete, :data => { :confirm => 'Are you sure?' }
-        %tr
-          %td= link_to raw('<span class="glyphicon glyphicon-plus"></span> Shop for Items'), items_path
-          %td
-          %td
-.row
-  .col-md-6
-

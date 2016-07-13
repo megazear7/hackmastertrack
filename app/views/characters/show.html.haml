@@ -1,5 +1,5 @@
 .row.sub-nav
-  .col-md-6
+  .col-md-3
     .row
       .col-md-12
         %h3= @character.name
@@ -15,6 +15,17 @@
         = @character.building_points
         Building Points
       .col-md-6
+  .col-md-3
+    %br
+    = form_tag add_silver_character_path(@character), method: "post" do
+      .input-group
+        %span.input-group-addon
+          = @character.silver
+          Silver 
+        %input{ name: "silver", placeholder: "Silver", class: "integer form-control", type: "number" }
+        %span.input-group-btn
+          %button{ type: "submit", class: "btn btn-default" }
+            Add Silver
   .col-md-3
     %br
     = simple_form_for @character, url: add_xp_character_path, method: :post do |f|
