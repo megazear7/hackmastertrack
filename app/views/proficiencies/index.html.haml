@@ -23,7 +23,7 @@
   %tbody
     - @proficiencies.order(:name).each do |proficiency|
       %tr{ "data-show" => "prof_"+proficiency.id.to_s, class: "show-on-hover" }
-        %td= link_to proficiency.name, proficiency
+        %td= proficiency.name
         %td= proficiency.bp_cost
         %td= proficiency.description
         %td= proficiency.requirements
