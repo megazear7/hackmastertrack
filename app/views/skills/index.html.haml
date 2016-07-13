@@ -1,10 +1,13 @@
-.row
+.row.sub-nav
   .col-md-10
     %h3 Skills
   .col-md-2
     .pull-right
       %br
-      = render partial: "shared/shopping_with", locals: { message: @current_character.building_points.to_s + " Building Points" }
+      - if @current_character
+        = render partial: "shared/shopping_with", locals: { message: @current_character.building_points.to_s + " Building Points" }
+      - else
+        = render partial: "shared/shopping_with"
 .row
   .col-md-12
     %table.table.table-hover.table-responsive.purchase

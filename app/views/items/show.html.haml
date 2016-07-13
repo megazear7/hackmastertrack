@@ -5,7 +5,10 @@
       = link_to 'Edit', edit_item_path(@item), class: "btn btn-primary"
   .col-md-2
     .pull-right
-      = render partial: "shared/shopping_with", locals: { message: @current_character.silver.to_s + " Silver" }
+      - if @current_character
+        = render partial: "shared/shopping_with", locals: { message: @current_character.silver.to_s + " Silver" }
+      - else
+        = render partial: "shared/shopping_with"
 - if @current_character
   .row
     .col-md-6

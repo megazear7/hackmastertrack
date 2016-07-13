@@ -1,11 +1,15 @@
-.row
+.row.sub-nav
+  %br
   .col-md-10
     .btn-group
       = link_to 'Back', talents_path, class: "btn btn-default"
       = link_to 'Edit', edit_talent_path(@talent), class: "btn btn-primary"
   .col-md-2
     .pull-right
-      = render partial: "shared/shopping_with", locals: { message: @current_character.building_points.to_s + " Building Points" }
+      - if @current_character
+        = render partial: "shared/shopping_with", locals: { message: @current_character.building_points.to_s + " Building Points" }
+      - else
+        = render partial: "shared/shopping_with"
 %h3= @talent.name
 %br
 - if @current_character
