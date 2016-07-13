@@ -101,7 +101,7 @@
     = @character.alignment_name
 .row
   .col-md-12
-    = @character.honor
+    = number_with_precision(@character.honor, precision: 2)
     Honor
 .row
   .col-md-12
