@@ -4,6 +4,10 @@
 
 $ ->
 
+  specsAccordion = $("#accordion")
+  if specsAccordion.length > 0
+    specsAccordion.collapse()
+
   $("select.equip-item").each (index, select) ->
     $(select).change ->
       select.closest("form").submit()

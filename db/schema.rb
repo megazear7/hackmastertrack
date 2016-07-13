@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160708123521) do
+ActiveRecord::Schema.define(version: 20160713151959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,11 @@ ActiveRecord::Schema.define(version: 20160708123521) do
     t.integer  "defense_specialization_cost", default: 10
     t.integer  "damage_specialization_cost",  default: 10
     t.integer  "luck_points"
+  end
+
+  create_table "character_classes_proficiencies", force: true do |t|
+    t.integer "character_class_id"
+    t.integer "proficiency_id"
   end
 
   create_table "character_spells", force: true do |t|

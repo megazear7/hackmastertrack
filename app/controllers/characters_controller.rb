@@ -374,6 +374,10 @@ class CharactersController < ApplicationController
       @character.proficiencies << prof
     end
 
+    @character.character_class.proficiencies.each do |prof|
+      @character.proficiencies << prof
+    end
+
     @character.race.talents.each do |talent|
       @character.talents << talent
     end

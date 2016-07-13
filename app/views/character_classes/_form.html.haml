@@ -18,6 +18,8 @@
     .col-md-3= f.input :defense_specialization_cost, input_html: { class: "integer form-control" }
     .col-md-3= f.input :damage_specialization_cost, input_html: { class: "integer form-control" }
   .row
+    .col-md-4= f.association :proficiencies, collection: Proficiency.all.order(:name), input_html: { class: "string form-control" }
+  .row
     .col-md-4
       %br
       .actions

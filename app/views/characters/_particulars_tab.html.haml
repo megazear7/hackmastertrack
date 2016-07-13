@@ -1,34 +1,40 @@
 %br
 .row
-  .col-md-6
+  .col-md-4
     %h4 Specializations
     - if @character.specialized_weapons.count > 0
-      - @character.specialized_weapons.each do |item|
-        %h5= item.name
-        = render partial: "specializations", locals: { item: item, specialization: @specialization }
-    - else
-      You must 
-      = link_to "buy a proficiency", proficiencies_path
-      with a weapon before you can specialize.
-  .col-md-6
-    .row
-      .col-md-12
-        %h4 Proficiencies
-        - @character.proficiencies.each do |proficiency|
-          %h5
-            = link_to proficiency.name, proficiency
-        %h5= link_to raw('<span class="glyphicon glyphicon-plus"></span> Add Proficiency'), proficiencies_path
-    .row
-      .col-md-12
-        %h4 Talents
-        - @character.characters_talents.each do |char_talent|
-          %h5= link_to char_talent.name, char_talent.talent 
-        %h5= link_to raw('<span class="glyphicon glyphicon-plus"></span> Add Talent'), talents_path
-    .row
-      .col-md-12
-        %h4 Skills
-        - @character.characters_skills.each do |char_skill|
-          %h5
-            = link_to char_skill.skill.name, char_skill.skill
-            = ": " + char_skill.value.to_s
-        %h5= link_to raw('<span class="glyphicon glyphicon-plus"></span> Add Skill'), skills_path
+      .panel-group#specs_accordion
+      - @character.specialized_weapons.each_with_index do |item, index|
+        .panel.panel-default
+          .panel-heading
+            %h5.panel-title
+              %a{href: "#collapse"+index.to_s, data: { toggle: "collapse" } }= item.name
+          - if index == 0 || @character.specializations_in(item) > 0
+            .panel-collapse.collapse.in{ id: "collapse"+index.to_s }
+              .panel-body
+                = render partial: "specializations", locals: { item: item, specialization: @specialization }
+          - else
+            .panel-collapse.collapse{ id: "collapse"+index.to_s }
+              .panel-body
+                = render partial: "specializations", locals: { item: item, specialization: @specialization }
+    You must 
+    = link_to "buy a proficiency", proficiencies_path
+    with a weapon before you can specialize.
+  .col-md-2
+    %h4 Proficiencies
+    - @character.proficiencies.each do |proficiency|
+      %h5
+        = link_to proficiency.name, proficiency
+    %h5= link_to raw('<span class="glyphicon glyphicon-plus"></span> Add Proficiency'), proficiencies_path
+  .col-md-2
+    %h4 Talents
+    - @character.characters_talents.each do |char_talent|
+      %h5= link_to char_talent.name, char_talent.talent 
+    %h5= link_to raw('<span class="glyphicon glyphicon-plus"></span> Add Talent'), talents_path
+  .col-md-2
+    %h4 Skills
+    - @character.characters_skills.each do |char_skill|
+      %h5
+        = link_to char_skill.skill.name, char_skill.skill
+        = ": " + char_skill.value.to_s
+    %h5= link_to raw('<span class="glyphicon glyphicon-plus"></span> Add Skill'), skills_path

@@ -79,7 +79,8 @@ class CharacterClassesController < ApplicationController
         :speed_specialization_cost,
         :defense_specialization_cost,
         :damage_specialization_cost,
-        :luck_points
+        :luck_points,
+        proficiency_ids: []
       )
     end
 end

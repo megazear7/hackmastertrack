@@ -17,6 +17,11 @@
     %table.table.table-hover.table-responsive
       %tbody
         %tr
+          %td Proficiencies
+          %td
+            - @character_class.proficiencies.each do |prof|
+              = link_to prof.name, prof
+        %tr
           %td Attack 
           %td= @character_class.attack_specialization_cost
         %tr

@@ -90,7 +90,20 @@ class Character < ActiveRecord::Base
         end
       end
     end
+    weapons.sort! do |x,y|
+      if specializations_in(x) < specializations_in(y)
+        1
+      elsif specializations_in(x) > specializations_in(y)
+        -1
+      else
+        0
+      end
+    end
     weapons
+  end
+
+  def specializations_in item
+    self.specializations.where(item_id: item.id).count
   end
 
   def specialization_cost item, stat_name
