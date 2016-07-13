@@ -13,22 +13,36 @@
 %h3= @talent.name
 %br
 - if @current_character
-  .row
-    .col-md-12
-      - if @talent.item_specific
-        = form_tag add_talent_character_path(@current_character) do
-          %input{ type: "hidden", name: "talent_id", value: @talent.id }
+  - if @talent.item_specific
+    - if @current_character
+      = form_tag add_talent_character_path(@current_character) do
+        .row
           .col-md-2
-            = select :item, :id, @talent.item_options.order(:name).collect { |i| [i.name, i.id] }, {}, { :class => "form-control" }
-          .btn-group
+            = select :item, :id, @talent.item_options.order(:name).collect { |i| [i.name, i.id] }, {}, { :class => "form-control talent_#{@talent.id.to_s}" }
+          .col-md-2
             %button{type: 'submit', class: "btn btn-primary", name: "character_id", value: @current_character.id}
               %span.glyphicon.glyphicon-plus
-              Learn with
               = @current_character.name
-      - else
-        .btn-group
-          = link_to raw("<span class='glyphicon glyphicon-plus'></span> Learn with " + @current_character.name), add_talent_character_path(@current_character, talent_id: @talent.id), :class => "btn btn-primary"
-  %br
+    - @current_character.characters_talents.where(talent_id: @talent.id).where.not(item_id: nil).each do |char_talent|
+      .row
+        .col-md-2
+          %br
+          .btn.btn-success
+            &#10004;
+            = char_talent.item.name
+  - else
+    .row
+      .col-md-3
+        - if @current_character
+          - if @current_character.has_talent(@talent)
+            %span.btn.btn-success
+              &#10004;
+              You Have
+              = @talent.name
+          - else
+            = link_to raw("<span class='glyphicon glyphicon-plus'></span> " + @current_character.name), add_talent_character_path(@current_character, talent_id: @talent.id), class: "btn btn-primary talent_#{@talent.id.to_s} action"
+%br
+%br
 .row
   .col-md-12
     %table.table.table-hover.table-responsive

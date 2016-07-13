@@ -472,15 +472,23 @@ class Character < ActiveRecord::Base
     ret
   end
 
+  def has_talent talent
+    characters_talents.exists?(talent_id: talent.id)
+  end
+
+  def has_prof? prof
+    proficiencies.exists?(prof.id)
+  end
+
   def die_size(skill)
     value = value_with(skill)
     if value < 25
       12
-    elsif skill < 35
+    elsif value < 35
       10
-    elsif skill < 75
+    elsif value < 75
       8
-    elsif skill < 90
+    elsif value < 90
       6
     else
       4

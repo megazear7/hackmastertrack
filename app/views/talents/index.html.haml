@@ -41,10 +41,30 @@
                         = @current_character.name
             - else
               - if @current_character
-                %td
-                %td.actions
-                  = link_to raw("<span class='glyphicon glyphicon-plus'></span> " + @current_character.name), add_talent_character_path(@current_character, talent_id: talent.id), class: "btn btn-primary talent_#{talent.id.to_s} action"
+                - if @current_character.has_talent(talent)
+                  %td
+                  %td
+                    %span.btn.btn-primary.pull-right
+                      &#10004;
+                - else
+                  %td
+                  %td.actions
+                    = link_to raw("<span class='glyphicon glyphicon-plus'></span> " + @current_character.name), add_talent_character_path(@current_character, talent_id: talent.id), class: "btn btn-primary talent_#{talent.id.to_s} action"
             - if current_user.admin_level >= 1
               %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_talent_path(talent)
               %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), talent, :method => :delete, :data => { :confirm => 'Are you sure?' }
+          - if @current_character
+            - @current_character.characters_talents.where(talent_id: talent.id).where.not(item_id: nil).each do |char_talent|
+              %tr
+                %td
+                %td
+                %td
+                  %span{ style: "color: green" }
+                    &#10004;
+                  = char_talent.item.name
+                %td
+                %td
+                - if current_user.admin_level >= 1
+                  %td
+                  %td
     = link_to 'New Talent', new_talent_path, class: "btn btn-primary" if current_user.admin_level >= 1

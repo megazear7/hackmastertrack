@@ -13,12 +13,21 @@
 .row
   .col-md-12
     %h3= @proficiency.name
+.row
+  .col-md-3
+    %br
+    - if @current_character
+      - if @current_character.has_prof?(@proficiency)
+        %td
+          %span.btn.btn-success
+            &#10004;
+            You Have
+            = @proficiency.name
+      - else
+        .btn-group
+          = link_to raw("<span class='glyphicon glyphicon-plus'></span> Learn with " + @current_character.name), add_proficiency_character_path(@current_character, proficiency_id: @proficiency.id), :class => "btn btn-primary"
 %br
-- if @current_character
-  .btn-group
-    = link_to raw("<span class='glyphicon glyphicon-plus'></span> Learn with " + @current_character.name), add_proficiency_character_path(@current_character, proficiency_id: @proficiency.id), :class => "btn btn-primary"
-  %br
-  %br
+%br
 .row
   .col-md-6
     %table.table.table-hover.table-responsive
