@@ -55,4 +55,10 @@ $(document).ready(function() {
     clickId = clickableElement.data("click")
     document.location = $("#"+clickId).attr("href");
   });
+
+  $(".selectable").click(function(e) {
+    group = $(e.target).data("selectable-group");
+    $("."+group).removeClass("selected");
+    $(e.target).addClass("selected");
+  });
 });

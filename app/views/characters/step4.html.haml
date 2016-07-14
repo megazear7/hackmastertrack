@@ -1,33 +1,53 @@
 %h3 Step 4
 = simple_form_for @character, :url => step5_character_path(@character), :method => :post do |f|
   = f.input :race_id, as: :hidden
-  .row
-    .col-md-4= f.association :character_class, collection: CharacterClass.all.order(:name), include_blank: false, input_html: { class: "string form-control" }
-    .col-md-4= f.input :alignment, collection: alignment_options, include_blank: false, input_html: { class: "string form-control" }
+  = f.input :character_class_id, as: :hidden
+  = f.input :alignment, as: :hidden
   .row
     .col-md-12
-      %table.table.table-responsive.race-options
-        %thead
-          %tr
-            %th Race
-            %th Strength
-            %th Intelligence
-            %th Wisdom
-            %th Dexterity
-            %th Constitution
-            %th Looks
-            %th Charisma
-        %tbody
-          - Race.all.each do |race|
-            %tr{ :"data-race-id" => race.id }
-              %td= race.name
-              %td= race.str_mod
-              %td= race.int_mod
-              %td= race.wis_mod
-              %td= race.dex_mod
-              %td= race.con_mod
-              %td= race.lks_mod
-              %td= race.cha_mod
+      %h4 Choose a Race
+  .row
+    - Race.all.each do |race|
+      .col-xs-6.col-sm-4.col-md-3.col-lg-2
+        .tile.tile-hover.selectable.race-option{ data: { race: race.id, selectable: { group: "race-option" } } }
+          = race.name
+          %hr
+          - if race.str_mod != 0
+            = "+ " + race.str_mod.to_s + " Strength"
+          - if race.int_mod != 0
+            %br
+            = "+ " + race.int_mod.to_s + " Intelligence"
+          - if race.wis_mod != 0
+            %br
+            = "+ " + race.wis_mod.to_s + " Wisdom"
+          - if race.dex_mod != 0
+            %br
+            = "+ " + race.dex_mod.to_s + " Dexterity"
+          - if race.con_mod != 0
+            %br
+            = "+ " + race.con_mod.to_s + " Constitution"
+          - if race.lks_mod != 0
+            %br
+            = "+ " + race.lks_mod.to_s + " Looks"
+          - if race.cha_mod != 0
+            %br
+            = "+ " + race.cha_mod.to_s + " Charisma"
+  .row
+    .col-md-12
+      %h4 Choose a Class
+  .row
+    - CharacterClass.all.order(:name).each do |character_class|
+      .col-xs-6.col-sm-4.col-md-3.col-lg-2
+        .tile.tile-hover.selectable.class-option{ data: { class: character_class.id, selectable: { group: "class-option" } } }
+          = character_class.name
+  .row
+    .col-md-12
+      %h4 Choose an Alignment
+  .row
+    - alignment_options.each do |option|
+      .col-xs-6.col-sm-4.col-md-3.col-lg-2
+        .tile.tile-hover.selectable.alignment-option{ data: { alignment: option[1], selectable: { group: "alignment-option" } } }
+          = option[0]
   .row
     %br
     .col-md-4= f.submit 'Continue', class: "btn btn-primary"

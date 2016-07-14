@@ -15,18 +15,23 @@ $ ->
   if $(".character-show-page").data("character-id")
     updateSpecializations($(".character-show-page").data("character-id"))
 
-  raceInput = $("#character_race_id")
-  if raceInput
-    initRace = $(".race-options tbody tr").first()
-    raceInput.val(initRace.data("race-id"))
-    $(".race-options tr").removeClass("selected")
-    initRace.addClass("selected")
+  if $(".class-option").length > 0
+    $(".class-option").click (e) ->
+      selection = $(e.target).closest(".class-option")
+      if selection.length == 0
+        selection = $(e.target)
+      $("#character_character_class_id").val(selection.data("class"))
 
-    $(".race-options tbody tr").click (e) ->
-      raceSelection = $(e.target.closest("tr"))
-      if raceSelection.length == 0
-        raceSelection = $(e.target)
-      raceInput.val(raceSelection.data("race-id"))
-      $(".race-options tr").removeClass("selected")
-      raceSelection.addClass("selected")
+  if $(".race-option").length > 0
+    $(".race-option").click (e) ->
+      selection = $(e.target).closest(".race-option")
+      if selection.length == 0
+        selection = $(e.target)
+      $("#character_race_id").val(selection.data("race"))
 
+  if $(".alignment-option").length > 0
+    $(".alignment-option").click (e) ->
+      selection = $(e.target).closest(".alignment-option")
+      if selection.length == 0
+        selection = $(e.target)
+      $("#character_alignment").val(selection.data("alignment"))
