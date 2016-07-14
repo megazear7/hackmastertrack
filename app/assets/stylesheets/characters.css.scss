@@ -2,6 +2,19 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.tile.create-character {
+    background-color: #428bca;
+}
+
+.tile.create-character:hover {
+    background-color: #419ae6;
+}
+
+.tile.create-character a {
+    font-size: 1.2em;
+    color: white;
+}
+
 .race-options th, .race-options td {
     text-align: center;
 }

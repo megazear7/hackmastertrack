@@ -1,25 +1,26 @@
 .row
-  .col-xs-12.col-sm-6
-    %h3 Your Characters
-  .col-xs-12.col-sm-6
-    %br
-    .btn-group.pull-right-sm
-      = link_to 'Character Creation', step1_characters_path, class: "btn btn-primary"
-      = link_to 'Add Custom Character', new_character_path, class: "btn btn-default"
-.row
   - @characters.where(finished: true).order(:name).each do |character|
-    .tile.tile-hover.click-link{ data: { click: "character_"+character.id.to_s } }
-      %h4= link_to character.name, character_path(character), id: "character_"+character.id.to_s
-      %hr
-      = character.race.name
-      = character.character_class.name
-      %hr
-      %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), character, :method => :delete, :data => { :confirm => 'Are you sure?' }
+    .col-xs-6.col-sm-4.col-md-3.col-lg-2
+      .tile.tile-hover.click-link{ data: { click: "character_"+character.id.to_s } }
+        %h4= link_to character.name, character_path(character), id: "character_"+character.id.to_s
+        %hr
+        = character.race.name
+        = character.character_class.name
+        %hr
+        %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), character, :method => :delete, :data => { :confirm => 'Are you sure?' }
+  .col-xs-6.col-sm-4.col-md-3.col-lg-2
+    .tile.tile-hover.click-link.create-character{ data: { click: "create_character" } }
+      = link_to raw('&#10010; Create Character'), step1_characters_path, class: "", id: "create_character"
 - if current_user.admin_level >= 1
   .row
-    .col-md-12
+    .col-md-6
+      %br
       %h3 All Characters 
       %h5 Admin only
+    .col-md-6
+      %br
+      %br
+      = link_to 'Add Custom Character', new_character_path, class: "btn btn-default pull-right"
   .row
     .col-md-12
       %table.table.table-hover.table-responsive
