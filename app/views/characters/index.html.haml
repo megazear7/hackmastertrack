@@ -7,24 +7,14 @@
       = link_to 'Character Creation', step1_characters_path, class: "btn btn-primary"
       = link_to 'Add Custom Character', new_character_path, class: "btn btn-default"
 .row
-  .col-md-12
-    %br
-    %table.table.table-hover.table-responsive
-      %thead
-        %tr
-          %th Name
-          %th Player
-          %th Race
-          %th Class
-          %th
-      %tbody
-        - @characters.where(finished: true).order(:name).each do |character|
-          %tr
-            %td= link_to character.name, character_path(character)
-            %td= character.user.email
-            %td= character.race.name
-            %td= character.character_class.name
-            %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), character, :method => :delete, :data => { :confirm => 'Are you sure?' }
+  - @characters.where(finished: true).order(:name).each do |character|
+    .tile.tile-hover.click-link{ data: { click: "character_"+character.id.to_s } }
+      %h4= link_to character.name, character_path(character), id: "character_"+character.id.to_s
+      %hr
+      = character.race.name
+      = character.character_class.name
+      %hr
+      %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), character, :method => :delete, :data => { :confirm => 'Are you sure?' }
 - if current_user.admin_level >= 1
   .row
     .col-md-12

@@ -46,4 +46,13 @@ $(document).ready(function() {
         }
     }
   });
+
+  $(".click-link").click(function(e) {
+    clickableElement = $(e.target).closest(".click-link");
+    if (clickableElement.length == 0) {
+      clickableElement = $(e.target)
+    }
+    clickId = clickableElement.data("click")
+    document.location = $("#"+clickId).attr("href");
+  });
 });

@@ -108,6 +108,34 @@ body {
     }
 }
 
+hr {
+    border-color: #ccc;
+}
+
+.tile {
+    position: relative;
+    display: inline-block;
+    padding: 20px;
+    margin: 10px;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 1px 1px 1px 1px #ccc;
+    bottom: 0px;
+    right: 0px;
+    transition: box-shadow .3s, bottom .3s, right .3s;
+}
+
+.tile.selected {
+    background-color: #d8edff;
+}
+
+.tile-hover:hover {
+    box-shadow: 3px 3px 10px 3px #ccc;
+    bottom: 10px;
+    right: 5px;
+}
+
 table.purchase tr {
     height: 51px;
 }
