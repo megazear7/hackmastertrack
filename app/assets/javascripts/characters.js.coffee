@@ -21,6 +21,7 @@ $ ->
       if selection.length == 0
         selection = $(e.target)
       $("#character_character_class_id").val(selection.data("class"))
+      $("#race-name").text(selection.data('text'))
 
   if $(".race-option").length > 0
     $(".race-option").click (e) ->
@@ -28,6 +29,7 @@ $ ->
       if selection.length == 0
         selection = $(e.target)
       $("#character_race_id").val(selection.data("race"))
+      $("#class-name").text(selection.data('text'))
 
   if $(".alignment-option").length > 0
     $(".alignment-option").click (e) ->
@@ -35,3 +37,4 @@ $ ->
       if selection.length == 0
         selection = $(e.target)
       $("#character_alignment").val(selection.data("alignment"))
+      $("#alignment-name").text(selection.data('text'))

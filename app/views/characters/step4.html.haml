@@ -1,3 +1,10 @@
+.row.sub-nav{ style: "top: 0px; width: 100%; text-align: center" }
+  .col-xs-4
+    %h4#race-name
+  .col-xs-4
+    %h4#class-name
+  .col-xs-4
+    %h4#alignment-name
 %h3 Step 4
 = simple_form_for @character, :url => step5_character_path(@character), :method => :post do |f|
   = f.input :race_id, as: :hidden
@@ -9,7 +16,7 @@
   .row
     - Race.all.each do |race|
       .col-xs-6.col-sm-4.col-md-3.col-lg-2
-        .tile.tile-hover.selectable.race-option{ data: { race: race.id, selectable: { group: "race-option" } } }
+        .tile.tile-hover.selectable.race-option{ data: { race: race.id, text: race.name, selectable: { group: "race-option" } } }
           = race.name
           %hr
           - if race.str_mod != 0
@@ -38,7 +45,7 @@
   .row
     - CharacterClass.all.order(:name).each do |character_class|
       .col-xs-6.col-sm-4.col-md-3.col-lg-2
-        .tile.tile-hover.selectable.class-option{ data: { class: character_class.id, selectable: { group: "class-option" } } }
+        .tile.tile-hover.selectable.class-option{ data: { class: character_class.id, text: character_class.name, selectable: { group: "class-option" } } }
           = character_class.name
   .row
     .col-md-12
@@ -46,7 +53,7 @@
   .row
     - alignment_options.each do |option|
       .col-xs-6.col-sm-4.col-md-3.col-lg-2
-        .tile.tile-hover.selectable.alignment-option{ data: { alignment: option[1], selectable: { group: "alignment-option" } } }
+        .tile.tile-hover.selectable.alignment-option{ data: { alignment: option[1], text: option[0], selectable: { group: "alignment-option" } } }
           = option[0]
   .row
     %br
