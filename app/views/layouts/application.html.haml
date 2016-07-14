@@ -12,7 +12,6 @@
       .container
         .navbar-header
           = link_to "Hackmaster Track", characters_path, class: "navbar-brand"
-        #bs-example-navbar-collapse-1.collapse.navbar-collapse
   - else
     .navbar.navbar-default.navbar-fixed-top{role: "navigation"}
       .container
@@ -21,7 +20,7 @@
             = link_to raw("Hackmaster Track"), characters_path, class: "navbar-brand"
           - else
             = link_to raw("<span class='glyphicon glyphicon-chevron-left'></span> " + @current_character.name), character_path(@current_character), class: "navbar-brand"
-        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+        .collapse.navbar-collapse
           %ul.nav.navbar-nav
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}

@@ -1,6 +1,6 @@
 %br
 .row
-  .col-md-4
+  .col-sm-6.col-md-4
     %h4 Specializations
     - if @character.specialized_weapons.count > 0
       .panel-group#specs_accordion
@@ -20,18 +20,18 @@
     You must 
     = link_to "buy a proficiency", proficiencies_path
     with a weapon before you can specialize.
-  .col-md-2
+  .col-sm-6.col-md-2
     %h4 Proficiencies
     - @character.proficiencies.each do |proficiency|
       %h5
         = link_to proficiency.name, proficiency
     %h5= link_to raw('<span class="glyphicon glyphicon-plus"></span> Add Proficiency'), proficiencies_path
-  .col-md-2
+  .col-sm-6.col-md-2
     %h4 Talents
     - @character.characters_talents.each do |char_talent|
       %h5= link_to char_talent.name, char_talent.talent 
     %h5= link_to raw('<span class="glyphicon glyphicon-plus"></span> Add Talent'), talents_path
-  .col-md-2
+  .col-sm-6.col-md-2
     %h4 Skills
     - @character.characters_skills.each do |char_skill|
       %h5

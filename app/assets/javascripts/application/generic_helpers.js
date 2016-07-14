@@ -31,17 +31,19 @@ $(document).ready(function() {
   active = document.body.scrollTop > 50
   first = true
   $(window).scroll(function(e){
-    if ((! active && document.body.scrollTop > 50) || first) {
-      first = false;
-      active = true;
-      placeholder = subNav.clone().empty().css("height", subNav.height()+"px").addClass("subnav-placeholder");
-      subNav.after(placeholder);
-      subNav.addClass("active");
-    } else if ((active && document.body.scrollTop < 50) || first) {
-      first = false;
-      active = false;
-      $(".subnav-placeholder").remove();
-      subNav.removeClass("active");
+    if ($(window).width() > 992) { 
+        if ((! active && document.body.scrollTop > 50) || first) {
+          first = false;
+          active = true;
+          placeholder = subNav.clone().empty().css("height", subNav.height()+"px").addClass("subnav-placeholder");
+          subNav.after(placeholder);
+          subNav.addClass("active");
+        } else if ((active && document.body.scrollTop < 50) || first) {
+          first = false;
+          active = false;
+          $(".subnav-placeholder").remove();
+          subNav.removeClass("active");
+        }
     }
   });
 });
