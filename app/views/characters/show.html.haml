@@ -49,7 +49,7 @@
       .btn-group.pull-right
         = submit_tag 'Download Character Sheet', class: "btn btn-default"
         = link_to 'Edit', edit_character_path(@character), class: "btn btn-default", data: { confirm: "This will mark this character as custom." }
-.container.character-show-page{ data: { character_id: @character.id } }
+.character-show-page{ data: { character_id: @character.id } }
   .row
     .col-md-12
       %br

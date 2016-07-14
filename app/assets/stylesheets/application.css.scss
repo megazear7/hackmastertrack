@@ -70,6 +70,20 @@ body {
     }
 }
 
+@media (max-width: 992px) {
+    body, a.btn, input.btn, button.btn, input.form-control, span.input-group-addon, select.form-control {
+        font-size: 18px;
+    }
+
+    .panel-title {
+      font-size: 21px;
+    }
+
+    input.form-control {
+        padding: 18.5px;
+    }
+}
+
 @media (max-width: 768px) {
     body, a.btn, input.btn, button.btn, input.form-control, span.input-group-addon, select.form-control {
         font-size: 25px;
@@ -86,26 +100,26 @@ body {
     select.form-control {
         height: 39px;
     }
+}
 
-    h1 {
-        font-size: 2em;
-    }
+h1 {
+    font-size: 2em;
+}
 
-    h2 {
-        font-size: 1.8em;
-    }
+h2 {
+    font-size: 1.8em;
+}
 
-    h3 {
-        font-size: 1.6em;
-    }
+h3 {
+    font-size: 1.6em;
+}
 
-    h4 {
-        font-size: 1.4em;
-    }
+h4 {
+    font-size: 1.4em;
+}
 
-    h5 {
-        font-size: 1.2em;
-    }
+h5 {
+    font-size: 1.2em;
 }
 
 hr {
