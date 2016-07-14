@@ -6,19 +6,74 @@
   %div Enter the full stat value including the percentile.
 = simple_form_for @character, :url => step3_character_path(@character), :method => :post do |f|
   .row
-    .col-md-2= f.input :strength, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true }
+    .col-sm-6.col-md-4.col-lg-3
+      .input-group
+        .input-group-addon
+          Strength
+        = f.input_field :strength, class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true
+        .input-group-btn
+          %button.btn.btn-default.random{ data: { target: "character_strength", count: 0, limit: 1 } }
+            &nbsp; &nbsp; &nbsp;
   .row
-    .col-md-2= f.input :intelligence, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true }
+    %br
+    .col-sm-6.col-md-4.col-lg-3
+      .input-group
+        .input-group-addon
+          Intelligence
+        = f.input_field :intelligence, class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true
+        .input-group-btn
+          %button.btn.btn-default.random{ data: { target: "character_intelligence", count: 0, limit: 1 } }
+            &nbsp; &nbsp; &nbsp;
   .row
-    .col-md-2= f.input :wisdom, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true }
+    %br
+    .col-sm-6.col-md-4.col-lg-3
+      .input-group
+        .input-group-addon
+          Wisdom
+        = f.input_field :wisdom, class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true
+        .input-group-btn
+          %button.btn.btn-default.random{ data: { target: "character_wisdom", count: 0, limit: 1 } }
+            &nbsp; &nbsp; &nbsp;
   .row
-    .col-md-2= f.input :dexterity, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true }
+    %br
+    .col-sm-6.col-md-4.col-lg-3
+      .input-group
+        .input-group-addon
+          Dexterity 
+        = f.input_field :dexterity, class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true
+        .input-group-btn
+          %button.btn.btn-default.random{ data: { target: "character_dexterity", count: 0, limit: 1 } }
+            &nbsp; &nbsp; &nbsp;
   .row
-    .col-md-2= f.input :constitution, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true }
+    %br
+    .col-sm-6.col-md-4.col-lg-3
+      .input-group
+        .input-group-addon
+          Constitution 
+        = f.input_field :constitution, class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true
+        .input-group-btn
+          %button.btn.btn-default.random{ data: { target: "character_constitution", count: 0, limit: 1 } }
+            &nbsp; &nbsp; &nbsp;
   .row
-    .col-md-2= f.input :looks, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true }
+    %br
+    .col-sm-6.col-md-4.col-lg-3
+      .input-group
+        .input-group-addon
+          Looks 
+        = f.input_field :looks, class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true
+        .input-group-btn
+          %button.btn.btn-default.random{ data: { target: "character_looks", count: 0, limit: 1 } }
+            &nbsp; &nbsp; &nbsp;
   .row
-    .col-md-2= f.input :charisma, input_html: { class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true }
+    %br
+    .col-sm-6.col-md-4.col-lg-3
+      .input-group
+        .input-group-addon
+          Charisma 
+        = f.input_field :charisma, class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true
+        .input-group-btn
+          %button.btn.btn-default.random{ data: { target: "character_charisma", limit: 1, count: 0 } }
+            &nbsp; &nbsp; &nbsp;
   .row
     %br
     .col-md-4
