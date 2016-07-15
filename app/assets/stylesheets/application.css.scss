@@ -127,31 +127,58 @@ hr {
 }
 
 .tile {
+    position: relative;
+    min-height: 200px;
     height: 200px;
     width: 100%;
     overflow: hidden;
-    position: relative;
     display: inline-block;
     padding: 20px;
     margin: 10px;
+    z-index: 1;
     background-color: #f8f8f8;
     cursor: pointer;
     text-align: center;
     box-shadow: 1px 1px 1px 1px #ccc;
+    top: 0px;
+    left: 0px;
+    transition: box-shadow .25s, top .25s, left .25s, background-color .25s, height .25s, width .25s;
+}
+
+.tile .buttons {
+    position: absolute;
     bottom: 0px;
-    right: 0px;
-    transition: box-shadow .25s, bottom .25s, right .25s, background-color .25s;
+    left: 0px;
+    width: 100%;
+    padding: 7px;
+    background-color: #e9e9e9;
+    cursor: pointer;
+}
+
+.tile .buttons .tile-button, .tile .buttons .tile-button a {
+    float: left;
+    color: #aaa;
+}
+
+.tile .buttons .tile-button:hover {
+    color: #428bca;
+}
+
+.tile .buttons .expander {
+    float: right;
 }
 
 .short-tile {
-  height: 125px
+  min-height: 125px;
+  height: 125px;
 }
 
 .tile-hover:hover {
+    height: auto;
     background-color: #fcfcfc;
     box-shadow: 3px 3px 10px 3px #ccc;
-    bottom: 10px;
-    right: 5px;
+    top: -10px;
+    left: -5px;
 }
 
 .tile.selected {

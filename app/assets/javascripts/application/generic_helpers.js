@@ -121,4 +121,54 @@ $(document).ready(function() {
     }
     return false;
   });
+
+  $(".tile").each(function(index, tile) {
+    $(tile).attr("data-base-height", $(tile).outerHeight());
+
+    $(tile).css("height", "auto");
+    $(tile).attr("data-auto-height", $(tile).outerHeight());
+    $(tile).css("height", $(tile).data("base-height"));
+
+    $(tile).attr("data-status", "closed");
+  });
+
+  function openTile(tile) {
+    tile.find(".expander").removeClass("glyphicon-fullscreen");
+    tile.find(".expander").addClass("glyphicon-resize-small");
+    tile.data("status", "open");
+    tile.css("position", "absolute");
+    setTimeout(function() {
+      tile.css("position", "absolute");
+      tile.css("height", tile.data("auto-height")+"px");
+    }, 250);
+  }
+
+  function closeTile(tile) {
+    tile.find(".expander").removeClass("glyphicon-resize-small");
+    tile.find(".expander").addClass("glyphicon-fullscreen");
+    tile.data("status", "closed");
+    tile.css("height", tile.data("base-height")+"px");
+    setTimeout(function() {
+      tile.css("position", "relative");
+    }, 250);
+  }
+
+  $(".tile .buttons .expander").click(function(e) {
+    e.preventDefault();
+    var tile = $(e.target).closest(".tile");
+    if (tile.data("status") == "closed") {
+      $("."+tile.data("tile-group")).each(function(index, otherTile) {
+        closeTile($(otherTile));
+      });
+      openTile(tile);
+    } else {
+      closeTile(tile);
+    }
+    return false;
+  });
+
+  $(".tile .buttons").click(function(e) {
+    e.preventDefault();
+    return false;
+  });
 });

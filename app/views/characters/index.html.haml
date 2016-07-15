@@ -1,13 +1,25 @@
 .row
   - @characters.where(finished: true).order(:name).each do |character|
     .col-xs-6.col-sm-4.col-md-3.col-lg-2
-      .tile.tile-hover.click-link{ data: { click: "character_"+character.id.to_s } }
+      .tile.tile-hover.character-tile.click-link{ data: { click: "character_"+character.id.to_s, tile: { group: "character-tile" } } }
         %h4= link_to character.name, character_path(character), id: "character_"+character.id.to_s
         %hr
+        Level
+        = character.level
+        %br
         = character.race.name
         = character.character_class.name
         %hr
-        %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), character, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        = character.building_points
+        Building Points
+        %br
+        = character.silver
+        Silver
+        %br
+        %br
+        %div.buttons
+          .tile-button.pull-left= link_to raw('<span class="octicon octicon-trashcan"></span>'), character, :method => :delete, :data => { :confirm => 'Are you sure?' }
+          .tile-button.glyphicon.glyphicon-fullscreen.expander
   .col-xs-6.col-sm-4.col-md-3.col-lg-2
     .tile.tile-hover.click-link.create-character{ data: { click: "create_character" } }
       = link_to raw('&#10010; Create Character'), step1_characters_path, class: "", id: "create_character"
