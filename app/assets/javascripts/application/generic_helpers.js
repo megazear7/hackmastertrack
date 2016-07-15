@@ -166,9 +166,4 @@ $(document).ready(function() {
     }
     return false;
   });
-
-  $(".tile .buttons").click(function(e) {
-    e.preventDefault();
-    return false;
-  });
 });
