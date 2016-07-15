@@ -133,10 +133,15 @@ $(document).ready(function() {
   });
 
   function openTile(tile) {
+    var placeholder = tile.clone().empty().addClass("placeholder");
+    placeholder.css("background", "none");
+    placeholder.css("box-shadow", "none");
+    tile.addClass("expanded");
     tile.find(".expander").removeClass("glyphicon-fullscreen");
     tile.find(".expander").addClass("glyphicon-resize-small");
     tile.data("status", "open");
     tile.css("position", "absolute");
+    tile.after(placeholder);
     setTimeout(function() {
       tile.css("position", "absolute");
       tile.css("height", tile.data("auto-height")+"px");
@@ -144,12 +149,16 @@ $(document).ready(function() {
   }
 
   function closeTile(tile) {
+    tile.removeClass("expanded");
     tile.find(".expander").removeClass("glyphicon-resize-small");
     tile.find(".expander").addClass("glyphicon-fullscreen");
     tile.data("status", "closed");
     tile.css("height", tile.data("base-height")+"px");
     setTimeout(function() {
-      tile.css("position", "relative");
+      if (! tile.hasClass("expanded")) {
+        tile.css("position", "relative");
+        tile.siblings(".placeholder").remove();
+      }
     }, 250);
   }
 

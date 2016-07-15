@@ -1,6 +1,6 @@
 .row
   - @characters.where(finished: true).order(:name).each do |character|
-    .col-xs-6.col-sm-4.col-md-3.col-lg-2
+    .col-xs-6.col-sm-4.col-md-3.col-lg-2.tile-container
       .tile.tile-hover.character-tile.click-link{ data: { click: "character_"+character.id.to_s, tile: { group: "character-tile" } } }
         %h4= link_to character.name, character_path(character), id: "character_"+character.id.to_s
         %hr
