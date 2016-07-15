@@ -25,7 +25,11 @@
         - @talents.order(:name).each do |talent|
           %tr{ "data-show" => "talent_"+talent.id.to_s, class: "show-on-hover" }
             %td= talent.name
-            %td= talent.bp_cost
+            %td
+              - if @current_character
+                = talent.adj_bp_cost(@current_character.race)
+              - else
+                = talent.bp_cost
             %td= talent.description
             - if talent.item_specific
               - if @current_character

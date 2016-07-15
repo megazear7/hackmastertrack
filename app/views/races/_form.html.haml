@@ -37,20 +37,35 @@
     .col-md-4= f.input :lifespan, input_html: { class: "string form-control" }
 
   .row
-    .col-md-4= f.association :talents, collection: Talent.all.order(:name), input_html: { class: "string form-control" }
+    %br
+    .col-md-4= f.association :talents, collection: Talent.where(item_specific: false).order(:name), input_html: { class: "string form-control" }
+    .col-md-4= f.association :preferential_talents, collection: Talent.where(item_specific: false).order(:name), input_html: { class: "string form-control" }
+  .row
+    .col-md-4
+      - @race.preferential_races_talents.each do |races_talent|
+        .row
+          .col-md-12
+            %br
+            .input-group
+              %span.input-group-addon
+                Percentage Cost of
+                = races_talent.talent.name + ":"
+              = number_field_tag "talent_percent_costs[#{races_talent.id}]", races_talent.percent_cost, class: "string form-control", min: 1, max: 99
+  .row
+    %br
     .col-md-4= f.association :proficiencies, collection: Proficiency.all.order(:name), input_html: { class: "string form-control" }
     .col-md-4= f.association :skills, collection: Skill.all.order(:name), input_html: { class: "string form-control" }
-
-  - @race.races_skills.each do |races_skill|
-    .row
-      .col-md-4
-        %br
-        .input-group
-          %span.input-group-addon
-            Free Purchases of
-            = races_skill.skill.name + ":"
-          = number_field_tag "skill_counts[#{races_skill.id}]", races_skill.count, class: "string form-control"
-
+  .row
+    .col-md-4
+      - @race.races_skills.each do |races_skill|
+        .row
+          .col-md-12
+            %br
+            .input-group
+              %span.input-group-addon
+                Free Purchases of
+                = races_skill.skill.name + ":"
+              = number_field_tag "skill_counts[#{races_skill.id}]", races_skill.count, class: "string form-control"
   .row
     .col-md-4
       %br

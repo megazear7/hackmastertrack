@@ -1,8 +1,13 @@
 class Race < ActiveRecord::Base
   has_many :bp_cost_by_race_classes
+
+  has_many :preferential_races_talents
+  has_and_belongs_to_many :preferential_talents, :association_foreign_key => "talent_id", :join_table => "preferential_races_talents", :class_name => "Talent"
+  has_and_belongs_to_many :talents
+
   has_many :races_skills
   has_and_belongs_to_many :skills, through: :races_skills
-  has_and_belongs_to_many :talents
+
   has_and_belongs_to_many :proficiencies
 
   def hit_points

@@ -219,20 +219,22 @@ class CharactersController < ApplicationController
       @character = Character.find(params[:character_id])
     end
 
+    cost = talent.adj_bp_cost(@character.race)
+
     if talent.item_specific
-      if @character.building_points >= talent.bp_cost
+      if @character.building_points >= cost
         item = Item.find(params[:item][:id])
         char_tal = CharactersTalent.create(talent_id: talent.id, item_id: item.id, character_id: @character.id)
-        @character.building_points -= talent.bp_cost
+        @character.building_points -= cost
         @character.save
         redirect_to talents_path, notice: 'You now have the talent ' + talent.name + ' (' + char_tal.item.name + ')!'
       else
         redirect_to talents_path, notice: 'You do not have enough building points for the talent ' + talent.name + '!'
       end
     else
-      if @character.building_points >= talent.bp_cost and not @character.talents.include? talent
+      if @character.building_points >= cost and not @character.talents.include? talent
         @character.characters_talents.new(talent_id: talent.id, character_id: @character.id)
-        @character.building_points -= talent.bp_cost
+        @character.building_points -= cost
         @character.save
         redirect_to talents_path, notice: 'You now have the talent ' + talent.name + '!'
       elsif @character.talents.include? talent

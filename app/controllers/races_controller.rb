@@ -42,7 +42,6 @@ class RacesController < ApplicationController
   # PATCH/PUT /races/1
   # PATCH/PUT /races/1.json
   def update
-
     if not params[:skill_counts].nil?
       params[:skill_counts].each do |id_count|
         id = id_count[0]
@@ -50,6 +49,16 @@ class RacesController < ApplicationController
         races_skill = RacesSkill.find(id)
         races_skill.count = count
         races_skill.save
+      end
+    end
+
+    if not params[:talent_percent_costs].nil?
+      params[:talent_percent_costs].each do |id_cost|
+        id = id_cost[0]
+        cost = id_cost[1]
+        pref_races_talent = PreferentialRacesTalent.find(id)
+        pref_races_talent.percent_cost = cost
+        pref_races_talent.save
       end
     end
 
@@ -108,6 +117,7 @@ class RacesController < ApplicationController
         :female_weight,
         :lifespan,
         talent_ids: [],
+        preferential_talent_ids: [],
         proficiency_ids: [],
         skill_ids: []
       )

@@ -55,7 +55,10 @@
           %td= @talent.requirements
         %tr
           %td BP Cost
-          %td= @talent.bp_cost
+          - if @current_character
+            %td= @talent.adj_bp_cost(@current_character.race)
+          - else
+            %td= @talent.bp_cost
         %tr
           %td Item Specific?
           %td= @talent.item_specific

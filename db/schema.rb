@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160713151959) do
+ActiveRecord::Schema.define(version: 20160715164729) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -307,6 +307,12 @@ ActiveRecord::Schema.define(version: 20160713151959) do
     t.integer  "top_threshold",         default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "preferential_races_talents", force: true do |t|
+    t.integer "race_id"
+    t.integer "talent_id"
+    t.integer "percent_cost"
   end
 
   create_table "proficiencies", force: true do |t|

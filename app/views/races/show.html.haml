@@ -20,11 +20,19 @@
       %td
         - @race.talents.each do |talent|
           = link_to talent.name, talent
+          %br
+    %tr
+      %td Starting Talents
+      %td
+        - @race.preferential_races_talents.each do |races_talent|
+          = link_to races_talent.talent.name + " " + races_talent.percent_cost.to_s + "%", races_talent.talent
+          %br
     %tr
       %td Starting Proficiencies
       %td
         - @race.proficiencies.each do |proficiency|
           = link_to proficiency.name, proficiency
+          %br
     %tr
       %td  Strength Modifier
       %td= @race.str_mod
