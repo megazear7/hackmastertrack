@@ -1,10 +1,22 @@
 %br
 .row
   .col-sm-12
-    .row
+    .row{ "data-show" => "stat-strength", class: "show-on-hover" }
       .col-xs-4.col-sm-2.col-md-1 Strength:
-      .col-xs-2.col-sm-1= number_with_precision(@character.strength, precision: 2)
+      .col-xs-2.col-sm-1
+        %span.stat-int= number_with_precision(@character.strength, precision: 0)
+        = number_with_precision(@character.strength, precision: 2).to_s.split(".")[1] + "%"
       .col-xs-4.col-sm-offset-0.col-sm-2
+        = form_tag boost_stat_character_path(@character), method: "post" do
+          %input.hidden{ name: "stat", value: "strength" }
+          .input-group.stat-boost.stat-strength
+            %span.input-group-addon
+              Boost
+            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: @character.strength } }
+            %span.input-group-btn
+              %button{ type: "submit", class: "btn btn-primary" }
+                %span.percent
+                %span.octicon.octicon-arrow-up
         Damage Mod:
         = ability = AbilityScore.find_ability_mod("Strength", @character.strength, "damage_mod")
       .col-xs-offset-6.col-xs-6.col-sm-offset-0.col-sm-2
@@ -19,19 +31,43 @@
       .col-xs-offset-6.col-xs-6.col-sm-offset-0.col-sm-1.col-md-2
         Drag:
         = ability = AbilityScore.find_ability_mod("Strength", @character.strength, "drag")
-    .row
+    .row{ "data-show" => "stat-intelligence", class: "show-on-hover" }
       %br
       .col-xs-4.col-sm-2.col-md-1
         Intelligence:
-      .col-xs-2.col-sm-1= number_with_precision(@character.intelligence, precision: 2)
+      .col-xs-2.col-sm-1
+        %span.stat-int= number_with_precision(@character.intelligence, precision: 0)
+        = number_with_precision(@character.intelligence, precision: 2).to_s.split(".")[1] + "%"
       .col-xs-4.col-sm-2
+        = form_tag boost_stat_character_path(@character), method: "post" do
+          %input.hidden{ name: "stat", value: "intelligence" }
+          .input-group.stat-boost.stat-intelligence
+            %span.input-group-addon
+              Boost
+            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: @character.intelligence } }
+            %span.input-group-btn
+              %button{ type: "submit", class: "btn btn-primary" }
+                %span.percent
+                %span.octicon.octicon-arrow-up
         Attak Mod:
         = ability = AbilityScore.find_ability_mod("Intelligence", @character.intelligence, "attack_mod")
-    .row
+    .row{ "data-show" => "stat-wisdom", class: "show-on-hover" }
       %br
       .col-xs-4.col-sm-2.col-md-1 Wisdom:
-      .col-xs-2.col-sm-1= number_with_precision(@character.wisdom, precision: 2)
+      .col-xs-2.col-sm-1
+        %span.stat-int= number_with_precision(@character.wisdom, precision: 0)
+        = number_with_precision(@character.wisdom, precision: 2).to_s.split(".")[1] + "%"
       .col-xs-4.col-sm-2
+        = form_tag boost_stat_character_path(@character), method: "post" do
+          %input.hidden{ name: "stat", value: "wisdom" }
+          .input-group.stat-boost.stat-wisdom
+            %span.input-group-addon
+              Boost
+            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: @character.wisdom } }
+            %span.input-group-btn
+              %button{ type: "submit", class: "btn btn-primary" }
+                %span.percent
+                %span.octicon.octicon-arrow-up
         Initiative Mod:
         = ability = AbilityScore.find_ability_mod("Wisdom", @character.wisdom, "init_mod")
       .col-xs-offset-6.col-xs-6.col-sm-offset-0.col-sm-2
@@ -40,11 +76,23 @@
       .col-xs-offset-6.col-xs-6.col-sm-offset-0.col-sm-2
         Mental Saving Throw:
         = ability = AbilityScore.find_ability_mod("Wisdom", @character.wisdom, "mental_saving_throw_bonus")
-    .row
+    .row{ "data-show" => "stat-dexterity", class: "show-on-hover" }
       %br
       .col-xs-4.col-sm-2.col-md-1 Dexterity:
-      .col-xs-2.col-sm-1= number_with_precision(@character.dexterity, precision: 2)
+      .col-xs-2.col-sm-1
+        %span.stat-int= number_with_precision(@character.dexterity, precision: 0)
+        = number_with_precision(@character.dexterity, precision: 2).to_s.split(".")[1] + "%"
       .col-xs-4.col-sm-2
+        = form_tag boost_stat_character_path(@character), method: "post" do
+          %input.hidden{ name: "stat", value: "dexterity" }
+          .input-group.stat-boost.stat-dexterity
+            %span.input-group-addon
+              Boost
+            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: @character.dexterity } }
+            %span.input-group-btn
+              %button{ type: "submit", class: "btn btn-primary" }
+                %span.percent
+                %span.octicon.octicon-arrow-up
         Initiative Mod:
         = ability = AbilityScore.find_ability_mod("Dexterity", @character.dexterity, "init_mod")
       .col-xs-offset-6.col-xs-6.col-sm-offset-0.col-sm-1
@@ -59,22 +107,59 @@
       .col-xs-offset-6.col-xs-6.col-sm-offset-0.col-sm-2
         Feat of Agility:
         = ability = AbilityScore.find_ability_mod("Dexterity", @character.dexterity, "feat_of_agility")
-    .row
+    .row{ "data-show" => "stat-constitution", class: "show-on-hover" }
       %br
       .col-xs-4.col-sm-2.col-md-1 Constitution:
-      .col-xs-2.col-sm-1= number_with_precision(@character.constitution, precision: 2)
+      .col-xs-2.col-sm-1
+        %span.stat-int= number_with_precision(@character.constitution, precision: 0)
+        = number_with_precision(@character.constitution, precision: 2).to_s.split(".")[1] + "%"
       .col-xs-4.col-sm-2
+        = form_tag boost_stat_character_path(@character), method: "post" do
+          %input.hidden{ name: "stat", value: "constitution" }
+          .input-group.stat-boost.stat-constitution
+            %span.input-group-addon
+              Boost
+            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: @character.constitution } }
+            %span.input-group-btn
+              %button{ type: "submit", class: "btn btn-primary" }
+                %span.percent
+                %span.octicon.octicon-arrow-up
         Physical Saving Throw:
         = ability = AbilityScore.find_ability_mod("Constitution", @character.constitution, "physical_saving_throw_bonus")
-    .row
+    .row{ "data-show" => "stat-looks", class: "show-on-hover" }
       %br
       .col-xs-4.col-sm-2.col-md-1 Looks:
-      .col-xs-2.col-sm-1= number_with_precision(@character.looks, precision: 2)
-    .row
+      .col-xs-2.col-sm-1
+        %span.stat-int= number_with_precision(@character.looks, precision: 0)
+        = number_with_precision(@character.looks, precision: 2).to_s.split(".")[1] + "%"
+      .col-xs-2.col-sm-1
+        = form_tag boost_stat_character_path(@character), method: "post" do
+          %input.hidden{ name: "stat", value: "looks" }
+          .input-group.stat-boost.stat-looks
+            %span.input-group-addon
+              Boost
+            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: @character.looks } }
+            %span.input-group-btn
+              %button{ type: "submit", class: "btn btn-primary" }
+                %span.percent
+                %span.octicon.octicon-arrow-up
+    .row{ "data-show" => "stat-charisma", class: "show-on-hover" }
       %br
       .col-xs-4.col-sm-2.col-md-1 Charisma:
-      .col-xs-2.col-sm-1= number_with_precision(@character.charisma, precision: 2)
+      .col-xs-2.col-sm-1
+        %span.stat-int= number_with_precision(@character.charisma, precision: 0)
+        = number_with_precision(@character.charisma, precision: 2).to_s.split(".")[1] + "%"
       .col-xs-4.col-sm-2
+        = form_tag boost_stat_character_path(@character), method: "post" do
+          %input.hidden{ name: "stat", value: "charisma" }
+          .input-group.stat-boost.stat-charisma
+            %span.input-group-addon
+              Boost
+            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: @character.charisma } }
+            %span.input-group-btn
+              %button{ type: "submit", class: "btn btn-primary" }
+                %span.percent
+                %span.octicon.octicon-arrow-up
         Turning Mod:
         = ability = AbilityScore.find_ability_mod("Charisma", @character.charisma, "turning_mod")
       .col-xs-offset-6.col-xs-6.col-sm-offset-0.col-sm-2

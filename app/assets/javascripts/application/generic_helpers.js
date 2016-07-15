@@ -175,4 +175,21 @@ $(document).ready(function() {
     }
     return false;
   });
+
+
+  $(".stat-percent").change(function(e) {
+    var input = $(e.target);
+    var current = parseInt(input.data("current"));
+    var percent = input.val();
+
+    if (current < 10) {
+      percent = percent * 10;
+    } else if (current < 15) {
+      percent = percent * 5;
+    } else {
+      percent = percent * 3;
+    }
+
+    input.parent().find(".percent").html(percent + "%");
+  });
 });

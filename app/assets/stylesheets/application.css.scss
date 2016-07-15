@@ -192,6 +192,18 @@ hr {
     right: 5px;
 }
 
+.stat-boost {
+    position: absolute;
+    width: 200px;
+    z-index: 3;
+}
+
+.stat-int {
+   font-weight: bold;
+   font-size: 1.2em;
+   margin-right: 3px;
+}
+
 .clear {
     clear: both;
 }
