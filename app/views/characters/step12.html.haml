@@ -7,6 +7,9 @@
         %span.input-group-addon
           Silver
         = f.input :silver, label: false, input_html: { class: "string form-control", min: 35, max: 59, placeholder: "35 + 2D12", value: nil }
+        .input-group-btn
+          %button.btn.btn-default.random{ data: { target: "character_silver", count: 0, limit: 1, roll: "2d12+35" } }
+            &nbsp; &nbsp; &nbsp;
   .row
     %br
     %br

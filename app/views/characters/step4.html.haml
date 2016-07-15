@@ -12,49 +12,51 @@
   = f.input :alignment, as: :hidden
   .row
     .col-md-12
-      %h4 Choose a Race
+      %h3 Choose a Race
   .row
     - Race.all.each do |race|
       .col-xs-6.col-sm-4.col-md-3.col-lg-2
         .tile.tile-hover.selectable.race-option{ data: { race: race.id, text: race.name, selectable: { group: "race-option" } } }
-          = race.name
+          %h5= race.name
           %hr
           - if race.str_mod != 0
-            = "+ " + race.str_mod.to_s + " Strength"
+            = plus_or_minus(race.str_mod) + " Strength"
           - if race.int_mod != 0
             %br
-            = "+ " + race.int_mod.to_s + " Intelligence"
+            = plus_or_minus(race.int_mod) + " Intelligence"
           - if race.wis_mod != 0
             %br
-            = "+ " + race.wis_mod.to_s + " Wisdom"
+            = plus_or_minus(race.wis_mod) + " Wisdom"
           - if race.dex_mod != 0
             %br
-            = "+ " + race.dex_mod.to_s + " Dexterity"
+            = plus_or_minus(race.dex_mod) + " Dexterity"
           - if race.con_mod != 0
             %br
-            = "+ " + race.con_mod.to_s + " Constitution"
+            = plus_or_minus(race.con_mod) + " Constitution"
           - if race.lks_mod != 0
             %br
-            = "+ " + race.lks_mod.to_s + " Looks"
+            = plus_or_minus(race.lks_mod) + " Looks"
           - if race.cha_mod != 0
             %br
-            = "+ " + race.cha_mod.to_s + " Charisma"
+            = plus_or_minus(race.cha_mod) + " Charisma"
   .row
     .col-md-12
-      %h4 Choose a Class
+      %h3 Choose a Class
   .row
     - CharacterClass.all.order(:name).each do |character_class|
       .col-xs-6.col-sm-4.col-md-3.col-lg-2
-        .tile.tile-hover.selectable.class-option{ data: { class: character_class.id, text: character_class.name, selectable: { group: "class-option" } } }
-          = character_class.name
+        .tile.short-tile.tile-hover.selectable.class-option{ data: { class: character_class.id, text: character_class.name, selectable: { group: "class-option" } } }
+          %h5= character_class.name
+          %hr
   .row
     .col-md-12
-      %h4 Choose an Alignment
+      %h3 Choose an Alignment
   .row
     - alignment_options.each do |option|
       .col-xs-6.col-sm-4.col-md-3.col-lg-2
-        .tile.tile-hover.selectable.alignment-option{ data: { alignment: option[1], text: option[0], selectable: { group: "alignment-option" } } }
-          = option[0]
+        .tile.short-tile.tile-hover.selectable.alignment-option{ data: { alignment: option[1], text: option[0], selectable: { group: "alignment-option" } } }
+          %h5= option[0]
+          %hr
   .row
     %br
     .col-md-4= f.submit 'Continue', class: "btn btn-primary"

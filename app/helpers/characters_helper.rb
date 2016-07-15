@@ -1,15 +1,18 @@
 module CharactersHelper
 
   def extra_bp_options
-    [ ["Keep as rolled (+50)", "50"], ["Swap two scores (+25)", "25"], ["Rearrange as desired (+0)", "0"] ]
+    [ ["Keep as rolled", "50"], ["Swap two scores", "25"], ["Rearrange as desired", "0"] ]
   end
   
   def hair_options
-    [ "black", "brown", "blond", "blonde", "red", "grey", "white", "bald", "green", "blue", "orange", "pink" ]
+    [ ["Brown", "brown"], ["Blue", "blue"], ["Hazel", "hazel"], ["Grey", "grey"], ["Black", "black"],
+      ["Purple", "purple"], ["Red", "red"], ["Green", "green"], ["Orange", "orange"], ["Teal", "teal"], ["Pink", "pink"] ]
   end
   
   def eye_options
-    [ "brown", "blue", "hazel", "grey", "black", "purple", "red", "green", "orange", "teal", "pink" ]
+
+    [ ["Brown", "brown"], ["Blue", "blue"], ["Hazel", "hazel"], ["Grey", "grey"], ["Black", "black"],
+      ["Purple", "purple"], ["Red", "red"], ["Green", "green"], ["Orange", "orange"], ["Teal", "teal"], ["Pink", "pink"] ]
   end
 
   def handedness_options

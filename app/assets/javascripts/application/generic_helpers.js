@@ -70,12 +70,46 @@ $(document).ready(function() {
     if (button.length == 0) {
       button = $(e.target)
     }
+    
+
+    var format = button.data("format");
+    if (!format) {
+      format = "roll"
+    }
+    rolls = format.match(/\w+/g); 
+
     if (parseInt(button.data("count")) < parseInt(button.data("limit"))) {
       count = button.data("count");
       button.data("count", count+1);
       var id = button.data("target");
-      var whole = random(1, 6) + random(1, 6) + random(1, 6)
-      var value = whole + "." + random(0,99)
+
+      var value = format;
+      $.each(rolls, function(index, roll) {
+        dice = button.data(roll);
+        rollInfo = dice.split(/d|\+|\-/g);
+        count = rollInfo[0];
+        size = rollInfo[1];
+        total = rollInfo[2];
+
+        if (count == "" || ! count) {
+          count = "1";
+        }
+
+        if (total == "" || ! total) {
+          total = "0";
+        }
+
+        count = parseInt(count);
+        size = parseInt(size);
+        total = parseInt(total);
+
+        for (var i = 0; i < count; i++) {
+          total += random(1, size);
+        }
+
+        value = value.replace(roll, total.toString());
+      });
+
       $("#"+id).val(value);
     } else {
       limit = parseInt(button.data("limit"));

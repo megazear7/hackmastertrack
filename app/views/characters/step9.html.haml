@@ -38,7 +38,10 @@
               .input-group
                 %span.input-group-addon
                   = races_skill.skill.name
-                = number_field_tag "skills[#{races_skill.skill.id}]", nil, class: "string form-control", placeholder: "#{races_skill.count} D12 Die Rolls"
+                = number_field_tag "skills[#{races_skill.skill.id}]", nil, class: "string form-control", placeholder: "#{races_skill.count} D12 Die Rolls", required: true, min: 1, max: 12
+                .input-group-btn
+                  %button.btn.btn-default.random{ data: { target: "skills_#{races_skill.skill.id}", count: 0, limit: 1, roll: "d12" } }
+                    &nbsp; &nbsp; &nbsp;
       - else
         %h5 None
     .col-md-4

@@ -38,3 +38,10 @@ $ ->
         selection = $(e.target)
       $("#character_alignment").val(selection.data("alignment"))
       $("#alignment-name").text(selection.data('text'))
+
+  if $(".bp-option").length > 0
+    $(".bp-option").click (e) ->
+      selection = $(e.target).closest(".bp-option")
+      if selection.length == 0
+        selection = $(e.target)
+      $("#character_building_points").val(selection.data("value"))

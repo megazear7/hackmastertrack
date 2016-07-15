@@ -12,7 +12,7 @@
           Strength
         = f.input_field :strength, class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true
         .input-group-btn
-          %button.btn.btn-default.random{ data: { target: "character_strength", count: 0, limit: 1 } }
+          %button.btn.btn-default.random{ data: { target: "character_strength", count: 0, limit: 1, format: "stat.percent", stat: "3d6", percent: "d100" } }
             &nbsp; &nbsp; &nbsp;
   .row
     %br
@@ -22,7 +22,7 @@
           Intelligence
         = f.input_field :intelligence, class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true
         .input-group-btn
-          %button.btn.btn-default.random{ data: { target: "character_intelligence", count: 0, limit: 1 } }
+          %button.btn.btn-default.random{ data: { target: "character_intelligence", count: 0, limit: 1, format: "stat.percent", stat: "3d6", percent: "d100" } }
             &nbsp; &nbsp; &nbsp;
   .row
     %br
@@ -32,7 +32,7 @@
           Wisdom
         = f.input_field :wisdom, class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true
         .input-group-btn
-          %button.btn.btn-default.random{ data: { target: "character_wisdom", count: 0, limit: 1 } }
+          %button.btn.btn-default.random{ data: { target: "character_wisdom", count: 0, limit: 1, format: "stat.percent", stat: "3d6", percent: "d100" } }
             &nbsp; &nbsp; &nbsp;
   .row
     %br
@@ -42,7 +42,7 @@
           Dexterity 
         = f.input_field :dexterity, class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true
         .input-group-btn
-          %button.btn.btn-default.random{ data: { target: "character_dexterity", count: 0, limit: 1 } }
+          %button.btn.btn-default.random{ data: { target: "character_dexterity", count: 0, limit: 1, format: "stat.percent", stat: "3d6", percent: "d100" } }
             &nbsp; &nbsp; &nbsp;
   .row
     %br
@@ -52,7 +52,7 @@
           Constitution 
         = f.input_field :constitution, class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true
         .input-group-btn
-          %button.btn.btn-default.random{ data: { target: "character_constitution", count: 0, limit: 1 } }
+          %button.btn.btn-default.random{ data: { target: "character_constitution", count: 0, limit: 1, format: "stat.percent", stat: "3d6", percent: "d100" } }
             &nbsp; &nbsp; &nbsp;
   .row
     %br
@@ -62,7 +62,7 @@
           Looks 
         = f.input_field :looks, class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true
         .input-group-btn
-          %button.btn.btn-default.random{ data: { target: "character_looks", count: 0, limit: 1 } }
+          %button.btn.btn-default.random{ data: { target: "character_looks", count: 0, limit: 1, format: "stat.percent", stat: "3d6", percent: "d100" } }
             &nbsp; &nbsp; &nbsp;
   .row
     %br
@@ -72,7 +72,7 @@
           Charisma 
         = f.input_field :charisma, class: "string form-control", min: "3.0", max: "18.0", placeholder: "3D6 + Percentile", value: "", required: true
         .input-group-btn
-          %button.btn.btn-default.random{ data: { target: "character_charisma", limit: 1, count: 0 } }
+          %button.btn.btn-default.random{ data: { target: "character_charisma", count: 0, limit: 1, format: "stat.percent", stat: "3d6", percent: "d100" } }
             &nbsp; &nbsp; &nbsp;
   .row
     %br

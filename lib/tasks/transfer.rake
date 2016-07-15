@@ -32,8 +32,8 @@ namespace :transfer do
       call "git push #{remote_url(dest)} #{base_branch}:master -f"
       call "heroku pg:reset #{db_name(dest)} -a #{app_name(dest)} " +
            "--confirm #{app_name(dest)}"
-      call "heroku pg:backups restore #{db_name(dest)} `heroku pg:backups public-url " +
-           "-a #{app_name(src)}` -a #{app_name(dest)} " +
+      call "heroku pg:backups restore `heroku pg:backups public-url " +
+           "-a #{app_name(src)}` #{db_name(dest)} -a #{app_name(dest)} " +
            "--confirm #{app_name(dest)}"
       call "git checkout #{final_branch}"
       call "git push #{remote_url(dest)} #{final_branch}:master"
@@ -85,6 +85,12 @@ namespace :transfer do
   namespace :test do
     task local: :environment do
       transfer "test", "local", "master"
+    end
+  end
+
+  namespace :prod do
+    task test: :environment do
+      transfer "prod", "test", "master"
     end
   end
 end

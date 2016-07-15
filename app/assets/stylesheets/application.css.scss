@@ -143,6 +143,10 @@ hr {
     transition: box-shadow .25s, bottom .25s, right .25s, background-color .25s;
 }
 
+.short-tile {
+  height: 125px
+}
+
 .tile-hover:hover {
     background-color: #fcfcfc;
     box-shadow: 3px 3px 10px 3px #ccc;
@@ -224,6 +228,10 @@ html,body{
 
 .label-height {
   margin-top: 23px;
+}
+
+.remove-bootstrap-radius-btn {
+    border-radius: 0px;
 }
 
 .remove-bootstrap-radius {
