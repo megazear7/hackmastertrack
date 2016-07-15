@@ -174,24 +174,29 @@ class CharactersController < ApplicationController
   end
 
   def boost_stat
-    stat = params[:stat]
     bps = params[:bp_boost].to_i
-    current = @character.send(stat)
-    if current < 10
-      percent = bps * 10
-    elsif current < 15
-      percent = bps * 5
-    else
-      percent = bps * 3
-    end
+      if @character.building_points > bps
+      stat = params[:stat]
+      current = @character.send(stat)
+      if current < 10
+        percent = bps * 10
+      elsif current < 15
+        percent = bps * 5
+      else
+        percent = bps * 3
+      end
 
-    percent = percent.to_f / 100.to_f
-    current += percent
-    @character.send(stat+"=", current)
-    if @character.save
-      redirect_to character_url(@character), notice: percent.to_s + ' was added to ' + stat
+      percent = percent.to_f / 100.to_f
+      current += percent
+      @character.send(stat+"=", current)
+      @character.building_points -= bps
+      if @character.save
+        redirect_to character_url(@character), notice: percent.to_s + ' was added to ' + stat
+      else
+        redirect_to character_url(@character), notice: 'There was a problem boosting your ' + stat
+      end
     else
-      redirect_to character_url(@character), notice: 'There was a problem boosting your ' + stat
+      redirect_to character_url(@character), notice: 'You did not have enough building points'
     end
   end
 

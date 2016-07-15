@@ -179,7 +179,7 @@ $(document).ready(function() {
 
   $(".stat-percent").change(function(e) {
     var input = $(e.target);
-    var current = parseInt(input.data("current"));
+    var current = parseFloat(input.data("current")) + 1;
     var percent = input.val();
 
     if (current < 10) {
@@ -190,6 +190,11 @@ $(document).ready(function() {
       percent = percent * 3;
     }
 
-    input.parent().find(".percent").html(percent + "%");
+    var newVal = current + (percent / 100);
+
+    var integer = newVal.toFixed(2).split(".")[0];
+    var percent = newVal.toFixed(2).split(".")[1];
+
+    input.parent().find(".percent").html(integer + " " + percent + "%");
   });
 });

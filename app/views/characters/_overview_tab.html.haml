@@ -12,10 +12,12 @@
           .input-group.stat-boost.stat-strength
             %span.input-group-addon
               Boost
-            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: @character.strength } }
+            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: number_with_precision(@character.strength, precision: 2) } }
             %span.input-group-btn
               %button{ type: "submit", class: "btn btn-primary" }
                 %span.percent
+                  = number_with_precision(@character.strength, precision: 0)
+                  = number_with_precision(@character.strength, precision: 2).to_s.split(".")[1] + "%"
                 %span.octicon.octicon-arrow-up
         Damage Mod:
         = ability = AbilityScore.find_ability_mod("Strength", @character.strength, "damage_mod")
@@ -44,10 +46,12 @@
           .input-group.stat-boost.stat-intelligence
             %span.input-group-addon
               Boost
-            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: @character.intelligence } }
+            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: number_with_precision(@character.intelligence, precision: 2) } }
             %span.input-group-btn
               %button{ type: "submit", class: "btn btn-primary" }
                 %span.percent
+                  = number_with_precision(@character.intelligence, precision: 0)
+                  = number_with_precision(@character.intelligence, precision: 2).to_s.split(".")[1] + "%"
                 %span.octicon.octicon-arrow-up
         Attak Mod:
         = ability = AbilityScore.find_ability_mod("Intelligence", @character.intelligence, "attack_mod")
@@ -63,10 +67,12 @@
           .input-group.stat-boost.stat-wisdom
             %span.input-group-addon
               Boost
-            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: @character.wisdom } }
+            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: number_with_precision(@character.wisdom, precision: 2) } }
             %span.input-group-btn
               %button{ type: "submit", class: "btn btn-primary" }
                 %span.percent
+                  = number_with_precision(@character.wisdom, precision: 0)
+                  = number_with_precision(@character.wisdom, precision: 2).to_s.split(".")[1] + "%"
                 %span.octicon.octicon-arrow-up
         Initiative Mod:
         = ability = AbilityScore.find_ability_mod("Wisdom", @character.wisdom, "init_mod")
@@ -88,10 +94,12 @@
           .input-group.stat-boost.stat-dexterity
             %span.input-group-addon
               Boost
-            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: @character.dexterity } }
+            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: number_with_precision(@character.dexterity, precision: 2) } }
             %span.input-group-btn
               %button{ type: "submit", class: "btn btn-primary" }
                 %span.percent
+                  = number_with_precision(@character.dexterity, precision: 0)
+                  = number_with_precision(@character.dexterity, precision: 2).to_s.split(".")[1] + "%"
                 %span.octicon.octicon-arrow-up
         Initiative Mod:
         = ability = AbilityScore.find_ability_mod("Dexterity", @character.dexterity, "init_mod")
@@ -119,10 +127,12 @@
           .input-group.stat-boost.stat-constitution
             %span.input-group-addon
               Boost
-            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: @character.constitution } }
+            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: number_with_precision(@character.constitution, precision: 2) } }
             %span.input-group-btn
               %button{ type: "submit", class: "btn btn-primary" }
                 %span.percent
+                  = number_with_precision(@character.constitution, precision: 0)
+                  = number_with_precision(@character.constitution, precision: 2).to_s.split(".")[1] + "%"
                 %span.octicon.octicon-arrow-up
         Physical Saving Throw:
         = ability = AbilityScore.find_ability_mod("Constitution", @character.constitution, "physical_saving_throw_bonus")
@@ -138,10 +148,12 @@
           .input-group.stat-boost.stat-looks
             %span.input-group-addon
               Boost
-            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: @character.looks } }
+            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: number_with_precision(@character.looks, precision: 2) } }
             %span.input-group-btn
               %button{ type: "submit", class: "btn btn-primary" }
                 %span.percent
+                  = number_with_precision(@character.looks, precision: 0)
+                  = number_with_precision(@character.looks, precision: 2).to_s.split(".")[1] + "%"
                 %span.octicon.octicon-arrow-up
     .row{ "data-show" => "stat-charisma", class: "show-on-hover" }
       %br
@@ -155,10 +167,12 @@
           .input-group.stat-boost.stat-charisma
             %span.input-group-addon
               Boost
-            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: @character.charisma } }
+            %input.stat-percent{ name: "bp_boost", placeholder: "BPs", class: "integer form-control", type: "number", max: @character.building_points, min: 1, data: { current: number_with_precision(@character.charisma, precision: 2) } }
             %span.input-group-btn
               %button{ type: "submit", class: "btn btn-primary" }
                 %span.percent
+                  = number_with_precision(@character.charisma, precision: 0)
+                  = number_with_precision(@character.charisma, precision: 2).to_s.split(".")[1] + "%"
                 %span.octicon.octicon-arrow-up
         Turning Mod:
         = ability = AbilityScore.find_ability_mod("Charisma", @character.charisma, "turning_mod")
