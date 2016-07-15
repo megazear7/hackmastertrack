@@ -3,34 +3,43 @@
   %p You will be able to purchase more skils, talents and proficiencies after you are done with character creation.
   .row
     .col-md-4
-      .row
-        .col-md-12
-          %h4
-            = @character.race.name
-            Proficiencies:
-          - if @character.race.proficiencies.count > 0
+      - if @character.race.proficiencies.count > 0
+        .row
+          .col-md-12
+            %h5
+              = @character.race.name
+              Proficiencies:
             - @character.race.proficiencies.each do |prof|
-              %h5= prof.name
-          - else
-            %h5 None
-      .row
-        .col-md-12
-          %br
-          %h4
-            = @character.race.name
-            Talents:
-          - if @character.race.talents.count > 0
+              = prof.name
+              %br
+      - if @character.race.talents.count > 0
+        .row
+          .col-md-12
+            %br
+            %h5
+              = @character.race.name
+              Talents:
             - @character.race.talents.each do |talent|
-              %h5= talent.name
-          - else
-            %h5 None
-      .row
-        .col-md-12
-          %br
-          %h4
-            = @character.race.name
-            Skills:
+              = talent.name
+              %br
+      - if @character.race.preferential_races_talents.count > 0
+        .row
+          .col-md-12
+            %br
+            %h5
+              = @character.race.name
+              Preferential Talent Access:
+            - @character.race.preferential_races_talents.each do |races_talents|
+              = races_talents.talent.name
+              = "(" + races_talents.percent_cost.to_s + "%)"
+              %br
       - if @character.race.races_skills.count > 0
+        .row
+          .col-md-12
+            %br
+            %h5
+              = @character.race.name
+              Skills:
         - @character.race.races_skills.each do |races_skill|
           .row
             .col-md-12
@@ -42,19 +51,15 @@
                 .input-group-btn
                   %button.btn.btn-default.random{ data: { target: "skills_#{races_skill.skill.id}", count: 0, limit: 1, roll: "d12" } }
                     &nbsp; &nbsp; &nbsp;
-      - else
-        %h5 None
     .col-md-4
-      .row
-        .col-md-12
-          %h4
-            = @character.character_class.name
-            Proficiencies:
-          - if @character.character_class.proficiencies.count > 0
+      - if @character.character_class.proficiencies.count > 0
+        .row
+          .col-md-12
+            %h5
+              = @character.character_class.name
+              Proficiencies:
             - @character.character_class.proficiencies.each do |prof|
-              %h5= prof.name
-          - else
-            %h5 None
+              = prof.name
   .row
     %br
     %br
