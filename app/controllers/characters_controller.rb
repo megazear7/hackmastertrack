@@ -175,7 +175,7 @@ class CharactersController < ApplicationController
 
   def boost_stat
     bps = params[:bp_boost].to_i
-      if @character.building_points > bps
+      if @character.building_points >= bps
       stat = params[:stat]
       current = @character.send(stat)
       if current < 10
