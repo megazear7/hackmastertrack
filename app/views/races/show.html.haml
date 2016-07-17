@@ -22,7 +22,7 @@
           = link_to talent.name, talent
           %br
     %tr
-      %td Starting Talents
+      %td Preferential Talents
       %td
         - @race.preferential_races_talents.each do |races_talent|
           = link_to races_talent.talent.name + " " + races_talent.percent_cost.to_s + "%", races_talent.talent

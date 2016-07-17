@@ -19,6 +19,19 @@
     .col-md-3= f.input :damage_specialization_cost, input_html: { class: "integer form-control" }
   .row
     .col-md-4= f.association :proficiencies, collection: Proficiency.all.order(:name), input_html: { class: "string form-control" }
+    .col-md-4= f.association :talents, collection: Talent.where(item_specific: false).order(:name), input_html: { class: "string form-control" }
+    .col-md-4= f.association :skills, collection: Skill.all.order(:name), input_html: { class: "string form-control" }
+  .row
+    .col-md-4
+      - @character_class.character_classes_skills.each do |character_classes_skill|
+        .row
+          .col-md-12
+            %br
+            .input-group
+              %span.input-group-addon
+                Free Purchases of
+                = character_classes_skill.skill.name + ":"
+              = number_field_tag "skill_counts[#{character_classes_skill.id}]", character_classes_skill.count, class: "string form-control"
   .row
     .col-md-4
       %br

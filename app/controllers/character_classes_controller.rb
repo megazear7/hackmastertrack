@@ -42,6 +42,16 @@ class CharacterClassesController < ApplicationController
   # PATCH/PUT /character_classes/1
   # PATCH/PUT /character_classes/1.json
   def update
+    if not params[:skill_counts].nil?
+      params[:skill_counts].each do |id_count|
+        id = id_count[0]
+        count = id_count[1]
+        character_classes_skill = CharacterClassesSkill.find(id)
+        character_classes_skill.count = count
+        character_classes_skill.save
+      end
+    end
+
     respond_to do |format|
       if @character_class.update(character_class_params)
         format.html { redirect_to @character_class, notice: 'Character class was successfully updated.' }
@@ -80,7 +90,9 @@ class CharacterClassesController < ApplicationController
         :defense_specialization_cost,
         :damage_specialization_cost,
         :luck_points,
-        proficiency_ids: []
+        proficiency_ids: [],
+        talent_ids: [],
+        skill_ids: []
       )
     end
 end

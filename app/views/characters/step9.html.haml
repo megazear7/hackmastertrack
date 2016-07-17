@@ -47,9 +47,9 @@
               .input-group
                 %span.input-group-addon
                   = races_skill.skill.name
-                = number_field_tag "skills[#{races_skill.skill.id}]", nil, class: "string form-control", placeholder: "#{races_skill.count} D12 Die Rolls", required: true, min: 1, max: 12
+                = number_field_tag "race_skills[#{races_skill.skill.id}]", nil, class: "string form-control", placeholder: "#{races_skill.count} D12 Die Rolls", required: true, min: 1, max: 12
                 .input-group-btn
-                  %button.btn.btn-default.random{ data: { target: "skills_#{races_skill.skill.id}", count: 0, limit: 1, roll: "d12" } }
+                  %button.btn.btn-default.random{ data: { target: "race_skills_#{races_skill.skill.id}", count: 0, limit: 1, roll: "d12" } }
                     &nbsp; &nbsp; &nbsp;
     .col-md-4
       - if @character.character_class.proficiencies.count > 0
@@ -60,6 +60,34 @@
               Proficiencies:
             - @character.character_class.proficiencies.each do |prof|
               = prof.name
+      - if @character.character_class.talents.count > 0
+        .row
+          .col-md-12
+            %br
+            %h5
+              = @character.character_class.name
+              Talents:
+            - @character.character_class.talents.each do |talent|
+              = talent.name
+              %br
+      - if @character.character_class.character_classes_skills.count > 0
+        .row
+          .col-md-12
+            %br
+            %h5
+              = @character.character_class.name
+              Skills:
+            - @character.character_class.character_classes_skills.each do |character_classes_skill|
+              .row
+                .col-md-12
+                  %br
+                  .input-group
+                    %span.input-group-addon
+                      = character_classes_skill.skill.name
+                    = number_field_tag "character_class_skills[#{character_classes_skill.skill.id}]", nil, class: "string form-control", placeholder: "#{character_classes_skill.count} D12 Die Rolls", required: true, min: 1, max: 12
+                    .input-group-btn
+                      %button.btn.btn-default.random{ data: { target: "character_class_skills_#{character_classes_skill.skill.id}", count: 0, limit: 1, roll: "d12" } }
+                        &nbsp; &nbsp; &nbsp;
   .row
     %br
     %br

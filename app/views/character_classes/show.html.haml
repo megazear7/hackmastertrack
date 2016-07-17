@@ -17,6 +17,18 @@
     %table.table.table-hover.table-responsive
       %tbody
         %tr
+          %td Starting Skills
+          %td
+            - @character_class.character_classes_skills.each do |character_classes_skill|
+              = link_to character_classes_skill.skill.name + " (#{character_classes_skill.count} purchases)", character_classes_skill.skill
+              %br
+        %tr
+          %td Starting Talents
+          %td
+            - @character_class.talents.each do |talent|
+              = link_to talent.name, talent
+              %br
+        %tr
           %td Proficiencies
           %td
             - @character_class.proficiencies.each do |prof|

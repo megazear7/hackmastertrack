@@ -403,11 +403,15 @@ class CharactersController < ApplicationController
       @character.proficiencies << prof
     end
 
+    @character.race.talents.each do |talent|
+      @character.talents << talent
+    end
+
     @character.character_class.proficiencies.each do |prof|
       @character.proficiencies << prof
     end
 
-    @character.race.talents.each do |talent|
+    @character.character_class.talents.each do |talent|
       @character.talents << talent
     end
 
@@ -452,9 +456,16 @@ class CharactersController < ApplicationController
   end
 
   def step10
+    if params[:race_skills]
+      params[:race_skills].each do |id_value|
+        skill = Skill.find(id_value[0])
+        value = id_value[1]
+        @character.characters_skills.create(skill_id: skill.id, value: value)
+      end
+    end
 
-    if params[:skills]
-      params[:skills].each do |id_value|
+    if params[:character_class_skills]
+      params[:character_class_skills].each do |id_value|
         skill = Skill.find(id_value[0])
         value = id_value[1]
         @character.characters_skills.create(skill_id: skill.id, value: value)
