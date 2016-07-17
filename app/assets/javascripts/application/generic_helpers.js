@@ -20,12 +20,21 @@ function random(min,max) {
 $(document).ready(function() {
   $(".show-on-hover").each(function(index, element) {
     var show = $(element).data("show");
+    var style = $(element).data("show-style");
     $("."+show).hide();
     $(element).mouseenter(function(e) {
-      $("."+show).show();
+      if (style == "slide") {
+        $("."+show).slideDown(150);
+      } else {
+        $("."+show).show();
+      }
     });
     $(element).mouseleave(function(e) {
-      $("."+show).hide();
+      if (style == "slide") {
+        $("."+show).slideUp(150);
+      } else {
+        $("."+show).hide();
+      }
     });
   });
 
