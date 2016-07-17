@@ -219,21 +219,10 @@ class CharactersController < ApplicationController
     end
 
     if @character.building_points >= skill.bp_cost
-        char_skill = @character.characters_skills.find_by(skill_id: skill.id, character_id: @character.id)
-        if char_skill.nil?
-          # set value based on the lowest of the abiilities related to the skill, plus the die roll result (i.e. params[:value])
-          starting_value = @character.attr_value_for(skill) + params[:value].to_i
-          char_skill = @character.characters_skills.new(skill_id: skill.id, character_id: @character.id, value: starting_value)
-        else
-          char_skill.value += params[:value].to_i
-          if char_skill.value > 100
-            char_skill.value = 100
-          end
-          char_skill.save
-        end
+        skill_level = @character.add_skill(skill, params[:value].to_i)
         @character.building_points -= skill.bp_cost
         @character.save
-        redirect_to skills_path, notice: 'You now have a ' + char_skill.value.to_s + ' score in the skill ' + skill.name
+        redirect_to skills_path, notice: 'You now have a ' + skill_level.to_s + ' score in the skill ' + skill.name
     else
       redirect_to skills_path, notice: 'You do not have enough building points for the talent ' + skill.name + '!'
     end
@@ -460,7 +449,7 @@ class CharactersController < ApplicationController
       params[:race_skills].each do |id_value|
         skill = Skill.find(id_value[0])
         value = id_value[1]
-        @character.characters_skills.create(skill_id: skill.id, value: value)
+        @character.add_skill(skill, value.to_i)
       end
     end
 
@@ -468,7 +457,7 @@ class CharactersController < ApplicationController
       params[:character_class_skills].each do |id_value|
         skill = Skill.find(id_value[0])
         value = id_value[1]
-        @character.characters_skills.create(skill_id: skill.id, value: value)
+        @character.add_skill(skill, value.to_i)
       end
     end
 

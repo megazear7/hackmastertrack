@@ -65,20 +65,20 @@ class Character < ActiveRecord::Base
   belongs_to :mentor, :class_name => "Character"
   has_many :prodigees, :foreign_key => "mentor_id"
 
-  def give_race_benefits
-    # TODO make sure the names are correct and build associations
-    # between skills, talents and proficiencies and 'self' character
-    if    self.race.name == "Dwarf"
-    elsif self.race.name == "Elf"
-    elsif self.race.name == "Gnome"
-    elsif self.race.name == "Gnome Titan"
-    elsif self.race.name == "Grel"
-    elsif self.race.name == "Half-Elf"
-    elsif self.race.name == "Half-Hobgoblin"
-    elsif self.race.name == "Half-Orc"
-    elsif self.race.name == "Halfling"
-    elsif self.race.name == "Human"
+  def add_skill skill, roll
+    char_skill = self.characters_skills.find_by(skill_id: skill.id, character_id: self.id)
+    if char_skill.nil?
+      # set value based on the lowest of the abilities related to the skill, plus the die roll result (i.e. params[:value])
+      starting_value = self.attr_value_for(skill) + roll
+      char_skill = self.characters_skills.new(skill_id: skill.id, character_id: self.id, value: starting_value)
+    else
+      char_skill.value += roll
+      if char_skill.value > 100
+        char_skill.value = 100
+      end
     end
+    char_skill.save
+    return char_skill.value
   end
 
   def specialized_weapons
