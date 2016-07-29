@@ -781,8 +781,28 @@ class Character < ActiveRecord::Base
       8
     when 11200..14149
       9
-    when 14150..99999 # I dont know about levels 11+
+    when 14150..17599
       10
+    when 17600..21649
+      11
+    when 21650..26399
+      12
+    when 26400..31949
+      13
+    when 31950..38399
+      14
+    when 38400..45849
+      15
+    when 45850..54399
+      16
+    when 54400..64149
+      17
+    when 64150..75199
+      18
+    when 75200..87649
+      19
+    when 87650..99999
+      20
     end
   end
 
