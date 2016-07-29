@@ -78,6 +78,13 @@
         - else
           %li.nav{role: "presentation"}
             %a{href: "#combat", :"aria-controls" => "combat", role: "tab", data: { toggle: "tab" }} Combat
+        - if @character.magic_user?
+          - if params[:tab] == "magic"
+            %li.nav.active{role: "presentation"}
+              %a{href: "#magic", :"aria-controls" => "magic", role: "tab", data: { toggle: "tab" }} Magic
+          - else
+            %li.nav{role: "presentation"}
+              %a{href: "#magic", :"aria-controls" => "magic", role: "tab", data: { toggle: "tab" }} Magic
       .tab-content
         - if params[:tab] == "overview" or not params[:tab].present?
           .tab-pane.fade.in.active{id: "overview", role: "tabpanel"}
@@ -103,3 +110,10 @@
         - else
           .tab-pane.fade{id: "combat", role: "tabpanel"}
             = render partial: "combat_tab", locals: { character: @character }
+        - if @character.magic_user?
+          - if params[:tab] == "magic"
+            .tab-pane.fade.in.active{id: "magic", role: "tabpanel"}
+              = render partial: "magic_tab", locals: { character: @character }
+          - else
+            .tab-pane.fade{id: "magic", role: "tabpanel"}
+              = render partial: "magic_tab", locals: { character: @character }

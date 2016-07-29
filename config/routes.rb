@@ -43,6 +43,7 @@ Rails.application.routes.draw do
     member do
       get  :remove_proficiency
       get  :add_proficiency
+      get  :add_spell
       get  :add_talent
       post :add_talent
       get  :add_skill

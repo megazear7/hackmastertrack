@@ -1,0 +1,7 @@
+.row
+  .col-sm-6.col-md-2
+    %h4 Spell Book:
+    - @character.character_spells.each do |char_spell|
+      %h5
+        = link_to char_spell.spell.name, char_spell.spell
+    %h5= link_to raw('<span class="glyphicon glyphicon-plus"></span> Add Spell'), spells_path

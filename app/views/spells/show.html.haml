@@ -1,6 +1,31 @@
-.btn-group
-  = link_to 'Back', spells_path, class: "btn btn-default"
-  = link_to 'Edit', edit_spell_path(@spell), class: "btn btn-primary"
+.row.sub-nav
+  %br
+  .col-md-10
+    .btn-group
+      = link_to 'Back', spells_path, class: "btn btn-default"
+      = link_to 'Edit', edit_spell_path(@spell), class: "btn btn-primary"
+  .col-md-2
+    .pull-right
+      - if @current_character
+        = render partial: "shared/shopping_with", locals: { message: @current_character.building_points.to_s + " Building Points" }
+      - else
+        = render partial: "shared/shopping_with"
+.row
+  .col-md-12
+    %h3= @spell.name
+.row
+  .col-md-3
+    %br
+    - if @current_character
+      - if @current_character.has_spell?(@spell)
+        %td
+          %span.btn.btn-success
+            &#10004;
+            You Have
+            = @spell.name
+      - else
+        .btn-group
+          = link_to raw("<span class='glyphicon glyphicon-plus'></span> Learn with " + @current_character.name), add_spell_character_path(@current_character, spell_id: @spell.id), :class => "btn btn-primary"
 %br
 %br
 %table.table.table-hover.table-responsive

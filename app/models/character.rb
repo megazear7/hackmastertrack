@@ -480,6 +480,10 @@ class Character < ActiveRecord::Base
     proficiencies.exists?(prof.id)
   end
 
+  def has_spell? spell
+    not CharacterSpell.find_by(spell_id: spell.id).nil?
+  end
+
   def die_size(skill)
     value = value_with(skill)
     if value < 25
@@ -733,6 +737,11 @@ class Character < ActiveRecord::Base
 
   def spell_points_this_level
     Level.find_mod(self.character_class.id, self.level, "spell_points")
+  end
+
+  def magic_user?
+    # TODO: What about clerics?
+    has_spell_points
   end
 
   def has_spell_points

@@ -1,5 +1,5 @@
 class CharactersController < ApplicationController
-  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :boost_stat, :add_items, :equip_items, :add_proficiency, :remove_proficiency, :add_talent, :add_silver, :step3, :step4, :step5, :step6, :step7, :step8, :step9, :step10, :step11, :step12, :step13, :finish, :leave]
+  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :boost_stat, :add_items, :equip_items, :add_proficiency, :remove_proficiency, :add_spell, :add_talent, :add_silver, :step3, :step4, :step5, :step6, :step7, :step8, :step9, :step10, :step11, :step12, :step13, :finish, :leave]
 
   # GET /characters
   # GET /characters.json
@@ -170,6 +170,20 @@ class CharactersController < ApplicationController
       redirect_to proficiencies_path, notice: 'You already have the proficiency ' + prof.name + '!'
     else
       redirect_to proficiencies_path, notice: 'You do not have enough building points for the proficiency ' + prof.name + '!'
+    end
+  end
+
+  def add_spell
+    spell = Spell.find(params[:spell_id])
+    if not @character.has_spell?(spell)
+      char_spell = CharacterSpell.new(spell_id: spell.id, character_id: @character.id)
+      if char_spell.save
+        redirect_to spells_path, notice: 'You now have ' + spell.name + ' in your spellbook!'
+      else
+        redirect_to spells_path, notice: 'There was an error adding ' + spell.name + ' to your spell book!'
+      end
+    else
+      redirect_to spells_path, notice: 'You already have ' + spell.name + ' in your spellbook!'
     end
   end
 
