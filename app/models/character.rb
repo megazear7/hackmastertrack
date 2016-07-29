@@ -484,6 +484,11 @@ class Character < ActiveRecord::Base
     not CharacterSpell.find_by(spell_id: spell.id).nil?
   end
 
+  def max_skill_mastery(skill)
+    # TODO: Look at characters stats to determine the skill mastery
+    5
+  end
+
   def die_size(skill)
     value = value_with(skill)
     if value < 25

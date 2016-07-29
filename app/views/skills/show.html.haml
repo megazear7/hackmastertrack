@@ -23,7 +23,7 @@
               %span{ style: "color: green" } &#10004;
               Skill of
               = @current_character.value_with(@skill)
-            = number_field_tag :value, nil, id: "skill_value_"+@skill.id.to_s, class: "integer form-control limit-width", placeholder: "D" + @current_character.die_size(@skill).to_s, required: true, min: 1, max: @current_character.die_size(@skill)
+            = number_field_tag :value, nil, id: "skill_value_"+@skill.id.to_s, class: "integer form-control limit-width", placeholder: "D" + @current_character.die_size(@skill).to_s, required: true, min: 1, max: @current_character.die_size(@skill) + @current_character.max_skill_mastery(@skill)
             .input-group-btn
               %button.btn.btn-default.remove-bootstrap-radius-btn.random{ data: { target: "skill_value_"+@skill.id.to_s, count: 0, limit: 1, roll: "d"+@current_character.die_size(@skill).to_s } }
                 &nbsp; &nbsp; &nbsp;
@@ -35,7 +35,7 @@
           .input-group{ class: "skill_"+@skill.id.to_s }
             %span.input-group-addon
               Learn Skill:
-            = number_field_tag :value, nil, id: "skill_value_"+@skill.id.to_s, class: "integer form-control limit-width", placeholder: "D" + @current_character.die_size(@skill).to_s, required: true, min: 1, max: @current_character.die_size(@skill)
+            = number_field_tag :value, nil, id: "skill_value_"+@skill.id.to_s, class: "integer form-control limit-width", placeholder: "D" + @current_character.die_size(@skill).to_s, required: true, min: 1, max: @current_character.die_size(@skill) + @current_character.max_skill_mastery(@skill)
             .input-group-btn
               %button.btn.btn-default.remove-bootstrap-radius-btn.random{ data: { target: "skill_value_"+@skill.id.to_s, count: 0, limit: 1, roll: "d"+@current_character.die_size(@skill).to_s } }
                 &nbsp; &nbsp; &nbsp;
