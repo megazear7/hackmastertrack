@@ -27,7 +27,7 @@
             %td{ style: 'width: 300px' }= skill.name
             %td= skill.bp_cost
             %td= skill.description
-            %td{ style: 'width: 300px' }
+            %td{ style: 'min-width: 350px' }
               - if @current_character
                 = form_tag add_skill_character_path(@current_character) do
                   %input{ type: "hidden", name: "skill_id", value: skill.id }
