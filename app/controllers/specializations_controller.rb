@@ -14,7 +14,7 @@ class SpecializationsController < ApplicationController
     @character = Character.find(params[:specialization][:character_id])
     @item = Item.find(params[:specialization][:item_id])
     stat_name = params[:specialization][:stat_name]
-    if params[:specialization][:value].to_i < 5
+    if params[:specialization][:value].to_i <= 5
       if @character.proficiencies.pluck(:id).include? @item.proficiency.id
         if @character.specialization_available(@item, stat_name)
           cost = @character.specialization_cost(@item, stat_name)
