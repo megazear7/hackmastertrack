@@ -4,7 +4,7 @@
     .row{ "data-show" => "stat-strength", class: "show-on-hover" }
       .col-xs-4.col-sm-2.col-md-1 Strength:
       .col-xs-2.col-sm-1
-        %span.stat-int= number_with_precision(@character.strength, precision: 0)
+        %span.stat-int= @character.strength.floor
         = number_with_precision(@character.strength, precision: 2).to_s.split(".")[1] + "%"
       .col-xs-4.col-sm-offset-0.col-sm-2
         = form_tag boost_stat_character_path(@character), method: "post" do
@@ -16,7 +16,7 @@
             %span.input-group-btn
               %button{ type: "submit", class: "btn btn-primary" }
                 %span.percent
-                  = number_with_precision(@character.strength, precision: 0)
+                  = @character.strength.floor
                   = number_with_precision(@character.strength, precision: 2).to_s.split(".")[1] + "%"
                 %span.octicon.octicon-arrow-up
         Damage Mod:
@@ -38,7 +38,7 @@
       .col-xs-4.col-sm-2.col-md-1
         Intelligence:
       .col-xs-2.col-sm-1
-        %span.stat-int= number_with_precision(@character.intelligence, precision: 0)
+        %span.stat-int= @character.intelligence.floor
         = number_with_precision(@character.intelligence, precision: 2).to_s.split(".")[1] + "%"
       .col-xs-4.col-sm-2
         = form_tag boost_stat_character_path(@character), method: "post" do
@@ -50,7 +50,7 @@
             %span.input-group-btn
               %button{ type: "submit", class: "btn btn-primary" }
                 %span.percent
-                  = number_with_precision(@character.intelligence, precision: 0)
+                  = @character.intelligence.floor
                   = number_with_precision(@character.intelligence, precision: 2).to_s.split(".")[1] + "%"
                 %span.octicon.octicon-arrow-up
         Attak Mod:
@@ -59,7 +59,7 @@
       %br
       .col-xs-4.col-sm-2.col-md-1 Wisdom:
       .col-xs-2.col-sm-1
-        %span.stat-int= number_with_precision(@character.wisdom, precision: 0)
+        %span.stat-int= @character.wisdom.floor
         = number_with_precision(@character.wisdom, precision: 2).to_s.split(".")[1] + "%"
       .col-xs-4.col-sm-2
         = form_tag boost_stat_character_path(@character), method: "post" do
@@ -71,7 +71,7 @@
             %span.input-group-btn
               %button{ type: "submit", class: "btn btn-primary" }
                 %span.percent
-                  = number_with_precision(@character.wisdom, precision: 0)
+                  = @character.wisdom.floor
                   = number_with_precision(@character.wisdom, precision: 2).to_s.split(".")[1] + "%"
                 %span.octicon.octicon-arrow-up
         Initiative Mod:
@@ -86,7 +86,7 @@
       %br
       .col-xs-4.col-sm-2.col-md-1 Dexterity:
       .col-xs-2.col-sm-1
-        %span.stat-int= number_with_precision(@character.dexterity, precision: 0)
+        %span.stat-int= @character.dexterity.floor
         = number_with_precision(@character.dexterity, precision: 2).to_s.split(".")[1] + "%"
       .col-xs-4.col-sm-2
         = form_tag boost_stat_character_path(@character), method: "post" do
@@ -98,7 +98,7 @@
             %span.input-group-btn
               %button{ type: "submit", class: "btn btn-primary" }
                 %span.percent
-                  = number_with_precision(@character.dexterity, precision: 0)
+                  = @character.dexterity.floor
                   = number_with_precision(@character.dexterity, precision: 2).to_s.split(".")[1] + "%"
                 %span.octicon.octicon-arrow-up
         Initiative Mod:
@@ -119,7 +119,7 @@
       %br
       .col-xs-4.col-sm-2.col-md-1 Constitution:
       .col-xs-2.col-sm-1
-        %span.stat-int= number_with_precision(@character.constitution, precision: 0)
+        %span.stat-int= @character.constitution.floor
         = number_with_precision(@character.constitution, precision: 2).to_s.split(".")[1] + "%"
       .col-xs-4.col-sm-2
         = form_tag boost_stat_character_path(@character), method: "post" do
@@ -131,7 +131,7 @@
             %span.input-group-btn
               %button{ type: "submit", class: "btn btn-primary" }
                 %span.percent
-                  = number_with_precision(@character.constitution, precision: 0)
+                  = @character.constitution.floor
                   = number_with_precision(@character.constitution, precision: 2).to_s.split(".")[1] + "%"
                 %span.octicon.octicon-arrow-up
         Physical Saving Throw:
@@ -140,7 +140,7 @@
       %br
       .col-xs-4.col-sm-2.col-md-1 Looks:
       .col-xs-2.col-sm-1
-        %span.stat-int= number_with_precision(@character.looks, precision: 0)
+        %span.stat-int= @character.looks.floor
         = number_with_precision(@character.looks, precision: 2).to_s.split(".")[1] + "%"
       .col-xs-2.col-sm-1
         = form_tag boost_stat_character_path(@character), method: "post" do
@@ -152,14 +152,14 @@
             %span.input-group-btn
               %button{ type: "submit", class: "btn btn-primary" }
                 %span.percent
-                  = number_with_precision(@character.looks, precision: 0)
+                  = @character.looks.floor
                   = number_with_precision(@character.looks, precision: 2).to_s.split(".")[1] + "%"
                 %span.octicon.octicon-arrow-up
     .row{ "data-show" => "stat-charisma", class: "show-on-hover" }
       %br
       .col-xs-4.col-sm-2.col-md-1 Charisma:
       .col-xs-2.col-sm-1
-        %span.stat-int= number_with_precision(@character.charisma, precision: 0)
+        %span.stat-int= @character.charisma.floor
         = number_with_precision(@character.charisma, precision: 2).to_s.split(".")[1] + "%"
       .col-xs-4.col-sm-2
         = form_tag boost_stat_character_path(@character), method: "post" do
@@ -171,7 +171,7 @@
             %span.input-group-btn
               %button{ type: "submit", class: "btn btn-primary" }
                 %span.percent
-                  = number_with_precision(@character.charisma, precision: 0)
+                  = @character.charisma.floor
                   = number_with_precision(@character.charisma, precision: 2).to_s.split(".")[1] + "%"
                 %span.octicon.octicon-arrow-up
         Turning Mod:

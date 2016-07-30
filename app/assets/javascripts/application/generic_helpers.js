@@ -188,7 +188,7 @@ $(document).ready(function() {
 
   $(".stat-percent").change(function(e) {
     var input = $(e.target);
-    var current = parseFloat(input.data("current")) + 1;
+    var current = parseFloat(input.data("current"));
     var percent = input.val();
 
     if (current < 10) {
