@@ -734,7 +734,7 @@ class Character < ActiveRecord::Base
   def calculate_top_save equipment
     equipment = build_equipment(equipment)
     ret = {}
-    ret["constitution"] = (self.constitution / 2).round(0)
+    ret["constitution"] = (self.constitution / 2).floor
     mod = 0
     ret.each do |key, val|
       mod += val
