@@ -659,7 +659,10 @@ class Character < ActiveRecord::Base
       end
       specialization = self.specializations.find_by(item_id: itemInstance.item.id, stat_name: "damage")
       ret["specialization"] = specialization.value if specialization
-      ret["strength"] = AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
+      str_mod = AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
+      if str_mod != 0
+        ret["strength"] = str_mod
+      end
       if itemInstance.item.damage_mod
         ret[itemInstance.actual_name] = itemInstance.item.damage_mod
       end
