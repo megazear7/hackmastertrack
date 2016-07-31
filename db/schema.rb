@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160717101108) do
+ActiveRecord::Schema.define(version: 20160731004736) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -179,19 +179,28 @@ ActiveRecord::Schema.define(version: 20160717101108) do
   create_table "item_instances", force: true do |t|
     t.integer  "item_id"
     t.integer  "character_id"
-    t.integer  "durability",       default: 0
-    t.integer  "attack_mod",       default: 0
-    t.integer  "speed_mod",        default: 0
-    t.integer  "init_mod",         default: 0
-    t.integer  "defense_mod",      default: 0
-    t.integer  "damage_mod",       default: 0
-    t.integer  "damage_reduction", default: 0
-    t.integer  "magic_level",      default: 0
-    t.integer  "init_die_mod",     default: 0
+    t.integer  "durability",                   default: 0
+    t.integer  "attack_mod",                   default: 0
+    t.integer  "speed_mod",                    default: 0
+    t.integer  "init_mod",                     default: 0
+    t.integer  "defense_mod",                  default: 0
+    t.integer  "damage_mod",                   default: 0
+    t.integer  "damage_reduction",             default: 0
+    t.integer  "magic_level",                  default: 0
+    t.integer  "init_die_mod",                 default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "display",          default: false
-    t.string   "name",             default: ""
+    t.boolean  "display",                      default: false
+    t.string   "name",                         default: ""
+    t.integer  "shield_damage_reduction",      default: 0
+    t.integer  "worn_init_die_mod",            default: 0
+    t.integer  "worn_attack_mod",              default: 0
+    t.integer  "worn_speed_mod",               default: 0
+    t.integer  "worn_init_mod",                default: 0
+    t.integer  "worn_defense_mod",             default: 0
+    t.integer  "worn_damage_mod",              default: 0
+    t.integer  "worn_damage_reduction",        default: 0
+    t.integer  "worn_shield_damage_reduction", default: 0
   end
 
   create_table "items", force: true do |t|

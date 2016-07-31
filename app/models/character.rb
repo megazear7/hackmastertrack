@@ -160,6 +160,11 @@ class Character < ActiveRecord::Base
     end
   end
 
+  def worn_items
+    # TODO: This should be a relationship where the user can add items from inventory to a list of "worn" items"
+    return item_instances
+  end
+
   def main_hand_item= item
     self.handedness == "R" ? self.right_hand_item = item : self.left_hand_item = item
   end
@@ -325,7 +330,7 @@ class Character < ActiveRecord::Base
         ret[equipment["body"].actual_name] = equipment["body"].item.speed_mod       
       end
       if prof_adjustment(itemInstance.item) != 0
-        ret["proficiency"] = -1 * prof_adjustment(itemInstance.item)
+        ret["No " + itemInstance.item.name + " Proficiency"] = -1 * prof_adjustment(itemInstance.item)
       end
       if itemInstance.item.melee?
         level_mod = Level.find_mod(self.character_class.id, self.level, "speed_mod")
@@ -338,8 +343,13 @@ class Character < ActiveRecord::Base
             ret["level_bonus"] = level_mod
         end
       end
+    end
 
-
+    worn_items.each do |item_instance|
+      bonus = item_instance.worn_speed_mod * -1
+      if bonus != 0
+        ret[item_instance.actual_name + " (Worn)"] = bonus
+      end
     end
 
     mod = 0
@@ -386,6 +396,13 @@ class Character < ActiveRecord::Base
         ret["level_bonus"] = level_mod
     end
 
+    worn_items.each do |item_instance|
+      bonus = item_instance.worn_init_mod * -1
+      if bonus != 0
+        ret[item_instance.actual_name + " (Worn)"] = bonus
+      end
+    end
+
     mod = 0
     ret.each do |key, val|
       mod += val
@@ -400,6 +417,13 @@ class Character < ActiveRecord::Base
  
     if Race.find_mod(self.race.name, "init_die_bonus")
       ret[self.race.name] = 1
+    end
+
+    worn_items.each do |item_instance|
+      bonus = item_instance.worn_init_die_mod
+      if bonus != 0
+        ret[item_instance.actual_name + " (Worn)"] = bonus
+      end
     end
 
     characters_talents.each do |char_talent|
@@ -453,13 +477,20 @@ class Character < ActiveRecord::Base
         ret[equipment["body"].actual_name] = equipment["body"].item.attack_mod       
       end
       if prof_adjustment(itemInstance.item) != 0
-        ret["proficiency"] = prof_adjustment(itemInstance.item) 
+        ret["No " + itemInstance.item.name + " Proficiency"] = prof_adjustment(itemInstance.item) 
       end
     end
 
     level_mod = Level.find_mod(self.character_class.id, self.level, "attack_mod")
     if level_mod and level_mod != 0
         ret["level_bonus"] = level_mod
+    end
+
+    worn_items.each do |item_instance|
+      bonus = item_instance.worn_attack_mod
+      if bonus != 0
+        ret[item_instance.actual_name + " (Worn)"] = bonus
+      end
     end
 
     ret.merge!(calculate_magic_mod(equipment, "attack_mod"))
@@ -575,14 +606,14 @@ class Character < ActiveRecord::Base
     if equipment["left_hand"] and equipment["left_hand"].item and equipment["left_hand"].item.shield?
         shield = equipment["left_hand"]
         if prof_adjustment(shield.item) != 0
-            ret["not_having_shield_proficiency"] = prof_adjustment(shield.item)
+            ret["no_shield_proficiency"] = prof_adjustment(shield.item)
         end
     end
 
     if equipment["right_hand"] and equipment["right_hand"].item and equipment["right_hand"].item.shield?
         shield = equipment["right_hand"]
         if prof_adjustment(shield.item) != 0
-            ret["not_having_shield_proficiency"] = prof_adjustment(shield.item)
+            ret["no_shield_proficiency"] = prof_adjustment(shield.item)
         end
     end
 
@@ -591,6 +622,13 @@ class Character < ActiveRecord::Base
         ret[self.race.name] = def_adjustment
     end
     ret.merge!(calculate_magic_mod(equipment, "defense_mod"))
+
+    worn_items.each do |item_instance|
+      bonus = item_instance.worn_defense_mod
+      if bonus != 0
+        ret[item_instance.actual_name + " (Worn)"] = bonus
+      end
+    end
 
     mod = 0
     ret.each do |key, val|
@@ -604,18 +642,31 @@ class Character < ActiveRecord::Base
     equipment = build_equipment(equipment)
     ret = {}
 
-    if equipment["#{off_hand}_hand"] and equipment["#{off_hand}_hand"].item.shield_size
-      case equipment["#{off_hand}_hand"].item.shield_size
-      when "buckler"
-        ret["buckler"] = 4
-      when "small"
-        ret["small_shield"] = 4
-      when "medium"
-        ret["medium_shield"] = 6
-      when "large"
-        ret["large_shield"] = 6
-      when "body"
-        ret["body_size_shield"] = 6
+    if equipment["#{off_hand}_hand"]
+      shield = equipment["#{off_hand}_hand"]
+
+      ret[shield.actual_name + " Magic"] = shield.shield_damage_reduction if shield.shield_damage_reduction
+
+      if shield.item.shield_size
+        case shield.item.shield_size
+        when "buckler"
+          ret[shield.actual_name] = 4
+        when "small"
+          ret[shield.actual_name] = 4
+        when "medium"
+          ret[shield.actual_name] = 6
+        when "large"
+          ret[shield.actual_name] = 6
+        when "body"
+          ret[shield.actual_name] = 6
+        end
+      end
+    end
+
+    worn_items.each do |item_instance|
+      bonus = item_instance.worn_shield_damage_reduction
+      if bonus != 0
+        ret[item_instance.actual_name + " (Worn)"] = bonus
       end
     end
 
@@ -630,15 +681,25 @@ class Character < ActiveRecord::Base
   def calculate_damage_reduction equipment
     equipment = build_equipment(equipment)
     ret = {}
+
     characters_talents.each do |char_talent|
       if char_talent.talent.name == "Tough Hide"
         ret[char_talent.name] = 1
       end
     end
+
     if equipment["body"] and equipment["body"].item.damage_reduction
       ret[equipment["body"].actual_name] = equipment["body"].item.damage_reduction       
     end
     ret.merge!(calculate_magic_mod(equipment, "damage_reduction"))
+
+    worn_items.each do |item_instance|
+      bonus = item_instance.worn_damage_reduction
+      if bonus != 0
+        ret[item_instance.actual_name + " (Worn)"] = bonus
+      end
+    end
+
     mod = 0
     ret.each do |key, val|
       mod += val
@@ -650,6 +711,7 @@ class Character < ActiveRecord::Base
   def calculate_damage_mod equipment
     equipment = build_equipment(equipment)
     ret = {}
+
     itemInstance = equipment["#{main_hand}_hand"]
     if itemInstance
       characters_talents.each do |char_talent|
@@ -670,10 +732,17 @@ class Character < ActiveRecord::Base
         ret[equipment["body"].actual_name] = equipment["body"].item.damage_mod
       end
       if prof_adjustment(itemInstance.item) != 0
-        ret[itemInstance.actual_name] = prof_adjustment(itemInstance.item)
+        ret["No " + itemInstance.item.name + " Proficiency"] = prof_adjustment(itemInstance.item)
       end
     end
     ret.merge!(calculate_magic_mod(equipment, "damage_mod"))
+
+    worn_items.each do |item_instance|
+      bonus = item_instance.worn_damage_mod
+      if bonus != 0
+        ret[item_instance.actual_name + " (Worn)"] = bonus
+      end
+    end
 
     mod = 0
     ret.each do |key, val|

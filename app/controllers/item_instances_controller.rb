@@ -99,10 +99,19 @@ class ItemInstancesController < ApplicationController
         :defense_mod,
         :damage_mod,
         :damage_reduction,
+        :shield_damage_reduction,
         :magic_level,
         :init_die_mod,
         :name,
-        :display
+        :display,
+        :worn_init_die_mod,
+        :worn_attack_mod,
+        :worn_speed_mod,
+        :worn_init_mod,
+        :worn_defense_mod,
+        :worn_damage_mod,
+        :worn_damage_reduction,
+        :worn_shield_damage_reduction,
       )
     end
 end

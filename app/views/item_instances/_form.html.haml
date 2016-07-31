@@ -8,7 +8,7 @@
   .hidden= f.input :display, input_html: { checked: @is_display }
   .row
     .col-md-4= f.input :name, input_html: { class: "string form-control", placeholder: @item_instance.actual_name }
-    .col-md-4= f.association :item, collection: Item.all.order(:name), input_html: { class: "string form-control" }
+    .col-md-4= f.association :item, collection: Item.all.order(:name), input_html: { class: "string form-control", required: true }
   .row
     .col-md-12
       %br
@@ -26,7 +26,21 @@
     .col-md-2= f.input :init_mod, input_html: { class: "string form-control" }
     .col-md-2= f.input :damage_mod, input_html: { class: "string form-control" }
     .col-md-2= f.input :damage_reduction, input_html: { class: "string form-control" }
+    .col-md-2= f.input :shield_damage_reduction, input_html: { class: "string form-control" }
     .col-md-2= f.input :init_die_mod, input_html: { class: "string form-control" }
+  .row
+    .col-md-12
+      %br
+      %h4 Magic Adjustments While Worn:
+  .row
+    .col-md-2= f.input :worn_init_die_mod, input_html: { class: "string form-control" }
+    .col-md-2= f.input :worn_attack_mod, input_html: { class: "string form-control" }
+    .col-md-2= f.input :worn_speed_mod, input_html: { class: "string form-control" }
+    .col-md-2= f.input :worn_init_mod, input_html: { class: "string form-control" }
+    .col-md-2= f.input :worn_defense_mod, input_html: { class: "string form-control" }
+    .col-md-2= f.input :worn_damage_mod, input_html: { class: "string form-control" }
+    .col-md-2= f.input :worn_damage_reduction, input_html: { class: "string form-control" }
+    .col-md-2= f.input :worn_shield_damage_reduction, input_html: { class: "string form-control" }
   .row
     .col-md-4
       %br
