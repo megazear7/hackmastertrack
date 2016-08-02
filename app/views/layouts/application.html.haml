@@ -40,7 +40,7 @@
                 %li= link_to "Proficiencies", proficiencies_path
                 %li= link_to "Talents", talents_path
                 %li= link_to "Skills", skills_path
-                %li= link_to "Spells", spells_path
+                %li= link_to "Spells", class_spells_path
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
                 Browse
@@ -66,7 +66,7 @@
                   %li= link_to "Ability Scores", ability_scores_path
                   %li= link_to "Level Details", levels_path
                   %li= link_to "Race Class Combinations", bp_cost_by_race_classes_path
-                  %li= link_to "Class Spell Books", class_spellbooks_path
+                  %li= link_to "All Spells", spells_path
                   %li.divider
                   %li= link_to "New Class", new_character_class_path
                   %li= link_to "New Race", new_race_path

@@ -1,7 +1,7 @@
-%h1 Editing class_spell
-
+.btn-group
+  = link_to 'Show', @class_spell, class: "btn btn-default"
+  = link_to 'Back', class_spells_path, class: "btn btn-default"
+%br
+%h3 Editing Class Spell
+%br
 = render 'form'
-
-= link_to 'Show', @class_spell
-\|
-= link_to 'Back', class_spells_path

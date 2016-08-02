@@ -1,10 +1,16 @@
-= form_for @class_spell do |f|
+= simple_form_for @class_spell do |f|
   - if @class_spell.errors.any?
     #error_explanation
       %h2= "#{pluralize(@class_spell.errors.count, "error")} prohibited this class_spell from being saved:"
       %ul
         - @class_spell.errors.full_messages.each do |msg|
           %li= msg
-
-  .actions
-    = f.submit 'Save'
+  .row
+    .col-md-4= f.input :character_class_id, collection: CharacterClass.all, input_html: { class: "string form-control", required: true }
+    .col-md-4= f.input :spell_id, collection: Spell.all.order(:name), input_html: { class: "string form-control", required: true }
+    .col-md-4= f.input :level, input_html: { class: "string form-control", min: -1, max: 20, required: true }
+  .row
+    .col-md-12
+      %br
+      .actions
+        = f.submit 'Save', class: "btn btn-primary"

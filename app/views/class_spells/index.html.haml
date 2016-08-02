@@ -1,22 +1,136 @@
-%h1 Listing class_spells
-.row
-  .col-md-12
-    = link_to 'New Class spell', new_class_spell_path, class: "btn btn-primary pull-right" if current_user.admin_level >= 1
-%table.table.table-hover.table-responsive
-  %thead
-    %tr
-      %th Spell
-      %th Class
-      %th Level
-      %th
-      %th
-      %th
-  %tbody
-    - @class_spells.each do |class_spell|
-      %tr
-        %td= class_spell.spell.name
-        %td= class_spell.character_class.name
-        %td= class_spell.level
-        %td= link_to 'Show', class_spell
-        %td= link_to 'Edit', edit_class_spell_path(class_spell)
-        %td= link_to 'Destroy', class_spell, :method => :delete, :data => { :confirm => 'Are you sure?' }
+.row.sub-nav
+  .col-md-6
+    %h3
+      - if @char_class and not @level
+        = @char_class.name
+        Spells
+      - elsif @char_class and @level
+        - if @level == -1
+          Journeyman
+        - elsif @level == 0
+          Apprentice
+        - else
+          Level
+          = @level
+        = @char_class.name
+        Spells
+      - else
+        Choose Class
+  .col-md-2
+    %br
+    .pull-right
+      %div.dropdown
+        %button.btn.btn-default.dropdown-toggle{ type: "button", id: "character_class", data: { toggle: "dropdown" }, aria: { haspopup: "true", expanded: "false" } }
+          - if @char_class
+            = @char_class.name
+          - else
+            Choose Class
+          %span.caret
+        %ul.dropdown-menu{ aria: { labelledby: "character_class" } }
+          - CharacterClass.all.each do |char_class|
+            %li
+              = link_to char_class.name, class_spells_path(class_id: char_class.id)
+  .col-md-2
+  .col-md-2
+    %br
+    .pull-right
+      - if @current_character
+        = render partial: "shared/shopping_with", locals: { message: "# Free Purchases" }
+      - else
+        = render partial: "shared/shopping_with"
+- if not @char_class.nil?
+  - if @level.nil?
+    .row
+      - (-1..20).each do |level|
+        - spells = ClassSpell.where(character_class_id: @char_class.id, level: level)
+        - if spells.count > 0
+          .col-md-4
+            .row
+              .col-md-12
+                - if level == -1
+                  %h4
+                    Journeyman Spells
+                    = link_to raw('<span class="octicon octicon-arrow-right"></span>'), class_spells_path(level: level, class_id: @char_class.id)
+                - elsif level == 0
+                  %h4
+                    Apprentice Spells
+                    = link_to raw('<span class="octicon octicon-arrow-right"></span>'), class_spells_path(level: level, class_id: @char_class.id)
+                - else
+                  %h4
+                    = "Level " + level.to_s + " Spells"
+                    = link_to raw('<span class="octicon octicon-arrow-right"></span>'), class_spells_path(level: level, class_id: @char_class.id)
+            - spells.each do |class_spell|
+              .row{ "data-show" => "class_spell_"+class_spell.id.to_s, class: "show-on-hover" }
+                .col-md-6
+                  = link_to class_spell.spell.name, class_spell.spell
+                .col-md-6
+                  .pull-left
+                    - if @current_character
+                      - if @current_character.has_spell?(class_spell.spell)
+                        %td
+                          %span
+                            &#10004;
+                      - else
+                        %td.actions= link_to raw("<span class='glyphicon glyphicon-plus'></span> Add"), add_spell_character_path(@current_character, spell_id: class_spell.spell.id), class: "class_spell_" + class_spell.id.to_s
+                  .pull-right{ class: "class_spell_"+class_spell.id.to_s }
+                    - if current_user.admin_level >= 1
+                      %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_class_spell_path(class_spell)
+                      %td= link_to raw('<span class="octicon octicon-link-external"></span>'), class_spell, :method => :delete, :data => { :confirm => 'Are you sure?' }
+            .row
+              .col-md-12
+                - if level == -1
+                  - add_message = "Add journeyman " + @char_class.name + " spell"
+                - elsif level == 0
+                  - add_message = "Add apprentice " + @char_class.name + " spell"
+                - else
+                  - add_message = "Add level " + level.to_s + " " + @char_class.name + " spell"
+                %td= link_to raw('<span class="octicon octicon-plus"></span> ' + add_message), new_class_spell_path(level: level, class_id: @char_class.id)
+  - else 
+    = link_to raw('<span class="octicon octicon-arrow-left"></span> All ' + @char_class.name + " Spells" ) , class_spells_path(class_id: @char_class.id)
+    %table.table.table-hover.table-responsive.purchase
+      %thead
+        %tr
+          %th Name
+          %th Description
+          %th Spell Points
+          %th Spell Type
+          - if @current_character
+            %th
+          - if current_user.admin_level >= 1
+            %th
+            %th
+      %tbody
+        - spells = 
+        - ClassSpell.where(character_class_id: @char_class.id, level: @level).each do |class_spell|
+          %tr{ "data-show" => "class_spell_"+class_spell.id.to_s, class: "show-on-hover" }
+            %td= link_to class_spell.spell.name, class_spell
+            %td= class_spell.spell.description
+            %td= class_spell.spell.spellpoints
+            %td= class_spell.spell.spell_type
+            - if @current_character
+              - if @current_character.has_spell?(class_spell)
+                %td
+                  %span.btn.btn-success.pull-right
+                    &#10004;
+              - else
+                %td.actions= link_to raw("<span class='glyphicon glyphicon-plus'></span>"), add_spell_character_path(@current_character, spell_id: class_spell.spell.id), class: "btn btn-primary class_spell_#{class_spell.id.to_s} pull-right"
+            - if current_user.admin_level >= 1
+              %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_spell_path(class_spell)
+              %td= link_to raw('<span class="octicon octicon-link-external"></span>'), class_spell, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+
+
+  - if ClassSpell.where(character_class_id: @char_class.id).size == 0
+    .row
+      .col-md-12
+        - if @current_character and @current_character.character_class.id == @char_class.id
+          = @current_character.name + " is a " + @current_character.character_class.name + " and therefor does not have spells"
+        - else
+          = @char_class.name.pluralize + " do not have spells"
+- else
+  .row
+    .col-md-12
+      You Must Choose A Class
+%br
+%br
+= link_to 'New Class spell', new_class_spell_path, class: "btn btn-primary" if current_user.admin_level >= 1

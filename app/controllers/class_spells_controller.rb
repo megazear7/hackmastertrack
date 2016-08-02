@@ -4,17 +4,19 @@ class ClassSpellsController < ApplicationController
   respond_to :html
 
   def index
-    @class_spells = ClassSpell.all
-    respond_with(@class_spells)
-  end
+    if not params[:class_id].nil?
+      @char_class = CharacterClass.find(params[:class_id])
+    elsif @current_character
+      @char_class = @current_character.character_class
+    end
 
-  def show
-    respond_with(@class_spell)
+    if not params[:level].nil?
+      @level = params[:level].to_i
+    end
   end
 
   def new
     @class_spell = ClassSpell.new
-    respond_with(@class_spell)
   end
 
   def edit
@@ -23,17 +25,14 @@ class ClassSpellsController < ApplicationController
   def create
     @class_spell = ClassSpell.new(class_spell_params)
     @class_spell.save
-    respond_with(@class_spell)
   end
 
   def update
     @class_spell.update(class_spell_params)
-    respond_with(@class_spell)
   end
 
   def destroy
     @class_spell.destroy
-    respond_with(@class_spell)
   end
 
   private
@@ -42,6 +41,9 @@ class ClassSpellsController < ApplicationController
     end
 
     def class_spell_params
-      params[:class_spell]
+      params.require(:class_spell).permit(
+        :character_class_id,
+        :spell_id,
+        :level)
     end
 end

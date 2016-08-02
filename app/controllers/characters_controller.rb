@@ -178,12 +178,12 @@ class CharactersController < ApplicationController
     if not @character.has_spell?(spell)
       char_spell = CharacterSpell.new(spell_id: spell.id, character_id: @character.id)
       if char_spell.save
-        redirect_to spells_path, notice: 'You now have ' + spell.name + ' in your spellbook!'
+        redirect_to class_spells_path, notice: 'You now have ' + spell.name + ' in your spellbook!'
       else
-        redirect_to spells_path, notice: 'There was an error adding ' + spell.name + ' to your spell book!'
+        redirect_to class_spells_path, notice: 'There was an error adding ' + spell.name + ' to your spell book!'
       end
     else
-      redirect_to spells_path, notice: 'You already have ' + spell.name + ' in your spellbook!'
+      redirect_to class_spells_path, notice: 'You already have ' + spell.name + ' in your spellbook!'
     end
   end
 
