@@ -70,21 +70,22 @@
                         %td
                           %span
                             &#10004;
-                      - else
+                      - elsif @current_character.character_class.id == @char_class.id
                         %td.actions= link_to raw("<span class='glyphicon glyphicon-plus'></span> Add"), add_spell_character_path(@current_character, spell_id: class_spell.spell.id), class: "class_spell_" + class_spell.id.to_s
                   .pull-right{ class: "class_spell_"+class_spell.id.to_s }
                     - if current_user.admin_level >= 1
                       %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_class_spell_path(class_spell)
                       %td= link_to raw('<span class="octicon octicon-link-external"></span>'), class_spell, :method => :delete, :data => { :confirm => 'Are you sure?' }
-            .row
-              .col-md-12
-                - if level == -1
-                  - add_message = "Add journeyman " + @char_class.name + " spell"
-                - elsif level == 0
-                  - add_message = "Add apprentice " + @char_class.name + " spell"
-                - else
-                  - add_message = "Add level " + level.to_s + " " + @char_class.name + " spell"
-                %td= link_to raw('<span class="octicon octicon-plus"></span> ' + add_message), new_class_spell_path(level: level, class_id: @char_class.id)
+            - if current_user.admin_level >= 1
+              .row
+                .col-md-12
+                  - if level == -1
+                    - add_message = "Add journeyman " + @char_class.name + " spell"
+                  - elsif level == 0
+                    - add_message = "Add apprentice " + @char_class.name + " spell"
+                  - else
+                    - add_message = "Add level " + level.to_s + " " + @char_class.name + " spell"
+                  %td= link_to raw('<span class="octicon octicon-plus"></span> ' + add_message), new_class_spell_path(level: level, class_id: @char_class.id)
   - else 
     = link_to raw('<span class="octicon octicon-arrow-left"></span> All ' + @char_class.name + " Spells" ) , class_spells_path(class_id: @char_class.id)
     %table.table.table-hover.table-responsive.purchase
@@ -108,7 +109,7 @@
             %td= class_spell.spell.spellpoints
             %td= class_spell.spell.spell_type
             - if @current_character
-              - if @current_character.has_spell?(class_spell)
+              - if @current_character.has_spell?(class_spell.spell)
                 %td
                   %span.btn.btn-success.pull-right
                     &#10004;

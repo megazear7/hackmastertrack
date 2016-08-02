@@ -512,7 +512,7 @@ class Character < ActiveRecord::Base
   end
 
   def has_spell? spell
-    not CharacterSpell.find_by(spell_id: spell.id).nil?
+    not character_spells.find_by(spell_id: spell.id).nil?
   end
 
   def max_skill_mastery(skill)
