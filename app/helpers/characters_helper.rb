@@ -27,4 +27,15 @@ module CharactersHelper
     [ ["Lawful Good", "LG"], ["Neutral Good", "NG"], ["Chaotic Good", "CG"], ["Lawful Neutral", "LN"], ["True Neutral", "TN"], ["Chaotic Neutral", "CN"], ["Lawful Evil", "LE"], ["Neutral Evil", "NE"], ["Chaotic Evil", "CE"] ]
   end
 
+  def rose_stats
+     {"speed" => "Speed",
+      "init" => "Initiative",
+      "reach" => "Reach",
+      "top_save" => "TOP Save",
+      "attack" => "Attack",
+      "defense" => "Defense",
+      "damage_mod" => "Damage",
+      "damage_reduction" => "Dmg Red",
+      "shield_reduction" => ""}
+  end
 end

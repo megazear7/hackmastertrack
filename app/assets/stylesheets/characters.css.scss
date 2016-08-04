@@ -24,7 +24,13 @@
     width: 170px;
     position: relative;
     margin: auto;
-    border: 1px solid black;
+    border: 1px solid #555;
+    box-shadow: 0px 0px 1px #666;
+    margin-bottom: 10px;
+}
+
+.tile.rose-tile {
+    height: 300px;
 }
 
 .rose .inner-box {
@@ -33,7 +39,8 @@
     top: 24px;
     height: 120px;
     width: 120px;
-    border: 1px solid black;
+    border: 1px solid #555;
+    box-shadow: 0px 0px 1px #666;
     -webkit-transform: rotate(-45deg);
     -moz-transform: rotate(-45deg);
 }
@@ -44,7 +51,8 @@
     top: 72px;
     height: 26px;
     width: 26px;
-    border: 1px solid black;
+    border: 1px solid #555;
+    box-shadow: 0px 0px 1px #666;
 }
 
 .rose .slant1 {
@@ -52,7 +60,8 @@
     left: 35px;
     top: 57px;
     width: 44px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #555;
+    box-shadow: 0px 0px 1px #666;
     -webkit-transform: rotate(45deg);
     -moz-transform: rotate(45deg);
 }
@@ -62,7 +71,8 @@
     left: 92px;
     top: 111px;
     width: 40px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #555;
+    box-shadow: 0px 0px 1px #666;
     -webkit-transform: rotate(45deg);
     -moz-transform: rotate(45deg);
 }
@@ -72,7 +82,8 @@
     left: 91px;
     top: 58px;
     width: 42px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #555;
+    box-shadow: 0px 0px 1px #666;
     -webkit-transform: rotate(-45deg);
     -moz-transform: rotate(-45deg);
 }
@@ -82,15 +93,32 @@
     left: 37px;
     top: 111px;
     width: 42px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #555;
+    box-shadow: 0px 0px 1px #666;
     -webkit-transform: rotate(-45deg);
     -moz-transform: rotate(-45deg);
 }
 
+.details {
+    position: absolute;
+    z-index: 5;
+    width: 250px;
+    padding: 5px;
+    background-color: white;
+    display:none;
+    box-shadow: 0px 0px 4px #666;
+}
+
+.details hr {
+    margin: 5px 0 5px 0;
+}
+
 .rose .speed-label {
+    padding: 10px;
     font-size: .8em;
     position: absolute;
-    left: 13px;
+    top: -10px;
+    left: 3px;
 }
 
 .rose .speed-val {
@@ -99,10 +127,17 @@
     left: 21px;
 }
 
+.details.speed-details {
+    top: 50px;
+    left: 104px;
+}
+
 .rose .init-label {
+    padding: 10px;
     font-size: .8em;
     position: absolute;
-    right: 9px;
+    top: -10px;
+    right: -1px;
 }
 
 .rose .init-val {
@@ -111,17 +146,28 @@
     top: 17px;
 }
 
+.details.init-details {
+    top: 55px;
+    left: 215px;
+}
+
 .rose .reach-label {
+    padding: 10px;
     font-size: .8em;
     position: absolute;
-    left: 13px;
-    bottom: 0px;
+    left: 3px;
+    bottom: -10px;
 }
 
 .rose .reach-val {
     position: absolute;
     bottom: 17px;
     left: 15px;
+}
+
+.details.reach-details {
+    top: 175px;
+    left: 114px;
 }
 
 .rose .top-save-label {
@@ -137,10 +183,16 @@
     left: 130px;
 }
 
+.details.top-save-details {
+    top: 185px;
+    left: 220px;
+}
+
 .rose .attack-label {
+    padding: 10px;
     position: absolute;
-    top: 18px;
-    left: 47px;
+    top: 8px;
+    left: 37px;
     -webkit-transform: rotate(-45deg);
     -moz-transform: rotate(-45deg);
 }
@@ -151,9 +203,16 @@
     left: 75px;
 }
 
+.details.attack-details {
+    top: 65px;
+    left: 165px;
+}
+
 .rose .defense-label {
+    padding: 10px;
     position: absolute;
-    top: 88px;
+    top: 78px;
+    left: -10px;
     -webkit-transform: rotate(45deg);
     -moz-transform: rotate(45deg);
 }
@@ -164,18 +223,29 @@
     top: 74px;
 }
 
-.rose .damage-label {
+.details.defense-details {
+    top: 110px;
+    left: 125px;
+}
+
+.rose .damage-mod-label {
+    padding: 10px;
     position: absolute;
-    top: 131px;
-    left: 73px;
+    top: 121px;
+    left: 63px;
     -webkit-transform: rotate(-45deg);
     -moz-transform: rotate(-45deg);
 }
 
-.rose .damage-val {
+.rose .damage-mod-val {
     position: absolute;
     top: 121px;
     left: 73px;
+}
+
+.details.damage-mod-details {
+    top: 170px;
+    left: 172px;
 }
 
 .rose .damage-reduction-label {
@@ -193,10 +263,24 @@
     left: 120px;
 }
 
+.details.damage-reduction-details {
+    top: 105px;
+    left: 220px;
+}
+
+.rose .shield-reduction-label {
+    display: none;
+}
+
 .rose .shield-reduction-val {
     position: absolute;
     top: 74px;
     left: 79px;
+}
+
+.details.shield-reduction-details {
+    top: 115px;
+    left: 170px;
 }
 
 .tile.create-character {
