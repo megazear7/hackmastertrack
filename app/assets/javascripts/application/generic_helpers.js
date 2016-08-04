@@ -142,6 +142,9 @@ $(document).ready(function() {
   });
 
   function openTile(tile) {
+    tile.css("height", "auto");
+    var autoHeight = tile.outerHeight();
+    tile.css("height", tile.data("base-height"));
     var placeholder = tile.clone().empty().addClass("placeholder");
     placeholder.css("background", "none");
     placeholder.css("box-shadow", "none");
@@ -153,7 +156,7 @@ $(document).ready(function() {
     tile.after(placeholder);
     setTimeout(function() {
       tile.css("position", "absolute");
-      tile.css("height", tile.data("auto-height")+"px");
+      tile.css("height", autoHeight+"px");
     }, 250);
   }
 

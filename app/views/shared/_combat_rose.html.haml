@@ -18,21 +18,24 @@
             = rose[attr]["val"].to_s
   %br
   .stance-specifics
-    .block
+    .block.item
       - if not  rose[@character.main_hand+"_hand"].nil?
         = rose[@character.main_hand+"_hand"].actual_name
-    .block
+    .block.item
       - if not  rose[@character.off_hand+"_hand"].nil?
         = rose[@character.off_hand+"_hand"].actual_name
-    .block
+    .block.item
       - if not  rose["body"].nil?
         = rose["body"].actual_name
-    .block
+    .block.item
       Weapon and Shield Fighting
+  %br{ style: "clear: both" }
+  %hr
+  .item
+    Ring of Jumping (placeholder)
   %br
-  %div Other Equiped Items:
-  %div Ring of Jumping (placeholder)
-  %div Boots of Speed (placeholder)
+  .item
+    Boots of Speed (placeholder)
   %hr
   - rose.each do |attribute, modifiers|
     - if not ["speed", "init", "reach", "top_save", "attack", "defense", "damage_mod", "damage_reduction", "shield_reduction", "left_hand", "right_hand", "body"].include? attribute
