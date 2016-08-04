@@ -1,53 +1,71 @@
-.combat-rose
-  .row
-    .col-md-4.text-center
-      Speed:
+.tile.tile-hover.show-on-hover{ data: { :"show-style" => "slide", show: "tmp", tile: { group: "combat-rose-tile" } } }
+  .rose
+    .inner-box
+    .slant1
+    .slant2
+    .slant3
+    .slant4
+    .small-box
+    .speed-label
+      Speed
+    .speed-val
       = rose["speed"]["val"]
-    .col-md-4.text-center
-      Attack:
-      = rose["attack"]["val"]
-    .col-md-4.text-center
-      Initiative:
+    .init-label
+      Initiative
+    .init-val
       = rose["init"]["val"]
-  %br
-  .row
-    .col-md-4.text-center
-      Defense:
-      = rose["defense"]["val"]
-    .col-md-4.text-center
-      Shield Reduction:
-      = rose["shield_reduction"]["val"]
-    .col-md-4.text-center
-      Damage Reduction:
-      = rose["damage_reduction"]["val"]
-  %br
-  .row
-    .col-md-4.text-center
-      Reach:
+    .reach-label
+      Reach
+    .reach-val
       = rose["reach"]["val"]
-    .col-md-4.text-center
-      Damage:
-      = rose["damage_mod"]["val"]
-    .col-md-4.text-center
-      TOP Save:
+    .top-save-label
+      TOP Save
+    .top-save-val
       = rose["top_save"]["val"]
-  %hr
-  .row
-    .col-md-4.text-center
-      Left Hand:
-      - if rose["left_hand"].nil?
-        Empty 
-      - else
-        = rose["left_hand"].actual_name
-    .col-md-4.text-center
-      Right Hand:
-      - if rose["right_hand"].nil?
-        Empty 
-      - else
-        = rose["right_hand"].actual_name
-    .col-md-4.text-center
-      Body:
-      - if rose["body"].nil?
-        Empty 
-      - else
-        = rose["body"].actual_name
+    .attack-label
+      Attack
+    .attack-val
+      = rose["attack"]["val"]
+    .defense-label
+      Defense
+    .defense-val
+      = rose["defense"]["val"]
+    .damage-label
+      Damage
+    .damage-val
+      = rose["damage_mod"]["val"]
+    .damage-reduction-label
+      Dmg Red.
+    .damage-reduction-val
+      = rose["damage_reduction"]["val"]
+    .shield-reduction-val
+      = rose["shield_reduction"]["val"]
+  %br
+  Other Stats:
+  %br
+  - rose.each do |attribute, modifiers|
+    - if not ["speed", "init", "reach", "top_save", "attack", "defense", "damage_mod", "damage_reduction", "shield_reduction", "left_hand", "right_hand", "body"].include? attribute
+      = attribute.titleize + ": " + modifiers["val"].to_s
+      %br
+  %br
+  %div Other Equiped Items:
+  %div Ring of Jumping
+  %div Boots of Speed
+  %div.buttons{ class: "tmp" }
+    .stance-specifics
+      .block.show-on-hover{ data: { show: "main" } }
+        .glyphicon.glyphicon-pencil.main
+        - if not  rose[@character.main_hand+"_hand"].nil?
+          = rose[@character.main_hand+"_hand"].actual_name
+      .block.show-on-hover{ data: { show: "off" } }
+        .glyphicon.glyphicon-pencil.off
+        - if not  rose[@character.off_hand+"_hand"].nil?
+          = rose[@character.off_hand+"_hand"].actual_name
+      .block.show-on-hover{ data: { show: "body" } }
+        .glyphicon.glyphicon-pencil.body
+        - if not  rose["body"].nil?
+          = rose["body"].actual_name
+      .block.show-on-hover{ data: { show: "style" } }
+        .glyphicon.glyphicon-pencil.style
+        Weapon and Shield Fighting
+    .tile-button.glyphicon.glyphicon-fullscreen.expander
