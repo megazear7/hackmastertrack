@@ -1,6 +1,6 @@
 %br
 .row
-  - @character.item_sets.each do |item_set|
+  - @character.item_sets.order(:created_at).each do |item_set|
     .col-md-3
       = render partial: "shared/combat_rose", locals: { item_set: item_set }
   .col-md-3

@@ -1,5 +1,12 @@
 %br
 .row
+  .col-md-12
+    = @character.health
+    Health
+    \/
+    = @character.building_points
+    Building Points
+.row
   .col-sm-12
     .row{ "data-show" => "stat-strength", class: "show-on-hover" }
       .col-xs-4.col-sm-2.col-md-1 Strength:

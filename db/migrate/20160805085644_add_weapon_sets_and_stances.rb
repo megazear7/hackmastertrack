@@ -6,6 +6,8 @@ class AddWeaponSetsAndStances < ActiveRecord::Migration
       t.integer :right_item_id
       t.integer :body_item_id
       t.string :stance
+
+      t.timestamps
     end
 
     create_table :item_instances_item_sets do |t|

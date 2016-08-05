@@ -209,11 +209,13 @@ ActiveRecord::Schema.define(version: 20160805085644) do
   end
 
   create_table "item_sets", force: true do |t|
-    t.integer "character_id"
-    t.integer "left_item_id"
-    t.integer "right_item_id"
-    t.integer "body_item_id"
-    t.string  "stance"
+    t.integer  "character_id"
+    t.integer  "left_item_id"
+    t.integer  "right_item_id"
+    t.integer  "body_item_id"
+    t.string   "stance"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "items", force: true do |t|

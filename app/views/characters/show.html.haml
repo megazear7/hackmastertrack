@@ -2,18 +2,12 @@
   .col-sm-6.col-md-4.col-lg-3
     .row
       .col-md-12
-        %h3= @character.name
-      .col-md-12
-        Level
-        = @character.level
-        = @character.race.name
-        = @character.character_class.name
-      .col-md-12
-        = @character.health
-        Health
-        \/
-        = @character.building_points
-        Building Points
+        .character-name= @character.name
+        .character-quick-details
+          Level
+          = @character.level
+          = @character.race.name
+          = @character.character_class.name
   .col-sm-6.col-md-4.col-lg-6
     .row
       .col-md-12.col-lg-6
