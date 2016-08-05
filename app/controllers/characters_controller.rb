@@ -14,7 +14,12 @@ class CharactersController < ApplicationController
   def show
     cookies[:character_id] = @character.id
     @current_character = @character
-    @combat_rose = @character.calculate_combat_rose
+    @combat_rose = @character.calculate_combat_rose({
+      "right_hand" => @character.right_hand_item,
+      "left_hand" => @character.left_hand_item,
+      "body" => @character.body_item
+    })
+    @new_item_set = ItemSet.new
     @specialization = Specialization.new
   end
 

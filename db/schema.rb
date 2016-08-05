@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160731004736) do
+ActiveRecord::Schema.define(version: 20160805085644) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -201,6 +201,19 @@ ActiveRecord::Schema.define(version: 20160731004736) do
     t.integer  "worn_damage_mod",              default: 0
     t.integer  "worn_damage_reduction",        default: 0
     t.integer  "worn_shield_damage_reduction", default: 0
+  end
+
+  create_table "item_instances_item_sets", force: true do |t|
+    t.integer "item_instance_id"
+    t.integer "item_set_id"
+  end
+
+  create_table "item_sets", force: true do |t|
+    t.integer "character_id"
+    t.integer "left_item_id"
+    t.integer "right_item_id"
+    t.integer "body_item_id"
+    t.string  "stance"
   end
 
   create_table "items", force: true do |t|

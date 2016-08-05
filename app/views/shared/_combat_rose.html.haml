@@ -1,4 +1,5 @@
-.tile.rose-tile.show-on-hover{ data: { :"show-style" => "slide", show: "rose-buttons", tile: { group: "combat-rose-tile" } } }
+- rose = item_set.combat_rose
+.tile.rose-tile.show-on-hover{ data: { :"show-style" => "slide", show: "rose-buttons-"+item_set.id.to_s, tile: { group: "combat-rose-tile" } } }
   .rose
     .inner-box
     .slant1
@@ -8,7 +9,7 @@
     .small-box
     - rose_stats.each do |attr, title|
       - attr_class = attr.sub("_", "-")
-      .show-on-hover{ class: attr_class+"-label", data: { show: attr_class+"-details", :"show-style" => "slide" } }
+      .show-on-hover{ class: attr_class+"-label", data: { show: attr_class+"-details-"+item_set.id.to_s, :"show-style" => "slide" } }
         = title
       %div{ class: attr_class+"-val" }
         - if rose[attr] and rose[attr]["val"]
@@ -18,15 +19,21 @@
             = rose[attr]["val"].to_s
   %br
   .stance-specifics
-    .block.item
+    .block.item.show-on-click{ data: { :"show-style" => "slide", :"show-group" => "item-equip", show: "main-item-list-"+item_set.id.to_s } }
       - if not  rose[@character.main_hand+"_hand"].nil?
         = rose[@character.main_hand+"_hand"].actual_name
-    .block.item
+      - else
+        Equip Main Hand
+    .block.item.show-on-click{ data: { :"show-style" => "slide", :"show-group" => "item-equip", show: "off-item-list-"+item_set.id.to_s } }
       - if not  rose[@character.off_hand+"_hand"].nil?
         = rose[@character.off_hand+"_hand"].actual_name
-    .block.item
+      - else
+        Equip Off Hand
+    .block.item.show-on-click{ data: { :"show-style" => "slide", :"show-group" => "item-equip", show: "body-item-list-"+item_set.id.to_s } }
       - if not  rose["body"].nil?
         = rose["body"].actual_name
+      - else
+        Equip Body
     .block.item
       Weapon and Shield Fighting
   %br{ style: "clear: both" }
@@ -41,10 +48,10 @@
     - if not ["speed", "init", "reach", "top_save", "attack", "defense", "damage_mod", "damage_reduction", "shield_reduction", "left_hand", "right_hand", "body"].include? attribute
       = attribute.titleize + ": " + modifiers["val"].to_s
       %br
-  %div.buttons{ class: "rose-buttons" }
+  %div.buttons{ class: "rose-buttons-"+item_set.id.to_s }
     .tile-button.glyphicon.glyphicon-fullscreen.expander
 - rose_stats.each do |attr, title|
-  .details{ class: attr.sub("_", "-")+"-details" }
+  .details{ class: attr.sub("_", "-")+"-details " + attr.sub("_", "-")+"-details-"+item_set.id.to_s }
     %h6= attr.titleize + " Modifiers:"
     %hr
     - rose[attr].keys.each_with_index do |mod, index|
@@ -55,3 +62,66 @@
           = "+ " + rose[attr][mod].to_s + " from " + mod.titleize
         - if index < rose[attr].size - 2
           %hr
+.item-list.item-equip{ class: "main-item-list-"+item_set.id.to_s }
+  - item_list = item_set.unequiped_item_instance_location_names(item_set.main_hand_item, 'arm')
+  %h6 Main Hand:
+  - if item_list.size > 0 or item_set.main_hand_item
+    %hr
+  - if item_set.main_hand_item
+    .item-choice
+      = simple_form_for item_set, method: :put do |f|
+        = f.input :character_id, as: :hidden, input_html: { value: item_set.character_id }
+        = f.input :"#{item_set.character.main_hand}_item_id", as: :hidden, input_html: { value: "" }
+        = f.submit "Unequip " + item_set.main_hand_item.actual_name, class: "update-item-set"
+      - if item_list.size > 0
+        %hr
+  - item_list.each_with_index do |item_instance, index|
+    .item-choice
+      = simple_form_for item_set, method: :put do |f|
+        = f.input :character_id, as: :hidden, input_html: { value: item_set.character_id }
+        = f.input :"#{item_set.character.main_hand}_item_id", as: :hidden, input_html: { value: item_instance[1] }
+        = f.submit "Equip " + item_instance[0], class: "update-item-set"
+      - if index < item_list.size - 1
+        %hr
+.item-list.item-equip{ class: "off-item-list-"+item_set.id.to_s }
+  - item_list = item_set.unequiped_item_instance_location_names(item_set.off_hand_item, 'arm')
+  %h6 Off Hand:
+  - if item_list.size > 0 or item_set.off_hand_item
+    %hr
+  - if item_set.off_hand_item
+    .item-choice
+      = simple_form_for item_set, method: :put do |f|
+        = f.input :character_id, as: :hidden, input_html: { value: item_set.character_id }
+        = f.input :"#{item_set.character.off_hand}_item_id", as: :hidden, input_html: { value: "" }
+        = f.submit "Unequip " + item_set.off_hand_item.actual_name, class: "update-item-set"
+      - if item_list.size > 0
+        %hr
+  - item_list.each_with_index do |item_instance, index|
+    .item-choice
+      = simple_form_for item_set, method: :put do |f|
+        = f.input :character_id, as: :hidden, input_html: { value: item_set.character_id }
+        = f.input :"#{item_set.character.off_hand}_item_id", as: :hidden, input_html: { value: item_instance[1] }
+        = f.submit "Equip " + item_instance[0], class: "update-item-set"
+      - if index < item_list.size - 1
+        %hr
+.item-list.item-equip{ class: "body-item-list-"+item_set.id.to_s }
+  - item_list = item_set.unequiped_item_instance_location_names(item_set.body_item, 'body')
+  %h6 Body:
+  - if item_list.size > 0 or item_set.body_item
+    %hr
+  - if item_set.body_item
+    .item-choice
+      = simple_form_for item_set, method: :put do |f|
+        = f.input :character_id, as: :hidden, input_html: { value: item_set.character_id }
+        = f.input :body_item_id, as: :hidden, input_html: { value: "" }
+        = f.submit "Unequip " + item_set.body_item.actual_name, class: "update-item-set"
+      - if item_list.size > 0
+        %hr
+  - item_list.each_with_index do |item_instance, index|
+    .item-choice
+      = simple_form_for item_set, method: :put do |f|
+        = f.input :character_id, as: :hidden, input_html: { value: item_set.character_id }
+        = f.input :body_item_id, as: :hidden, input_html: { value: item_instance[1] }
+        = f.submit "Equip " + item_instance[0], class: "update-item-set"
+      - if index < item_list.size - 1
+        %hr

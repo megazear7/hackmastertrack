@@ -15,6 +15,7 @@ class Character < ActiveRecord::Base
   belongs_to :body_item, class_name: "ItemInstance", foreign_key: "body_item_id"
   has_many :specializations
   has_many :character_spells
+  has_many :item_sets
   # the step by step character creation does not allow for this:
   #validates_presence_of :character_class_id, :race_id, :strength, :intelligence, :wisdom, :dexterity, :constitution, :looks, :charisma, :name, :building_points
 
@@ -193,28 +194,22 @@ class Character < ActiveRecord::Base
     yield body_item if body_item
   end
 
-  def calculate_combat_rose equipment = nil
-    # if any equipment was passed in, use that in the calcultion instead of the actual equiped items
-    equipment_to_calc = {}
-    equipment_to_calc["left_hand"]  = (equipment and equipment["left_hand"])  ? equipment["left_hand"]  : self.left_hand_item
-    equipment_to_calc["right_hand"] = (equipment and equipment["right_hand"]) ? equipment["right_hand"] : self.right_hand_item
-    equipment_to_calc["body"]       = (equipment and equipment["body"])       ? equipment["body"]       : self.body_item
-
+  def calculate_combat_rose equipment = { }
     # calculate all the needed stats, and then return them
     combat_rose = { }
-    combat_rose["speed"]            = self.calculate_speed(equipment_to_calc)
-    combat_rose["init"]             = self.calculate_init(equipment_to_calc)
-    combat_rose["init_die_bonus"]   = self.calculate_init_die_bonus(equipment_to_calc)
-    combat_rose["attack"]           = self.calculate_attack(equipment_to_calc)
-    combat_rose["defense"]          = self.calculate_defense(equipment_to_calc)
-    combat_rose["shield_reduction"] = self.calculate_shield_reduction(equipment_to_calc)
-    combat_rose["damage_reduction"] = self.calculate_damage_reduction(equipment_to_calc)
-    combat_rose["damage_mod"]       = self.calculate_damage_mod(equipment_to_calc)
-    combat_rose["reach"]            = self.calculate_reach(equipment_to_calc)
-    combat_rose["top_save"]         = self.calculate_top_save(equipment_to_calc)
-    combat_rose["left_hand"]        = equipment_to_calc["left_hand"]
-    combat_rose["right_hand"]       = equipment_to_calc["right_hand"]
-    combat_rose["body"]             = equipment_to_calc["body"]
+    combat_rose["speed"]            = self.calculate_speed(equipment)
+    combat_rose["init"]             = self.calculate_init(equipment)
+    combat_rose["init_die_bonus"]   = self.calculate_init_die_bonus(equipment)
+    combat_rose["attack"]           = self.calculate_attack(equipment)
+    combat_rose["defense"]          = self.calculate_defense(equipment)
+    combat_rose["shield_reduction"] = self.calculate_shield_reduction(equipment)
+    combat_rose["damage_reduction"] = self.calculate_damage_reduction(equipment)
+    combat_rose["damage_mod"]       = self.calculate_damage_mod(equipment)
+    combat_rose["reach"]            = self.calculate_reach(equipment)
+    combat_rose["top_save"]         = self.calculate_top_save(equipment)
+    combat_rose["left_hand"]        = equipment["left_hand"]
+    combat_rose["right_hand"]       = equipment["right_hand"]
+    combat_rose["body"]             = equipment["body"]
     combat_rose
   end
 

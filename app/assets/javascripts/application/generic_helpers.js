@@ -38,6 +38,32 @@ $(document).ready(function() {
     });
   });
 
+  $(".show-on-click").each(function(index, element) {
+    var show = $(element).data("show");
+    var showGroup = $(element).data("show-group");
+    var style = $(element).data("show-style");
+    $("."+show).hide();
+    $(element).click(function(e) {
+      if ($("."+show).data("open") == "true") {
+        $("."+show).data("open", "false")
+        if (style == "slide") {
+          $("."+show).slideUp(150);
+        } else {
+          $("."+show).hide();
+        }
+      } else {
+        $("."+show).data("open", "true")
+        if (style == "slide") {
+          $("."+showGroup).slideUp(150);
+          $("."+show).slideDown(150);
+        } else {
+          $("."+showGroup).hide();
+          $("."+show).show();
+        }
+      }
+    });
+  });
+
   var subNav = $(".sub-nav");
   var active = document.body.scrollTop > 50
   var first = true
