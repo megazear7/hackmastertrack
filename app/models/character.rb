@@ -928,7 +928,11 @@ class Character < ActiveRecord::Base
     args["hit_points"] = self.health
 
     # Combat Rose Character sheet doesn't have a combat rose yet
-    rose = calculate_combat_rose
+    equipment = {}
+    equipment["left_hand"] = left_hand_item
+    equipment["right_hand"] = right_hand_item
+    equipment["body"] = body_item
+    rose = calculate_combat_rose equipment
     #args["shield_defense_bonus"] = self.  if self.
     #args[" shield_damage_reduction "] = self.  if self.
     #args["fatigue_factor"] = self.  if self.
