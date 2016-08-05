@@ -6,18 +6,15 @@
     font-weight: bold;
     font-size: 2em;
     color: grey;
-    margin-top: 14px;
-    float: left;
-}
-
-.character-tile {
-    cursor: pointer;
+    margin-top: 3px;
 }
 
 .character-quick-details {
     color: grey;
-    margin: 29px 0 0 15px;
-    float: left;
+}
+
+.character-tile {
+    cursor: pointer;
 }
 
 .stance-specifics .block {
