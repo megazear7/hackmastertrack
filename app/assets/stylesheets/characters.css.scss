@@ -24,6 +24,11 @@
     float: left;
 }
 
+.equip-modal-close {
+    position: absolute;
+    right: 3px;
+}
+
 .item {
     padding: 3px 3px 5px 3px;
     cursor: pointer;
@@ -156,9 +161,9 @@
 .item-list {
     position: absolute;
     z-index: 5;
-    top: 320px;
+    top: 210px;
     left: 30px;
-    width: 250px;
+    width: 252px;
     background-color: #fafafa;
     display:none;
     box-shadow: 0px 0px 4px #666;
@@ -436,4 +441,22 @@
 
 .shop-link a {
     text-decoration: none !important;
+}
+
+@media (max-width: 1200px) {
+    .item-list {
+        width: 203px;
+    }
+}
+
+@media (max-width: 992px) {
+    .item-list {
+        width: 336px;
+    }
+}
+
+@media (max-width: 768px) {
+    .item-list {
+        width: 650px;
+    }
 }

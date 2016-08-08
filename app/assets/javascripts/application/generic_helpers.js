@@ -43,6 +43,14 @@ $(document).ready(function() {
     var showGroup = $(element).data("show-group");
     var style = $(element).data("show-style");
     $("."+show).hide();
+    $("."+show).find(".hide-on-click").click(function() {
+      $("."+show).data("open", "false")
+      if (style == "slide") {
+        $("."+show).slideUp(150);
+      } else {
+        $("."+show).hide();
+      }     
+    });
     $(element).click(function(e) {
       if ($("."+show).data("open") == "true") {
         $("."+show).data("open", "false")

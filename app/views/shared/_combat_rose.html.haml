@@ -72,6 +72,8 @@
           %hr
 .item-list.item-equip{ class: "main-item-list-"+item_set.id.to_s }
   - item_list = item_set.unequiped_item_instance_location_names(item_set.main_hand_item, 'arm')
+  .pull-right.equip-modal-close
+    .octicon.octicon-x.hide-on-click
   %h6 Main Hand:
   - if item_list.size > 0 or item_set.main_hand_item
     %hr
@@ -95,6 +97,8 @@
         %hr
 .item-list.item-equip{ class: "off-item-list-"+item_set.id.to_s }
   - item_list = item_set.unequiped_item_instance_location_names(item_set.off_hand_item, 'arm')
+  .pull-right.equip-modal-close
+    .octicon.octicon-x.hide-on-click
   %h6 Off Hand:
   - if item_list.size > 0 or item_set.off_hand_item
     %hr
@@ -118,6 +122,8 @@
         %hr
 .item-list.item-equip{ class: "body-item-list-"+item_set.id.to_s }
   - item_list = item_set.unequiped_item_instance_location_names(item_set.body_item, 'body')
+  .pull-right.equip-modal-close
+    .octicon.octicon-x.hide-on-click
   %h6 Body:
   - if item_list.size > 0 or item_set.body_item
     %hr
@@ -141,6 +147,8 @@
         %hr
 .item-list.item-equip{ class: "worn-item-list-"+item_set.id.to_s }
   - item_list = item_set.unequiped_worn_items
+  .pull-right.equip-modal-close
+    .octicon.octicon-x.hide-on-click
   %h6 Items to Equip:
   - if item_list.size > 0 or item_set.body_item
     %hr

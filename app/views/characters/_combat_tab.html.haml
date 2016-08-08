@@ -1,9 +1,9 @@
 %br
 .row
   - @character.item_sets.order(:created_at).each do |item_set|
-    .col-md-3
+    .col-sm-6.col-md-3
       = render partial: "shared/combat_rose", locals: { item_set: item_set }
-  .col-md-3
+  .col-sm-6.col-md-3
     .tile.tile-hover.add-combat-rose
       = simple_form_for @new_item_set do |f|
         = f.input :character_id, as: :hidden, input_html: { value: @character.id }
