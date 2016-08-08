@@ -38,14 +38,20 @@
       Weapon and Shield Fighting
   %br{ style: "clear: both" }
   %hr
-  .item
-    Ring of Jumping (placeholder)
-  %br
-  .item
-    Boots of Speed (placeholder)
+  - item_set.item_instances.each do |item_instance|
+    .item
+      = item_instance.actual_name
+      .pull-right
+        = simple_form_for item_set, url: remove_worn_item_item_set_path(item_set), method: :post do |f|
+          = f.input :item_instance_id, as: :hidden, input_html: { value: item_instance.id }
+          = f.submit raw("&#10005;"), class: "update-item-set remove-worn-item octicon"
+    %br
+  .item.add-item.show-on-click{ data: { :"show-style" => "slide", :"show-group" => "item-equip", show: "worn-item-list-"+item_set.id.to_s } }
+    %span.octicon.octicon-plus
+    Equip Worn Item
   %hr
   - rose.each do |attribute, modifiers|
-    - if not ["speed", "init", "reach", "top_save", "attack", "defense", "damage_mod", "damage_reduction", "shield_reduction", "left_hand", "right_hand", "body"].include? attribute
+    - if not ["speed", "init", "reach", "top_save", "attack", "defense", "damage_mod", "damage_reduction", "shield_reduction", "left_hand", "right_hand", "body", "worn_items"].include? attribute
       = attribute.titleize + ": " + modifiers["val"].to_s
       %br
   %div.buttons{ class: "rose-buttons-"+item_set.id.to_s }
@@ -131,5 +137,17 @@
         = f.input :character_id, as: :hidden, input_html: { value: item_set.character_id }
         = f.input :body_item_id, as: :hidden, input_html: { value: item_instance[1] }
         = f.submit "Equip " + item_instance[0], class: "update-item-set"
+      - if index < item_list.size - 1
+        %hr
+.item-list.item-equip{ class: "worn-item-list-"+item_set.id.to_s }
+  - item_list = item_set.unequiped_worn_items
+  %h6 Items to Equip:
+  - if item_list.size > 0 or item_set.body_item
+    %hr
+  - item_list.each_with_index do |item_instance, index|
+    .item-choice
+      = simple_form_for item_set, url: add_worn_item_item_set_path(item_set), method: :post do |f|
+        = f.input :item_instance_id, as: :hidden, input_html: { value: item_instance.id }
+        = f.submit "Equip " + item_instance.actual_name, class: "update-item-set"
       - if index < item_list.size - 1
         %hr

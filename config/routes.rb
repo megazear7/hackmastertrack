@@ -10,7 +10,12 @@ Rails.application.routes.draw do
   get '/specialization/retrieve', to: 'specializations#retrieve'
   resource :specializations
 
-  resources :item_sets, only: [:create, :update, :destroy]
+  resources :item_sets, only: [:create, :update, :destroy] do 
+    member do
+      post :add_worn_item
+      post :remove_worn_item
+    end
+  end
 
   resources :item_instances do
     member do

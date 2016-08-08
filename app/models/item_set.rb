@@ -10,6 +10,7 @@ class ItemSet < ActiveRecord::Base
     equipment["left_hand"] = left_item
     equipment["right_hand"] = right_item
     equipment["body"] = body_item
+    equipment["worn_items"] = item_instances
     character.calculate_combat_rose equipment
   end
 
@@ -31,12 +32,22 @@ class ItemSet < ActiveRecord::Base
     item_instances.sort_by!{ |m| m[0].downcase }
   end
 
+  def unequiped_worn_items
+    item_instances = []
+    self.character.item_instances.each do |item_instance|
+      if item_instance.item.location != "body" and item_instance.item.location != "arm" and not equiped? item_instance
+        item_instances << item_instance
+      end
+    end
+    item_instances
+  end
+
   def equiped? item
     equiped_ids = []
     equiped_ids << right_item.id if not right_item.nil?
     equiped_ids << left_item.id if not left_item.nil?
     equiped_ids << body_item.id if not body_item.nil?
-    equiped_ids << item_instances.pluck(:id)
+    equiped_ids += item_instances.pluck(:id)
     equiped_ids.include? item.id
   end
 end

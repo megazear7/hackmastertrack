@@ -1,5 +1,5 @@
 class ItemSetsController < ApplicationController
-  before_action :set_item_set, only: [:update, :destroy]
+  before_action :set_item_set, only: [:remove_worn_item, :add_worn_item, :update, :destroy]
 
   # POST /item_sets
   # POST /item_sets.json
@@ -12,6 +12,24 @@ class ItemSetsController < ApplicationController
       else
         format.html { redirect_to character_path(@item_set.character, tab: "combat"), notice: 'Error during creation of item set.' }
       end
+    end
+  end
+
+  def remove_worn_item
+    item_instance = ItemInstance.find(params[:item_set][:item_instance_id])
+    if item_instance and @item_set.item_instances.delete(item_instance)
+      redirect_to character_path(@item_set.character, tab: "combat"), notice: 'Item was removed from worn items list.'
+    else
+      redirect_to character_path(@item_set.character, tab: "combat"), notice: 'Error removing item from worn items list .'
+    end
+  end
+
+  def add_worn_item
+    item_instance = ItemInstance.find(params[:item_set][:item_instance_id])
+    if item_instance and @item_set.item_instances << item_instance
+      redirect_to character_path(@item_set.character, tab: "combat"), notice: 'Item was added to worn items list.'
+    else
+      redirect_to character_path(@item_set.character, tab: "combat"), notice: 'Error adding item to worn items list .'
     end
   end
 
