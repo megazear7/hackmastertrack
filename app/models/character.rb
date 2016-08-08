@@ -445,6 +445,16 @@ class Character < ActiveRecord::Base
   def calculate_attack equipment
     equipment = build_equipment(equipment)
     ret = {}
+
+    int_mod = AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
+    if int_mod != 0
+      ret["intelligence"] = int_mod
+    end
+    dex_mod = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod")
+    if dex_mod != 0
+      ret["dexterity"] = dex_mod
+    end
+
     itemInstance = equipment["#{main_hand}_hand"]
     if itemInstance
       characters_talents.each do |char_talent|
@@ -457,24 +467,17 @@ class Character < ActiveRecord::Base
       end
       specialization = self.specializations.find_by(item_id: itemInstance.item.id, stat_name: "attack")
       ret["specialization"] = specialization.value if specialization
-      int_mod = AbilityScore.find_ability_mod("Intelligence", self.intelligence, "attack_mod")
-      if int_mod != 0
-        ret["intelligence"] = int_mod
-      end
-      dex_mod = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "attack_mod")
-      if dex_mod != 0
-        ret["dexterity"] = dex_mod
-      end
       if itemInstance.item.attack_mod
         ret[itemInstance.actual_name] = itemInstance.item.attack_mod
-      end
-      if equipment["body"] and equipment["body"].item.attack_mod
-        ret[equipment["body"].actual_name] = equipment["body"].item.attack_mod       
       end
       if prof_adjustment(itemInstance.item) != 0
         ret["No " + itemInstance.item.name + " Proficiency"] = prof_adjustment(itemInstance.item) 
       end
     end
+
+    if equipment["body"] and equipment["body"].item.attack_mod
+      ret[equipment["body"].actual_name] = equipment["body"].item.attack_mod       
+    end   
 
     level_mod = Level.find_mod(self.character_class.id, self.level, "attack_mod")
     if level_mod and level_mod != 0
@@ -561,6 +564,15 @@ class Character < ActiveRecord::Base
       end
     end
 
+    wis_mod = AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod")
+    if wis_mod != 0
+      ret["wisdom"] = wis_mod
+    end
+    dex_mod = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
+    if dex_mod != 0
+      ret["dexterity"] = dex_mod
+    end
+
     itemInstance = equipment["#{main_hand}_hand"]
     if itemInstance
       characters_talents.each do |char_talent|
@@ -575,14 +587,7 @@ class Character < ActiveRecord::Base
           ret[char_talent.name] = 1
         end
       end
-      wis_mod = AbilityScore.find_ability_mod("Wisdom", self.wisdom, "defense_mod")
-      if wis_mod != 0
-        ret["wisdom"] = wis_mod
-      end
-      dex_mod = AbilityScore.find_ability_mod("Dexterity", self.dexterity, "defense_mod")
-      if dex_mod != 0
-        ret["dexterity"] = dex_mod
-      end
+
       if itemInstance.item.defense_mod
         ret[itemInstance.actual_name] = itemInstance.item.defense_mod
       end
@@ -606,10 +611,10 @@ class Character < ActiveRecord::Base
     end
 
     if equipment["right_hand"] and equipment["right_hand"].item and equipment["right_hand"].item.shield?
-        shield = equipment["right_hand"]
-        if prof_adjustment(shield.item) != 0
-            ret["no_shield_proficiency"] = prof_adjustment(shield.item)
-        end
+      shield = equipment["right_hand"]
+      if prof_adjustment(shield.item) != 0
+          ret["no_shield_proficiency"] = prof_adjustment(shield.item)
+      end
     end
 
     def_adjustment = Race.find_mod(self.race.name, "defense_adjustment")
@@ -708,6 +713,10 @@ class Character < ActiveRecord::Base
     ret = {}
 
     itemInstance = equipment["#{main_hand}_hand"]
+    str_mod = AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
+    if str_mod != 0
+      ret["strength"] = str_mod
+    end
     if itemInstance
       characters_talents.each do |char_talent|
         if char_talent.talent.name == "Damage Bonus" and char_talent.item.id == itemInstance.item.id and itemInstance.item.melee?
@@ -716,10 +725,6 @@ class Character < ActiveRecord::Base
       end
       specialization = self.specializations.find_by(item_id: itemInstance.item.id, stat_name: "damage")
       ret["specialization"] = specialization.value if specialization
-      str_mod = AbilityScore.find_ability_mod("Strength", self.strength, "damage_mod")
-      if str_mod != 0
-        ret["strength"] = str_mod
-      end
       if itemInstance.item.damage_mod
         ret[itemInstance.actual_name] = itemInstance.item.damage_mod
       end
