@@ -22,7 +22,7 @@
   .col-md-12
     %table.table.table-bordered.table-hover
       - rose.each do |attribute, modifiers|
-        - if attribute != "left_hand" and attribute != "right_hand" and attribute != "body"
+        - if attribute != "left_hand" and attribute != "right_hand" and attribute != "body" and attribute != "worn_items"
           %tr
             %td
               = attribute.titleize + ": " + modifiers["val"].to_s
