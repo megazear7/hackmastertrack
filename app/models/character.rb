@@ -21,6 +21,14 @@ class Character < ActiveRecord::Base
 
   has_many :item_instances # these are equiped items
 
+  def generate_pdf
+    character_sheet = File.new("character_"+id.to_s+".txt", "w")
+    character_sheet.write("Hello, World! This is your character sheet")
+    path = character_sheet.path
+    character_sheet.close
+    return path
+  end
+
   def one_handed_unequiped_item_instance_location_names equiped_item, location
     item_instances = []
     item_instances << [equiped_item.actual_name, equiped_item.id] if equiped_item

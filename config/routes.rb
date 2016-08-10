@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  concern :downloadable do
+    get 'download', on: :member
+  end
+
   resources :class_spells
 
   resources :character_spells
@@ -46,7 +50,7 @@ Rails.application.routes.draw do
 
   resources :items
 
-  resources :characters do
+  resources :characters, concerns: :downloadable do
     member do
       get  :remove_proficiency
       get  :add_proficiency
