@@ -23,7 +23,7 @@ class Character < ActiveRecord::Base
 
   def generate_pdf
     pdftk = PdfForms.new("pdftk")
-    pdftk.fill_form "basic_character_sheet.pdf", "character_"+id.to_s+".pdf", :name => "Slighter the Kewlest"
+    pdftk.fill_form "basic_character_sheet.pdf", "character_"+id.to_s+".pdf", pdf_fields
     return "character_"+id.to_s+".pdf"
   end
 
