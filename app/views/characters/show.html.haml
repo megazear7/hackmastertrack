@@ -36,14 +36,10 @@
                 %button{ type: "submit", class: "btn btn-default" }
                   Add XP
   .col-sm-6.col-sm-offset-6.col-md-offset-0.col-md-4.col-lg-3
-    = link_to "Download Character Sheet", download_character_path
     %br
-    = form_tag @character.pdf_url, style: "display:inline;" do
-      - @character.pdf_fields.each do |key, val|
-        = hidden_field_tag key, val
-      .btn-group.pull-right
-        = submit_tag 'Download Character Sheet', class: "btn btn-default"
-        = link_to 'Edit', edit_character_path(@character), class: "btn btn-default", data: { confirm: "This will mark this character as custom." }
+    .btn-group.pull-right
+      = link_to "Download Character Sheet", download_character_path, class: "btn btn-default"
+      = link_to 'Edit', edit_character_path(@character), class: "btn btn-default", data: { confirm: "This will mark this character as custom." }
 .character-show-page{ data: { character_id: @character.id } }
   .row
     .col-md-12
