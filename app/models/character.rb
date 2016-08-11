@@ -22,11 +22,9 @@ class Character < ActiveRecord::Base
   has_many :item_instances # these are equiped items
 
   def generate_pdf
-    character_sheet = File.new("character_"+id.to_s+".txt", "w")
-    character_sheet.write("Hello, World! This is your character sheet")
-    path = character_sheet.path
-    character_sheet.close
-    return path
+    pdftk = PdfForms.new("pdftk")
+    pdftk.fill_form "basic_character_sheet.pdf", "character_"+id.to_s+".pdf", :name => "Slighter the Kewlest"
+    return "character_"+id.to_s+".pdf"
   end
 
   def one_handed_unequiped_item_instance_location_names equiped_item, location

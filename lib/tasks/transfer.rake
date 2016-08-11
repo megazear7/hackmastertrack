@@ -2,19 +2,25 @@ namespace :transfer do
 
   def app_name id
     { "prod"  => "hackmastertrack",
-      "test"  => "hackmastertrack-test"
+      "test"  => "hackmastertrack-test",
+      "test2"  => "hackmastertrack-test2",
+      "test3"  => "hackmastertrack-test3"
     } [id]
   end
 
   def db_name location
     # "prod" SHOULD NEVER EVER EVER BE USED IN THIS CONTEXT
     { "test"  => "HEROKU_POSTGRESQL_GOLD_URL",
+      "test2"  => "DATABASE",
+      "test3"  => "DATABASE"
     } [location]
   end
 
   def remote_url remote
     # "prod" SHOULD NEVER EVER EVER BE USED IN THIS CONTEXT
     { "test"  => "git@heroku.com:hackmastertrack-test.git",
+      "test2"  => "git@heroku.com:hackmastertrack-test2.git",
+      "test3"  => "git@heroku.com:hackmastertrack-test3.git"
     } [remote]
   end
 
@@ -68,7 +74,7 @@ namespace :transfer do
     case dest
     when "local"
       to_local  src, dest, base_branch, final_branch
-    when "test", "test2"
+    when "test", "test2", "test3"
       to_remote src, dest, base_branch, final_branch
     end
   end
@@ -80,6 +86,12 @@ namespace :transfer do
     task test: :environment do
       transfer "prod", "test", "master"
     end
+    task test2: :environment do
+      transfer "prod", "test2", "master"
+    end
+    task test3: :environment do
+      transfer "prod", "test3", "master"
+    end
   end
 
   namespace :test do
@@ -88,9 +100,15 @@ namespace :transfer do
     end
   end
 
-  namespace :prod do
-    task test: :environment do
-      transfer "prod", "test", "master"
+  namespace :test2 do
+    task local: :environment do
+      transfer "test2", "local", "master"
+    end
+  end
+
+  namespace :test3 do
+    task local: :environment do
+      transfer "test3", "local", "master"
     end
   end
 end
