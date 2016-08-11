@@ -21,6 +21,12 @@ class Character < ActiveRecord::Base
 
   has_many :item_instances # these are equiped items
 
+  def generate_pdf
+    pdftk = PdfForms.new("pdftk")
+    pdftk.fill_form "basic_character_sheet.pdf", "character_"+id.to_s+".pdf", pdf_fields
+    return "character_"+id.to_s+".pdf"
+  end
+
   def one_handed_unequiped_item_instance_location_names equiped_item, location
     item_instances = []
     item_instances << [equiped_item.actual_name, equiped_item.id] if equiped_item

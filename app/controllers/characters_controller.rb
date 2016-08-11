@@ -1,5 +1,6 @@
 class CharactersController < ApplicationController
-  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :boost_stat, :add_items, :equip_items, :add_proficiency, :remove_proficiency, :add_spell, :add_talent, :add_silver, :step3, :step4, :step5, :step6, :step7, :step8, :step9, :step10, :step11, :step12, :step13, :finish, :leave]
+  include Downloadable
+  before_action :set_character, only: [:show, :edit, :update, :destroy, :level_up_edit, :level_up_update, :add_xp, :boost_stat, :add_items, :equip_items, :add_proficiency, :remove_proficiency, :add_spell, :add_talent, :add_silver, :step3, :step4, :step5, :step6, :step7, :step8, :step9, :step10, :step11, :step12, :step13, :finish, :leave, :download]
 
   # GET /characters
   # GET /characters.json
@@ -518,6 +519,10 @@ class CharactersController < ApplicationController
  def leave
    @character.destroy
    redirect_to characters_url, notice: 'The character was unfinished and so was destroyed.'
+ end
+
+ def download
+   send_to_user filepath: @character.generate_pdf
  end
 
   private
