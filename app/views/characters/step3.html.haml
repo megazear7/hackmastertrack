@@ -1,13 +1,63 @@
+.row.sub-nav{ style: "top: 0px; width: 100%; text-align: center" }
+  %br
+  .col-xs-4
+  .col-xs-4
+    %h4
+      Bonus Building Points
+      %span#bonus-bps
+    %p#bonus-bp-message
+  .col-xs-4
 %h3 Step 3
 = simple_form_for @character, :url => step4_character_path(@character), :method => :post do |f|
   = f.input :building_points, as: :hidden
   .row
-    - extra_bp_options.each do |option|
-      .col-xs-6.col-sm-4.col-md-3.col-lg-2
-        .tile.tile-hover.selectable.bp-option{ data: { value: option[1], selectable: { group: "bp-option" } } }
-          = option[0]
-          %hr
-          = "+ " + option[1] + " Building Points"
+    .col-sm-6.col-md-4
+      .input-group
+        .input-group-addon
+          Strength
+        = f.input_field :strength, class: "string form-control swapable", disabled: true
+  .row
+    %br
+    .col-sm-6.col-md-4
+      .input-group
+        .input-group-addon
+          Intelligence
+        = f.input_field :intelligence, class: "string form-control swapable", disabled: true
+  .row
+    %br
+    .col-sm-6.col-md-4
+      .input-group
+        .input-group-addon
+          Wisdom
+        = f.input_field :wisdom, class: "string form-control swapable", disabled: true
+  .row
+    %br
+    .col-sm-6.col-md-4
+      .input-group
+        .input-group-addon
+          Dexterity
+        = f.input_field :dexterity, class: "string form-control swapable", disabled: true
+  .row
+    %br
+    .col-sm-6.col-md-4
+      .input-group
+        .input-group-addon
+          Constitution
+        = f.input_field :constitution, class: "string form-control swapable", disabled: true
+  .row
+    %br
+    .col-sm-6.col-md-4
+      .input-group
+        .input-group-addon
+          Looks
+        = f.input_field :looks, class: "string form-control swapable", disabled: true
+  .row
+    %br
+    .col-sm-6.col-md-4
+      .input-group
+        .input-group-addon
+          Charisma
+        = f.input_field :charisma, class: "string form-control swapable", disabled: true
   .row
     %br
     .col-md-4= f.submit 'Continue', class: "btn btn-primary"
