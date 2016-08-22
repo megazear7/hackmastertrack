@@ -1,16 +1,19 @@
 .row.sub-nav{ style: "top: 0px; width: 100%; text-align: center" }
-  %br
-  .col-xs-4
+  .col-xs-2
   .col-xs-4
     %h4
-      Bonus Building Points
       %span#bonus-bps
-    %p#bonus-bp-message
+        50
+      Bonus Building Points
   .col-xs-4
+    %h4
+      %p#bonus-bp-message
+        Swapped no ability scores.
+  .col-xs-2
 %h3 Step 3
 .swapable-form
   = simple_form_for @character, :url => step4_character_path(@character), :method => :post do |f|
-    = f.input :building_points, as: :hidden
+    = f.input :building_points, as: :hidden, input_html: { value: 50 }
     .row
       .col-sm-6.col-md-4
         .input-group.swapable

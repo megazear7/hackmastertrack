@@ -38,20 +38,37 @@ $(document).ready(function() {
 
             // if mouse over another swapable
             $(".swapable").mouseup(function(e) {
+                $(".swapable").unbind("mouseup");
+
+                // switch the input values
                 var dropInput = $(e.target).closest(".input-group").find("input");
                 var dropVal = dropInput.val();
-
                 dropInput.val(hoverVal);
                 group.find("input").val(dropVal);
 
-                $(".swapable").unbind("mouseup");
-                // switch the input values
-                // compare the current values to the capture starting values
-                    // all the same: no swaps, 50 bps
-                    // two different: one swap, 25 bps
-                    // more than two different: more than one swap, 0 bps
-                // update sub nav bonus bps and bp message according to the above determination
-                // update the hidden bp input field
+                var numChanged = 0;
+                swapables.each(function(index, swapable) {
+                    if (startingValues[$(swapable).find("input").attr("name")] != $(swapable).find("input").val()) {
+                        numChanged++;
+                        container.find("input[name='"+$(swapable).find("input").attr("name")+"']").closest(".input-group").addClass("changed");
+                    } else {
+                        container.find("input[name='"+$(swapable).find("input").attr("name")+"']").closest(".input-group").removeClass("changed");
+                    }
+                });
+
+                if (numChanged >= 3) {
+                    $("#bonus-bps").text("0");
+                    $("#bonus-bp-message").text("Swapped more than two ability scores.");
+                    $("#character_building_points").val(0);
+                } else if (numChanged >= 1) {
+                    $("#bonus-bps").text("25");
+                    $("#bonus-bp-message").text("Swapped two ability scores.");
+                    $("#character_building_points").val(25);
+                } else {
+                    $("#bonus-bps").text("50");
+                    $("#bonus-bp-message").text("Swapped no ability scores.");
+                    $("#character_building_points").val(50);
+                }
             });
         });
     }
