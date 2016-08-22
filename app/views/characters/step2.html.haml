@@ -10,7 +10,7 @@
           Strength
         = f.input_field :strength, class: "string form-control", min: "3.0", max: "18.99", placeholder: "3D6 + Percentile", value: "", required: true
         .input-group-btn
-          %button.btn.btn-default.random{ data: { target: "character_strength", count: 0, limit: 1, format: "stat.percent", stat: "3d6", percent: "d100" } }
+          %button.btn.btn-default.random{ data: { target: "character_strength", count: 0, limit: 1, format: "stat.percent", stat: "3d6", percent: "d100-1" } }
             &nbsp; &nbsp; &nbsp;
   .row
     %br

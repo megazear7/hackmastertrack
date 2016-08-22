@@ -129,6 +129,10 @@ $(document).ready(function() {
       var value = format;
       $.each(rolls, function(index, roll) {
         dice = button.data(roll);
+        var add = true;
+        if (dice.indexOf("-") > 0) {
+           add = false; 
+        }
         rollInfo = dice.split(/d|\+|\-/g);
         count = rollInfo[0];
         size = rollInfo[1];
@@ -144,7 +148,11 @@ $(document).ready(function() {
 
         count = parseInt(count);
         size = parseInt(size);
-        total = parseInt(total);
+        if (add) {
+          total = parseInt(total);
+        } else {
+          total = -1 * parseInt(total);
+        }
 
         for (var i = 0; i < count; i++) {
           total += random(1, size);
