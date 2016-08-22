@@ -1,0 +1,26 @@
+.swapable {
+    cursor: move !important;
+}
+
+.changed {
+    box-shadow: 0px 0px 5px purple;
+}
+
+.swapping .swapable {
+    cursor: move !important;
+}
+
+.swapping .swapable:hover {
+    box-shadow: 0px 0px 5px #5cb85c;
+    cursor: copy !important;
+}
+
+.swapable-form, .swapable-form .swapable, .swapable-form input, .swapable-form .input-group-addon {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently
+                                    not supported by any browser */
+}

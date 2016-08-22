@@ -1,13 +1,81 @@
+.row.sub-nav{ style: "top: 0px; width: 100%; text-align: center" }
+  .col-xs-2
+  .col-xs-4
+    %h4
+      %span#bonus-bps
+        50
+      Bonus Building Points
+  .col-xs-4
+    %h4
+      %p#bonus-bp-message
+        Swapped no ability scores.
+  .col-xs-2
 %h3 Step 3
-= simple_form_for @character, :url => step4_character_path(@character), :method => :post do |f|
-  = f.input :building_points, as: :hidden
-  .row
-    - extra_bp_options.each do |option|
-      .col-xs-6.col-sm-4.col-md-3.col-lg-2
-        .tile.tile-hover.selectable.bp-option{ data: { value: option[1], selectable: { group: "bp-option" } } }
-          = option[0]
-          %hr
-          = "+ " + option[1] + " Building Points"
-  .row
-    %br
-    .col-md-4= f.submit 'Continue', class: "btn btn-primary"
+.swapable-form
+  = simple_form_for @character, :url => step4_character_path(@character), :method => :post do |f|
+    = f.input :building_points, as: :hidden, input_html: { value: 50 }
+    .row
+      .col-sm-6.col-md-4
+        .input-group.swapable
+          .input-group-addon
+            Strength
+          .input-group-addon.attr-val
+            = @character.strength
+          = f.input_field :strength, class: "string form-control swapable", as: :hidden
+    .row
+      %br
+      .col-sm-6.col-md-4
+        .input-group.swapable
+          .input-group-addon
+            Intelligence
+          .input-group-addon.attr-val
+            = @character.intelligence
+          = f.input_field :intelligence, class: "string form-control swapable", as: :hidden
+    .row
+      %br
+      .col-sm-6.col-md-4
+        .input-group.swapable
+          .input-group-addon
+            Wisdom
+          .input-group-addon.attr-val
+            = @character.wisdom
+          = f.input_field :wisdom, class: "string form-control swapable", as: :hidden
+    .row
+      %br
+      .col-sm-6.col-md-4
+        .input-group.swapable
+          .input-group-addon
+            Dexterity
+          .input-group-addon.attr-val
+            = @character.dexterity
+          = f.input_field :dexterity, class: "string form-control swapable", as: :hidden
+    .row
+      %br
+      .col-sm-6.col-md-4
+        .input-group.swapable
+          .input-group-addon
+            Constitution
+          .input-group-addon.attr-val
+            = @character.constitution
+          = f.input_field :constitution, class: "string form-control swapable", as: :hidden
+    .row
+      %br
+      .col-sm-6.col-md-4
+        .input-group.swapable
+          .input-group-addon
+            Looks
+          .input-group-addon.attr-val
+            = @character.looks
+          = f.input_field :looks, class: "string form-control swapable", as: :hidden
+    .row
+      %br
+      .col-sm-6.col-md-4
+        .input-group.swapable
+          .input-group-addon
+            Charisma
+          .input-group-addon.attr-val
+            = @character.charisma
+          = f.input_field :charisma, class: "string form-control swapable", as: :hidden
+    .row
+      %br
+      .col-md-4= f.submit 'Continue', class: "btn btn-primary"

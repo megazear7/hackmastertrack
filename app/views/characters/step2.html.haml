@@ -1,9 +1,7 @@
 %h3 Step 2
 %p
-  %div Roll 3d6 for each stat and a d100 for the percentile value. Record your values in order.
-  %div You are allowed to leave the stats in the order you rolled them, swap two stats, or rearrange all of the stats.
-  %div In the next step you will be asked what swap method you used and will be awarded either 50, 25, or 0 building points.
-  %div Enter the full stat value including the percentile.
+  %div Roll 3d6 for each stat and a d100 for the percentile value. Record the plain dice values in order.
+  %div In the next step you will be able to swap the ability scores.
 = simple_form_for @character, :url => step3_character_path(@character), :method => :post do |f|
   .row
     .col-sm-6.col-md-4
