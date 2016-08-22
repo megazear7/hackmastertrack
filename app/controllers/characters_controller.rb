@@ -374,7 +374,15 @@ class CharactersController < ApplicationController
   end
 
   def step4
-    @character.building_points += params["character"]["building_points"].to_i
+    @character.building_points += params["character"]["building_points"].to_f
+    @character.strength = params["character"]["strength"].to_f
+    @character.intelligence = params["character"]["intelligence"].to_f
+    @character.wisdom = params["character"]["wisdom"].to_f
+    @character.dexterity = params["character"]["dexterity"].to_f
+    @character.constitution = params["character"]["constitution"].to_f
+    @character.looks = params["character"]["looks"].to_f
+    @character.charisma = params["character"]["charisma"].to_f
+
     if @character.save
       render layout: "character_creation"
     else

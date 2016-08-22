@@ -19,49 +19,63 @@
         .input-group.swapable
           .input-group-addon
             Strength
-          = f.input_field :strength, class: "string form-control swapable", disabled: true
+          .input-group-addon.attr-val
+            = @character.strength
+          = f.input_field :strength, class: "string form-control swapable", as: :hidden
     .row
       %br
       .col-sm-6.col-md-4
         .input-group.swapable
           .input-group-addon
             Intelligence
-          = f.input_field :intelligence, class: "string form-control swapable", disabled: true
+          .input-group-addon.attr-val
+            = @character.intelligence
+          = f.input_field :intelligence, class: "string form-control swapable", as: :hidden
     .row
       %br
       .col-sm-6.col-md-4
         .input-group.swapable
           .input-group-addon
             Wisdom
-          = f.input_field :wisdom, class: "string form-control swapable", disabled: true
+          .input-group-addon.attr-val
+            = @character.wisdom
+          = f.input_field :wisdom, class: "string form-control swapable", as: :hidden
     .row
       %br
       .col-sm-6.col-md-4
         .input-group.swapable
           .input-group-addon
             Dexterity
-          = f.input_field :dexterity, class: "string form-control swapable", disabled: true
+          .input-group-addon.attr-val
+            = @character.dexterity
+          = f.input_field :dexterity, class: "string form-control swapable", as: :hidden
     .row
       %br
       .col-sm-6.col-md-4
         .input-group.swapable
           .input-group-addon
             Constitution
-          = f.input_field :constitution, class: "string form-control swapable", disabled: true
+          .input-group-addon.attr-val
+            = @character.constitution
+          = f.input_field :constitution, class: "string form-control swapable", as: :hidden
     .row
       %br
       .col-sm-6.col-md-4
         .input-group.swapable
           .input-group-addon
             Looks
-          = f.input_field :looks, class: "string form-control swapable", disabled: true
+          .input-group-addon.attr-val
+            = @character.looks
+          = f.input_field :looks, class: "string form-control swapable", as: :hidden
     .row
       %br
       .col-sm-6.col-md-4
         .input-group.swapable
           .input-group-addon
             Charisma
-          = f.input_field :charisma, class: "string form-control swapable", disabled: true
+          .input-group-addon.attr-val
+            = @character.charisma
+          = f.input_field :charisma, class: "string form-control swapable", as: :hidden
     .row
       %br
       .col-md-4= f.submit 'Continue', class: "btn btn-primary"

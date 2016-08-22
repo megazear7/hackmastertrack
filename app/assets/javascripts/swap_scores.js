@@ -41,10 +41,12 @@ $(document).ready(function() {
                 $(".swapable").unbind("mouseup");
 
                 // switch the input values
-                var dropInput = $(e.target).closest(".input-group").find("input");
-                var dropVal = dropInput.val();
-                dropInput.val(hoverVal);
+                var dropGroup = $(e.target).closest(".input-group");
+                var dropVal = dropGroup.find("input").val();
+                dropGroup.find("input").val(hoverVal);
+                dropGroup.find(".attr-val").text(hoverVal);
                 group.find("input").val(dropVal);
+                group.find(".attr-val").text(dropVal);
 
                 var numChanged = 0;
                 swapables.each(function(index, swapable) {
