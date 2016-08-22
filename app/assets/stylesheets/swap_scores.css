@@ -2,6 +2,11 @@
     cursor: move !important;
 }
 
+.swapable .attr-val {
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+}
+
 .changed .attr-val {
     box-shadow: 0px 0px 5px purple;
 }

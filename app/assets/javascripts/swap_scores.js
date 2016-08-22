@@ -28,7 +28,8 @@ $(document).ready(function() {
                 group.find(".attr-val").hide();
 
                 $("body").append(hoverGroup);
-                hoverGroup.width(width + "px");
+                hoverGroup.find(".attr-label").remove();
+                hoverGroup.width((width/2) + "px");
                 hoverGroup.css("position", "absolute");
                 hoverGroup.css("z-index", "999");
 
