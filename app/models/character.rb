@@ -21,6 +21,15 @@ class Character < ActiveRecord::Base
 
   has_many :item_instances # these are equiped items
 
+  def solr
+    return JSON.generate({ id: "/characters/" + self.id.to_s,
+             path: "/characters/" + self.id.to_s,
+             title: self.name,
+             content: [self.alignment, self.sex, self.hair, self.eyes,
+                       self.handedness, self.race.name,
+                       self.character_class.name] })
+  end
+
   def generate_pdf
     pdftk = PdfForms.new("pdftk")
     pdftk.fill_form "basic_character_sheet.pdf", "character_"+id.to_s+".pdf", pdf_fields
