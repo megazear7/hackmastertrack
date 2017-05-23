@@ -5,6 +5,18 @@ class Talent < ActiveRecord::Base
   has_and_belongs_to_many :characters
   has_many :character_talents
 
+  include Solr
+
+  def solrJson
+    return JSON.generate({
+        path: "/talents/" + self.id.to_s,
+        id: self.id.to_s,
+        title: solrSanitize(self.name),
+        description: solrSanitize(self.description),
+        category1: "talent",
+        groups: [ "everyone" ]})
+  end
+
   def item_options
     # I assume that only melee, ranged and polearm items ever get talents specific
     # to them, this assumption may not hold at all times.

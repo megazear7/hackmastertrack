@@ -15,7 +15,7 @@ namespace :solr do
   end
 
   task index: :environment do
-    records = Character.all + Item.all
+    records = Character.all + Item.all + Talent.all + Spell.all + Talent.all + CharacterClass.all + Race.all + Proficiency.all
     jsonArrStr = "[]"
     count = 0
 

@@ -11,7 +11,7 @@ $ ->
       $(this).remove()
     if phrase.trim() != ""
       $results = $(".solr-results")
-      HackSolr.search phrase, {rows: 25, owners: [$("#user").data("id")], groups: $("#user").data("groups")}, (results) ->
+      HackSolr.search phrase, {rows: 12, owners: [$("#user").data("id")], groups: $("#user").data("groups")}, (results) ->
         $.each results, ->
           result = $(".search-result-template").clone()
           result.removeClass("hidden")
@@ -23,7 +23,8 @@ $ ->
           result.find("a").attr("id", unescape(this.category) + "_" + this.id)
           result.find("a").text(unescape(this.title))
           result.find(".category1").text(unescape(this.category1))
-          result.find(".category2").text(unescape(this.category2))
+          if this.category2
+            result.find(".category2").text(unescape(this.category2))
           $results.append(result);
           result.slideDown()
 
