@@ -9,7 +9,15 @@
 
       $.get(url+queryPath,
         { q: phrase, rows: rows})
-      .done(function(data) { success(data.response.docs) })
-      .fail(function(xhr, textStatus, error) { failure(error) });
+      .done(function(data) {
+          if (typeof success === "function") {
+              success(data.response.docs)
+          }
+      })
+      .fail(function(xhr, textStatus, error) {
+          if (typeof failure === "function") {
+              failure(error)
+          }
+      });
     };
 })()
