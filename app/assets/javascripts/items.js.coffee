@@ -15,7 +15,8 @@ $ ->
     if $(e.target).val()
       updateSpecializations($(e.target).val())
 
-  $("#solr-submit").click (e) ->
+  $("#solr-item-search").submit (e) ->
+    e.preventDefault()
     phrase = $("#solr-search").val();
     if phrase.trim() != ""
       HackSolr.search phrase, {}, (results) ->

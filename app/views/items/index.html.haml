@@ -2,13 +2,13 @@
 .row.sub-nav
   .col-md-4
     %br
-    .input-group
+    %form.input-group#solr-item-search
       %span.input-group-btn
         %button.btn.btn-default#solr-clear
           All Items
       %input.form-control#solr-search{ "placeholder" => "Search for items..." }
       %span.input-group-btn
-        %button.btn.btn-default#solr-submit
+        %button.btn.btn-default
           Search
 
   .col-md-4
