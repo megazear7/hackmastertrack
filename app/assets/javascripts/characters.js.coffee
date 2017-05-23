@@ -11,7 +11,7 @@ $ ->
       $(this).remove()
     if phrase.trim() != ""
       $results = $(".solr-results")
-      HackSolr.search phrase, {rows: 10, owners: [$("#user").data("id")], groups: $("#user").data("groups")}, (results) ->
+      HackSolr.search phrase, {rows: 25, owners: [$("#user").data("id")], groups: $("#user").data("groups")}, (results) ->
         $.each results, ->
           result = $(".search-result-template").clone()
           result.removeClass("hidden")
