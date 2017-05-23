@@ -24,6 +24,8 @@ class Character < ActiveRecord::Base
   include Solr
 
   def solrJson
+    userEmail = self.user && self.user.email ? self.user.email : ""
+    userId = self.user ? self.user.id.to_s : ""
 
     content = []
     content.push(solrSanitize(self.alignment_name)) if self.alignment_name
@@ -38,6 +40,9 @@ class Character < ActiveRecord::Base
         id: self.id.to_s,
         title: solrSanitize(self.name),
         category1: "character",
+        category2: userEmail,
+        owners: [ userId ],
+        groups: [ "admin" ],
         content: content })
   end
 

@@ -37,6 +37,8 @@ class Item < ActiveRecord::Base
         category2: category2,
         category3: category3,
         category4: category4,
+        owners: [ ],
+        groups: [ "everyone" ],
         content: content })
   end
 

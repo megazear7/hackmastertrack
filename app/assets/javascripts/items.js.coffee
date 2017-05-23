@@ -19,7 +19,7 @@ $ ->
     e.preventDefault()
     phrase = $("#solr-search").val();
     if phrase.trim() != ""
-      HackSolr.search phrase, {}, (results) ->
+      HackSolr.search phrase, {rows: 100, owners: [$("#user").data("id")], groups: $("#user").data("groups")}, (results) ->
         $(".item_group").show()
         $("tr.item_row").hide()
         $("tr.item_row").removeClass("search-revealed")

@@ -1,5 +1,6 @@
 module Solr extend ActiveSupport::Concern
   def solrSanitize str
+=begin
     str.gsub!("-", "\-")
     str.gsub!("+", "\+")
     str.gsub!("&&", "\&&")
@@ -18,7 +19,9 @@ module Solr extend ActiveSupport::Concern
     str.gsub!("?", "\?")
     str.gsub!(":", "\:")
     str.gsub!("\\", "\\\\")
+=end
 
-    return URI.escape(str)
+    #return URI.escape(str)
+    return str
   end
 end

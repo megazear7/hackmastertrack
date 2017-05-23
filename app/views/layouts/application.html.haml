@@ -13,6 +13,7 @@
         .navbar-header
           = link_to "Hackmaster Track", characters_path, class: "navbar-brand"
   - else
+    #user{ data: { id: current_user.id.to_s, groups: '["everyone"]' } }
     .navbar.navbar-default.navbar-fixed-top{role: "navigation"}
       .container
         .navbar-header

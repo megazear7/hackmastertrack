@@ -4,6 +4,29 @@
 
 $ ->
 
+  $("#solr-full-search").submit (e) ->
+    e.preventDefault()
+    phrase = $("#solr-search").val()
+    $(".actual-search-result").slideUp done: ->
+      $(this).remove()
+    if phrase.trim() != ""
+      $results = $(".solr-results")
+      HackSolr.search phrase, {rows: 10, owners: [$("#user").data("id")], groups: $("#user").data("groups")}, (results) ->
+        $.each results, ->
+          result = $(".search-result-template").clone()
+          result.removeClass("hidden")
+          result.removeClass("search-result-template");
+          result.hide()
+          result.addClass("actual-search-result");
+          result.find(".tile").data("click", unescape(this.category) + "_" + this.id)
+          result.find("a").attr("href", this.path)
+          result.find("a").attr("id", unescape(this.category) + "_" + this.id)
+          result.find("a").text(unescape(this.title))
+          result.find(".category1").text(unescape(this.category1))
+          result.find(".category2").text(unescape(this.category2))
+          $results.append(result);
+          result.slideDown()
+
   specsAccordion = $("#accordion")
   if specsAccordion.length > 0
     specsAccordion.collapse()

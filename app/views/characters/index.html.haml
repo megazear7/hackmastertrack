@@ -1,4 +1,31 @@
 .row
+  .col-md-3
+  .col-md-6
+    %br
+    %form.input-group#solr-full-search
+      %input.form-control.input-lg#solr-search{ "placeholder" => "Search for anything..." }
+      %span.input-group-btn
+        %button.btn.btn-lg.btn-default
+          Search
+    %br
+  .col-md-3
+.row.solr-results
+.row
+  .hidden.search-result-template.col-xs-6.col-sm-4.col-md-3.col-lg-2.tile-container
+    .tile.tile-hover.click-link{ data: { click: "item_1" } }
+      %h4
+        %a#item_1{"href" => "/items/1"}
+          Longsword
+      %hr
+      .row
+        .col-md-12
+          %h6.category1.category.text-center
+        .col-md-12
+          %h6.category2.category.text-center
+.row
+  .col-md-12
+    %hr
+.row
   - @characters.where(finished: true).order(:name).each do |character|
     .col-xs-6.col-sm-4.col-md-3.col-lg-2.tile-container
       .tile.tile-hover.character-tile.click-link.show-on-hover{ data: { :"show-style" => "slide", show: "character_"+character.id.to_s, click: "character_"+character.id.to_s+"_link", tile: { group: "character-tile" } } }

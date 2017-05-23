@@ -5,6 +5,7 @@ namespace :solr do
   end
 
   def index jsonArrStr
+    jsonArrStr.gsub!("'", "'\"'\"'")
     call "curl 'http://ec2-52-33-82-145.us-west-2.compute.amazonaws.com:8983/solr/hacksolr/update?commit=true&wt=json' -H 'Content-Type: text/json' --data-binary '#{jsonArrStr}'"
   end
 
@@ -16,13 +17,18 @@ namespace :solr do
   task index: :environment do
     records = Character.all + Item.all
     jsonArrStr = "[]"
+    count = 0
 
     records.each do |character|
       jsonArrStr = solrJsonAppender(jsonArrStr, character.solrJson)
+      count += 1
+
+      if count == 200
+        index jsonArrStr 
+        jsonArrStr = "[]"
+      end
     end
-
-    jsonArrStr.gsub!("'", "'\"'\"'")
-
+    
     index jsonArrStr 
   end
 end
