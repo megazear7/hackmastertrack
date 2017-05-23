@@ -4,8 +4,11 @@
     %h3 Items
   .col-md-3
     %br
-    = form_tag items_path, :method => 'get' do
-      = select_tag :view, options_for_select(item_views, params[:view]), class: "string form-control search-box-align form-border item-groups"
+    .input-group
+      %input.form-control#solr-search
+      %span.input-group-btn
+        %button.btn.btn-default#solr-submit
+          Search
   .col-md-5
   .col-md-3
     %br
@@ -18,35 +21,36 @@
   .col-md-12
     %br
     - item_groups(params[:view]).each do |item_group|
-      %h4= item_group.titleize
-      .accordion{ "id"=>"accordion"+item_group }
-        %table.table.table-hover.table-responsive.purchase
-          %thead
-            %tr
-              %th Name
-              - item_stats(params[:view]).each do |header, stat_method|
-                %th= header
-              - if @current_character
-                %th
-              - if current_user.admin_level >= 1
-                %th
-                %th
-          %tbody
-            - @items.where(item_type: item_group).order(:name).each_with_index do |item, index|
-              %tr{ "data-show" => "item_"+item.id.to_s, class: "show-on-hover" }
-                %td= link_to item.name, item
+      .item_group
+        %h4= item_group.titleize
+        .accordion{ "id"=>"accordion"+item_group }
+          %table.table.table-hover.table-responsive.purchase
+            %thead
+              %tr
+                %th Name
                 - item_stats(params[:view]).each do |header, stat_method|
-                  %td= item.send(stat_method)
+                  %th= header
                 - if @current_character
-                  %td.actions
-                    = simple_form_for @current_character, url: add_items_character_path(id: @current_character, page: "item_index", page_location: "collapse_"+item_group+"_"+index.to_s+"_travel"), method: :post do |f|
-                      .hidden
-                        = f.input :item_to_take, input_html: { value: item.id }
-                        = f.input :character_id, input_html: { value: @current_character.id }
-                      .btn-group{ class: "item_#{item.id.to_s} action" }
-                        = f.submit "Buy Item", class: "btn btn-primary"
-                        = f.submit "Take Item", class: "btn btn-default"
+                  %th
                 - if current_user.admin_level >= 1
-                  %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_path(item)
-                  %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item, :method => :delete, :data => { :confirm => 'Are you sure?' }
+                  %th
+                  %th
+            %tbody
+              - @items.where(item_type: item_group).order(:name).each_with_index do |item, index|
+                %tr{ "data-show" => "item_"+item.id.to_s, class: "show-on-hover item_row item_row_"+item.id.to_s }
+                  %td= link_to item.name, item
+                  - item_stats(params[:view]).each do |header, stat_method|
+                    %td= item.send(stat_method)
+                  - if @current_character
+                    %td.actions
+                      = simple_form_for @current_character, url: add_items_character_path(id: @current_character, page: "item_index", page_location: "collapse_"+item_group+"_"+index.to_s+"_travel"), method: :post do |f|
+                        .hidden
+                          = f.input :item_to_take, input_html: { value: item.id }
+                          = f.input :character_id, input_html: { value: @current_character.id }
+                        .btn-group{ class: "item_#{item.id.to_s} action" }
+                          = f.submit "Buy Item", class: "btn btn-primary"
+                          = f.submit "Take Item", class: "btn btn-default"
+                  - if current_user.admin_level >= 1
+                    %td= link_to raw('<span class="octicon octicon-pencil"></span>'), edit_item_path(item)
+                    %td= link_to raw('<span class="octicon octicon-trashcan"></span>'), item, :method => :delete, :data => { :confirm => 'Are you sure?' }
     = link_to 'New Item', new_item_path, class: "btn btn-primary" if current_user.admin_level >= 1
