@@ -1,15 +1,17 @@
 .row
 .row.sub-nav
-  .col-md-1
-    %h3 Items
-  .col-md-3
+  .col-md-4
     %br
     .input-group
-      %input.form-control#solr-search
+      %span.input-group-btn
+        %button.btn.btn-default#solr-clear
+          All Items
+      %input.form-control#solr-search{ "placeholder" => "Search for items..." }
       %span.input-group-btn
         %button.btn.btn-default#solr-submit
           Search
-  .col-md-5
+
+  .col-md-4
   .col-md-3
     %br
     .pull-right

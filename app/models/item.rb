@@ -29,8 +29,8 @@ class Item < ActiveRecord::Base
     
 
     return JSON.generate({
-        id: "/items/" + self.id.to_s,
         path: "/items/" + self.id.to_s,
+        id: self.id.to_s,
         title: title,
         description: description,
         category1: category1,

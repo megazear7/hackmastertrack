@@ -34,8 +34,8 @@ class Character < ActiveRecord::Base
     content.push(solrSanitize(self.character_class.name)) if self.character_class and self.character_class.name
 
     return JSON.generate({
-        id: "/characters/" + self.id.to_s,
         path: "/characters/" + self.id.to_s,
+        id: self.id.to_s,
         title: solrSanitize(self.name),
         category1: "character",
         content: content })
