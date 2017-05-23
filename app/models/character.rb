@@ -21,13 +21,24 @@ class Character < ActiveRecord::Base
 
   has_many :item_instances # these are equiped items
 
-  def solr
-    return JSON.generate({ id: "/characters/" + self.id.to_s,
-             path: "/characters/" + self.id.to_s,
-             title: self.name,
-             content: [self.alignment, self.sex, self.hair, self.eyes,
-                       self.handedness, self.race.name,
-                       self.character_class.name] })
+  include Solr
+
+  def solrJson
+
+    content = []
+    content.push(solrSanitize(self.alignment_name)) if self.alignment_name
+    content.push(solrSanitize(self.gender_name)) if self.gender_name
+    content.push(solrSanitize(self.hair + " hair")) if self.hair
+    content.push(solrSanitize(self.eyes + " eyes")) if self.eyes
+    content.push(solrSanitize(self.race.name)) if self.race and self.race.name
+    content.push(solrSanitize(self.character_class.name)) if self.character_class and self.character_class.name
+
+    return JSON.generate({
+        id: "/characters/" + self.id.to_s,
+        path: "/characters/" + self.id.to_s,
+        title: solrSanitize(self.name),
+        category1: "character",
+        content: content })
   end
 
   def generate_pdf

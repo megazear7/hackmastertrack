@@ -8,6 +8,38 @@ class Item < ActiveRecord::Base
   scope :non_magic_items, -> { where("magic_level < 5") }
   scope :normal_items, -> { where("magic_level = 0") }
 
+  include Solr
+
+  def solrJson
+    title = self.name ? solrSanitize(self.name) : ""
+    description = self.description ? solrSanitize(self.description) : ""
+    category1 = "item"
+    category2 = self.item_type ? solrSanitize(self.item_type) : ""
+    category3 = self.damage_type ? solrSanitize(self.damage_type) : ""
+    category4 = self.armor_type ? solrSanitize(self.armor_type) : ""
+
+    content = []
+    content.push("two handed") if self.two_handed
+    content.push("mounted") if self.mounted
+    content.push("sword") if self.sword
+    content.push("phalanx") if self.phalanx
+    content.push("heavy armor") if self.heavy_armor
+    content.push(solrSanitize(self.shield_size) + "shield") if self.shield_size
+    content.push(solrSanitize(self.location)) if self.location
+    
+
+    return JSON.generate({
+        id: "/items/" + self.id.to_s,
+        path: "/items/" + self.id.to_s,
+        title: title,
+        description: description,
+        category1: category1,
+        category2: category2,
+        category3: category3,
+        category4: category4,
+        content: content })
+  end
+
   def self.melee_specializations
     [ "attack", "speed", "defense", "damage" ]
   end
