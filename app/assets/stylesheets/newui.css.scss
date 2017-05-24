@@ -1,0 +1,45 @@
+$primary: rgb(63,81,181);
+$accent: rgb(255,82,82);
+$white: rgb(255,255,255);
+
+.primary-color {
+    background-color: $primary;
+    color: $white;
+}
+
+.accent-color {
+    background-color: $accent;
+    color: $white;
+}
+
+.mdl-cell {
+    transition: width 0.3s;
+}
+
+.hack-card-square {
+    width: 100%;
+    height: 100%;
+}
+
+.create-character {
+    margin-top: 50px;
+    width: 74%;
+    margin: 45px auto;
+}
+
+.hide {
+    display: none;
+}
+
+.hack-search {
+    width: 100%;
+}
+
+.details-view {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    .mdl-layout__container {
+        position: relative;
+        height: 100%;
+    }
+}

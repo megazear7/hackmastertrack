@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def newui 
+    render "layouts/newui", layout: false
+  end
+
   private
     def check_if_devise
       if params[:controller].include? "devise/registrations" and params[:action].include? "create"

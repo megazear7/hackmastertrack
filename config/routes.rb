@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     get 'download', on: :member
   end
 
+  get '/new', to: 'application#newui'
+
   resources :class_spells
 
   resources :character_spells
