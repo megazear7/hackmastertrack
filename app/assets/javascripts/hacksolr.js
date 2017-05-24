@@ -9,6 +9,7 @@
 
     var url = "http://ec2-52-33-82-145.us-west-2.compute.amazonaws.com:8983";
     var queryPath = "/solr/hacksolr/query";
+    var suggestPath = "/solr/hacksolr/suggest";
 
     window.HackSolr.search = function(phrase, config, success, failure) {
       var rows = config.rows || 100;
@@ -32,6 +33,21 @@
       .done(function(data) {
           if (typeof success === "function") {
               success(data.response.docs)
+          }
+      })
+      .fail(function(xhr, textStatus, error) {
+          if (typeof failure === "function") {
+              failure(error)
+          }
+      });
+    };
+
+    window.HackSolr.suggest = function(phrase, success, failure) {
+      $.get(url+suggestPath,
+        { "suggest.q": phrase })
+      .done(function(data) {
+          if (typeof success === "function") {
+              success(data.suggest.hackSuggester[phrase].suggestions);
           }
       })
       .fail(function(xhr, textStatus, error) {

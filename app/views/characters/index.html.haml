@@ -3,7 +3,11 @@
   .col-md-6
     %br
     %form.input-group#solr-full-search
-      %input.form-control.input-lg#solr-search{ "placeholder" => "Search for anything..." }
+      %input.form-control.input-lg#solr-search{ "placeholder" => "Search for anything...", "autocomplete" => "off" }
+      .suggestions{ "style" => "display:none" }
+        %div.suggestion1 Sword 
+        %div.suggestion2 Hello and some things
+        %div.suggestion3 WHY MEEE
       %span.input-group-btn
         %button.btn.btn-lg.btn-default
           Search

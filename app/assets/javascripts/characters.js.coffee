@@ -28,6 +28,43 @@ $ ->
           $results.append(result);
           result.slideDown()
 
+  $("input#solr-search").on "input", (e) ->
+    if $(this).val().length > 3
+      HackSolr.suggest $(this).val(), (suggestions) ->
+        termsUsed = []
+        if suggestions.length > 0
+          $("#solr-full-search .suggestion1").html suggestions[0].term
+          $("#solr-full-search .suggestion1").show()
+          termsUsed.push suggestions[0].term.toLowerCase()
+        else
+          $("#solr-full-search .suggestion1").html ""
+          $("#solr-full-search .suggestion1").hide()
+        if suggestions.length > 1 && termsUsed.indexOf(suggestions[1].term.toLowerCase()) == -1
+          $("#solr-full-search .suggestion2").html suggestions[1].term
+          $("#solr-full-search .suggestion2").show()
+          termsUsed.push suggestions[1].term.toLowerCase()
+        else
+          $("#solr-full-search .suggestion2").html ""
+          $("#solr-full-search .suggestion2").hide()
+        if suggestions.length > 2 && termsUsed.indexOf(suggestions[2].term.toLowerCase()) == -1
+          $("#solr-full-search .suggestion3").html suggestions[2].term
+          $("#solr-full-search .suggestion3").show()
+          termsUsed.push suggestions[2].term.toLowerCase()
+        else
+          $("#solr-full-search .suggestion3").html ""
+          $("#solr-full-search .suggestion3").hide()
+        if suggestions.length > 0
+          $(".suggestions").show()
+        else
+          $(".suggestions").hide()
+    else
+      $(".suggestions").hide()
+
+  $(".suggestions div").click (e) ->
+    $("input#solr-search").val($(this).text())
+    $("#solr-full-search").submit()
+    $(".suggestions").hide()
+
   specsAccordion = $("#accordion")
   if specsAccordion.length > 0
     specsAccordion.collapse()
