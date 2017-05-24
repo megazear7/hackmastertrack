@@ -5,6 +5,7 @@
       HackTrack.closeAll();
 
       var data = $card.data();
+      var id = data.category1+data.id;
       $card.addClass("open-details-card");
 
       var $container;
@@ -16,6 +17,7 @@
         $container.removeClass("details-view-template-large");
       }
 
+      $container.addClass("details_"+id);
       $container.removeClass("details-view-template");
       $container.addClass("details-view-actual");
 
@@ -31,13 +33,16 @@
       }});
 
       $container.find(".closer").click(function() {
+          console.log("HELLO");
           HackTrack.close($card);
       });
     };
 
     HackTrack.close = function($card) {
+      var data = $card.data();
+      var id = data.category1+data.id;
+      var $container = $(".details_"+id);
       $card.removeClass("open-details-card");
-      $container = $card.closest(".details-view-actual");
 
       $container.slideUp({done: function() {
           $container.remove();
