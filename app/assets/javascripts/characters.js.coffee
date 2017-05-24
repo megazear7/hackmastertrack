@@ -27,6 +27,7 @@ $ ->
             result.find(".category2").text(unescape(this.category2))
           $results.append(result);
           result.slideDown()
+          $(".suggestions").slideUp()
 
   $("input#solr-search").on "input", (e) ->
     if $(this).val().length > 3
@@ -54,16 +55,16 @@ $ ->
           $("#solr-full-search .suggestion3").html ""
           $("#solr-full-search .suggestion3").hide()
         if suggestions.length > 0
-          $(".suggestions").show()
+          $(".suggestions").slideDown()
         else
-          $(".suggestions").hide()
+          $(".suggestions").slideUp()
     else
-      $(".suggestions").hide()
+      $(".suggestions").slideUp()
 
   $(".suggestions div").click (e) ->
     $("input#solr-search").val($(this).text())
     $("#solr-full-search").submit()
-    $(".suggestions").hide()
+    $(".suggestions").slideUp()
 
   specsAccordion = $("#accordion")
   if specsAccordion.length > 0
