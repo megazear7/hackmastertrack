@@ -14,7 +14,7 @@
     <%= javascript_include_tag 'hacksolr' %>
   </head>
   <body>
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
           <span class="mdl-layout__title">Slighter</span>
@@ -37,16 +37,14 @@
 
       <main class="mdl-layout__content">
         <div class="mdl-grid">
-          <div class="mdl-cell mdl-cell--12-col mdl-cell--hide-desktop mdl-cell--hide-tablet" style="height:10px;"></div>
-
           <!-- Searching -->
-          <div class="mdl-cell mdl-cell--1-col">
+          <div class="mdl-cell mdl-cell--2-col mdl-cell--2-col-tablet mdl-cell--hide-phone">
             <button class="mdl-button mdl-js-button mdl-button--icon back">
               <i class="material-icons">arrow_back</i>
             </button>
           </div>
-          <div class="mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-cell--hide-phone"></div>
-          <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--6-col-phone">
+          <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+          <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
             <form class="hack-search">
               <div class="mdl-textfield mdl-js-textfield hack-search">
                 <input class="mdl-textfield__input" type="text" id="sample1">
@@ -57,7 +55,7 @@
           <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--hide-phone"></div>
 
           <!-- Default character info -->
-          <div class="mdl-cell mdl-cell--3-col default-cell">
+          <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--2-col-phone default-cell">
             <div class="mdl-card mdl-shadow--2dp" data-title="overview" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/overview">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Overview</h2>
@@ -70,7 +68,7 @@
               </div>
             </div>
           </div>
-          <div class="mdl-cell mdl-cell--3-col default-cell">
+          <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--2-col-phone default-cell">
             <div class="mdl-card mdl-shadow--2dp" data-title="combat" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/combat">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Combat</h2>
@@ -83,7 +81,7 @@
               </div>
             </div>
           </div>
-          <div class="mdl-cell mdl-cell--3-col default-cell">
+          <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--2-col-phone default-cell">
             <div class="mdl-card mdl-shadow--2dp" data-title="spells" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/spells">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Spells</h2>
@@ -96,7 +94,7 @@
               </div>
             </div>
           </div>
-          <div class="mdl-cell mdl-cell--3-col default-cell">
+          <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--2-col-phone default-cell">
             <div class="mdl-card mdl-shadow--2dp" data-title="equipment" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/equipment">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Equipment</h2>
@@ -109,7 +107,7 @@
               </div>
             </div>
           </div>
-          <div class="mdl-cell mdl-cell--3-col default-cell">
+          <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--2-col-phone default-cell">
             <div class="mdl-card mdl-shadow--2dp" data-title="proficiencies" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/proficiencies">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Proficiencies</h2>
@@ -122,7 +120,7 @@
               </div>
             </div>
           </div>
-          <div class="mdl-cell mdl-cell--3-col default-cell">
+          <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--2-col-phone default-cell">
             <div class="mdl-card mdl-shadow--2dp" data-title="specializations" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/specializations">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Specializations</h2>
@@ -135,7 +133,7 @@
               </div>
             </div>
           </div>
-          <div class="mdl-cell mdl-cell--3-col default-cell">
+          <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--2-col-phone default-cell">
             <div class="mdl-card mdl-shadow--2dp" data-title="talents" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/talents">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Talents</h2>
@@ -148,7 +146,7 @@
               </div>
             </div>
           </div>
-          <div class="mdl-cell mdl-cell--3-col default-cell">
+          <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--2-col-phone default-cell">
             <div class="mdl-card mdl-shadow--2dp" data-title="skills" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/skills">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Skills</h2>
@@ -163,7 +161,7 @@
           </div>
 
           <!-- Search Results -->
-          <div class="mdl-cell mdl-cell--3-col search-cell-template">
+          <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--2-col-phone search-cell-template">
             <div class="mdl-card mdl-shadow--2dp">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text search-title"></h2>

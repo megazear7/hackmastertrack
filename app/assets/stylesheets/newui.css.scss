@@ -12,10 +12,6 @@ $white: rgb(255,255,255);
     color: $white;
 }
 
-.mdl-cell {
-    transition: width 0.3s;
-}
-
 .default-cell .mdl-card {
     width: 100%;
     height: 100%;
@@ -58,4 +54,8 @@ $white: rgb(255,255,255);
 
 .details-category {
     text-align: right;
+}
+
+.back {
+    margin: 17px auto;
 }

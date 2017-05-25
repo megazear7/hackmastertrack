@@ -62,19 +62,9 @@
                 $(".search-cell").slideDown(200);
             });
         });
-    }
-})();
+    };
 
-$(document).ready(function() {
-    history.pushState({action: "default"}, null, '/new#default');
-
-    $(".card-opener").off("click").click(function() {
-        HackTrack.open($(this.closest(".mdl-card")));
-    });
-
-    $(".back").click(function() {
-        history.back()
-
+    HackTrack.back = function() {
         // This 10ms is needed otherwise the history.state info is outdated.
         setTimeout(function() {
             var state = history.state;
@@ -87,11 +77,27 @@ $(document).ready(function() {
                 HackTrack.search($(".hack-search").find("input").val(), true);
             }
         }, 10);
+    };
+})();
+
+$(document).ready(function() {
+    history.pushState({action: "default"}, null, '/new#default');
+
+    $(".card-opener").off("click").click(function() {
+        HackTrack.open($(this.closest(".mdl-card")));
+    });
+
+    $(".back").click(function() {
+        history.back();
     });
 
     $(".hack-search").submit(function(e) {
         e.preventDefault();
         HackTrack.search($(this).find("input").val());
+    });
+
+    window.addEventListener('popstate', function() {
+        HackTrack.back();
     });
 });
 
