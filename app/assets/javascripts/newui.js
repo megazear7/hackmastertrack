@@ -69,7 +69,7 @@
         setTimeout(function() {
             var state = history.state;
 
-            if (state.action === "default") {
+            if (!state || state && ! state.action) {
                 HackTrack.close();
             } else if (state.action === "details") {
                 HackTrack.open($("[data-id='"+state.id+"']"), true);
@@ -78,10 +78,43 @@
             }
         }, 10);
     };
+
+    HackTrack.get = function(category, idOrCallback, optionalCallack) {
+        if (typeof idOrCallback === "function") {
+            var callback = idOrCallback;
+            $.get(category+".json").done(function(data) {
+                callback(data);
+            });
+        } else {
+            var id = idOrCallback;
+            var optionalCallack = optionalCallack;
+        }
+    };
+
+    HackTrack.each = function(category, callback) {
+        HackTrack.get(category, function(items) {
+            $.each(items, function(index, item) {
+                callback(item);
+            });
+        });
+    };
 })();
 
 $(document).ready(function() {
-    history.pushState({action: "default"}, null, '/new#default');
+    history.pushState({}, null, '/new#');
+
+    var $characters = $(".characters");
+    HackTrack.each("characters", function(character) {
+        var $character = $("<a class='mdl-navigation__link character' href='#"+character.id+"'></a>");
+        $character.data(character);
+        $character.text(character.name);
+        $characters.prepend($character);
+
+        $character.click(function() {
+            $(".character-name").text(character.name);
+            document.querySelector(".main-layout").MaterialLayout.toggleDrawer();
+        });
+    });
 
     $(".card-opener").off("click").click(function() {
         HackTrack.open($(this.closest(".mdl-card")));
