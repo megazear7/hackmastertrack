@@ -10,10 +10,10 @@
             history.pushState({action: "details", category: category, id: data.id}, null, '/new#details/'+category+"/"+title);
         }
 
-        $(".details-title h3").text(data.title.titleize());
+        $(".details-title").text(data.title.titleize());
 
         if (data.categoryReadable) {
-            $(".details-category h5").text(data.categoryReadable);
+            $(".details-category").text(data.categoryReadable);
         }
 
         $(".default-cell, .search-cell").slideUp({duration: 200}).promise().done(function() {
