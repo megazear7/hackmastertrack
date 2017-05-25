@@ -112,7 +112,8 @@ $(document).ready(function() {
 
         $character.click(function() {
             $(".character-name").text(character.name);
-            document.querySelector(".main-layout").MaterialLayout.toggleDrawer();
+            $(".character").removeClass("mdl-navigation__link--current");
+            $character.addClass("mdl-navigation__link--current");
         });
     });
 
