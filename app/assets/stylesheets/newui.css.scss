@@ -16,7 +16,7 @@ $white: rgb(255,255,255);
     transition: width 0.3s;
 }
 
-.hack-card-square {
+.hack-cell .mdl-card {
     width: 100%;
     height: 100%;
 }
@@ -46,4 +46,9 @@ $white: rgb(255,255,255);
     .details-category1 {
         text-align: right;
     }
+}
+
+.details-cell {
+    background: blue;
+    height: 300px;
 }

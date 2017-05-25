@@ -2,58 +2,21 @@
     window.HackTrack = {};
 
     HackTrack.open = function($card) {
-      HackTrack.closeAll();
-
-      var data = $card.data();
-      var id = data.category1+data.id;
-      $card.addClass("open-details-card");
-
-      var $container;
-      if (data.category1 === "item" || data.category1 === "spell" || data.category1 === "proficiency") { 
-        $container = $(".details-view-template-small").clone();
-        $container.removeClass("details-view-template-small");
-      } else {
-        $container = $(".details-view-template-large").clone();
-        $container.removeClass("details-view-template-large");
-      }
-
-      $container.addClass("details_"+id);
-      $container.removeClass("details-view-template");
-      $container.addClass("details-view-actual");
-
-      $container.find(".details-title").text(data.title.titleize());
-      $container.find(".details-category1").text(data.category1.titleize());
-      $container.hide();
-      
-      $card.closest(".mdl-cell").after($container);
-      $card.closest(".mdl-cell").slideUp({done: function() {
-          $container.slideDown({done: function() {
-            //$('html, body').animate({scrollTop:$container.find(".mdl-layout-title").offset().top},500)
-          }});
-      }});
-
-      $container.find(".closer").click(function() {
-          console.log("HELLO");
-          HackTrack.close($card);
-      });
+        $(".hack-cell").slideUp({
+            duration: 200,
+            done: function() {
+                $(".details-cell").slideDown();
+            }
+        });
     };
 
     HackTrack.close = function($card) {
-      var data = $card.data();
-      var id = data.category1+data.id;
-      var $container = $(".details_"+id);
-      $card.removeClass("open-details-card");
-
-      $container.slideUp({done: function() {
-          $container.remove();
-          $card.closest(".mdl-cell").slideDown();
-      }});
-    };
-
-    HackTrack.closeAll = function($card) {
-      $(".details-view-actual").remove();
-      $(".open-details-card").closest(".mdl-cell").show();
-      $(".open-details-card").removeClass("open-details-card");
+        $(".details-cell").slideUp({
+            duration: 200,
+            done: function() {
+                $(".hack-cell").slideDown();
+            }
+        });
     };
 })();
 
