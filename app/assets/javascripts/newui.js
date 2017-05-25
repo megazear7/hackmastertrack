@@ -38,13 +38,33 @@ $(document).ready(function() {
 
     $(".hack-search").submit(function(e) {
         e.preventDefault();
+        history.pushState({action: "search", terms: terms}, null, '/new#/search/'+terms);
 
-        $(".default-cell, .details-cell").slideUp({duration: 200}).promise().done(function() {
-            $(".search-cell").slideDown(200);
+        $(".search-cell").addClass("search-cell-remove").slideUp({duration: 200}).promise().done(function() {
+            $(".search-cell-remove").remove();
         });
 
-        terms = $(this).find("input").val();
-        history.pushState({action: "search", terms: terms}, null, '/new#/search/'+terms);
+        var terms = $(this).find("input").val();
+
+        HackSolr.search(terms, { owners: ["2"], groups: ["everyone"] }, function(results) {
+            $.each(results, function() {
+                var $searchCell = $(".search-cell-template").clone();
+                $searchCell.removeClass("search-cell-template");
+                $searchCell.addClass("search-cell");
+                $searchCell.data(this);
+                $searchCell.find(".search-title").text(this.title);
+                $searchCell.find(".action1").text("Purchase");
+                $searchCell.find(".action2").text("View");
+                $searchCell.find(".search-support-text").text(this.category1);
+                $searchCell.insertAfter(".search-cell-template");
+
+            });
+
+            $(".default-cell, .details-cell").slideUp({duration: 200}).promise().done(function() {
+                $(".search-cell").slideDown(200);
+            });           
+        });
+
     });
 });
 

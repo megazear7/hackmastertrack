@@ -11,6 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <script  src="/assets/newui.js"></script>
+    <script  src="/assets/hacksolr.js"></script>
   </head>
   <body>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
@@ -61,7 +62,6 @@
               </div>
               <div class="mdl-card__actions mdl-card--border">
                 <a class="card-opener mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Open</a>
-                <a class="card-closer mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect hide">Close</a>
               </div>
             </div>
           </div>
@@ -75,7 +75,6 @@
               </div>
               <div class="mdl-card__actions mdl-card--border">
                 <a class="card-opener mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Open</a>
-                <a class="card-closer mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect hide">Close</a>
               </div>
             </div>
           </div>
@@ -89,7 +88,6 @@
               </div>
               <div class="mdl-card__actions mdl-card--border">
                 <a class="card-opener mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Open</a>
-                <a class="card-closer mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect hide">Close</a>
               </div>
             </div>
           </div>
@@ -103,7 +101,6 @@
               </div>
               <div class="mdl-card__actions mdl-card--border">
                 <a class="card-opener mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Open</a>
-                <a class="card-closer mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect hide">Close</a>
               </div>
             </div>
           </div>
@@ -117,7 +114,6 @@
               </div>
               <div class="mdl-card__actions mdl-card--border">
                 <a class="card-opener mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Open</a>
-                <a class="card-closer mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect hide">Close</a>
               </div>
             </div>
           </div>
@@ -131,7 +127,6 @@
               </div>
               <div class="mdl-card__actions mdl-card--border">
                 <a class="card-opener mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Open</a>
-                <a class="card-closer mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect hide">Close</a>
               </div>
             </div>
           </div>
@@ -145,7 +140,6 @@
               </div>
               <div class="mdl-card__actions mdl-card--border">
                 <a class="card-opener mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Open</a>
-                <a class="card-closer mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect hide">Close</a>
               </div>
             </div>
           </div>
@@ -159,68 +153,21 @@
               </div>
               <div class="mdl-card__actions mdl-card--border">
                 <a class="card-opener mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Open</a>
-                <a class="card-closer mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect hide">Close</a>
               </div>
             </div>
           </div>
 
+
           <!-- Search Results -->
-          <div class="mdl-cell mdl-cell--3-col search-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="longsword" data-title="longsword" data-category-readable="Item"  data-category="item">
+          <div class="mdl-cell mdl-cell--3-col search-cell-template">
+            <div class="mdl-card mdl-shadow--2dp">
               <div class="mdl-card__title mdl-card--expand">
-                <h2 class="mdl-card__title-text">Longsword</h2>
+                <h2 class="mdl-card__title-text search-title"></h2>
               </div>
-              <div class="mdl-card__supporting-text">
-                Item
-              </div>
+              <div class="mdl-card__supporting-text search-support-text"> </div>
               <div class="mdl-card__actions mdl-card--border">
-                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Purchase</a>
-                <a class="card-opener mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Open</a>
-                <a class="card-closer mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect hide">Close</a>
-              </div>
-            </div>
-          </div>
-          <div class="mdl-cell mdl-cell--3-col search-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="longsword" data-title="longsword" data-category-readable="Proficiency" data-category="proficiency">
-              <div class="mdl-card__title mdl-card--expand">
-                <h2 class="mdl-card__title-text">Longsword</h2>
-              </div>
-              <div class="mdl-card__supporting-text">
-                Proficiency
-              </div>
-              <div class="mdl-card__actions mdl-card--border">
-                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Learn</a>
-                <a class="card-opener mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Open</a>
-                <a class="card-closer mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect hide">Close</a>
-              </div>
-            </div>
-          </div>
-          <div class="mdl-cell mdl-cell--3-col search-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="fireball" data-title="fireball" data-category-readable="Spell" data-category="spell">
-              <div class="mdl-card__title mdl-card--expand">
-                <h2 class="mdl-card__title-text">Fireball</h2>
-              </div>
-              <div class="mdl-card__supporting-text">
-                Spell 
-              </div>
-              <div class="mdl-card__actions mdl-card--border">
-                <a class="card-opener mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Open</a>
-                <a class="card-closer mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect hide">Close</a>
-              </div>
-            </div>
-          </div>
-          <div class="mdl-cell mdl-cell--3-col search-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="lightning-bolt" data-title="lightning bolt" data-category-readable="Spell" data-category="spell">
-              <div class="mdl-card__title mdl-card--expand">
-                <h2 class="mdl-card__title-text">Lightning Bolt</h2>
-              </div>
-              <div class="mdl-card__supporting-text">
-                Spell 
-              </div>
-              <div class="mdl-card__actions mdl-card--border">
-                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Learn</a>
-                <a class="card-opener mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Open</a>
-                <a class="card-closer mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect hide">Close</a>
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect action1"></a>
+                <a class="card-opener mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect action2"></a>
               </div>
             </div>
           </div>
