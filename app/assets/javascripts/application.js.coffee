@@ -15,5 +15,6 @@
 #= require_tree ./application
 #= require_tree .
 #= require bootstrap.min
-
+#
+#= stub newui
 

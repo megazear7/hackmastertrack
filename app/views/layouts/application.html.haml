@@ -51,10 +51,9 @@
                 %li= link_to "Custom Items", item_instances_path
                 %li= link_to "Races", races_path
                 %li= link_to "Classes", character_classes_path
-          -#
-            %ul.nav.navbar-nav.navbar-right
-              %li
-                = link_to "Try the New UI!", new_path
+          %ul.nav.navbar-nav.navbar-right
+            %li
+              = link_to "Try the New UI!", new_path
           - if current_user.admin_level >= 1
             %ul.nav.navbar-nav.navbar-right
               %li.dropdown
