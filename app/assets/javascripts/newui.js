@@ -2,19 +2,32 @@
     window.HackTrack = {};
 
     HackTrack.open = function($card) {
-        $(".hack-cell").slideUp({
+        var data = $card.data();
+        var category = data.category;
+        var id = data.id;
+
+        history.pushState({action: "details", category: category}, null, '/new#/details/'+category+"/"+id);
+
+        $(".details-title h3").text(data.title.titleize());
+
+        if (data.categoryReadable) {
+            $(".details-category h5").text(data.categoryReadable);
+        }
+
+        $(".default-cell, .search-cell").slideUp({
             duration: 200,
             done: function() {
-                $(".details-cell").slideDown();
+                $(".details-cell").slideDown(200);
             }
         });
     };
 
-    HackTrack.close = function($card) {
+    HackTrack.close = function() {
+        history.back();
         $(".details-cell").slideUp({
             duration: 200,
             done: function() {
-                $(".hack-cell").slideDown();
+                $(".default-cell").slideDown(200);
             }
         });
     };
@@ -25,8 +38,22 @@ $(document).ready(function() {
         HackTrack.open($(this.closest(".mdl-card")));
     });
 
-    $(".card-closer").click(function() {
-        HackTrack.close($(this.closest(".mdl-card")));
+    $(".details-back").click(function() {
+        HackTrack.close();
+    });
+
+    $(".hack-search").submit(function(e) {
+        e.preventDefault();
+
+        $(".default-cell, .details-cell").slideUp({
+            duration: 200,
+            done: function() {
+                $(".search-cell").slideDown(200);
+            }
+        });
+
+        terms = $(this).find("input").val();
+        history.pushState({action: "search", terms: terms}, null, '/new#/search/'+terms);
     });
 });
 

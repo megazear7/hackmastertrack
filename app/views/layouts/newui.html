@@ -4,6 +4,7 @@
     <title>Hacktrack</title>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-red.min.css" />
     <link rel="stylesheet" href="/assets/newui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -40,7 +41,7 @@
           <!-- Searching -->
           <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--hide-phone"></div>
           <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--6-col-phone">
-            <form action="#">
+            <form class="hack-search">
               <div class="mdl-textfield mdl-js-textfield hack-search">
                 <input class="mdl-textfield__input" type="text" id="sample1">
                 <label class="mdl-textfield__label" for="sample1">Search for anything...</label>
@@ -50,8 +51,8 @@
           <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--hide-phone"></div>
 
           <!-- Default character info -->
-          <div class="mdl-cell mdl-cell--3-col hack-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="1" data-title="overview" data-category1="character_info">
+          <div class="mdl-cell mdl-cell--3-col default-cell">
+            <div class="mdl-card mdl-shadow--2dp" data-id="overview" data-title="overview" data-category="character_info">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Overview</h2>
               </div>
@@ -64,8 +65,8 @@
               </div>
             </div>
           </div>
-          <div class="mdl-cell mdl-cell--3-col hack-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="1" data-title="combat" data-category1="character_info">
+          <div class="mdl-cell mdl-cell--3-col default-cell">
+            <div class="mdl-card mdl-shadow--2dp" data-id="2" data-title="combat" data-category="character_info">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Combat</h2>
               </div>
@@ -78,8 +79,8 @@
               </div>
             </div>
           </div>
-          <div class="mdl-cell mdl-cell--3-col hack-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="1" data-title="spells" data-category1="character_info">
+          <div class="mdl-cell mdl-cell--3-col default-cell">
+            <div class="mdl-card mdl-shadow--2dp" data-id="3" data-title="spells" data-category="character_info">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Spells</h2>
               </div>
@@ -92,8 +93,8 @@
               </div>
             </div>
           </div>
-          <div class="mdl-cell mdl-cell--3-col hack-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="1" data-title="equipment" data-category1="character_info">
+          <div class="mdl-cell mdl-cell--3-col default-cell">
+            <div class="mdl-card mdl-shadow--2dp" data-id="4" data-title="equipment" data-category="character_info">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Equipment</h2>
               </div>
@@ -106,8 +107,8 @@
               </div>
             </div>
           </div>
-          <div class="mdl-cell mdl-cell--3-col hack-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="1" data-title="proficiencies" data-category1="character_info">
+          <div class="mdl-cell mdl-cell--3-col default-cell">
+            <div class="mdl-card mdl-shadow--2dp" data-id="5" data-title="proficiencies" data-category="character_info">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Proficiencies</h2>
               </div>
@@ -120,8 +121,8 @@
               </div>
             </div>
           </div>
-          <div class="mdl-cell mdl-cell--3-col hack-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="1" data-title="specializations" data-category1="character_info">
+          <div class="mdl-cell mdl-cell--3-col default-cell">
+            <div class="mdl-card mdl-shadow--2dp" data-id="6" data-title="specializations" data-category="character_info">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Specializations</h2>
               </div>
@@ -134,8 +135,8 @@
               </div>
             </div>
           </div>
-          <div class="mdl-cell mdl-cell--3-col hack-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="1" data-title="talents" data-category1="character_info">
+          <div class="mdl-cell mdl-cell--3-col default-cell">
+            <div class="mdl-card mdl-shadow--2dp" data-id="7" data-title="talents" data-category="character_info">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Talents</h2>
               </div>
@@ -148,8 +149,8 @@
               </div>
             </div>
           </div>
-          <div class="mdl-cell mdl-cell--3-col hack-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="1" data-title="skills" data-category1="character_info">
+          <div class="mdl-cell mdl-cell--3-col default-cell">
+            <div class="mdl-card mdl-shadow--2dp" data-id="skills" data-title="skills" data-category="character_info">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Skills</h2>
               </div>
@@ -164,8 +165,8 @@
           </div>
 
           <!-- Search Results -->
-          <div class="mdl-cell mdl-cell--3-col hack-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="1" data-title="longsword" data-category1="item">
+          <div class="mdl-cell mdl-cell--3-col search-cell">
+            <div class="mdl-card mdl-shadow--2dp" data-id="longsword" data-title="longsword" data-category-readable="Item"  data-category="item">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Longsword</h2>
               </div>
@@ -179,8 +180,8 @@
               </div>
             </div>
           </div>
-          <div class="mdl-cell mdl-cell--3-col hack-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="1" data-title="longsword" data-category1="proficiency">
+          <div class="mdl-cell mdl-cell--3-col search-cell">
+            <div class="mdl-card mdl-shadow--2dp" data-id="longsword" data-title="longsword" data-category-readable="Proficiency" data-category="proficiency">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Longsword</h2>
               </div>
@@ -194,8 +195,8 @@
               </div>
             </div>
           </div>
-          <div class="mdl-cell mdl-cell--3-col hack-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="1" data-title="fireball" data-category1="spell">
+          <div class="mdl-cell mdl-cell--3-col search-cell">
+            <div class="mdl-card mdl-shadow--2dp" data-id="fireball" data-title="fireball" data-category-readable="Spell" data-category="spell">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Fireball</h2>
               </div>
@@ -208,8 +209,8 @@
               </div>
             </div>
           </div>
-          <div class="mdl-cell mdl-cell--3-col hack-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="1" data-title="lightning bolt" data-category1="spell">
+          <div class="mdl-cell mdl-cell--3-col search-cell">
+            <div class="mdl-card mdl-shadow--2dp" data-id="lightning-bolt" data-title="lightning bolt" data-category-readable="Spell" data-category="spell">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Lightning Bolt</h2>
               </div>
@@ -225,9 +226,19 @@
           </div>
 
 
-          <div class="mdl-cell mdl-cell--12-col details-cell hide">
+          <!-- Details Layout -->
+          <div class="mdl-cell mdl-cell--1-col details-cell">
+            <button class="mdl-button mdl-js-button mdl-button--icon details-back">
+              <i class="material-icons">arrow_back</i>
+            </button>
           </div>
-        </div>
+          <div class="mdl-cell mdl-cell--2-col details-cell"></div>
+          <div class="mdl-cell mdl-cell--6-col details-cell details-title">
+              <h3>Title</h3>
+          </div>
+          <div class="mdl-cell mdl-cell--3-col details-cell details-category">
+              <h5>Category</h5>
+          </div>
       </main>
     </div>
   </body>

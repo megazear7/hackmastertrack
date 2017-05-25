@@ -16,9 +16,22 @@ $white: rgb(255,255,255);
     transition: width 0.3s;
 }
 
-.hack-cell .mdl-card {
+.default-cell .mdl-card {
     width: 100%;
     height: 100%;
+}
+
+.search-cell {
+    display: none;
+
+    .mdl-card {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.details-cell {
+    display: none;
 }
 
 .create-character {
@@ -35,20 +48,10 @@ $white: rgb(255,255,255);
     width: 100%;
 }
 
-.details-view {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
-    .mdl-layout__container {
-        position: relative;
-        height: 100%;
-    }
-
-    .details-category1 {
-        text-align: right;
-    }
+.details-title {
+    text-align: center;
 }
 
-.details-cell {
-    background: blue;
-    height: 300px;
+.details-category {
+    text-align: right;
 }
