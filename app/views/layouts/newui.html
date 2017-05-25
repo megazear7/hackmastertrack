@@ -40,7 +40,12 @@
           <div class="mdl-cell mdl-cell--12-col mdl-cell--hide-desktop mdl-cell--hide-tablet" style="height:10px;"></div>
 
           <!-- Searching -->
-          <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--hide-phone"></div>
+          <div class="mdl-cell mdl-cell--1-col">
+            <button class="mdl-button mdl-js-button mdl-button--icon back">
+              <i class="material-icons">arrow_back</i>
+            </button>
+          </div>
+          <div class="mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-cell--hide-phone"></div>
           <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--6-col-phone">
             <form class="hack-search">
               <div class="mdl-textfield mdl-js-textfield hack-search">
@@ -53,7 +58,7 @@
 
           <!-- Default character info -->
           <div class="mdl-cell mdl-cell--3-col default-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="overview" data-title="overview" data-category="character_info">
+            <div class="mdl-card mdl-shadow--2dp" data-title="overview" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/overview">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Overview</h2>
               </div>
@@ -66,7 +71,7 @@
             </div>
           </div>
           <div class="mdl-cell mdl-cell--3-col default-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="2" data-title="combat" data-category="character_info">
+            <div class="mdl-card mdl-shadow--2dp" data-title="combat" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/combat">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Combat</h2>
               </div>
@@ -79,7 +84,7 @@
             </div>
           </div>
           <div class="mdl-cell mdl-cell--3-col default-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="3" data-title="spells" data-category="character_info">
+            <div class="mdl-card mdl-shadow--2dp" data-title="spells" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/spells">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Spells</h2>
               </div>
@@ -92,7 +97,7 @@
             </div>
           </div>
           <div class="mdl-cell mdl-cell--3-col default-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="4" data-title="equipment" data-category="character_info">
+            <div class="mdl-card mdl-shadow--2dp" data-title="equipment" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/equipment">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Equipment</h2>
               </div>
@@ -105,7 +110,7 @@
             </div>
           </div>
           <div class="mdl-cell mdl-cell--3-col default-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="5" data-title="proficiencies" data-category="character_info">
+            <div class="mdl-card mdl-shadow--2dp" data-title="proficiencies" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/proficiencies">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Proficiencies</h2>
               </div>
@@ -118,7 +123,7 @@
             </div>
           </div>
           <div class="mdl-cell mdl-cell--3-col default-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="6" data-title="specializations" data-category="character_info">
+            <div class="mdl-card mdl-shadow--2dp" data-title="specializations" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/specializations">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Specializations</h2>
               </div>
@@ -131,7 +136,7 @@
             </div>
           </div>
           <div class="mdl-cell mdl-cell--3-col default-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="7" data-title="talents" data-category="character_info">
+            <div class="mdl-card mdl-shadow--2dp" data-title="talents" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/talents">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Talents</h2>
               </div>
@@ -144,7 +149,7 @@
             </div>
           </div>
           <div class="mdl-cell mdl-cell--3-col default-cell">
-            <div class="mdl-card mdl-shadow--2dp" data-id="skills" data-title="skills" data-category="character_info">
+            <div class="mdl-card mdl-shadow--2dp" data-title="skills" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/skills">
               <div class="mdl-card__title mdl-card--expand">
                 <h2 class="mdl-card__title-text">Skills</h2>
               </div>
@@ -157,7 +162,6 @@
             </div>
           </div>
 
-
           <!-- Search Results -->
           <div class="mdl-cell mdl-cell--3-col search-cell-template">
             <div class="mdl-card mdl-shadow--2dp">
@@ -167,23 +171,17 @@
               <div class="mdl-card__supporting-text search-support-text"> </div>
               <div class="mdl-card__actions mdl-card--border">
                 <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect action1"></a>
-                <a class="card-opener mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect action2"></a>
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect action2"></a>
               </div>
             </div>
           </div>
 
 
           <!-- Details Layout -->
-          <div class="mdl-cell mdl-cell--1-col details-cell">
-            <button class="mdl-button mdl-js-button mdl-button--icon details-back">
-              <i class="material-icons">arrow_back</i>
-            </button>
-          </div>
-          <div class="mdl-cell mdl-cell--2-col details-cell"></div>
           <div class="mdl-cell mdl-cell--6-col details-cell details-title">
               <h3>Title</h3>
           </div>
-          <div class="mdl-cell mdl-cell--3-col details-cell details-category">
+          <div class="mdl-cell mdl-cell--6-col details-cell details-category">
               <h5>Category</h5>
           </div>
       </main>
