@@ -14,21 +14,15 @@
             $(".details-category h5").text(data.categoryReadable);
         }
 
-        $(".default-cell, .search-cell").slideUp({
-            duration: 200,
-            done: function() {
-                $(".details-cell").slideDown(200);
-            }
+        $(".default-cell, .search-cell").slideUp({duration: 200}).promise().done(function() {
+            $(".details-cell").slideDown(200);
         });
     };
 
     HackTrack.close = function() {
         history.back();
-        $(".details-cell").slideUp({
-            duration: 200,
-            done: function() {
-                $(".default-cell").slideDown(200);
-            }
+        $(".details-cell").slideUp({duration: 200}).promise().done(function() {
+            $(".default-cell").slideDown(200);
         });
     };
 })();
@@ -45,11 +39,8 @@ $(document).ready(function() {
     $(".hack-search").submit(function(e) {
         e.preventDefault();
 
-        $(".default-cell, .details-cell").slideUp({
-            duration: 200,
-            done: function() {
-                $(".search-cell").slideDown(200);
-            }
+        $(".default-cell, .details-cell").slideUp({duration: 200}).promise().done(function() {
+            $(".search-cell").slideDown(200);
         });
 
         terms = $(this).find("input").val();
