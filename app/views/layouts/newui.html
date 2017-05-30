@@ -11,10 +11,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <%= javascript_include_tag 'newui' %>
-    <%= javascript_include_tag 'hacksolr' %>
+    <%= javascript_include_tag 'newui-application' %>
   </head>
   <body>
+    <div id="react-root">
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header mdl-color-text--grey-600 main-layout">
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
@@ -34,7 +34,7 @@
       </div>
 
       <main class="mdl-layout__content">
-        <div class="mdl-grid">
+        <div class="mdl-grid" id="hack-main-grid">
           <!-- Searching -->
           <div class="mdl-cell mdl-cell--2-col mdl-cell--2-col-tablet mdl-cell--hide-phone">
             <button class="mdl-button mdl-js-button mdl-button--icon back">
@@ -181,6 +181,7 @@
               Category
           </div>
       </main>
+    </div>
     </div>
   </body>
 </html>

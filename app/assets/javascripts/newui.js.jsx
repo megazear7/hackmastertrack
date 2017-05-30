@@ -100,7 +100,50 @@
     };
 })();
 
+class Welcome extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
+  render() {
+    return <h1>Hello, {this.props.name} - {this.state.date.toLocaleTimeString()}</h1>;
+  }
+}
+
+class App extends React.Component {
+  render() {
+    return(
+        <div>
+            <Welcome name="Bob" />
+            <Welcome name="Joe" />
+            <Welcome name="Steve" />
+        </div>
+    );
+  }
+}
+
 $(document).ready(function() {
+    //var element = <App />;
+    //ReactDOM.render(element, document.getElementById('react-root'));
+
     history.pushState({}, null, '/new#');
 
     var $characters = $(".characters");
