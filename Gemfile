@@ -17,6 +17,8 @@ gem 'json', '~> 1.8.1'
 
 gem 'octicons-rails'
 
+gem 'figaro'
+
 gem 'devise'
 gem 'simple_form', "~> 3.0.0.rc"
 gem 'bootstrap-sass', '~> 3.1.1.0'

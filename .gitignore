@@ -22,3 +22,6 @@
 .ruby-version
 
 character_*
+
+# Ignore application configuration
+/config/application.yml

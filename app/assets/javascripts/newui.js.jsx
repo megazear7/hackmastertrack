@@ -141,8 +141,8 @@ class App extends React.Component {
 }
 
 $(document).ready(function() {
-    //var element = <App />;
-    //ReactDOM.render(element, document.getElementById('react-root'));
+    var element = <App />;
+    ReactDOM.render(element, document.getElementById('react-root'));
 
     history.pushState({}, null, '/new#');
 
