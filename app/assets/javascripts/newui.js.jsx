@@ -100,50 +100,8 @@
     };
 })();
 
-class Welcome extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {date: new Date()};
-  }
-
-  componentDidMount() {
-    this.timerID = setInterval(
-      () => this.tick(),
-      1000
-    );
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  tick() {
-    this.setState({
-      date: new Date()
-    });
-  }
-
-  render() {
-    return <h1>Hello, {this.props.name} - {this.state.date.toLocaleTimeString()}</h1>;
-  }
-}
-
-class App extends React.Component {
-  render() {
-    return(
-        <div>
-            <Welcome name="Bob" />
-            <Welcome name="Joe" />
-            <Welcome name="Steve" />
-        </div>
-    );
-  }
-}
-
+/*
 $(document).ready(function() {
-    var element = <App />;
-    ReactDOM.render(element, document.getElementById('react-root'));
-
     history.pushState({}, null, '/new#');
 
     var $characters = $(".characters");
@@ -176,6 +134,137 @@ $(document).ready(function() {
     window.addEventListener('popstate', function() {
         HackTrack.back();
     });
+});
+*/
+
+// Example, remove once we have a real component that uses all of these features
+class Welcome extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
+  render() {
+    return <h1>Hello, {this.props.name} - {this.state.date.toLocaleTimeString()}</h1>;
+  }
+}
+
+// Example, remove once we have a real component that uses all of these features
+class Toggler extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { isToggleOn: true };
+
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick() {
+        this.setState((prevState) => ({
+            isToggleOn: !prevState.isToggleOn
+        }));
+    }
+
+    render() {
+        return (
+            <button onClick={this.handleClick}>
+                {this.state.isToggleOn ? 'ON' : 'OFF'}
+            </button>
+        );
+    }
+}
+
+class CardTitle extends React.Component {
+    render() {
+        return (
+            <div className="mdl-card__title mdl-card--expand">
+                <h2 className="mdl-card__title-text">Combat</h2>
+            </div>
+        );
+    }
+}
+
+class CardText extends React.Component {
+    render() {
+        return (
+            <div className="mdl-card__supporting-text">
+                Your combat values and equiped weapon / armor sets.
+            </div>
+        );
+    }
+}
+
+class CardActions extends React.Component {
+    render() {
+        return (
+            <div className="mdl-card__actions mdl-card--border">
+                <a className="card-opener mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Open</a>
+            </div>
+        );
+    }
+}
+
+class Card extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div className="mdl-card mdl-shadow--2dp" title="combat" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/combat">
+                <CardTitle />
+                <CardText />
+                <CardActions />
+            </div>
+        );
+    }
+}
+
+class Cell extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    cellClass(desktop, tablet, phone) {
+        return "mdl-cell mdl-cell--"+desktop+"-col mdl-cell--"+tablet+"-col-tablet mdl-cell--"+phone+"-col-phone";
+    }
+
+    render() {
+        return (
+            <div className={this.cellClass(3,4,2) + " default-cell"}>
+                <Card />
+            </div>
+        );
+    }
+}
+
+class App extends React.Component {
+  render() {
+    return(
+        <Cell />
+    );
+  }
+}
+
+$(document).ready(function() {
+    var app = <App />;
+    ReactDOM.render(app, document.getElementById('react-root'));
 });
 
 Array.prototype.remove = function() {

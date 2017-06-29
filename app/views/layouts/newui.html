@@ -14,7 +14,7 @@
     <%= javascript_include_tag 'newui-application' %>
   </head>
   <body data-solr-url='<%= ENV["SOLR_URL"] %>'>
-    <div id="react-root">
+    <div>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header mdl-color-text--grey-600 main-layout">
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
@@ -33,7 +33,7 @@
         </nav>
       </div>
 
-      <main class="mdl-layout__content">
+      <main id="react-root" class="mdl-layout__content">
         <div class="mdl-grid" id="hack-main-grid">
           <!-- Searching -->
           <div class="mdl-cell mdl-cell--2-col mdl-cell--2-col-tablet mdl-cell--hide-phone">
