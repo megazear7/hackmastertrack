@@ -203,23 +203,43 @@ class CardActions extends React.Component {
     }
 }
 
+class BackButton extends React.Component {
+    render() {
+        return (
+            <button className="mdl-button mdl-js-button mdl-button--icon back">
+                <i className="material-icons" onClick={this.props.action}>arrow_back</i>
+            </button>
+        );
+    }
+}
+
+class Search extends React.Component {
+    componentDidMount() {
+        componentHandler.upgradeElement(this.textInput);
+    }
+
+    render() {
+        return (
+            <form className="hack-search">
+                <div className="mdl-textfield mdl-js-textfield hack-search" ref={(input) => { this.textInput = input; }}>
+                    <input className="mdl-textfield__input" type="text" id="sample1" />
+                    <label className="mdl-textfield__label" htmlFor="sample1">Search for anything...</label>
+                </div>
+            </form>
+        )
+    }
+}
+
 class DetailsGrid extends React.Component {
     render() {
         return (
             <div className="mdl-grid" id="hack-main-grid">
                 <div className={cellClass(2,2,0)}>
-                    <button className="mdl-button mdl-js-button mdl-button--icon back">
-                        <i className="material-icons" onClick={this.props.close}>arrow_back</i>
-                    </button>
+                    <BackButton action={this.props.close} />
                 </div>
                 <div className={cellClass(2,0,0)}></div>
                 <div className={cellClass(4,4,4)}>
-                    <form className="hack-search">
-                        <div className="mdl-textfield mdl-js-textfield hack-search">
-                            <input className="mdl-textfield__input" type="text" id="sample1" />
-                            <label className="mdl-textfield__label" htmlFor="sample1">Search for anything...</label>
-                        </div>
-                    </form>
+                    <Search />
                 </div>
                 <div className={cellClass(4,2,0)}></div>
                 <div className={cellClass(6)+" mdl-typography--display-1"}>
