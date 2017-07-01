@@ -137,64 +137,44 @@ $(document).ready(function() {
 });
 */
 
-// Example, remove once we have a real component that uses all of these features
-class Welcome extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {date: new Date()};
-  }
 
-  componentDidMount() {
-    this.timerID = setInterval(
-      () => this.tick(),
-      1000
-    );
-  }
+function cellClass(desktop, tablet, phone) {
+    var desktopClass,
+        tabletClass,
+        phoneClass;
 
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  tick() {
-    this.setState({
-      date: new Date()
-    });
-  }
-
-  render() {
-    return <h1>Hello, {this.props.name} - {this.state.date.toLocaleTimeString()}</h1>;
-  }
-}
-
-// Example, remove once we have a real component that uses all of these features
-class Toggler extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { isToggleOn: true };
-
-        this.handleClick = this.handleClick.bind(this);
+    if (typeof desktop === undefined) {
+        desktopClass = "";
+    } else if (desktop === 0) {
+        desktopClass = "mdl-cell--hide-desktop";
+    } else {
+        desktopClass = "mdl-cell--"+desktop+"-col-desktop";
     }
 
-    handleClick() {
-        this.setState((prevState) => ({
-            isToggleOn: !prevState.isToggleOn
-        }));
+    if (typeof tablet === undefined) {
+        tabletClass = "";
+    } else if (tablet === 0) {
+        tabletClass = "mdl-cell--hide-tablet";
+    } else {
+        tabletClass = "mdl-cell--"+tablet+"-col-tablet";
     }
 
-    render() {
-        return (
-            <button onClick={this.handleClick}>
-                {this.state.isToggleOn ? 'ON' : 'OFF'}
-            </button>
-        );
+    if (typeof phone === undefined) {
+        phoneClass = "";
+    } else if (phone === 0) {
+        phoneClass = "mdl-cell--hide-phone";
+    } else {
+        phoneClass = "mdl-cell--"+phone+"-col-phone";
     }
+
+    return "mdl-cell "+desktopClass+" "+tabletClass+" "+phoneClass;
 }
 
 class CardTitle extends React.Component {
     render() {
         return (
             <div className="mdl-card__title mdl-card--expand">
-                <h2 className="mdl-card__title-text">Combat</h2>
+                <h2 className="mdl-card__title-text">{this.props.text}</h2>
             </div>
         );
     }
@@ -204,7 +184,7 @@ class CardText extends React.Component {
     render() {
         return (
             <div className="mdl-card__supporting-text">
-                Your combat values and equiped weapon / armor sets.
+                {this.props.text}
             </div>
         );
     }
@@ -214,7 +194,40 @@ class CardActions extends React.Component {
     render() {
         return (
             <div className="mdl-card__actions mdl-card--border">
-                <a className="card-opener mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Open</a>
+                <a onClick={this.props.open}
+                   className="card-opener mdl-button mdl-button--colored">
+                       Open
+                </a>
+            </div>
+        );
+    }
+}
+
+class DetailsGrid extends React.Component {
+    render() {
+        return (
+            <div className="mdl-grid" id="hack-main-grid">
+                <div className={cellClass(2,2,0)}>
+                    <button className="mdl-button mdl-js-button mdl-button--icon back">
+                        <i className="material-icons" onClick={this.props.close}>arrow_back</i>
+                    </button>
+                </div>
+                <div className={cellClass(2,0,0)}></div>
+                <div className={cellClass(4,4,4)}>
+                    <form className="hack-search">
+                        <div className="mdl-textfield mdl-js-textfield hack-search">
+                            <input className="mdl-textfield__input" type="text" id="sample1" />
+                            <label className="mdl-textfield__label" htmlFor="sample1">Search for anything...</label>
+                        </div>
+                    </form>
+                </div>
+                <div className={cellClass(4,2,0)}></div>
+                <div className={cellClass(6)+" mdl-typography--display-1"}>
+                    {this.props.tile.title}
+                </div>
+                <div className={cellClass(6)+" mdl-typography--headline"}>
+                    {this.props.tile.description}
+                </div>
             </div>
         );
     }
@@ -223,14 +236,22 @@ class CardActions extends React.Component {
 class Card extends React.Component {
     constructor(props) {
         super(props);
+
+        this.open = this.open.bind(this);
+    }
+
+    open() {
+        // TODO manage this detailsGrid variable in the state so that we can destroy it when needed.
+        var detailsGrid = <DetailsGrid tile={this.props.tile} close={this.props.closeDetailsGrid} />;
+        this.props.openDetailsGrid(detailsGrid);
     }
 
     render() {
         return (
             <div className="mdl-card mdl-shadow--2dp" title="combat" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/combat">
-                <CardTitle />
-                <CardText />
-                <CardActions />
+                <CardTitle text={this.props.tile.title} />
+                <CardText text={this.props.tile.description}/>
+                <CardActions open={this.open} />
             </div>
         );
     }
@@ -241,30 +262,117 @@ class Cell extends React.Component {
         super(props);
     }
 
-    cellClass(desktop, tablet, phone) {
-        return "mdl-cell mdl-cell--"+desktop+"-col mdl-cell--"+tablet+"-col-tablet mdl-cell--"+phone+"-col-phone";
-    }
 
     render() {
         return (
-            <div className={this.cellClass(3,4,2) + " default-cell"}>
-                <Card />
+            <div className={cellClass(3,4,2) + " default-cell"}>
+                <Card tile={this.props.tile} closeDetailsGrid={this.props.closeDetailsGrid} openDetailsGrid={this.props.openDetailsGrid} />
             </div>
         );
     }
 }
 
-class App extends React.Component {
-  render() {
-    return(
-        <Cell />
-    );
-  }
+class SearchGrid extends React.Component {
+    render() {
+        return (
+            <div className="mdl-grid" id="hack-main-grid">
+                {cellComponents}
+            </div>
+        );
+    }
+}
+
+class ContentLayout extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { };
+
+        this.openDetailsGrid = this.openDetailsGrid.bind(this);
+        this.closeDetailsGrid = this.closeDetailsGrid.bind(this);
+
+        this.state.tiles = props.tiles;
+        this.state.detailsOpen = false;
+    }
+
+    openDetailsGrid(detailsGrid) {
+        this.setState({
+            detailsGrid: detailsGrid,
+            detailsOpen: true
+        });
+    }
+
+    closeDetailsGrid() {
+        this.setState({
+            detailsOpen: false
+        });
+    }
+
+    render() {
+        var grid;
+
+        if (this.state.detailsOpen) {
+            grid = this.state.detailsGrid;
+        } else {
+            cellComponents = this.props.tiles.map((tile) =>
+                <Cell tile={tile} key={tile.name} closeDetailsGrid={this.closeDetailsGrid} openDetailsGrid={this.openDetailsGrid} />
+            );
+            grid = <SearchGrid cellComponents={cellComponents} />;
+        }
+
+        return(
+            <main className="mdl-layout__content">
+                {grid}
+            </main>
+        );
+    }
 }
 
 $(document).ready(function() {
-    var app = <App />;
-    ReactDOM.render(app, document.getElementById('react-root'));
+    var tiles = [
+        {
+            name: "overview",
+            title: "Overview",
+            description: "Your characters race, class, ability scores, money, health and experience.",
+        },
+        {
+            name: "combat",
+            title: "Combat",
+            description: "Your combat values and equiped weapon / armor sets.",
+        },
+        {
+            name: "spells",
+            title: "Spells",
+            description: "Your spells. Lorem ipsum...",
+        },
+        {
+            name: "equipment",
+            title: "Equipment",
+            description: "Your characters weapons, armor and inventory.",
+        },
+        {
+            name: "proficiencies",
+            title: "Proficiencies",
+            description: "Lorem ipsum lor so todo...",
+        },
+        {
+            name: "specializations",
+            title: "Specializations",
+            description: "Lorem ipsum lor so todo...",
+        },
+        {
+            name: "talents",
+            title: "Talents",
+            description: "Lorem ipsum lor so todo...",
+        },
+        {
+            name: "skills",
+            title: "Skills",
+            description: "Your talents, proficiencies, skills, and .",
+        }
+    ];
+
+    var contentLayout = <ContentLayout tiles={tiles} />;
+    ReactDOM.render(contentLayout, document.getElementById('react-root'));
 });
 
 Array.prototype.remove = function() {
