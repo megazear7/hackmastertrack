@@ -1,32 +1,4 @@
-(function(){
-    window.HackTrack = {};
-
-    HackTrack.open = function($card, preventPushState) {
-        var data = $card.data();
-        var category = data.category;
-        var title = data.title;
-
-        if (! preventPushState) {
-            history.pushState({action: "details", category: category, id: data.id}, null, '/new#details/'+category+"/"+title);
-        }
-
-        $(".details-title").text(data.title.titleize());
-
-        if (data.categoryReadable) {
-            $(".details-category").text(data.categoryReadable);
-        }
-
-        $(".default-cell, .search-cell").slideUp({duration: 200}).promise().done(function() {
-            $(".details-cell").slideDown(200);
-        });
-    };
-
-    HackTrack.close = function() {
-        $(".details-cell, .search-cell").slideUp({duration: 200}).promise().done(function() {
-            $(".default-cell").slideDown(200);
-        });
-    };
-
+/*(function(){
     HackTrack.search = function(terms, preventPushState) {
         if (! preventPushState) {
             history.pushState({action: "search", terms: terms}, null, '/new#search/'+terms);
@@ -99,44 +71,7 @@
         });
     };
 })();
-
-/*
-$(document).ready(function() {
-    history.pushState({}, null, '/new#');
-
-    var $characters = $(".characters");
-    HackTrack.each("characters", function(character) {
-        var $character = $("<a class='mdl-navigation__link character' href='#"+character.id+"'></a>");
-        $character.data(character);
-        $character.text(character.name);
-        $characters.prepend($character);
-
-        $character.click(function() {
-            $(".character-name").text(character.name);
-            $(".character").removeClass("mdl-navigation__link--current");
-            $character.addClass("mdl-navigation__link--current");
-        });
-    });
-
-    $(".card-opener").off("click").click(function() {
-        HackTrack.open($(this.closest(".mdl-card")));
-    });
-
-    $(".back").click(function() {
-        history.back();
-    });
-
-    $(".hack-search").submit(function(e) {
-        e.preventDefault();
-        HackTrack.search($(this).find("input").val());
-    });
-
-    window.addEventListener('popstate', function() {
-        HackTrack.back();
-    });
-});
 */
-
 
 function cellClass(desktop, tablet, phone) {
     var desktopClass,
@@ -194,9 +129,8 @@ class CardActions extends React.Component {
     render() {
         return (
             <div className="mdl-card__actions mdl-card--border">
-                <a onClick={this.props.open}
-                   className="card-opener mdl-button mdl-button--colored">
-                       Open
+                <a onClick={this.props.open} className="mdl-button mdl-button--colored">
+                    Open
                 </a>
             </div>
         );
@@ -209,46 +143,6 @@ class BackButton extends React.Component {
             <button className="mdl-button mdl-js-button mdl-button--icon back">
                 <i className="material-icons" onClick={this.props.action}>arrow_back</i>
             </button>
-        );
-    }
-}
-
-class Search extends React.Component {
-    componentDidMount() {
-        componentHandler.upgradeElement(this.textInput);
-    }
-
-    render() {
-        return (
-            <form className="hack-search">
-                <div className="mdl-textfield mdl-js-textfield hack-search" ref={(input) => { this.textInput = input; }}>
-                    <input className="mdl-textfield__input" type="text" id="sample1" />
-                    <label className="mdl-textfield__label" htmlFor="sample1">Search for anything...</label>
-                </div>
-            </form>
-        )
-    }
-}
-
-class DetailsGrid extends React.Component {
-    render() {
-        return (
-            <div className="mdl-grid" id="hack-main-grid">
-                <div className={cellClass(2,2,0)}>
-                    <BackButton action={this.props.close} />
-                </div>
-                <div className={cellClass(2,0,0)}></div>
-                <div className={cellClass(4,4,4)}>
-                    <Search />
-                </div>
-                <div className={cellClass(4,2,0)}></div>
-                <div className={cellClass(6)+" mdl-typography--display-1"}>
-                    {this.props.tile.title}
-                </div>
-                <div className={cellClass(6)+" mdl-typography--headline"}>
-                    {this.props.tile.description}
-                </div>
-            </div>
         );
     }
 }
@@ -268,7 +162,7 @@ class Card extends React.Component {
 
     render() {
         return (
-            <div className="mdl-card mdl-shadow--2dp" title="combat" data-category-readable="Character Details" data-category="character_info" data-id="/character_info/combat">
+            <div className={cellClass(3,4,2) + "mdl-card mdl-shadow--2dp"}>
                 <CardTitle text={this.props.tile.title} />
                 <CardText text={this.props.tile.description}/>
                 <CardActions open={this.open} />
@@ -277,26 +171,109 @@ class Card extends React.Component {
     }
 }
 
-class Cell extends React.Component {
+class Search extends React.Component {
     constructor(props) {
         super(props);
+
+        this.search = this.search.bind(this);
     }
 
+    componentDidMount() {
+        componentHandler.upgradeElement(this.textInput);
+    }
+
+    search(e) {
+        e.preventDefault();
+        console.log("Doing Search");
+
+        var exampleSearchResults = [
+            {
+                name: "sword",
+                title: "Sword",
+                description: "An awesome weapon.",
+            },
+            {
+                name: "fireball",
+                title: "Fireball",
+                description: "A powerful spell.",
+            }
+        ];
+
+        // TODO add closeDetailsGrid and openDetailsGrid methods.
+        var searchResultCards = exampleSearchResults.map((tile) =>
+            <Card tile={tile} key={tile.name} />
+        );
+
+        this.props.showSearchResults(searchResultCards);
+    }
 
     render() {
         return (
-            <div className={cellClass(3,4,2) + " default-cell"}>
-                <Card tile={this.props.tile} closeDetailsGrid={this.props.closeDetailsGrid} openDetailsGrid={this.props.openDetailsGrid} />
+            <form onSubmit={this.search}>
+                <div className="mdl-textfield mdl-js-textfield" ref={(input) => { this.textInput = input; }}>
+                    <input className="mdl-textfield__input" type="text" id="hack-search" />
+                    <label className="mdl-textfield__label" htmlFor="hack-search">Search for anything...</label>
+                </div>
+            </form>
+        )
+    }
+}
+
+class DetailsGrid extends React.Component {
+    render() {
+        return (
+            <div className="mdl-grid">
+                <div className={cellClass(2,2,0)}>
+                    <BackButton action={this.props.close} />
+                </div>
+                <div className={cellClass(2,0,0)}></div>
+                <div className={cellClass(4,4,4)}>
+                    <Search />
+                </div>
+                <div className={cellClass(4,2,0)}></div>
+                <div className={cellClass(6)+" mdl-typography--display-1"}>
+                    {this.props.tile.title}
+                </div>
+                <div className={cellClass(6)+" mdl-typography--headline"}>
+                    {this.props.tile.description}
+                </div>
             </div>
         );
     }
 }
 
-class SearchGrid extends React.Component {
+class HomeGrid extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = { };
+        this.state.cells = this.props.startCards;
+
+        this.backToStart = this.backToStart.bind(this);
+        this.replaceCards = this.replaceCards.bind(this);
+    }
+
+    backToStart() {
+        this.setState({
+            cells: this.props.startCards
+        });
+    }
+
+    replaceCards(cells) {
+        this.setState({
+            cells: cells
+        });
+    }
+
     render() {
         return (
-            <div className="mdl-grid" id="hack-main-grid">
-                {cellComponents}
+            <div className="mdl-grid">
+                <div className={cellClass(4,0,0)}></div>
+                <div className={cellClass(4,4,4)}>
+                    <Search showSearchResults={this.replaceCards} />
+                </div>
+                <div className={cellClass(4,0,0)}></div>
+                {this.state.cells}
             </div>
         );
     }
@@ -310,7 +287,6 @@ class ContentLayout extends React.Component {
         this.openDetailsGrid = this.openDetailsGrid.bind(this);
         this.closeDetailsGrid = this.closeDetailsGrid.bind(this);
 
-        this.state.tiles = props.tiles;
         this.state.detailsOpen = false;
     }
 
@@ -333,10 +309,15 @@ class ContentLayout extends React.Component {
         if (this.state.detailsOpen) {
             grid = this.state.detailsGrid;
         } else {
-            cellComponents = this.props.tiles.map((tile) =>
-                <Cell tile={tile} key={tile.name} closeDetailsGrid={this.closeDetailsGrid} openDetailsGrid={this.openDetailsGrid} />
+            var startCards = this.props.startTiles.map((tile) =>
+                <Card tile={tile} key={tile.name}
+                      closeDetailsGrid={this.closeDetailsGrid}
+                      openDetailsGrid={this.openDetailsGrid} />
             );
-            grid = <SearchGrid cellComponents={cellComponents} />;
+
+            grid = <HomeGrid startCards={startCards} 
+                             openDetailsGrid={this.openDetailsGrid}
+                             closeDetailsGrid={this.closeDetailsGrid} />;
         }
 
         return(
@@ -348,7 +329,7 @@ class ContentLayout extends React.Component {
 }
 
 $(document).ready(function() {
-    var tiles = [
+    var startTiles = [
         {
             name: "overview",
             title: "Overview",
@@ -391,30 +372,6 @@ $(document).ready(function() {
         }
     ];
 
-    var contentLayout = <ContentLayout tiles={tiles} />;
+    var contentLayout = <ContentLayout startTiles={startTiles} />;
     ReactDOM.render(contentLayout, document.getElementById('react-root'));
 });
-
-Array.prototype.remove = function() {
-    var what, a = arguments, L = a.length, ax;
-    while (L && this.length) {
-        what = a[--L];
-        while ((ax = this.indexOf(what)) !== -1) {
-            this.splice(ax, 1);
-        }
-    }
-    return this;
-};
-
-String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-}
-
-String.prototype.titleize = function() {
-    var string_array = this.split(' ');
-    string_array = string_array.map(function(str) {
-       return str.capitalize(); 
-    });
-    
-    return string_array.join(' ');
-}
