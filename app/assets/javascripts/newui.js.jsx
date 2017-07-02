@@ -279,7 +279,38 @@ class HomeGrid extends React.Component {
     }
 }
 
-class ContentLayout extends React.Component {
+class Drawer extends React.Component {
+    render() {
+      return (
+        <div className="mdl-layout__drawer">
+            <span className="mdl-layout__title">Hacktrack</span>
+            <nav className="mdl-navigation characters">
+              <a className="mdl-navigation__link" href="/characters/step1">
+                <i className="material-icons">add</i>
+                Character
+              </a>
+            </nav>
+        </div>
+      );
+    }
+}
+
+
+class Header extends React.Component {
+    render() {
+        return (
+          <header className="mdl-layout__header">
+            <div className="mdl-layout__header-row">
+              <span className="mdl-layout__title character-name"></span>
+              <div className="mdl-layout-spacer"></div>
+              <span className="mdl-layout__link"><a className="mdl-navigation__link" href="/">Classic Version</a></span>
+            </div>
+          </header>
+        )
+    }
+}
+
+class Content extends React.Component {
     constructor(props) {
         super(props);
         this.state = { };
@@ -328,6 +359,19 @@ class ContentLayout extends React.Component {
     }
 }
 
+class Layout extends React.Component {
+    render() {
+        return (
+            <div className="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header mdl-color-text--grey-600 main-layout">
+                <Header />
+                <Drawer />
+                <Content startTiles={this.props.startTiles} />
+            </div>
+        );
+    }
+}
+
+
 $(document).ready(function() {
     var startTiles = [
         {
@@ -372,6 +416,6 @@ $(document).ready(function() {
         }
     ];
 
-    var contentLayout = <ContentLayout startTiles={startTiles} />;
-    ReactDOM.render(contentLayout, document.getElementById('react-root'));
+    var layout = <Layout startTiles={startTiles} />;
+    ReactDOM.render(layout, document.getElementById('react-root'));
 });
