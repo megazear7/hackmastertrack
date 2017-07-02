@@ -1,78 +1,3 @@
-/*(function(){
-    HackTrack.search = function(terms, preventPushState) {
-        if (! preventPushState) {
-            history.pushState({action: "search", terms: terms}, null, '/new#search/'+terms);
-        }
-
-        $(".search-cell").addClass("search-cell-remove").slideUp({duration: 200}).promise().done(function() {
-            $(".search-cell-remove").remove();
-        });
-
-
-        HackSolr.search(terms, { owners: ["2"], groups: ["everyone"] }, function(results) {
-            $.each(results, function() {
-                var $searchCell = $(".search-cell-template").clone();
-                $searchCell.removeClass("search-cell-template");
-                $searchCell.addClass("search-cell");
-                $searchCell.find(".mdl-card").attr("data-id", this.path);
-                $searchCell.find(".mdl-card").attr("data-title", this.title);
-                $searchCell.find(".mdl-card").attr("data-category", this.category1);
-                $searchCell.find(".mdl-card").attr("data-category-readable", this.category1.titleize());
-                $searchCell.find(".search-title").text(this.title);
-                $searchCell.find(".action1").text("Purchase");
-                $searchCell.find(".action2").text("View");
-                $searchCell.find(".action2").addClass("card-opener");
-                $searchCell.find(".search-support-text").text(this.category1);
-                $searchCell.insertAfter(".search-cell-template");
-
-                $(".card-opener").off("click").click(function() {
-                    HackTrack.open($(this.closest(".mdl-card")));
-                });
-            });
-
-            $(".default-cell, .details-cell").slideUp({duration: 200}).promise().done(function() {
-                $(".search-cell").slideDown(200);
-            });
-        });
-    };
-
-    HackTrack.back = function() {
-        // This 10ms is needed otherwise the history.state info is outdated.
-        setTimeout(function() {
-            var state = history.state;
-
-            if (!state || state && ! state.action) {
-                HackTrack.close();
-            } else if (state.action === "details") {
-                HackTrack.open($("[data-id='"+state.id+"']"), true);
-            } else if (state.action === "search") {
-                HackTrack.search($(".hack-search").find("input").val(), true);
-            }
-        }, 10);
-    };
-
-    HackTrack.get = function(category, idOrCallback, optionalCallack) {
-        if (typeof idOrCallback === "function") {
-            var callback = idOrCallback;
-            $.get(category+".json").done(function(data) {
-                callback(data);
-            });
-        } else {
-            var id = idOrCallback;
-            var optionalCallack = optionalCallack;
-        }
-    };
-
-    HackTrack.each = function(category, callback) {
-        HackTrack.get(category, function(items) {
-            $.each(items, function(index, item) {
-                callback(item);
-            });
-        });
-    };
-})();
-*/
-
 function cellClass(desktop, tablet, phone) {
     var desktopClass,
         tabletClass,
@@ -354,7 +279,7 @@ class Drawer extends React.Component {
       return (
         <div className="mdl-layout__drawer">
             <span className="mdl-layout__title">{this.props.title}</span>
-            <nav className="mdl-navigation characters">
+            <nav className="mdl-navigation">
               <IconLink href="/characters/step1" icon="add" />
             </nav>
         </div>
