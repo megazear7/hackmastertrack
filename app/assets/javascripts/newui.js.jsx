@@ -81,7 +81,11 @@ class Card extends React.Component {
 
     open() {
         // TODO manage this detailsGrid variable in the state so that we can destroy it when needed.
-        var detailsGrid = <DetailsGrid tile={this.props.tile} close={this.props.closeDetailsGrid} />;
+        var detailsGrid = <DetailsGrid tile={this.props.tile}
+                                       showCards={this.props.showCards}
+                                       closeDetailsGrid={this.props.closeDetailsGrid}
+                                       openDetailsGrid={this.props.openDetailsGrid} />;
+
         this.props.openDetailsGrid(detailsGrid);
     }
 
@@ -115,21 +119,41 @@ class Search extends React.Component {
             {
                 name: "sword",
                 title: "Sword",
-                description: "An awesome weapon.",
+                description: "An awesome weapon."
             },
             {
                 name: "fireball",
                 title: "Fireball",
-                description: "A powerful spell.",
+                description: "A powerful spell."
+            },
+            {
+                name: "longsword-proficiency",
+                title: "Longsword Proficiency",
+                description: "Learn the longword"
+            },
+            {
+                name: "axe",
+                title: "Axe",
+                description: "Weapon of greatness"
             }
         ];
 
-        // TODO add closeDetailsGrid and openDetailsGrid methods.
-        var searchResultCards = exampleSearchResults.map((tile) =>
-            <Card tile={tile} key={tile.name} />
-        );
+        var random1 = parseInt(Math.floor(Math.random() * 4));
+        var random2 = parseInt(Math.floor(Math.random() * 4));
 
-        this.props.showSearchResults(searchResultCards);
+        var searchResultCards = []
+        searchResultCards.push(<Card tile={exampleSearchResults[random1]}
+              key={exampleSearchResults[random1].name}
+              showCards={this.props.showCards}
+              closeDetailsGrid={this.props.closeDetailsGrid}
+              openDetailsGrid={this.props.openDetailsGrid} />);
+        searchResultCards.push(<Card tile={exampleSearchResults[random2]}
+              key={exampleSearchResults[random2].name}
+              showCards={this.props.showCards}
+              closeDetailsGrid={this.props.closeDetailsGrid}
+              openDetailsGrid={this.props.openDetailsGrid} />);
+
+        this.props.showCards(searchResultCards);
     }
 
     render() {
@@ -149,11 +173,13 @@ class DetailsGrid extends React.Component {
         return (
             <div className="mdl-grid">
                 <div className={cellClass(2,2,0)}>
-                    <BackButton action={this.props.close} />
+                    <BackButton action={this.props.closeDetailsGrid} />
                 </div>
                 <div className={cellClass(2,0,0)}></div>
                 <div className={cellClass(4,4,4)}>
-                    <Search />
+                    <Search showCards={this.props.showCards}
+                            closeDetailsGrid={this.props.closeDetailsGrid}
+                            openDetailsGrid={this.props.openDetailsGrid} />
                 </div>
                 <div className={cellClass(4,2,0)}></div>
                 <div className={cellClass(6)+" mdl-typography--display-1"}>
@@ -168,37 +194,17 @@ class DetailsGrid extends React.Component {
 }
 
 class HomeGrid extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = { };
-        this.state.cells = this.props.startCards;
-
-        this.backToStart = this.backToStart.bind(this);
-        this.replaceCards = this.replaceCards.bind(this);
-    }
-
-    backToStart() {
-        this.setState({
-            cells: this.props.startCards
-        });
-    }
-
-    replaceCards(cells) {
-        this.setState({
-            cells: cells
-        });
-    }
-
     render() {
         return (
             <div className="mdl-grid">
                 <div className={cellClass(4,0,0)}></div>
                 <div className={cellClass(4,4,4)}>
-                    <Search showSearchResults={this.replaceCards} />
+                    <Search showCards={this.props.showCards}
+                            closeDetailsGrid={this.props.closeDetailsGrid}
+                            openDetailsGrid={this.props.openDetailsGrid} />
                 </div>
                 <div className={cellClass(4,0,0)}></div>
-                {this.state.cells}
+                {this.props.cells}
             </div>
         );
     }
@@ -209,10 +215,34 @@ class Content extends React.Component {
         super(props);
         this.state = { };
 
+        this.state.detailsOpen = false;
+
+        this.state.startCards = this.props.startTiles.map((tile) =>
+            <Card tile={tile}
+                  key={tile.name}
+                  showCards={this.showCards}
+                  closeDetailsGrid={this.closeDetailsGrid}
+                  openDetailsGrid={this.openDetailsGrid} />
+        );
+
+        this.state.cells = this.state.startCards;
+
         this.openDetailsGrid = this.openDetailsGrid.bind(this);
         this.closeDetailsGrid = this.closeDetailsGrid.bind(this);
+        this.backToStart = this.backToStart.bind(this);
+        this.showCards = this.showCards.bind(this);
+    }
 
-        this.state.detailsOpen = false;
+    backToStart() {
+        this.setState({
+            cells: this.state.startCards
+        });
+    }
+
+    showCards(cells) {
+        this.setState({
+            cells: cells
+        });
     }
 
     openDetailsGrid(detailsGrid) {
@@ -234,13 +264,8 @@ class Content extends React.Component {
         if (this.state.detailsOpen) {
             grid = this.state.detailsGrid;
         } else {
-            var startCards = this.props.startTiles.map((tile) =>
-                <Card tile={tile} key={tile.name}
-                      closeDetailsGrid={this.closeDetailsGrid}
-                      openDetailsGrid={this.openDetailsGrid} />
-            );
-
-            grid = <HomeGrid startCards={startCards} 
+            grid = <HomeGrid cells={this.state.cells}
+                             showCards={this.showCards}
                              openDetailsGrid={this.openDetailsGrid}
                              closeDetailsGrid={this.closeDetailsGrid} />;
         }
@@ -322,7 +347,6 @@ class Layout extends React.Component {
         );
     }
 }
-
 
 $(document).ready(function() {
     var startTiles = [
