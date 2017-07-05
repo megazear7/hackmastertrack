@@ -1,18 +1,34 @@
-function createHackComponent(hackEntity, forward) {
-    if (hackEntity.category1 === "overview") {
-        return hackComponent = (
-            <Overview hackEntity={hackEntity}
-                      key={hackEntity.path}
-                      forward={forward} />);
-    } else {
-        return hackComponent = (
-            <Unimplemented hackEntity={hackEntity}
-                           key={hackEntity.path}
-                           forward={forward} />);
-    }
-}
+/* Section 1: Definitions
+ *
+ * Hack Entity:
+ *      A record in solr. Contains some basic information such as
+ *      title, description and categories. A Hack Entity does not refer
+ *      to the complete information that exists in hack api, but just
+ *      that information that gets returned by solr.
+ *
+ * Hack Component:
+ *      A React Component that implements a hack entity usually by
+ *      using the Hack API to get more data about the thing and
+ *      usually providing one or more actions the user can take.
+ *      The Hack Component has a "Card" view that shows up in the
+ *      list of search results which is returned in the components
+ *      render method and a "Details" view that shows up when the
+ *      card is opened and is returned by the open() method. This
+ *      latter method must return an array of Cells.
+ *
+ * Hack API:
+ *      The API that provides all of the async data and functionality of
+ *      Hackmaster website for use withen Hack Components.
+ *
+ * Hack Solr:
+ *      The Solr server that returns a list of relevant Hack Entities
+ *      if it is provided with a search term. In this way the user
+ *      can fidn the functionality he needs by simply typing into the
+ *      search box.
+ * */
 
-/* Section 1: Hack Components
+
+/* Section 2: Hack Components
  * These components are react components representing hackmastertrack entities. */
 
 class Overview extends React.Component {
@@ -106,7 +122,24 @@ class Unimplemented extends React.Component {
     }
 }
 
-/* Section2: MDL Components
+/* Section 3: Hack Entity to Hack Component Mapping
+ * This function maps a Hack Entity to the Hack Component that implements it */
+
+function createHackComponent(hackEntity, forward) {
+    if (hackEntity.category1 === "overview") {
+        return hackComponent = (
+            <Overview hackEntity={hackEntity}
+                      key={hackEntity.path}
+                      forward={forward} />);
+    } else {
+        return hackComponent = (
+            <Unimplemented hackEntity={hackEntity}
+                           key={hackEntity.path}
+                           forward={forward} />);
+    }
+}
+
+/* Section 4: MDL Components
  * These components are React.Components representing MDL Componentes. */
 
 class CardTitle extends React.Component {
@@ -217,13 +250,11 @@ class Search extends React.Component {
         e.preventDefault();
         var self = this;
 
-        HackSolr.search(this.state.terms, { owners: ["2"], groups: ["everyone"] }, function(results) {
+        HackSolr.search(this.state.terms, { owners: ["2"], groups: ["everyone"] }, function(hackEntities) {
             var searchResultCards = [];
 
-            console.log(results);
-
-            $.each(results, function() {
-                searchResultCards.push(createHackComponent(hackEntity, this.props.forward));
+            $.each(hackEntities, function(index, hackEntity) {
+                searchResultCards.push(createHackComponent(hackEntity, self.props.forward));
             });
 
             self.props.forward(searchResultCards);
