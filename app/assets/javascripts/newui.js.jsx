@@ -39,46 +39,33 @@ class Overview extends React.Component {
     }
 
     open() {
-        // TODO Use hackapi.js (yet to be created) to interface with the rails
-        // json API in order to obtain the character data
-        var character = {
-            name: "Slighter",
-            race: "Human",
-            character_class: "Fighter",
-            strength: 16.75,
-            dexterity: 14.12,
-            constitution: 11.34,
-            intelligence: 12.78,
-            wisdom: 8.76,
-            charisma: 6.89,
-            looks: 7.89,
-            silver: 142,
-            health: 34,
-            experience: 789
-        };
+        var self = this;
 
-        this.props.forward(
-            <Cell desktop="12">
-                <Grid nested={true}>
-                    <Cell desktop="12" tablet="8" phone="4">
-                        <H1>{character.race + " " + character.character_class}</H1>
-                    </Cell>
-                    <Cell desktop="4" tablet="4" phone="2">
-                        <div>Strength: {character.strength}</div>
-                        <div>Dexterity: {character.dexterity}</div>
-                        <div>Constitution: {character.constitution}</div>
-                        <div>Intelligence: {character.intelligence}</div>
-                        <div>Wisdom: {character.wisdom}</div>
-                        <div>Charisma: {character.charisma}</div>
-                        <div>Looks: {character.looks}</div>
-                    </Cell>
-                    <Cell desktop="4" tablet="4" phone="2">
-                        <div>Silver: {character.silver}</div>
-                        <div>Health: {character.health}</div>
-                        <div>EXP: {character.experience}</div>
-                    </Cell>
-                </Grid>
-            </Cell>);
+        HackAPI.characters.findOne(104)
+        .done(function(character) {
+            self.props.forward(
+                <Cell desktop="12">
+                    <Grid nested={true}>
+                        <Cell desktop="12" tablet="8" phone="4">
+                            <H1>{character.race + " " + character.character_class}</H1>
+                        </Cell>
+                        <Cell desktop="4" tablet="4" phone="2">
+                            <div>Strength: {character.strength}</div>
+                            <div>Dexterity: {character.dexterity}</div>
+                            <div>Constitution: {character.constitution}</div>
+                            <div>Intelligence: {character.intelligence}</div>
+                            <div>Wisdom: {character.wisdom}</div>
+                            <div>Charisma: {character.charisma}</div>
+                            <div>Looks: {character.looks}</div>
+                        </Cell>
+                        <Cell desktop="4" tablet="4" phone="2">
+                            <div>Silver: {character.silver}</div>
+                            <div>Health: {character.health}</div>
+                            <div>EXP: {character.experience}</div>
+                        </Cell>
+                    </Grid>
+                </Cell>);
+        });
     }
 
     render() {
@@ -486,22 +473,52 @@ class Link extends React.Component {
     render() {
         return (
             <span className="mdl-layout__link">
-                <a className="mdl-navigation__link" href={this.props.href}>{this.props.title}</a>
+                <a className="mdl-navigation__link" href={this.props.href}>
+                    {this.props.children}
+                </a>
             </span>
         );
     }
 }
 
 class Drawer extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.addCharacter = this.addCharacter.bind(this);
+
+        this.state = { characters: [] };
+
+        this.addCharacter(104);
+    }
+
+    addCharacter(characterId) {
+        var self = this;
+
+        HackAPI.characters.findOne(characterId)
+        .done(function(character) {
+            var newCharacters = [];
+
+            newCharacters.push(
+                <Link key={character.name}>
+                    {character.name}
+                </Link>
+            );
+
+            self.setState({ characters: newCharacters });
+        });
+    }
+
     render() {
-      return (
-        <div className="mdl-layout__drawer">
-            <span className="mdl-layout__title">{this.props.title}</span>
-            <nav className="mdl-navigation">
-              <IconLink href="/characters/step1" icon="add" />
-            </nav>
-        </div>
-      );
+        return (
+            <div className="mdl-layout__drawer">
+                <span className="mdl-layout__title">{this.props.title}</span>
+                <nav className="mdl-navigation">
+                    {this.state.characters}
+                    <IconLink href="/characters/step1" icon="add" />
+                </nav>
+            </div>
+        );
     }
 }
 
@@ -522,7 +539,9 @@ class Header extends React.Component {
                 {this.state.characterName}
               </span>
               <div className="mdl-layout-spacer"></div>
-              <Link href="/" title="Classic Version" />
+              <Link href="/">
+                Classic Version
+              </Link>
             </div>
           </header>
         )
