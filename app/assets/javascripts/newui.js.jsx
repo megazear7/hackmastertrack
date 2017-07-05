@@ -82,24 +82,17 @@ class OptionCard extends React.Component {
     }
 
     open() {
-        // TODO manage this detailsGrid variable in the state so that we can destroy it when needed.
-        var detailsGrid = (
-        <Grid showCards={this.props.showCards}
-              closeDetailsGrid={this.props.closeDetailsGrid}
-              openDetailsGrid={this.props.openDetailsGrid}>
-            <Cell desktop="6">
+        this.props.forward([
+            <Cell desktop="6" key="title">
                 <span className="mdl-typography--display-1">
                     {this.props.tile.title}
                 </span>
-            </Cell>
-            <Cell desktop="6">
+            </Cell>,
+            <Cell desktop="6" key="description">
                 <span className="mdl-typography--headline">
                     {this.props.tile.description}
                 </span>
-            </Cell>
-        </Grid>);
-
-        this.props.openDetailsGrid(detailsGrid);
+            </Cell>]);
     }
 
     render() {
@@ -158,16 +151,14 @@ class Search extends React.Component {
         var searchResultCards = []
         searchResultCards.push(<OptionCard tile={exampleSearchResults[random1]}
               key={exampleSearchResults[random1].name}
-              showCards={this.props.showCards}
-              closeDetailsGrid={this.props.closeDetailsGrid}
-              openDetailsGrid={this.props.openDetailsGrid} />);
+              forward={this.props.forward}
+              backward={this.props.backward} />);
         searchResultCards.push(<OptionCard tile={exampleSearchResults[random2]}
               key={exampleSearchResults[random2].name}
-              showCards={this.props.showCards}
-              closeDetailsGrid={this.props.closeDetailsGrid}
-              openDetailsGrid={this.props.openDetailsGrid} />);
+              forward={this.props.forward}
+              backward={this.props.backward} />);
 
-        this.props.showCards(searchResultCards);
+        this.props.forward(searchResultCards);
     }
 
     render() {
@@ -187,13 +178,12 @@ class Grid extends React.Component {
         return (
             <div className="mdl-grid">
                 <Cell desktop="2" tablet="2" phone="0">
-                    <BackButton action={this.props.closeDetailsGrid} />
+                    {this.props.showBackButton && <BackButton action={this.props.backward} />}
                 </Cell>
                 <Cell desktop="2" tablet="0" phone="0" />
                 <Cell desktop="4" tablet="4" phone="4">
-                    <Search showCards={this.props.showCards}
-                            closeDetailsGrid={this.props.closeDetailsGrid}
-                            openDetailsGrid={this.props.openDetailsGrid} />
+                    <Search forward={this.props.forward}
+                            backward={this.props.backward} />
                 </Cell>
                 <Cell desktop="4" tablet="2" phone="0" />
                 {this.props.children}
@@ -207,68 +197,58 @@ class Content extends React.Component {
         super(props);
 
         this.backToStart = this.backToStart.bind(this);
-        this.showCards = this.showCards.bind(this);
-        this.openDetailsGrid = this.openDetailsGrid.bind(this);
-        this.closeDetailsGrid = this.closeDetailsGrid.bind(this);
+        this.forward = this.forward.bind(this);
+        this.backward = this.backward.bind(this);
+        this.cells = this.cells.bind(this);
 
         this.state = { };
 
-        this.state.detailsOpen = false;
 
         this.state.startCards = this.props.startTiles.map((tile) =>
             <OptionCard tile={tile}
                   key={tile.name}
-                  showCards={this.showCards}
-                  closeDetailsGrid={this.closeDetailsGrid}
-                  openDetailsGrid={this.openDetailsGrid} />
+                  forward={this.forward}
+                  backward={this.backward} />
         );
 
-        this.state.cells = this.state.startCards;
+        this.state.history = [ ];
+        this.state.history.push(this.state.startCards);
     }
 
     backToStart() {
-        this.setState({
-            cells: this.state.startCards
-        });
+        this.forward(this.state.startCards);
     }
 
-    showCards(cells) {
-        this.closeDetailsGrid();
-        this.setState({
-            cells: cells
-        });
+    forward(cells) {
+        if (this.state.history.length < 40) {
+            this.state.history.push(cells);
+            this.forceUpdate();
+        } else {
+            this.setState(function(prevState, props) {
+                var newHistory = prevState.history.slice(prevState.history.length / 2);
+                newHistory.push(cells);
+                return { history: newHistory };
+            });
+        }
     }
 
-    openDetailsGrid(detailsGrid) {
-        this.setState({
-            detailsGrid: detailsGrid,
-            detailsOpen: true
-        });
+    backward() {
+        this.state.history.pop();
+        this.forceUpdate();
     }
 
-    closeDetailsGrid() {
-        this.setState({
-            detailsOpen: false
-        });
+    cells() {
+        return this.state.history[this.state.history.length-1]
     }
 
     render() {
-        var grid;
-
-        if (this.state.detailsOpen) {
-            grid = this.state.detailsGrid;
-        } else {
-            grid = (
-            <Grid showCards={this.showCards}
-                  openDetailsGrid={this.openDetailsGrid}
-                  closeDetailsGrid={this.closeDetailsGrid}>
-                {this.state.cells}
-            </Grid>);
-        }
-
         return(
             <main className="mdl-layout__content">
-                {grid}
+                <Grid forward={this.forward}
+                      backward={this.backward}
+                      showBackButton={this.state.history.length > 1}>
+                    {this.cells()}
+                </Grid>
             </main>
         );
     }
