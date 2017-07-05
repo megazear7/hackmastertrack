@@ -51,36 +51,31 @@ class Overview extends React.Component {
             intelligence: 12.78,
             wisdom: 8.76,
             charisma: 6.89,
-            looks: 7.89
+            looks: 7.89,
+            silver: 142,
+            health: 34,
+            experience: 789
         };
 
         this.props.forward(
             <Cell desktop="12">
                 <Grid nested={true}>
-                    <Cell desktop="9" key="title">
-                        <span className="mdl-typography--display-1">
-                            {this.props.hackEntity.title}
-                        </span>
+                    <Cell desktop="12" tablet="8" phone="4">
+                        <H1>{character.race + " " + character.character_class}</H1>
                     </Cell>
-                    <Cell desktop="4" tablet="4" phone="2" key="1">
-                        <Card>
-                            <CardText>
-                                {character.race + " " + character.character_class}
-                            </CardText>
-                        </Card>
+                    <Cell desktop="4" tablet="4" phone="2">
+                        <div>Strength: {character.strength}</div>
+                        <div>Dexterity: {character.dexterity}</div>
+                        <div>Constitution: {character.constitution}</div>
+                        <div>Intelligence: {character.intelligence}</div>
+                        <div>Wisdom: {character.wisdom}</div>
+                        <div>Charisma: {character.charisma}</div>
+                        <div>Looks: {character.looks}</div>
                     </Cell>
-                    <Cell desktop="4" tablet="4" phone="2" key="2">
-                        <Card>
-                            <CardText>
-                                <div>Strength: {character.strength}</div>
-                                <div>Dexterity: {character.dexterity}</div>
-                                <div>Constitution: {character.constitution}</div>
-                                <div>Intelligence: {character.intelligence}</div>
-                                <div>Wisdom: {character.wisdom}</div>
-                                <div>Charisma: {character.charisma}</div>
-                                <div>Looks: {character.looks}</div>
-                            </CardText>
-                        </Card>
+                    <Cell desktop="4" tablet="4" phone="2">
+                        <div>Silver: {character.silver}</div>
+                        <div>Health: {character.health}</div>
+                        <div>EXP: {character.experience}</div>
                     </Cell>
                 </Grid>
             </Cell>);
@@ -122,14 +117,10 @@ class Unimplemented extends React.Component {
             <Cell desktop="12">
                 <Grid nested={true}>
                     <Cell desktop="9" key="title">
-                        <span className="mdl-typography--display-1">
-                            {this.props.hackEntity.title}
-                        </span>
+                        <H1>{this.props.hackEntity.title}</H1>
                     </Cell>
                     <Cell desktop="3" key="description">
-                        <span className="mdl-typography--headline">
-                            {this.props.hackEntity.category1}
-                        </span>
+                        <H5>{this.props.hackEntity.category1}</H5>
                     </Cell>
                 </Grid>
             </Cell>);
@@ -218,6 +209,66 @@ class CardActions extends React.Component {
     }
 }
 
+class H1 extends React.Component {
+    render() {
+        return (
+            <h1 className="mdl-typography--display-1">
+                {this.props.children}
+            </h1>
+        );
+    }
+}
+
+class H2 extends React.Component {
+    render() {
+        return (
+            <h1 className="mdl-typography--display-2">
+                {this.props.children}
+            </h1>
+        );
+    }
+}
+
+class H3 extends React.Component {
+    render() {
+        return (
+            <h1 className="mdl-typography--display-3">
+                {this.props.children}
+            </h1>
+        );
+    }
+}
+
+class H4 extends React.Component {
+    render() {
+        return (
+            <h1 className="mdl-typography--display-4">
+                {this.props.children}
+            </h1>
+        );
+    }
+}
+
+class H5 extends React.Component {
+    render() {
+        return (
+            <h1 className="mdl-typography--headline">
+                {this.props.children}
+            </h1>
+        );
+    }
+}
+
+class H6 extends React.Component {
+    render() {
+        return (
+            <h1 className="mdl-typography--title">
+                {this.props.children}
+            </h1>
+        );
+    }
+}
+
 class Button extends React.Component {
     render() {
         return (
@@ -244,19 +295,19 @@ class Cell extends React.Component {
 
         if (this.props.desktop === 0) {
             cellClasses.push("mdl-cell--hide-desktop");
-        } else {
+        } else if (this.props.desktop > 0) {
             cellClasses.push("mdl-cell--"+this.props.desktop+"-col-desktop");
         }
 
         if (this.props.tablet === 0) {
             cellClasses.push("mdl-cell--hide-tablet");
-        } else {
+        } else if (this.props.tablet > 0) {
             cellClasses.push("mdl-cell--"+this.props.tablet+"-col-tablet");
         }
 
         if (this.props.phone === 0) {
             cellClasses.push("mdl-cell--hide-phone");
-        } else {
+        } else if (this.props.phone > 0) {
             cellClasses.push("mdl-cell--"+this.props.phone+"-col-phone");
         }
 
