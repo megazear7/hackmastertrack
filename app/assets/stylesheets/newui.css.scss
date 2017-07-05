@@ -56,11 +56,16 @@ $white: rgb(255,255,255);
     text-align: right;
 }
 
+/* Definitely Keep what is below. What is above I think is old: */
 .back {
     margin: 17px auto;
 }
 
-
 .hack-full-card {
     width: 100%;
+}
+
+.mdl-grid .mdl-grid.mdl-grid--nesting {
+  padding: 0;
+  margin: 0 -8px;
 }

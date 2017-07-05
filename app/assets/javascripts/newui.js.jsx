@@ -12,9 +12,9 @@
  *      usually providing one or more actions the user can take.
  *      The Hack Component has a "Card" view that shows up in the
  *      list of search results which is returned in the components
- *      render method and a "Details" view that shows up when the
- *      card is opened and is returned by the open() method. This
- *      latter method must return an array of Cells.
+ *      render method. It may optionally have a "Details" view that
+ *      shows up when the card is opened and is returned by the
+ *      open() method. This latter method must return an array of Cells.
  *
  * Hack API:
  *      The API that provides all of the async data and functionality of
@@ -54,31 +54,53 @@ class Overview extends React.Component {
             looks: 7.89
         };
 
-        this.props.forward([
-            <Cell desktop="9" key="title">
-                <span className="mdl-typography--display-1">
-                    {this.props.hackEntity.title}
-                </span>
-            </Cell>,
-            <Cell desktop="4" tablet="4" phone="2" key="1">
-                <Card>
-                    <CardText text={character.race + " " + character.character_class} />
-                </Card>
-            </Cell>,
-            <Cell desktop="4" tablet="4" phone="2" key="2">
-                <Card>
-                    <CardText text={character.strength} />
-                </Card>
-            </Cell>]);
+        this.props.forward(
+            <Cell desktop="12">
+                <Grid nested={true}>
+                    <Cell desktop="9" key="title">
+                        <span className="mdl-typography--display-1">
+                            {this.props.hackEntity.title}
+                        </span>
+                    </Cell>
+                    <Cell desktop="4" tablet="4" phone="2" key="1">
+                        <Card>
+                            <CardText>
+                                {character.race + " " + character.character_class}
+                            </CardText>
+                        </Card>
+                    </Cell>
+                    <Cell desktop="4" tablet="4" phone="2" key="2">
+                        <Card>
+                            <CardText>
+                                <div>Strength: {character.strength}</div>
+                                <div>Dexterity: {character.dexterity}</div>
+                                <div>Constitution: {character.constitution}</div>
+                                <div>Intelligence: {character.intelligence}</div>
+                                <div>Wisdom: {character.wisdom}</div>
+                                <div>Charisma: {character.charisma}</div>
+                                <div>Looks: {character.looks}</div>
+                            </CardText>
+                        </Card>
+                    </Cell>
+                </Grid>
+            </Cell>);
     }
 
     render() {
         return (
-            <Cell desktop="3" tablet="4" phone="2">
+            <Cell desktop="3" tablet="4" phone="4">
                 <Card>
-                    <CardTitle text={this.props.hackEntity.title} />
-                    <CardText text={this.props.hackEntity.description} />
-                    <CardActions open={this.open} />
+                    <CardTitle>
+                        {this.props.hackEntity.title}
+                    </CardTitle>
+                    <CardText>
+                        {this.props.hackEntity.description}
+                    </CardText>
+                    <CardActions>
+                        <Button action={this.open}>
+                            Open
+                        </Button>
+                    </CardActions>
                 </Card>
             </Cell>
         );
@@ -96,26 +118,38 @@ class Unimplemented extends React.Component {
     }
 
     open() {
-        this.props.forward([
-            <Cell desktop="9" key="title">
-                <span className="mdl-typography--display-1">
-                    {this.props.hackEntity.title}
-                </span>
-            </Cell>,
-            <Cell desktop="3" key="description">
-                <span className="mdl-typography--headline">
-                    {this.props.hackEntity.category1}
-                </span>
-            </Cell>]);
+        this.props.forward(
+            <Cell desktop="12">
+                <Grid nested={true}>
+                    <Cell desktop="9" key="title">
+                        <span className="mdl-typography--display-1">
+                            {this.props.hackEntity.title}
+                        </span>
+                    </Cell>
+                    <Cell desktop="3" key="description">
+                        <span className="mdl-typography--headline">
+                            {this.props.hackEntity.category1}
+                        </span>
+                    </Cell>
+                </Grid>
+            </Cell>);
     }
 
     render() {
         return (
             <Cell desktop="3" tablet="4" phone="2">
                 <Card>
-                    <CardTitle text={this.props.hackEntity.title} />
-                    <CardText text={this.props.hackEntity.description} />
-                    <CardActions open={this.open} />
+                    <CardTitle>
+                        {this.props.hackEntity.title}
+                    </CardTitle>
+                    <CardText>
+                        {this.props.hackEntity.description}
+                    </CardText>
+                    <CardActions>
+                        <Button action={this.open}>
+                            Open
+                        </Button>
+                    </CardActions>
                 </Card>
             </Cell>
         );
@@ -146,7 +180,9 @@ class CardTitle extends React.Component {
     render() {
         return (
             <div className="mdl-card__title mdl-card--expand">
-                <h2 className="mdl-card__title-text">{this.props.text}</h2>
+                <h2 className="mdl-card__title-text">
+                    {this.props.children}
+                </h2>
             </div>
         );
     }
@@ -156,7 +192,7 @@ class CardText extends React.Component {
     render() {
         return (
             <div className="mdl-card__supporting-text">
-                {this.props.text}
+                {this.props.children}
             </div>
         );
     }
@@ -166,10 +202,18 @@ class CardActions extends React.Component {
     render() {
         return (
             <div className="mdl-card__actions mdl-card--border">
-                <a onClick={this.props.open} className="mdl-button mdl-button--colored">
-                    Open
-                </a>
+                {this.props.children}
             </div>
+        );
+    }
+}
+
+class Button extends React.Component {
+    render() {
+        return (
+            <a onClick={this.props.action} className="mdl-button mdl-button--colored">
+                {this.props.children}
+            </a>
         );
     }
 }
@@ -257,7 +301,15 @@ class Search extends React.Component {
                 searchResultCards.push(createHackComponent(hackEntity, self.props.forward));
             });
 
-            self.props.forward(searchResultCards);
+            var searchResults = (
+                <Cell desktop="12">
+                    <Grid nested={true}>
+                        {searchResultCards}
+                    </Grid>
+                </Cell>
+            );
+
+            self.props.forward(searchResults);
         });
     }
 
@@ -275,16 +327,14 @@ class Search extends React.Component {
 
 class Grid extends React.Component {
     render() {
+        var className = "mdl-grid";
+
+        if (this.props.nested === true) {
+            className += " mdl-grid--nesting";
+        }
+
         return (
-            <div className="mdl-grid">
-                <Cell desktop="2" tablet="2" phone="0">
-                    {this.props.showBackButton && <BackButton action={this.props.backward} />}
-                </Cell>
-                <Cell desktop="2" tablet="0" phone="0" />
-                <Cell desktop="4" tablet="4" phone="4">
-                    <Search forward={this.props.forward} />
-                </Cell>
-                <Cell desktop="4" tablet="2" phone="0" />
+            <div className={className}>
                 {this.props.children}
             </div>
         );
@@ -302,8 +352,13 @@ class Content extends React.Component {
 
         this.state = { };
 
-        this.state.startCards = this.props.startTiles.map((hackEntity) =>
-            createHackComponent(hackEntity, this.forward)
+        this.state.startCards =  (
+            <Cell desktop="12">
+                <Grid nested={true}>
+                    {this.props.startHackEntities.map((hackEntity) =>
+                         createHackComponent(hackEntity, this.forward))}
+                </Grid>
+            </Cell>
         );
 
         this.state.history = [ ];
@@ -333,15 +388,21 @@ class Content extends React.Component {
     }
 
     cells() {
-        return this.state.history[this.state.history.length-1]
+        return this.state.history[this.state.history.length-1];
     }
 
     render() {
         return(
             <main className="mdl-layout__content">
-                <Grid forward={this.forward}
-                      backward={this.backward}
-                      showBackButton={this.state.history.length > 1}>
+                <Grid>
+                    <Cell desktop="2" tablet="2" phone="0">
+                        {this.state.history.length > 1 && <BackButton action={this.backward} />}
+                    </Cell>
+                    <Cell desktop="2" tablet="0" phone="0" />
+                    <Cell desktop="4" tablet="4" phone="4">
+                        <Search forward={this.forward} />
+                    </Cell>
+                    <Cell desktop="4" tablet="2" phone="0" />
                     {this.cells()}
                 </Grid>
             </main>
@@ -413,14 +474,14 @@ class Layout extends React.Component {
             <div className="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header mdl-color-text--grey-600 main-layout">
                 <Header />
                 <Drawer title={this.props.title} />
-                <Content startTiles={this.props.startTiles} />
+                <Content startHackEntities={this.props.startHackEntities} />
             </div>
         );
     }
 }
 
 $(document).ready(function() {
-    var startTiles = [
+    var startHackEntities = [
         {
             name: "overview",
             category1: "overview",
@@ -471,6 +532,6 @@ $(document).ready(function() {
         }
     ];
 
-    var layout = <Layout startTiles={startTiles} title="Hacktrack" />;
+    var layout = <Layout startHackEntities={startHackEntities} title="Hacktrack" />;
     ReactDOM.render(layout, document.getElementById('react-root'));
 });
