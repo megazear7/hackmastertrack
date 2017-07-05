@@ -39,6 +39,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost:3000' }
 
   config.assets.precompile += %w( newui.css )
-  config.assets.precompile += %w( newui.js )
-  config.assets.precompile += %w( hacksolr.js )
+  config.assets.precompile += %w( newui-application.js )
+
+  config.react.variant = :development
 end
