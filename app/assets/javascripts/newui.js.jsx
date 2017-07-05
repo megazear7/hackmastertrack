@@ -74,20 +74,6 @@ class Cell extends React.Component {
     }
 }
 
-class DetailsCard extends React.Component {
-    render() {
-        return (
-            <Cell desktop="3" tablet="4" phone="2">
-                <div className="mdl-card mdl-shadow--2dp">
-                    <CardTitle text={this.props.tile.title} />
-                    <CardText text={this.props.tile.description}/>
-                    <CardActions open={this.open} />
-                </div>
-            </Cell>
-        );
-    }
-}
-
 class OptionCard extends React.Component {
     constructor(props) {
         super(props);
@@ -97,10 +83,21 @@ class OptionCard extends React.Component {
 
     open() {
         // TODO manage this detailsGrid variable in the state so that we can destroy it when needed.
-        var detailsGrid = <DetailsGrid tile={this.props.tile}
-                                       showCards={this.props.showCards}
-                                       closeDetailsGrid={this.props.closeDetailsGrid}
-                                       openDetailsGrid={this.props.openDetailsGrid} />;
+        var detailsGrid = (
+        <Grid showCards={this.props.showCards}
+              closeDetailsGrid={this.props.closeDetailsGrid}
+              openDetailsGrid={this.props.openDetailsGrid}>
+            <Cell desktop="6">
+                <span className="mdl-typography--display-1">
+                    {this.props.tile.title}
+                </span>
+            </Cell>
+            <Cell desktop="6">
+                <span className="mdl-typography--headline">
+                    {this.props.tile.description}
+                </span>
+            </Cell>
+        </Grid>);
 
         this.props.openDetailsGrid(detailsGrid);
     }
@@ -185,7 +182,7 @@ class Search extends React.Component {
     }
 }
 
-class DetailsGrid extends React.Component {
+class Grid extends React.Component {
     render() {
         return (
             <div className="mdl-grid">
@@ -199,33 +196,7 @@ class DetailsGrid extends React.Component {
                             openDetailsGrid={this.props.openDetailsGrid} />
                 </Cell>
                 <Cell desktop="4" tablet="2" phone="0" />
-                <Cell desktop="6">
-                    <span className="mdl-typography--display-1">
-                        {this.props.tile.title}
-                    </span>
-                </Cell>
-                <Cell desktop="6">
-                    <span className="mdl-typography--headline">
-                        {this.props.tile.description}
-                    </span>
-                </Cell>
-            </div>
-        );
-    }
-}
-
-class HomeGrid extends React.Component {
-    render() {
-        return (
-            <div className="mdl-grid">
-                <Cell desktop="4" tablet="0" phone="0" />
-                <Cell desktop="4" tablet="4" phone="4">
-                    <Search showCards={this.props.showCards}
-                            closeDetailsGrid={this.props.closeDetailsGrid}
-                            openDetailsGrid={this.props.openDetailsGrid} />
-                </Cell>
-                <Cell desktop="4" tablet="0" phone="0" />
-                {this.props.cells}
+                {this.props.children}
             </div>
         );
     }
@@ -262,6 +233,7 @@ class Content extends React.Component {
     }
 
     showCards(cells) {
+        this.closeDetailsGrid();
         this.setState({
             cells: cells
         });
@@ -286,10 +258,12 @@ class Content extends React.Component {
         if (this.state.detailsOpen) {
             grid = this.state.detailsGrid;
         } else {
-            grid = <HomeGrid cells={this.state.cells}
-                             showCards={this.showCards}
-                             openDetailsGrid={this.openDetailsGrid}
-                             closeDetailsGrid={this.closeDetailsGrid} />;
+            grid = (
+            <Grid showCards={this.showCards}
+                  openDetailsGrid={this.openDetailsGrid}
+                  closeDetailsGrid={this.closeDetailsGrid}>
+                {this.state.cells}
+            </Grid>);
         }
 
         return(
