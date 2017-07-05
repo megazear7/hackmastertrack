@@ -93,14 +93,14 @@ class Option extends React.Component {
 
     open() {
         this.props.forward([
-            <Cell desktop="6" key="title">
+            <Cell desktop="9" key="title">
                 <span className="mdl-typography--display-1">
                     {this.props.tile.title}
                 </span>
             </Cell>,
-            <Cell desktop="6" key="description">
+            <Cell desktop="3" key="description">
                 <span className="mdl-typography--headline">
-                    {this.props.tile.description}
+                    {this.props.tile.category1}
                 </span>
             </Cell>]);
     }
@@ -122,58 +122,45 @@ class Search extends React.Component {
     constructor(props) {
         super(props);
 
-        this.search = this.search.bind(this);
+        this.state = {terms: ''};
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
         componentHandler.upgradeElement(this.textInput);
     }
 
-    search(e) {
+    handleChange(e) {
+        this.setState({terms: e.target.value});
+    }
+
+    handleSubmit(e) {
         e.preventDefault();
+        var self = this;
 
-        var exampleSearchResults = [
-            {
-                name: "sword",
-                title: "Sword",
-                description: "An awesome weapon."
-            },
-            {
-                name: "fireball",
-                title: "Fireball",
-                description: "A powerful spell."
-            },
-            {
-                name: "longsword-proficiency",
-                title: "Longsword Proficiency",
-                description: "Learn the longword"
-            },
-            {
-                name: "axe",
-                title: "Axe",
-                description: "Weapon of greatness"
-            }
-        ];
+        HackSolr.search(this.state.terms, { owners: ["2"], groups: ["everyone"] }, function(results) {
+            var searchResultCards = [];
 
-        var random1 = parseInt(Math.floor(Math.random() * 4));
-        var random2 = parseInt(Math.floor(Math.random() * 4));
+            console.log(results);
 
-        var searchResultCards = []
-        searchResultCards.push(<Option tile={exampleSearchResults[random1]}
-              key={exampleSearchResults[random1].name}
-              forward={this.props.forward} />);
-        searchResultCards.push(<Option tile={exampleSearchResults[random2]}
-              key={exampleSearchResults[random2].name}
-              forward={this.props.forward} />);
+            $.each(results, function() {
+                searchResultCards.push(
+                    <Option tile={this}
+                            key={this.path}
+                            forward={self.props.forward} />);
+            });
 
-        this.props.forward(searchResultCards);
+            self.props.forward(searchResultCards);
+        });
     }
 
     render() {
         return (
-            <form onSubmit={this.search}>
+            <form onSubmit={this.handleSubmit}>
                 <div className="mdl-textfield mdl-js-textfield" ref={(input) => { this.textInput = input; }}>
-                    <input className="mdl-textfield__input" type="text" id="hack-search" />
+                    <input className="mdl-textfield__input" type="text" id="hack-search" onChange={this.handleChange} />
                     <label className="mdl-textfield__label" htmlFor="hack-search">Search for anything...</label>
                 </div>
             </form>
