@@ -160,15 +160,25 @@ class Unimplemented extends React.Component {
  * This function maps a Hack Entity to the Hack Component that implements it */
 
 function createHackComponent(hackEntity, forward) {
+    var key = "";
+
+    // TODO set hackid's for everything in solr and then get rid of this check.
+    // and just use the hackid instead of falling back to the path.
+    if (hackEntity.hackid) {
+        key = hackEntity.hackid;
+    } else if (hackEntity.path) {
+        key = hackEntity.path;
+    }
+
     if (hackEntity.category1 === "overview") {
         return hackComponent = (
             <Overview hackEntity={hackEntity}
-                      key={hackEntity.path}
+                      key={key}
                       forward={forward} />);
     } else {
         return hackComponent = (
             <Unimplemented hackEntity={hackEntity}
-                           key={hackEntity.path}
+                           key={key}
                            forward={forward} />);
     }
 }
@@ -484,48 +494,56 @@ $(document).ready(function() {
     var startHackEntities = [
         {
             name: "overview",
+            hackid: "overview",
             category1: "overview",
             title: "Overview",
             description: "Your characters race, class, ability scores, money, health and experience.",
         },
         {
             name: "combat",
+            hackid: "combat",
             category1: "combat",
             title: "Combat",
             description: "Your combat values and equiped weapon / armor sets.",
         },
         {
             name: "spells",
+            hackid: "spells",
             category1: "spells",
             title: "Spells",
             description: "Your spells. Lorem ipsum...",
         },
         {
             name: "equipment",
+            hackid: "equipment",
             category1: "equipment",
             title: "Equipment",
             description: "Your characters weapons, armor and inventory.",
         },
         {
             name: "proficiencies",
+            hackid: "proficiencies",
             category1: "proficiencies",
             title: "Proficiencies",
             description: "Lorem ipsum lor so todo...",
         },
         {
             name: "specializations",
+            hackid: "specializations",
             category1: "specializations",
             title: "Specializations",
             description: "Lorem ipsum lor so todo...",
         },
         {
             name: "talents",
+            hackid: "talents",
             category1: "talents",
             title: "Talents",
             description: "Lorem ipsum lor so todo...",
         },
         {
             name: "skills",
+            hackid: "skills",
             category1: "skills",
             title: "Skills",
             description: "Your talents, proficiencies, skills, and .",
