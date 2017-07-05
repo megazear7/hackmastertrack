@@ -74,7 +74,17 @@ class Cell extends React.Component {
     }
 }
 
-class OptionCard extends React.Component {
+class Card extends React.Component {
+    render() {
+        return (
+            <div className="mdl-card hack-full-card mdl-shadow--2dp">
+                {this.props.children}
+            </div>
+        );
+    }
+}
+
+class Option extends React.Component {
     constructor(props) {
         super(props);
 
@@ -98,11 +108,11 @@ class OptionCard extends React.Component {
     render() {
         return (
             <Cell desktop="3" tablet="4" phone="2">
-                <div className="mdl-card hack-full-card mdl-shadow--2dp">
+                <Card>
                     <CardTitle text={this.props.tile.title} />
-                    <CardText text={this.props.tile.description}/>
+                    <CardText text={this.props.tile.description} />
                     <CardActions open={this.open} />
-                </div>
+                </Card>
             </Cell>
         );
     }
@@ -149,14 +159,12 @@ class Search extends React.Component {
         var random2 = parseInt(Math.floor(Math.random() * 4));
 
         var searchResultCards = []
-        searchResultCards.push(<OptionCard tile={exampleSearchResults[random1]}
+        searchResultCards.push(<Option tile={exampleSearchResults[random1]}
               key={exampleSearchResults[random1].name}
-              forward={this.props.forward}
-              backward={this.props.backward} />);
-        searchResultCards.push(<OptionCard tile={exampleSearchResults[random2]}
+              forward={this.props.forward} />);
+        searchResultCards.push(<Option tile={exampleSearchResults[random2]}
               key={exampleSearchResults[random2].name}
-              forward={this.props.forward}
-              backward={this.props.backward} />);
+              forward={this.props.forward} />);
 
         this.props.forward(searchResultCards);
     }
@@ -182,8 +190,7 @@ class Grid extends React.Component {
                 </Cell>
                 <Cell desktop="2" tablet="0" phone="0" />
                 <Cell desktop="4" tablet="4" phone="4">
-                    <Search forward={this.props.forward}
-                            backward={this.props.backward} />
+                    <Search forward={this.props.forward} />
                 </Cell>
                 <Cell desktop="4" tablet="2" phone="0" />
                 {this.props.children}
@@ -205,10 +212,9 @@ class Content extends React.Component {
 
 
         this.state.startCards = this.props.startTiles.map((tile) =>
-            <OptionCard tile={tile}
+            <Option tile={tile}
                   key={tile.name}
-                  forward={this.forward}
-                  backward={this.backward} />
+                  forward={this.forward} />
         );
 
         this.state.history = [ ];
