@@ -1,35 +1,3 @@
-function cellClass(desktop, tablet, phone) {
-    var desktopClass,
-        tabletClass,
-        phoneClass;
-
-    if (typeof desktop === undefined) {
-        desktopClass = "";
-    } else if (desktop === 0) {
-        desktopClass = "mdl-cell--hide-desktop";
-    } else {
-        desktopClass = "mdl-cell--"+desktop+"-col-desktop";
-    }
-
-    if (typeof tablet === undefined) {
-        tabletClass = "";
-    } else if (tablet === 0) {
-        tabletClass = "mdl-cell--hide-tablet";
-    } else {
-        tabletClass = "mdl-cell--"+tablet+"-col-tablet";
-    }
-
-    if (typeof phone === undefined) {
-        phoneClass = "";
-    } else if (phone === 0) {
-        phoneClass = "mdl-cell--hide-phone";
-    } else {
-        phoneClass = "mdl-cell--"+phone+"-col-phone";
-    }
-
-    return "mdl-cell "+desktopClass+" "+tabletClass+" "+phoneClass;
-}
-
 class CardTitle extends React.Component {
     render() {
         return (
@@ -72,7 +40,55 @@ class BackButton extends React.Component {
     }
 }
 
-class Card extends React.Component {
+class Cell extends React.Component {
+    cellClass() {
+        var cellClasses = ["mdl-cell"];
+
+        if (this.props.desktop === 0) {
+            cellClasses.push("mdl-cell--hide-desktop");
+        } else {
+            cellClasses.push("mdl-cell--"+this.props.desktop+"-col-desktop");
+        }
+
+        if (this.props.tablet === 0) {
+            cellClasses.push("mdl-cell--hide-tablet");
+        } else {
+            cellClasses.push("mdl-cell--"+this.props.tablet+"-col-tablet");
+        }
+
+        if (this.props.phone === 0) {
+            cellClasses.push("mdl-cell--hide-phone");
+        } else {
+            cellClasses.push("mdl-cell--"+this.props.phone+"-col-phone");
+        }
+
+        return cellClasses.join(" ");
+    }
+
+    render() {
+        return (
+            <div className={this.cellClass()}>
+                {this.props.children}
+            </div>
+        );
+    }
+}
+
+class DetailsCard extends React.Component {
+    render() {
+        return (
+            <Cell desktop="3" tablet="4" phone="2">
+                <div className="mdl-card mdl-shadow--2dp">
+                    <CardTitle text={this.props.tile.title} />
+                    <CardText text={this.props.tile.description}/>
+                    <CardActions open={this.open} />
+                </div>
+            </Cell>
+        );
+    }
+}
+
+class OptionCard extends React.Component {
     constructor(props) {
         super(props);
 
@@ -91,11 +107,13 @@ class Card extends React.Component {
 
     render() {
         return (
-            <div className={cellClass(3,4,2) + "mdl-card mdl-shadow--2dp"}>
-                <CardTitle text={this.props.tile.title} />
-                <CardText text={this.props.tile.description}/>
-                <CardActions open={this.open} />
-            </div>
+            <Cell desktop="3" tablet="4" phone="2">
+                <div className="mdl-card hack-full-card mdl-shadow--2dp">
+                    <CardTitle text={this.props.tile.title} />
+                    <CardText text={this.props.tile.description}/>
+                    <CardActions open={this.open} />
+                </div>
+            </Cell>
         );
     }
 }
@@ -113,7 +131,6 @@ class Search extends React.Component {
 
     search(e) {
         e.preventDefault();
-        console.log("Doing Search");
 
         var exampleSearchResults = [
             {
@@ -142,12 +159,12 @@ class Search extends React.Component {
         var random2 = parseInt(Math.floor(Math.random() * 4));
 
         var searchResultCards = []
-        searchResultCards.push(<Card tile={exampleSearchResults[random1]}
+        searchResultCards.push(<OptionCard tile={exampleSearchResults[random1]}
               key={exampleSearchResults[random1].name}
               showCards={this.props.showCards}
               closeDetailsGrid={this.props.closeDetailsGrid}
               openDetailsGrid={this.props.openDetailsGrid} />);
-        searchResultCards.push(<Card tile={exampleSearchResults[random2]}
+        searchResultCards.push(<OptionCard tile={exampleSearchResults[random2]}
               key={exampleSearchResults[random2].name}
               showCards={this.props.showCards}
               closeDetailsGrid={this.props.closeDetailsGrid}
@@ -172,22 +189,26 @@ class DetailsGrid extends React.Component {
     render() {
         return (
             <div className="mdl-grid">
-                <div className={cellClass(2,2,0)}>
+                <Cell desktop="2" tablet="2" phone="0">
                     <BackButton action={this.props.closeDetailsGrid} />
-                </div>
-                <div className={cellClass(2,0,0)}></div>
-                <div className={cellClass(4,4,4)}>
+                </Cell>
+                <Cell desktop="2" tablet="0" phone="0" />
+                <Cell desktop="4" tablet="4" phone="4">
                     <Search showCards={this.props.showCards}
                             closeDetailsGrid={this.props.closeDetailsGrid}
                             openDetailsGrid={this.props.openDetailsGrid} />
-                </div>
-                <div className={cellClass(4,2,0)}></div>
-                <div className={cellClass(6)+" mdl-typography--display-1"}>
-                    {this.props.tile.title}
-                </div>
-                <div className={cellClass(6)+" mdl-typography--headline"}>
-                    {this.props.tile.description}
-                </div>
+                </Cell>
+                <Cell desktop="4" tablet="2" phone="0" />
+                <Cell desktop="6">
+                    <span className="mdl-typography--display-1">
+                        {this.props.tile.title}
+                    </span>
+                </Cell>
+                <Cell desktop="6">
+                    <span className="mdl-typography--headline">
+                        {this.props.tile.description}
+                    </span>
+                </Cell>
             </div>
         );
     }
@@ -197,13 +218,13 @@ class HomeGrid extends React.Component {
     render() {
         return (
             <div className="mdl-grid">
-                <div className={cellClass(4,0,0)}></div>
-                <div className={cellClass(4,4,4)}>
+                <Cell desktop="4" tablet="0" phone="0" />
+                <Cell desktop="4" tablet="4" phone="4">
                     <Search showCards={this.props.showCards}
                             closeDetailsGrid={this.props.closeDetailsGrid}
                             openDetailsGrid={this.props.openDetailsGrid} />
-                </div>
-                <div className={cellClass(4,0,0)}></div>
+                </Cell>
+                <Cell desktop="4" tablet="0" phone="0" />
                 {this.props.cells}
             </div>
         );
@@ -213,12 +234,18 @@ class HomeGrid extends React.Component {
 class Content extends React.Component {
     constructor(props) {
         super(props);
+
+        this.backToStart = this.backToStart.bind(this);
+        this.showCards = this.showCards.bind(this);
+        this.openDetailsGrid = this.openDetailsGrid.bind(this);
+        this.closeDetailsGrid = this.closeDetailsGrid.bind(this);
+
         this.state = { };
 
         this.state.detailsOpen = false;
 
         this.state.startCards = this.props.startTiles.map((tile) =>
-            <Card tile={tile}
+            <OptionCard tile={tile}
                   key={tile.name}
                   showCards={this.showCards}
                   closeDetailsGrid={this.closeDetailsGrid}
@@ -226,11 +253,6 @@ class Content extends React.Component {
         );
 
         this.state.cells = this.state.startCards;
-
-        this.openDetailsGrid = this.openDetailsGrid.bind(this);
-        this.closeDetailsGrid = this.closeDetailsGrid.bind(this);
-        this.backToStart = this.backToStart.bind(this);
-        this.showCards = this.showCards.bind(this);
     }
 
     backToStart() {
