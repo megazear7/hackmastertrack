@@ -1,3 +1,114 @@
+function createHackComponent(hackEntity, forward) {
+    if (hackEntity.category1 === "overview") {
+        return hackComponent = (
+            <Overview hackEntity={hackEntity}
+                      key={hackEntity.path}
+                      forward={forward} />);
+    } else {
+        return hackComponent = (
+            <Unimplemented hackEntity={hackEntity}
+                           key={hackEntity.path}
+                           forward={forward} />);
+    }
+}
+
+/* Section 1: Hack Components
+ * These components are react components representing hackmastertrack entities. */
+
+class Overview extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.open = this.open.bind(this);
+    }
+
+    open() {
+        // TODO Use hackapi.js (yet to be created) to interface with the rails
+        // json API in order to obtain the character data
+        var character = {
+            name: "Slighter",
+            race: "Human",
+            character_class: "Fighter",
+            strength: 16.75,
+            dexterity: 14.12,
+            constitution: 11.34,
+            intelligence: 12.78,
+            wisdom: 8.76,
+            charisma: 6.89,
+            looks: 7.89
+        };
+
+        this.props.forward([
+            <Cell desktop="9" key="title">
+                <span className="mdl-typography--display-1">
+                    {this.props.hackEntity.title}
+                </span>
+            </Cell>,
+            <Cell desktop="4" tablet="4" phone="2" key="1">
+                <Card>
+                    <CardText text={character.race + " " + character.character_class} />
+                </Card>
+            </Cell>,
+            <Cell desktop="4" tablet="4" phone="2" key="2">
+                <Card>
+                    <CardText text={character.strength} />
+                </Card>
+            </Cell>]);
+    }
+
+    render() {
+        return (
+            <Cell desktop="3" tablet="4" phone="2">
+                <Card>
+                    <CardTitle text={this.props.hackEntity.title} />
+                    <CardText text={this.props.hackEntity.description} />
+                    <CardActions open={this.open} />
+                </Card>
+            </Cell>
+        );
+    }
+}
+
+/* This is a generic Hack Component that just displays the title, description
+ * and category of the Hack Entity. This will be used if no other Hack Component
+ * is found to match the Hack Entity. */
+class Unimplemented extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.open = this.open.bind(this);
+    }
+
+    open() {
+        this.props.forward([
+            <Cell desktop="9" key="title">
+                <span className="mdl-typography--display-1">
+                    {this.props.hackEntity.title}
+                </span>
+            </Cell>,
+            <Cell desktop="3" key="description">
+                <span className="mdl-typography--headline">
+                    {this.props.hackEntity.category1}
+                </span>
+            </Cell>]);
+    }
+
+    render() {
+        return (
+            <Cell desktop="3" tablet="4" phone="2">
+                <Card>
+                    <CardTitle text={this.props.hackEntity.title} />
+                    <CardText text={this.props.hackEntity.description} />
+                    <CardActions open={this.open} />
+                </Card>
+            </Cell>
+        );
+    }
+}
+
+/* Section2: MDL Components
+ * These components are React.Components representing MDL Componentes. */
+
 class CardTitle extends React.Component {
     render() {
         return (
@@ -84,40 +195,6 @@ class Card extends React.Component {
     }
 }
 
-class Option extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.open = this.open.bind(this);
-    }
-
-    open() {
-        this.props.forward([
-            <Cell desktop="9" key="title">
-                <span className="mdl-typography--display-1">
-                    {this.props.tile.title}
-                </span>
-            </Cell>,
-            <Cell desktop="3" key="description">
-                <span className="mdl-typography--headline">
-                    {this.props.tile.category1}
-                </span>
-            </Cell>]);
-    }
-
-    render() {
-        return (
-            <Cell desktop="3" tablet="4" phone="2">
-                <Card>
-                    <CardTitle text={this.props.tile.title} />
-                    <CardText text={this.props.tile.description} />
-                    <CardActions open={this.open} />
-                </Card>
-            </Cell>
-        );
-    }
-}
-
 class Search extends React.Component {
     constructor(props) {
         super(props);
@@ -146,10 +223,7 @@ class Search extends React.Component {
             console.log(results);
 
             $.each(results, function() {
-                searchResultCards.push(
-                    <Option tile={this}
-                            key={this.path}
-                            forward={self.props.forward} />);
+                searchResultCards.push(createHackComponent(hackEntity, this.props.forward));
             });
 
             self.props.forward(searchResultCards);
@@ -197,11 +271,8 @@ class Content extends React.Component {
 
         this.state = { };
 
-
-        this.state.startCards = this.props.startTiles.map((tile) =>
-            <Option tile={tile}
-                  key={tile.name}
-                  forward={this.forward} />
+        this.state.startCards = this.props.startTiles.map((hackEntity) =>
+            createHackComponent(hackEntity, this.forward)
         );
 
         this.state.history = [ ];
@@ -321,41 +392,49 @@ $(document).ready(function() {
     var startTiles = [
         {
             name: "overview",
+            category1: "overview",
             title: "Overview",
             description: "Your characters race, class, ability scores, money, health and experience.",
         },
         {
             name: "combat",
+            category1: "combat",
             title: "Combat",
             description: "Your combat values and equiped weapon / armor sets.",
         },
         {
             name: "spells",
+            category1: "spells",
             title: "Spells",
             description: "Your spells. Lorem ipsum...",
         },
         {
             name: "equipment",
+            category1: "equipment",
             title: "Equipment",
             description: "Your characters weapons, armor and inventory.",
         },
         {
             name: "proficiencies",
+            category1: "proficiencies",
             title: "Proficiencies",
             description: "Lorem ipsum lor so todo...",
         },
         {
             name: "specializations",
+            category1: "specializations",
             title: "Specializations",
             description: "Lorem ipsum lor so todo...",
         },
         {
             name: "talents",
+            category1: "talents",
             title: "Talents",
             description: "Lorem ipsum lor so todo...",
         },
         {
             name: "skills",
+            category1: "skills",
             title: "Skills",
             description: "Your talents, proficiencies, skills, and .",
         }
