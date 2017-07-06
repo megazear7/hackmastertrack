@@ -495,17 +495,18 @@ class Drawer extends React.Component {
     addCharacter(characterId) {
         var self = this;
 
-        HackAPI.characters.find(characterId)
-        .done(function(character) {
-            var newCharacters = [];
-
-            newCharacters.push(
+        HackAPI.characters()
+        .each(function(character) {
+            console.log(character);
+            return (
                 <Link key={character.name}>
                     {character.name}
                 </Link>
             );
-
-            self.setState({ characters: newCharacters });
+        })
+        .andThen(function(characters) {
+            console.log(characters);
+            self.setState({ characters: characters });
         });
     }
 
