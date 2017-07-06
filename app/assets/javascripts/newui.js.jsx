@@ -41,7 +41,7 @@ class Overview extends React.Component {
     open() {
         var self = this;
 
-        HackAPI.characters.findOne(104)
+        HackAPI.characters.find(104)
         .done(function(character) {
             self.props.forward(
                 <Cell desktop="12">
@@ -495,7 +495,7 @@ class Drawer extends React.Component {
     addCharacter(characterId) {
         var self = this;
 
-        HackAPI.characters.findOne(characterId)
+        HackAPI.characters.find(characterId)
         .done(function(character) {
             var newCharacters = [];
 
