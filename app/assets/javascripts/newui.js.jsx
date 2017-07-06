@@ -470,10 +470,25 @@ class IconLink extends React.Component {
 }
 
 class Link extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.onClickEvent = this.onClickEvent.bind(this);
+    }
+
+    onClickEvent(e) {
+        if (this.props.action) {
+            e.preventDefault();
+            this.props.action();
+        }
+    }
+
     render() {
         return (
-            <span className="mdl-layout__link">
-                <a className="mdl-navigation__link" href={this.props.href}>
+            <span className={"mdl-layout__link" + (this.props.isCurrent ? " mdl-navigation__link--current" : "")}>
+                <a className="mdl-navigation__link"
+                   href={this.props.href}
+                   onClick={this.onClickEvent}>
                     {this.props.children}
                 </a>
             </span>
@@ -484,30 +499,27 @@ class Link extends React.Component {
 class Drawer extends React.Component {
     constructor(props) {
         super(props);
+        var self = this;
 
-        this.addCharacter = this.addCharacter.bind(this);
+        this.test = this.test.bind(this);
 
         this.state = { characters: [] };
 
-        this.addCharacter(104);
-    }
-
-    addCharacter(characterId) {
-        var self = this;
-
         HackAPI.characters()
-        .each(function(character) {
-            console.log(character);
+        .each(function(character, isFirst) {
             return (
-                <Link key={character.name}>
+                <Link key={character.id} characterId={character.id} action={self.test} isCurrent={isFirst}>
                     {character.name}
                 </Link>
             );
         })
         .andThen(function(characters) {
-            console.log(characters);
             self.setState({ characters: characters });
         });
+    }
+
+    test() {
+        console.log("HELLO");
     }
 
     render() {

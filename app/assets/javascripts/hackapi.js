@@ -35,13 +35,18 @@
                     $.each(response, function(index, result) {
                         cache[category][result.id] = {expire: expire, cachedResponse: result};
 
-                        if (typeof self.eachCallback === "function") {
-                            var andThenItem = self.eachCallback(result);
-                            console.log(andThenItem);
+                        var andThenItem;
 
-                            if (typeof andThenItem !== "undefined") {
-                                andThenParam.push(andThenItem);
-                            }
+                        if (typeof self.firstCallback === "function" && index === 0) {
+                            andThenItem = self.firstCallback(result);
+                        } else if (typeof self.lastCallback === "function" && index === response.length-1) {
+                            andThenItem = self.lastCallback(result);
+                        } else if (typeof self.eachCallback === "function") {
+                            andThenItem = self.eachCallback(result, index === 0, index === response.length-1);
+                        }
+
+                        if (typeof andThenItem !== "undefined") {
+                            andThenParam.push(andThenItem);
                         }
                     });
 
@@ -106,21 +111,49 @@
             return self;
         };
 
+        /* This first callback functions just like the each callback except
+         * this will only be called on the first item of the list if the
+         * response is a list. If a first callback is provided then the each
+         * method will not be called on that first item. */
+        self.first = function(callback) {
+            self.firstCallback = callback;
+
+            return self;
+        }
+
+        /* This last callback functions just like the each callback except
+         * this will only be called on the last item of the list if the
+         * response is a list. If a last callback is provided then the each
+         * method will not be called on that last item. */
+        self.last = function(callback) {
+            self.lastCallback = callback;
+
+            return self;
+        }
+
         /* If the response has an array of values then the each callback will
          * be called on each individual value. If something is returned by the
          * each callback, an array of the returned values will be passed into
-         * the andThen callback. */
+         * the andThen callback. The second parameter indicated whether or not
+         * this item is the first item in the list, the third parameter
+         * indicates whether or not this item is the last item. */
         self.each = function(callback) {
             self.eachCallback = callback;
 
             if (isCached && Array.isArray(cachedResponse)) {
                 $.each(cachedResponse, function(index, result) {
-                    if (typeof self.eachCallback === "function") {
-                        var andThenItem = self.eachCallback(result);
+                    var andThenItem;
 
-                        if (typeof andThenItem !== "undefined") {
-                            andThenParam.push(andThenItem);
-                        }
+                    if (typeof self.firstCallback === "function" && index === 0) {
+                        andThenItem = self.firstCallback(result);
+                    } else if (typeof self.lastCallback === "function" && index === cachedResponse.length-1) {
+                        andThenItem = self.lastCallback(result);
+                    } else if (typeof self.eachCallback === "function") {
+                        andThenItem = self.eachCallback(result, index === 0, index === cachedResponse.length-1);
+                    }
+
+                    if (typeof andThenItem !== "undefined") {
+                        andThenParam.push(andThenItem);
                     }
                 });
             }
