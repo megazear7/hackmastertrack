@@ -142,13 +142,6 @@ AbcAPI.category1()
             path = jsonPath(category);
         }
 
-        // TODO at a category level we need to mark an expire date. If it is set,
-        // then the each callback method can check that and if the date is valid
-        // then we can loop over the items cached for that category.
-        //
-        // There is some junk changes in here as I have been working through figuring
-        // this out.
-        
         var isCached = false;
         var cachedResponse;
         if (id) {

@@ -27,7 +27,6 @@
  *      search box.
  * */
 
-
 /* Section 2: Hack Components
  * These components are react components representing hackmastertrack entities. */
 
