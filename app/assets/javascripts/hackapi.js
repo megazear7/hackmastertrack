@@ -125,7 +125,7 @@ AbcAPI.category1()
 
     // Max age is given in seconds. Records in the cache will be used for the
     // given amount of time before a request is sent to the server to update the record.
-    var cache = {neverExpire: true, maxAge: 60 };
+    var cache = {neverExpire: true, maxAge: 1 };
 
     var HackRequest = function(category, id) {
         var self = this;
@@ -147,7 +147,7 @@ AbcAPI.category1()
         if (id) {
             isCached = cache[category] && cache[category].records[id] && (cache.neverExpire || cache[category].records[id].expire > new Date());
         } else {
-            isCached = cache[category].expire > new Date();
+            isCached = cache[category] && cache[category].hasBeenRequested && (cache.neverExpire || cache[category].expire > new Date());
         }
 
         if (isCached && id) {
@@ -162,6 +162,7 @@ AbcAPI.category1()
 
                 if (Array.isArray(response)) {
                     cache[category].expire = expire;
+                    cache[category].hasBeenRequested = true;
 
                     $.each(response, function(index, result) {
                         cache[category].records[result.id] = {expire: expire, cachedResponse: result};
@@ -322,6 +323,10 @@ AbcAPI.category1()
 
             return self;
         };
+
+        self.and = function() {
+            return new HackRequest(category);
+        };
     };
     
     window.HackAPI.characters = function() {
@@ -330,6 +335,15 @@ AbcAPI.category1()
 
     window.HackAPI.characters.find = function(id) {
         return new HackRequest("characters", id);
+    };
+
+    window.HackAPI.examples = { };
+
+    window.HackAPI.examples.first = function() {
+        HackAPI.characters()
+        .each(function(character) {
+            console.log(character.name);
+        });
     };
     
     function jsonPath() {

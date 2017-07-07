@@ -563,12 +563,13 @@ class Layout extends React.Component {
     constructor(props) {
         super(props);
 
-        var self = this;
-
         this.drawerNavChange = this.drawerNavChange.bind(this);
 
         this.state = { };
+    }
 
+    componentDidMount() {
+        var self = this;
         HackAPI.characters()
         .first(function(currentCharacter) {
             self.setState({currentCharacter: currentCharacter});
