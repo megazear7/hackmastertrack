@@ -127,15 +127,36 @@ AbcAPI.category1()
     // given amount of time before a request is sent to the server to update the record.
     var cache = {neverExpire: true, maxAge: 1 };
 
-    var HackRequest = function(category, id, pipablesParam) {
+    var HackRequest = function(category, idOrIds, pipablesParam, findCallback) {
         var self = this;
-        var path;
         var andThenParam = [];
         var isCached = false;
         var cachedResponse;
         var response;
         var pipableCollectedEvent = new Event('pipableCollected');
         self.pipableCollected = false;
+
+        if (Array.isArray(idOrIds)) {
+            self.ids = idOrIds;
+            self.singleRequest = false;
+            self.multiRequest = true;
+            self.indexRequest = false;
+            self.path = jsonPath(category);
+            self.data = { ids: self.ids };
+        } else if (typeof idOrIds != "undefined") {
+            self.id = idOrIds;
+            self.singleRequest = true;
+            self.multiRequest = false;
+            self.indexRequest = false;
+            self.path = jsonPath(category, self.id);
+            self.data = { };
+        } else {
+            self.singleRequest = false;
+            self.multiRequest = false;
+            self.indexRequest = true;
+            self.path = jsonPath(category);
+            self.data = { };
+        }
 
         if (typeof pipablesParam === "undefined") {
             self.pipables = [ ];
@@ -173,26 +194,33 @@ AbcAPI.category1()
             cache[category] = { records: [] };
         }
 
-        if (typeof id !== "undefined") {
-            path = jsonPath(category, id);
-        } else {
-            path = jsonPath(category);
-        }
+        if (self.singleRequest) {
+            isCached = cache[category] && cache[category].records[self.id] && (cache.neverExpire || cache[category].records[self.id].expire > new Date());
+        } else if (self.multiRequest) {
+            isCached = true;
+            $.each(self.ids, function(index, id) {
+                thisIdCached = cache[category] && cache[category].records[id] && (cache.neverExpire || cache[category].records[id].expire > new Date());
 
-        if (id) {
-            isCached = cache[category] && cache[category].records[id] && (cache.neverExpire || cache[category].records[id].expire > new Date());
+                if (! thisIdCached) {
+                    isCached = false;
+                }
+            });
         } else {
             isCached = cache[category] && cache[category].hasBeenRequested && (cache.neverExpire || cache[category].expire > new Date());
         }
 
-        if (isCached && id) {
-            cachedResponse = cache[category].records[id].cachedResponse;
-        } else if (isCached) {
+        if (isCached && self.singleRequest) {
+            cachedResponse = cache[category].records[self.id].cachedResponse;
+        } else if (isCached && self.multiRequest) {
+            cachedResponse = [ ];
+            $.each(self.ids, function(index, id) {
+                cachedResponse.push(cache[category].records[id].cachedResponse);
+            });
+        } else if (isCached && self.indexRequest) {
             cachedResponse = Object.values(cache[category].records).map(function(record) { return record.cachedResponse; });;
         } else {
-            $.get(path)
+            $.get(self.path, self.data)
             .done(function(response) {
-
                 var expire = new Date();
                 expire.setSeconds(expire.getSeconds() + cache.maxAge);
 
@@ -212,10 +240,10 @@ AbcAPI.category1()
                         self.pipable = self.allCallback(response);
                     }
                 } else {
-                    cache[category].records[id] = {expire: expire, cachedResponse: response};
+                    cache[category].records[self.id] = {expire: expire, cachedResponse: response};
 
-                    if (typeof self.doneCallback === "function") {
-                        self.pipable = self.doneCallback(response);
+                    if (typeof findCallback === "function") {
+                        self.pipable = findCallback(response);
                     }
 
                     if (typeof self.allCallback === "function") {
@@ -238,19 +266,11 @@ AbcAPI.category1()
             });
         }
 
-        /* The done callback will be used if the response is an individual item
-         * and not an array */
-        self.done = function(callback) {
-            self.doneCallback = callback;
-
-            if (isCached && typeof self.doneCallback === "function") {
-                self.pipable = self.doneCallback(cachedResponse);
-                self.pipableCollected = true;
-                document.dispatchEvent(pipableCollectedEvent);
-            }
-
-            return self;
-        };
+        if (isCached && typeof findCallback === "function") {
+            self.pipable = findCallback(cachedResponse);
+            self.pipableCollected = true;
+            document.dispatchEvent(pipableCollectedEvent);
+        }
 
         /* The fail callback will be called if the item is not cached and the
          * response from the server fails. */
@@ -372,8 +392,20 @@ AbcAPI.category1()
         return new HackRequest("characters");
     };
 
-    window.HackAPI.characters.find = function(id) {
-        return new HackRequest("characters", id);
+    window.HackAPI.characters.find = function(id, callback) {
+        if (typeof callback === "function") {
+            // Expect the id param to be a single id
+            return new HackRequest("characters", id, undefined, callback);
+        } else {
+            // Expect there to be 1 or more parameters, all ids, or one parameter that is an array of ids
+            var arr;
+            if (Array.isArray(id)) {
+                arr = id;
+            } else {
+                arr = Array.from(arguments);
+            }
+            return new HackRequest("characters", arr);
+        }
     };
 
     function jsonPath() {
@@ -407,6 +439,21 @@ AbcAPI.category1()
         .collect(function(characterNames, characterIds) {
             console.log(characterNames);
             console.log(characterIds);
+        });
+    };
+
+    window.HackAPI.examples.second = function() {
+        HackAPI.characters
+        .find(104, function(character) {
+            console.log(character);
+        });
+    };
+
+    window.HackAPI.examples.third = function() {
+        HackAPI.characters
+        .find(104, 91)
+        .each(function(character) {
+            console.log(character);
         });
     };
 

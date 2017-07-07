@@ -5,7 +5,12 @@ class CharactersController < ApplicationController
   # GET /characters
   # GET /characters.json
   def index
-    @characters = current_user.characters
+    if params.has_key?("ids")
+        @characters = current_user.characters.where(id: params["ids"].split(","));
+    else
+        @characters = current_user.characters
+    end
+
     @current_character = nil
     cookies.delete :character_id
   end
