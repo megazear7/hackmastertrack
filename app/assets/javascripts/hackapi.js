@@ -453,7 +453,11 @@ AbcAPI.category1()
         HackAPI.characters
         .find(104, 91)
         .each(function(character) {
-            console.log(character);
+            return character.name + " has a strength of " + character.strength;
+        })
+        .pipe()
+        .collect(function(strengths) {
+            console.log(strengths);
         });
     };
 
