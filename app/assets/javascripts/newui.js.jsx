@@ -578,12 +578,12 @@ class Layout extends React.Component {
 
     forward(cells) {
         if (this.state.history.length < 40) {
-            this.state.history.push(cells);
+            this.state.history.push({cells: cells, character: this.state.currentCharacter});
             this.forceUpdate();
         } else {
             this.setState(function(prevState, props) {
                 var newHistory = prevState.history.slice(prevState.history.length / 2);
-                newHistory.push(cells);
+                newHistory.push({cells: cells, character: this.state.currentCharacter});
                 return { history: newHistory };
             });
         }
@@ -591,7 +591,11 @@ class Layout extends React.Component {
 
     backward() {
         this.state.history.pop();
-        this.forceUpdate();
+        this.setState(function(prevState, props) {
+            return { currentCharacter: this.state.history[this.state.history.length-1].character };
+        }, function() {
+            this.forceUpdate();
+        });
     }
 
     hasHistory() {
@@ -600,7 +604,7 @@ class Layout extends React.Component {
 
     cells() {
         if (this.hasHistory()) {
-            return this.state.history[this.state.history.length-1];
+            return this.state.history[this.state.history.length-1].cells;
         } else {
             return this.mainCells();
         }
