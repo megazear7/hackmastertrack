@@ -133,12 +133,17 @@ AbcAPI.category1()
         var cachedResponse;
         var response;
         var pipableCollectedEvent = new Event('pipableCollected');
+        var doCollect = new Event('doCollect');
         self.isCached = false;
         self.pipableCollected = false;
         self.taken = false;
 
         var doEach = function(records, callback) {
             self.pipable = [];
+
+            if (typeof self.beforeCallback === "function") {
+                self.beforeCallback(record);
+            }
 
             $.each(records, function(index, record) {
                 if (typeof callback === "function") {
@@ -161,6 +166,10 @@ AbcAPI.category1()
                     andThenParam.push(andThenItem);
                 }
             });
+
+            if (typeof self.afterCallback === "function") {
+                self.afterCallback(record);
+            }
         };
 
         var init = function() {
@@ -315,6 +324,18 @@ AbcAPI.category1()
             return self;
         };
 
+        self.before = function(callback) {
+            self.beforeCallback = callback;
+
+            return self;
+        };
+
+        self.after = function(callback) {
+            self.afterCallback = callback;
+
+            return self;
+        };
+
         /* This first callback functions just like the each callback except
          * this will only be called on the first item of the list if the
          * response is a list. If a first callback is provided then the each
@@ -395,7 +416,11 @@ AbcAPI.category1()
         };
 
         self.pipe = function() {
-            if (self.pipableCollected) {
+            if (self.preventCollect) {
+                document.addEventListener('doCollect', function (e) {
+                    self.pipables.push(self.pipable);
+                }, false);
+            } else if (self.pipableCollected) {
                 self.pipables.push(self.pipable);
             } else {
                 document.addEventListener('pipableCollected', function (e) {
@@ -407,11 +432,15 @@ AbcAPI.category1()
         };
 
         self.collect = function(callback) {
-            if (self.pipableCollected) {
+            if (self.preventCollect) {
+                document.addEventListener('doCollect', function (e) {
+                    callback.apply(self, self.pipables);
+                }, false);
+            } else if (self.pipableCollected) {
                 callback.apply(self, self.pipables);
             } else {
                 document.addEventListener('pipableCollected', function (e) {
-                    callback(self.pipables);
+                    callback.apply(self, self.pipables);
                 }, false);
             }
 
@@ -423,7 +452,7 @@ AbcAPI.category1()
                 self.takable = self.pipable;
                 self.taken = true;
             } else {
-                document.addEventListener('pipableCollected', function (e) {
+                document.addEventListener('pipableCollected', function () {
                     self.takable = self.pipable;
                     self.taken = true;
                 }, false);
@@ -433,22 +462,50 @@ AbcAPI.category1()
         };
 
         self.from = function(hackapi, callback) {
-            if (self.taken) {
+            self.preventCollect = true;
+
+            var doFrom = function() {
                 if (Array.isArray(self.takable)) {
                     hackapi()
                     .find(self.takable)
-                    .each(function(fromable) {
-                        callback(fromable);
+                    .before(function() {
+                        self.pipable = [ ];
+                    })
+                    .each(function(fromable, isFirst) {
+                        if (typeof callback === "function") {
+                            callback(fromable);
+                        }
+
+                        self.pipable.push(fromable);
+                    })
+                    .after(function() {
+                        self.pipableCollected = true;
+                        self.preventCollect = false;
+                        document.dispatchEvent(doCollect);
                     });
                 } else {
                     hackapi()
                     .find(self.takable, function(fromable) {
-                        callback(fromable);
+                        if (typeof callback === "function") {
+                            callback(fromable);
+                        }
+                        self.pipable = fromable;
+                        self.pipableCollected = true;
+                        self.preventCollect = false;
+                        document.dispatchEvent(doCollect);
                     });
                 }
+            };
+
+            if (self.taken) {
+                doFrom();
             } else {
-                // TODO setup a taken event listener
+                document.addEventListener('takabledCollected', function () {
+                    doFrom();
+                }, false);
             }
+
+            return self;
         };
     };
     
@@ -520,6 +577,19 @@ AbcAPI.category1()
         })
         .take()
         .from(HackAPI.races, function(race) {
+            console.log(race.name);
+        });
+    };
+
+    window.HackAPI.examples.fifth = function() {
+        HackAPI.characters()
+        .find(104, function(character) {
+            return character.race_id
+        })
+        .take()
+        .from(HackAPI.races)
+        .pipe()
+        .collect(function(race) {
             console.log(race.name);
         });
     };
