@@ -345,7 +345,18 @@ AbcAPI.category1()
     window.HackAPI.examples.first = function() {
         HackAPI.characters()
         .each(function(character) {
-            console.log(character.name);
+            return character.name;
+        })
+        .andThen(function(characterNames) {
+            console.log(characterNames);
+        })
+        .and()
+        .each(function(character) {
+            return character.id;
+        })
+        .andThen(function(characterIds) {
+            console.log(characterIds);
         });
     };
+
 })()
