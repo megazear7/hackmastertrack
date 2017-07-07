@@ -125,7 +125,7 @@ AbcAPI.category1()
     // given amount of time before a request is sent to the server to update the record.
     var cache = {neverExpire: true, maxAge: -1 };
 
-    var HackRequest = function(category, pipablesParam) {
+    var HackRequest = function(category, pipablesParam, otherPipableDeferreds) {
         var self = this;
         var andThenParam = [];
         var cachedResponse;
@@ -137,10 +137,12 @@ AbcAPI.category1()
         self.pipeFinished = $.Deferred();
 
         self.pipableSet = $.Deferred();
-        self.pipableDeferreds = [ self.pipableSet ];
+        self.pipableDeferreds = [ ];
+        self.pipableDeferreds.push(self.pipableSet);
 
         self.takableSet = $.Deferred();
-        self.takableDeferreds = [ self.takableSet ];
+        self.takableDeferreds = [ ];
+        self.takableDeferreds.push(self.takableSet);
 
         var doEach = function(records, callback) {
             if (self.useEachAsPipable) {
@@ -426,7 +428,7 @@ AbcAPI.category1()
         };
 
         self.and = function() {
-            return new HackRequest(category, self.pipables);
+            return new HackRequest(category, self.pipables, self.pipableDeferreds, self.takableDeferreds);
         };
 
         self.pipe = function() {
@@ -440,7 +442,8 @@ AbcAPI.category1()
         };
 
         self.collect = function(callback) {
-            self.pipeFinished.done(function() {
+            var deferreds = otherPipableDeferreds.concat(self.pipeFinished);
+            $.when.apply($, deferreds).then(function() {
                 callback.apply(self, self.pipables);
             });
 

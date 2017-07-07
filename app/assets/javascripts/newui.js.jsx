@@ -41,18 +41,18 @@ class Overview extends React.Component {
         var self = this;
 
         HackAPI.characters()
-        .find(104, function(character) {
+        .find(this.props.character.id, function(character) {
             return character;
         })
         .pipe()
         .and()
-        .find(104, function(character) {
+        .find(this.props.character.id, function(character) {
             return character.race_id;
         })
         .take().from(HackAPI.races)
         .pipe()
         .and()
-        .find(104, function(character) {
+        .find(this.props.character.id, function(character) {
             return character.character_class_id;
         })
         .take().from(HackAPI.characterClasses)
@@ -62,7 +62,7 @@ class Overview extends React.Component {
                 <Cell desktop="12">
                     <Grid nested={true}>
                         <Cell desktop="12" tablet="8" phone="4">
-                            <H1>{race.name + " " + characterClass.name}</H1>
+                            <H5>{character.name + ": " + race.name + " " + characterClass.name}</H5>
                         </Cell>
                         <Cell desktop="4" tablet="4" phone="2">
                             <div>Strength: {character.strength}</div>
@@ -152,7 +152,7 @@ class Unimplemented extends React.Component {
 /* Section 3: Hack Entity to Hack Component Mapping
  * This function maps a Hack Entity to the Hack Component that implements it */
 
-function createHackComponent(hackEntity, forward) {
+function createHackComponent(hackEntity, forward, character) {
     var key = "";
 
     // TODO set hackid's for everything in solr and then get rid of this check.
@@ -167,12 +167,14 @@ function createHackComponent(hackEntity, forward) {
         return hackComponent = (
             <Overview hackEntity={hackEntity}
                       key={key}
-                      forward={forward} />);
+                      forward={forward}
+                      character={character} />);
     } else {
         return hackComponent = (
             <Unimplemented hackEntity={hackEntity}
                            key={key}
-                           forward={forward} />);
+                           forward={forward}
+                           character={character} />);
     }
 }
 
@@ -224,9 +226,9 @@ class H1 extends React.Component {
 class H2 extends React.Component {
     render() {
         return (
-            <h1 className="mdl-typography--display-2">
+            <h2 className="mdl-typography--display-2">
                 {this.props.children}
-            </h1>
+            </h2>
         );
     }
 }
@@ -234,9 +236,9 @@ class H2 extends React.Component {
 class H3 extends React.Component {
     render() {
         return (
-            <h1 className="mdl-typography--display-3">
+            <h3 className="mdl-typography--display-3">
                 {this.props.children}
-            </h1>
+            </h3>
         );
     }
 }
@@ -244,9 +246,9 @@ class H3 extends React.Component {
 class H4 extends React.Component {
     render() {
         return (
-            <h1 className="mdl-typography--display-4">
+            <h4 className="mdl-typography--display-4">
                 {this.props.children}
-            </h1>
+            </h4>
         );
     }
 }
@@ -254,9 +256,9 @@ class H4 extends React.Component {
 class H5 extends React.Component {
     render() {
         return (
-            <h1 className="mdl-typography--headline">
+            <h5 className="mdl-typography--headline">
                 {this.props.children}
-            </h1>
+            </h5>
         );
     }
 }
@@ -264,9 +266,9 @@ class H5 extends React.Component {
 class H6 extends React.Component {
     render() {
         return (
-            <h1 className="mdl-typography--title">
+            <h6 className="mdl-typography--title">
                 {this.props.children}
-            </h1>
+            </h6>
         );
     }
 }
@@ -361,7 +363,7 @@ class Search extends React.Component {
             var searchResultCards = [];
 
             $.each(hackEntities, function(index, hackEntity) {
-                searchResultCards.push(createHackComponent(hackEntity, self.props.forward));
+                searchResultCards.push(createHackComponent(hackEntity, self.props.forward, self.props.character));
             });
 
             var searchResults = (
@@ -400,75 +402,6 @@ class Grid extends React.Component {
             <div className={className}>
                 {this.props.children}
             </div>
-        );
-    }
-}
-
-class Content extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.backToStart = this.backToStart.bind(this);
-        this.forward = this.forward.bind(this);
-        this.backward = this.backward.bind(this);
-        this.cells = this.cells.bind(this);
-
-        this.state = { };
-
-        this.state.startCards =  (
-            <Cell desktop="12">
-                <Grid nested={true}>
-                    {this.props.startHackEntities.map((hackEntity) =>
-                         createHackComponent(hackEntity, this.forward))}
-                </Grid>
-            </Cell>
-        );
-
-        this.state.history = [ ];
-        this.state.history.push(this.state.startCards);
-    }
-
-    backToStart() {
-        this.forward(this.state.startCards);
-    }
-
-    forward(cells) {
-        if (this.state.history.length < 40) {
-            this.state.history.push(cells);
-            this.forceUpdate();
-        } else {
-            this.setState(function(prevState, props) {
-                var newHistory = prevState.history.slice(prevState.history.length / 2);
-                newHistory.push(cells);
-                return { history: newHistory };
-            });
-        }
-    }
-
-    backward() {
-        this.state.history.pop();
-        this.forceUpdate();
-    }
-
-    cells() {
-        return this.state.history[this.state.history.length-1];
-    }
-
-    render() {
-        return(
-            <main className="mdl-layout__content">
-                <Grid>
-                    <Cell desktop="2" tablet="2" phone="0">
-                        {this.state.history.length > 1 && <BackButton action={this.backward} />}
-                    </Cell>
-                    <Cell desktop="2" tablet="0" phone="0" />
-                    <Cell desktop="4" tablet="4" phone="4">
-                        <Search forward={this.forward} />
-                    </Cell>
-                    <Cell desktop="4" tablet="2" phone="0" />
-                    {this.cells()}
-                </Grid>
-            </main>
         );
     }
 }
@@ -556,14 +489,13 @@ class Drawer extends React.Component {
     }
 }
 
-
 class Header extends React.Component {
     render() {
         return (
           <header className="mdl-layout__header">
             <div className="mdl-layout__header-row">
               <span className="mdl-layout__title">
-                {this.props.character && this.props.character.name}
+                {this.props.character.name}
               </span>
               <div className="mdl-layout-spacer"></div>
               <Link href="/">
@@ -575,13 +507,39 @@ class Header extends React.Component {
     }
 }
 
+class Content extends React.Component {
+    render() {
+        return(
+            <main className="mdl-layout__content">
+                <Grid>
+                    <Cell desktop="2" tablet="2" phone="0">
+                        {this.props.hasHistory && <BackButton action={this.props.backAction} />}
+                    </Cell>
+                    <Cell desktop="2" tablet="0" phone="0" />
+                    <Cell desktop="4" tablet="4" phone="4">
+                        <Search forward={this.props.forward} character={this.props.character} />
+                    </Cell>
+                    <Cell desktop="4" tablet="2" phone="0" />
+                    {this.props.children}
+                </Grid>
+            </main>
+        );
+    }
+}
+
 class Layout extends React.Component {
     constructor(props) {
         super(props);
 
         this.drawerNavChange = this.drawerNavChange.bind(this);
+        this.backToStart = this.backToStart.bind(this);
+        this.forward = this.forward.bind(this);
+        this.backward = this.backward.bind(this);
+        this.cells = this.cells.bind(this);
 
         this.state = { };
+
+        this.state.history = [ ];
     }
 
     componentDidMount() {
@@ -596,20 +554,84 @@ class Layout extends React.Component {
     }
 
     drawerNavChange(character) {
-        this.setState({currentCharacter: character});
+        this.setState(function(prevState, props) {
+            return {currentCharacter: character};
+        }, function() {
+            this.backToStart();
+        });
+    }
+
+    backToStart() {
+        this.forward(this.mainCells());
+    }
+
+    mainCells() {
+        return (
+            <Cell desktop="12">
+                <Grid nested={true}>
+                    {this.props.startHackEntities.map((hackEntity) =>
+                         createHackComponent(hackEntity, this.forward, this.state.currentCharacter))}
+                </Grid>
+            </Cell>
+        )
+    }
+
+    forward(cells) {
+        if (this.state.history.length < 40) {
+            this.state.history.push(cells);
+            this.forceUpdate();
+        } else {
+            this.setState(function(prevState, props) {
+                var newHistory = prevState.history.slice(prevState.history.length / 2);
+                newHistory.push(cells);
+                return { history: newHistory };
+            });
+        }
+    }
+
+    backward() {
+        this.state.history.pop();
+        this.forceUpdate();
+    }
+
+    hasHistory() {
+        return this.state.history.length > 1;
+    }
+
+    cells() {
+        if (this.hasHistory()) {
+            return this.state.history[this.state.history.length-1];
+        } else {
+            return this.mainCells();
+        }
     }
 
     render() {
-        return (
-            <div className="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header mdl-color-text--grey-600 main-layout">
-                <Header character={this.state.currentCharacter} />
-                <Drawer title={this.props.title}
-                        onNavChange={this.drawerNavChange}
-                        currentCharacter={this.state.currentCharacter}
-                        characters={this.state.characters} />
-                <Content startHackEntities={this.props.startHackEntities} />
-            </div>
-        );
+        var layout;
+        if (this.state.currentCharacter && this.state.characters) {
+            layout = (
+                <div className="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header mdl-color-text--grey-600 main-layout">
+                    <Header character={this.state.currentCharacter} />
+                    <Drawer title={this.props.title}
+                            onNavChange={this.drawerNavChange}
+                            currentCharacter={this.state.currentCharacter}
+                            characters={this.state.characters} />
+                    <Content character={this.state.currentCharacter}
+                             forward={this.forward}
+                             hasHistory={this.hasHistory()}
+                             backAction={this.backward}>
+                        {this.cells()}
+                    </Content>
+                </div>
+            )
+        } else {
+            layout = (
+                <div className="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header mdl-color-text--grey-600 main-layout">
+                </div>
+            )
+        }
+
+        return layout; 
     }
 }
 
