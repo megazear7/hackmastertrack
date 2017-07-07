@@ -499,60 +499,41 @@ class Link extends React.Component {
 class Drawer extends React.Component {
     constructor(props) {
         super(props);
-        var self = this;
 
         this.drawerNavChange = this.drawerNavChange.bind(this);
-
-        this.state = { characters: [] };
-
-        HackAPI.characters()
-        .each(function(character, isFirst) {
-            return (
-                <Link key={character.id}
-                      characterId={character.id}
-                      action={self.drawerNavChange}
-                      isCurrent={isFirst}>
-                    {character.name}
-                </Link>
-            );
-        })
-        .andThen(function(characters) {
-            self.setState({ characters: characters });
-        });
     }
 
     drawerNavChange(linkProps) {
         var self = this;
 
-        var currentCharacter;
-
         HackAPI.characters.find(linkProps.characterId)
-        .done(function(currentCharacter) {
-            HackAPI.characters()
-            .each(function(character, isFirst) {
-                return (
-                    <Link key={character.id}
-                          characterId={character.id}
-                          action={self.drawerNavChange}
-                          isCurrent={character.id === currentCharacter.id}>
-                        {character.name}
-                    </Link>
-                );
-            })
-            .andThen(function(characters) {
-                self.setState({ characters: characters });
-            });
-
-            self.props.onNavChange(currentCharacter);
+        .done(function(newCurrentCharacter) {
+            self.props.onNavChange(newCurrentCharacter);
         });
     }
 
     render() {
+        var self = this;
+
+        var links = [];
+        if (self.props.characters){
+            links = self.props.characters.map(function(character) {
+                return (
+                    <Link key={character.id}
+                          characterId={character.id}
+                          action={self.drawerNavChange}
+                          isCurrent={self.props.currentCharacter && character.id === self.props.currentCharacter.id}>
+                        {character.name}
+                    </Link>
+                )
+            });
+        }
+
         return (
             <div className="mdl-layout__drawer">
                 <span className="mdl-layout__title">{this.props.title}</span>
                 <nav className="mdl-navigation">
-                    {this.state.characters}
+                    {links}
                     <IconLink href="/characters/step1" icon="add" />
                 </nav>
             </div>
@@ -562,19 +543,12 @@ class Drawer extends React.Component {
 
 
 class Header extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { };
-
-        this.state.characterName = "Slighter";
-    }
-
     render() {
         return (
           <header className="mdl-layout__header">
             <div className="mdl-layout__header-row">
               <span className="mdl-layout__title">
-                {this.state.characterName}
+                {this.props.character && this.props.character.name}
               </span>
               <div className="mdl-layout-spacer"></div>
               <Link href="/">
@@ -590,18 +564,33 @@ class Layout extends React.Component {
     constructor(props) {
         super(props);
 
+        var self = this;
+
         this.drawerNavChange = this.drawerNavChange.bind(this);
+
+        this.state = { };
+
+        HackAPI.characters()
+        .first(function(currentCharacter) {
+            self.setState({currentCharacter: currentCharacter});
+        })
+        .all(function(characters) {
+            self.setState({characters: characters});
+        });
     }
 
     drawerNavChange(character) {
-        console.log(character);
+        this.setState({currentCharacter: character});
     }
 
     render() {
         return (
             <div className="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header mdl-color-text--grey-600 main-layout">
-                <Header />
-                <Drawer title={this.props.title} onNavChange={this.drawerNavChange} />
+                <Header character={this.state.currentCharacter} />
+                <Drawer title={this.props.title}
+                        onNavChange={this.drawerNavChange}
+                        currentCharacter={this.state.currentCharacter}
+                        characters={this.state.characters} />
                 <Content startHackEntities={this.props.startHackEntities} />
             </div>
         );
