@@ -127,14 +127,25 @@ AbcAPI.category1()
     // given amount of time before a request is sent to the server to update the record.
     var cache = {neverExpire: true, maxAge: 1 };
 
-    var HackRequest = function(category, id) {
+    var HackRequest = function(category, id, pipablesParam) {
         var self = this;
         var path;
         var andThenParam = [];
         var isCached = false;
         var cachedResponse;
+        var response;
+        var pipableCollectedEvent = new Event('pipableCollected');
+        self.pipableCollected = false;
+
+        if (typeof pipablesParam === "undefined") {
+            self.pipables = [ ];
+        } else {
+            self.pipables = pipablesParam;
+        }
 
         var doEach = function(records, callback) {
+            self.pipable = [];
+
             $.each(records, function(index, record) {
                 if (typeof callback === "function") {
                     callback(record);
@@ -151,6 +162,8 @@ AbcAPI.category1()
                 }
 
                 if (typeof andThenItem !== "undefined") {
+                    self.pipable.push(andThenItem);
+
                     andThenParam.push(andThenItem);
                 }
             });
@@ -179,6 +192,7 @@ AbcAPI.category1()
         } else {
             $.get(path)
             .done(function(response) {
+
                 var expire = new Date();
                 expire.setSeconds(expire.getSeconds() + cache.maxAge);
 
@@ -191,23 +205,26 @@ AbcAPI.category1()
                     });
 
                     if (typeof self.andThenCallback === "function") {
-                        self.andThenCallback(andThenParam);
+                        self.pipable = self.andThenCallback(andThenParam);
                     }
 
                     if (typeof self.allCallback === "function") {
-                        self.allCallback(response);
+                        self.pipable = self.allCallback(response);
                     }
                 } else {
                     cache[category].records[id] = {expire: expire, cachedResponse: response};
 
                     if (typeof self.doneCallback === "function") {
-                        self.doneCallback(response);
+                        self.pipable = self.doneCallback(response);
                     }
 
                     if (typeof self.allCallback === "function") {
-                        self.allCallback([response]);
+                        self.pipable = self.allCallback([response]);
                     }
                 }
+
+                self.pipableCollected = true;
+                document.dispatchEvent(pipableCollectedEvent);
             })
             .fail(function(error) {
                 if (typeof self.failCallback === "function") {
@@ -227,13 +244,9 @@ AbcAPI.category1()
             self.doneCallback = callback;
 
             if (isCached && typeof self.doneCallback === "function") {
-                if (Array.isArray(cachedResponse)) {
-                    $.each(cachedResponse, function(index, result) {
-                        self.doneCallback(result);
-                    });
-                } else {
-                    self.doneCallback(cachedResponse);
-                }
+                self.pipable = self.doneCallback(cachedResponse);
+                self.pipableCollected = true;
+                document.dispatchEvent(pipableCollectedEvent);
             }
 
             return self;
@@ -286,6 +299,8 @@ AbcAPI.category1()
 
             if (isCached && Array.isArray(cachedResponse)) {
                 doEach(cachedResponse);
+                self.pipableCollected = true;
+                document.dispatchEvent(pipableCollectedEvent);
             }
 
             return self;
@@ -298,9 +313,13 @@ AbcAPI.category1()
             self.allCallback = callback;
 
             if (isCached && Array.isArray(cachedResponse)) {
-                self.allCallback(cachedResponse);
+                self.pipable = self.allCallback(cachedResponse);
+                self.pipableCollected = true;
+                document.dispatchEvent(pipableCollectedEvent);
             } else if (isCached) {
-                self.allCallback([cachedResponse]);
+                self.pipable = self.allCallback([cachedResponse]);
+                self.pipableCollected = true;
+                document.dispatchEvent(pipableCollectedEvent);
             }
 
             return self;
@@ -312,14 +331,40 @@ AbcAPI.category1()
             self.andThenCallback = callback;
 
             if (isCached) {
-                self.andThenCallback(andThenParam);
+                self.pipable = self.andThenCallback(andThenParam);
+                self.pipableCollected = true;
+                document.dispatchEvent(pipableCollectedEvent);
             }
 
             return self;
         };
 
         self.and = function() {
-            return new HackRequest(category);
+            return new HackRequest(category, undefined, self.pipables);
+        };
+
+        self.pipe = function() {
+            if (self.pipableCollected) {
+                self.pipables.push(self.pipable);
+            } else {
+                document.addEventListener('pipableCollected', function (e) {
+                    self.pipables.push(self.pipable);
+                }, false);
+            }
+
+            return self;
+        };
+
+        self.collect = function(callback) {
+            if (self.pipableCollected) {
+                callback.apply(self, self.pipables);
+            } else {
+                document.addEventListener('pipableCollected', function (e) {
+                    callback(self.pipables);
+                }, false);
+            }
+
+            return self;
         };
     };
     
@@ -348,13 +393,19 @@ AbcAPI.category1()
             return character.name;
         })
         .andThen(function(characterNames) {
-            console.log(characterNames);
+            return characterNames;
         })
+        .pipe()
         .and()
         .each(function(character) {
             return character.id;
         })
         .andThen(function(characterIds) {
+            return characterIds;
+        })
+        .pipe()
+        .collect(function(characterNames, characterIds) {
+            console.log(characterNames);
             console.log(characterIds);
         });
     };
