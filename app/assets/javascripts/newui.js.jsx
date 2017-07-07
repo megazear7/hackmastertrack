@@ -42,11 +42,27 @@ class Overview extends React.Component {
 
         HackAPI.characters()
         .find(104, function(character) {
+            return character;
+        })
+        .pipe()
+        .and()
+        .find(104, function(character) {
+            return character.race_id;
+        })
+        .take().from(HackAPI.races)
+        .pipe()
+        .and()
+        .find(104, function(character) {
+            return character.character_class_id;
+        })
+        .take().from(HackAPI.characterClasses)
+        .pipe()
+        .collect(function(character, race, characterClass) {
             self.props.forward(
                 <Cell desktop="12">
                     <Grid nested={true}>
                         <Cell desktop="12" tablet="8" phone="4">
-                            <H1>{character.race + " " + character.character_class}</H1>
+                            <H1>{race.name + " " + characterClass.name}</H1>
                         </Cell>
                         <Cell desktop="4" tablet="4" phone="2">
                             <div>Strength: {character.strength}</div>

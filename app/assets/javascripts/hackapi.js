@@ -118,28 +118,34 @@ AbcAPI.category1()
 
 /* --- END OF as of yet fictional API --- */
 
-
-
 (function() {
     window.HackAPI = { };
 
     // Max age is given in seconds. Records in the cache will be used for the
     // given amount of time before a request is sent to the server to update the record.
-    var cache = {neverExpire: true, maxAge: 1 };
+    var cache = {neverExpire: true, maxAge: -1 };
 
     var HackRequest = function(category, pipablesParam) {
         var self = this;
         var andThenParam = [];
         var cachedResponse;
         var response;
-        var pipableCollectedEvent = new Event('pipableCollected');
-        var doCollect = new Event('doCollect');
+        self.useEachAsPipable = true;
         self.isCached = false;
-        self.pipableCollected = false;
-        self.taken = false;
+        self.initialized = false;
+
+        self.pipeFinished = $.Deferred();
+
+        self.pipableSet = $.Deferred();
+        self.pipableDeferreds = [ self.pipableSet ];
+
+        self.takableSet = $.Deferred();
+        self.takableDeferreds = [ self.takableSet ];
 
         var doEach = function(records, callback) {
-            self.pipable = [];
+            if (self.useEachAsPipable) {
+                self.pipable = [];
+            }
 
             if (typeof self.beforeCallback === "function") {
                 self.beforeCallback(record);
@@ -161,11 +167,17 @@ AbcAPI.category1()
                 }
 
                 if (typeof andThenItem !== "undefined") {
-                    self.pipable.push(andThenItem);
+                    if (self.useEachAsPipable) {
+                        self.pipable.push(andThenItem);
+                    }
 
                     andThenParam.push(andThenItem);
                 }
             });
+
+            if (self.useEachAsPipable) {
+                self.pipableSet.resolve();
+            }
 
             if (typeof self.afterCallback === "function") {
                 self.afterCallback(record);
@@ -173,6 +185,8 @@ AbcAPI.category1()
         };
 
         var init = function() {
+            self.initialized = true;
+
             if (Array.isArray(self.idOrIds)) {
                 self.ids = self.idOrIds;
                 self.singleRequest = false;
@@ -200,7 +214,6 @@ AbcAPI.category1()
             } else {
                 self.pipables = pipablesParam;
             }
-
 
             if (typeof cache[category] === "undefined") {
                 cache[category] = { records: [] };
@@ -246,25 +259,26 @@ AbcAPI.category1()
 
                         if (typeof self.andThenCallback === "function") {
                             self.pipable = self.andThenCallback(andThenParam);
+                            self.pipableSet.resolve();
                         }
 
                         if (typeof self.allCallback === "function") {
                             self.pipable = self.allCallback(response);
+                            self.pipableSet.resolve();
                         }
                     } else {
                         cache[category].records[self.id] = {expire: expire, cachedResponse: response};
 
                         if (typeof self.findCallback === "function") {
                             self.pipable = self.findCallback(response);
+                            self.pipableSet.resolve();
                         }
 
                         if (typeof self.allCallback === "function") {
                             self.pipable = self.allCallback([response]);
+                            self.pipableSet.resolve();
                         }
                     }
-
-                    self.pipableCollected = true;
-                    document.dispatchEvent(pipableCollectedEvent);
                 })
                 .fail(function(error) {
                     if (typeof self.failCallback === "function") {
@@ -277,8 +291,6 @@ AbcAPI.category1()
                     }
                 });
             }
-
-
         }
 
         self.find = function(idOrIdsParam, callback) {
@@ -296,13 +308,13 @@ AbcAPI.category1()
 
             self.findCallback = callback;
 
-            init();
+            if (! self.initialized) {
+                init();
+            }
 
             if (self.isCached && typeof self.findCallback === "function") {
                 self.pipable = self.findCallback(cachedResponse);
-
-                self.pipableCollected = true;
-                document.dispatchEvent(pipableCollectedEvent);
+                self.pipableSet.resolve();
             }
 
             return self;
@@ -363,14 +375,15 @@ AbcAPI.category1()
          * this item is the first item in the list, the third parameter
          * indicates whether or not this item is the last item. */
         self.each = function(callback) {
-            init();
+            if (! self.initialized) {
+                init();
+            }
 
             self.eachCallback = callback;
 
             if (self.isCached && Array.isArray(cachedResponse)) {
                 doEach(cachedResponse);
-                self.pipableCollected = true;
-                document.dispatchEvent(pipableCollectedEvent);
+                self.pipableSet.resolve();
             }
 
             return self;
@@ -380,18 +393,19 @@ AbcAPI.category1()
          * response is a single item an array of length 1 with the item will
          * be provided to the all callack. */
         self.all = function(callback) {
-            init();
+            if (! self.initialized) {
+                init();
+            }
 
+            self.useEachAsPipable = false;
             self.allCallback = callback;
 
             if (self.isCached && Array.isArray(cachedResponse)) {
                 self.pipable = self.allCallback(cachedResponse);
-                self.pipableCollected = true;
-                document.dispatchEvent(pipableCollectedEvent);
+                self.pipableSet.resolve();
             } else if (self.isCached) {
                 self.pipable = self.allCallback([cachedResponse]);
-                self.pipableCollected = true;
-                document.dispatchEvent(pipableCollectedEvent);
+                self.pipableSet.resolve();
             }
 
             return self;
@@ -400,12 +414,12 @@ AbcAPI.category1()
         /* Used in conjunction with the each method. The items returned by the
          * each callback will be provided to the andThen callback as an array. */
         self.andThen = function(callback) {
+            self.useEachAsPipable = false;
             self.andThenCallback = callback;
 
             if (self.isCached) {
                 self.pipable = self.andThenCallback(andThenParam);
-                self.pipableCollected = true;
-                document.dispatchEvent(pipableCollectedEvent);
+                self.pipableSet.resolve();
             }
 
             return self;
@@ -416,55 +430,38 @@ AbcAPI.category1()
         };
 
         self.pipe = function() {
-            if (self.preventCollect) {
-                document.addEventListener('doCollect', function (e) {
-                    self.pipables.push(self.pipable);
-                }, false);
-            } else if (self.pipableCollected) {
+            $.when.apply($, self.pipableDeferreds).then(function() {
                 self.pipables.push(self.pipable);
-            } else {
-                document.addEventListener('pipableCollected', function (e) {
-                    self.pipables.push(self.pipable);
-                }, false);
-            }
+
+                self.pipeFinished.resolve();
+            });
 
             return self;
         };
 
         self.collect = function(callback) {
-            if (self.preventCollect) {
-                document.addEventListener('doCollect', function (e) {
-                    callback.apply(self, self.pipables);
-                }, false);
-            } else if (self.pipableCollected) {
+            self.pipeFinished.done(function() {
                 callback.apply(self, self.pipables);
-            } else {
-                document.addEventListener('pipableCollected', function (e) {
-                    callback.apply(self, self.pipables);
-                }, false);
-            }
+            });
 
             return self;
         };
 
         self.take = function() {
-            if (self.pipableCollected) {
+            $.when.apply($, self.pipableDeferreds).then(function() {
                 self.takable = self.pipable;
                 self.taken = true;
-            } else {
-                document.addEventListener('pipableCollected', function () {
-                    self.takable = self.pipable;
-                    self.taken = true;
-                }, false);
-            }
+                self.takableSet.resolve();
+            });
 
             return self;
         };
 
         self.from = function(hackapi, callback) {
-            self.preventCollect = true;
+            var fromDeferred = $.Deferred();
+            self.pipableDeferreds.push(fromDeferred);
 
-            var doFrom = function() {
+            $.when.apply($, self.takableDeferreds).then(function() {
                 if (Array.isArray(self.takable)) {
                     hackapi()
                     .find(self.takable)
@@ -479,9 +476,8 @@ AbcAPI.category1()
                         self.pipable.push(fromable);
                     })
                     .after(function() {
-                        self.pipableCollected = true;
-                        self.preventCollect = false;
-                        document.dispatchEvent(doCollect);
+                        self.pipableSet.resolve();
+                        fromDeferred.resolve();
                     });
                 } else {
                     hackapi()
@@ -490,20 +486,11 @@ AbcAPI.category1()
                             callback(fromable);
                         }
                         self.pipable = fromable;
-                        self.pipableCollected = true;
-                        self.preventCollect = false;
-                        document.dispatchEvent(doCollect);
+                        self.pipableSet.resolve();
+                        fromDeferred.resolve();
                     });
                 }
-            };
-
-            if (self.taken) {
-                doFrom();
-            } else {
-                document.addEventListener('takabledCollected', function () {
-                    doFrom();
-                }, false);
-            }
+            });
 
             return self;
         };
@@ -515,6 +502,10 @@ AbcAPI.category1()
 
     window.HackAPI.races = function() {
         return new HackRequest("races");
+    };
+
+    window.HackAPI.characterClasses = function() {
+        return new HackRequest("character_classes");
     };
 
     function jsonPath() {
@@ -584,13 +575,25 @@ AbcAPI.category1()
     window.HackAPI.examples.fifth = function() {
         HackAPI.characters()
         .find(104, function(character) {
-            return character.race_id
+            return character;
+        })
+        .pipe()
+        .and()
+        .find(104, function(character) {
+            return character.race_id;
         })
         .take()
         .from(HackAPI.races)
         .pipe()
-        .collect(function(race) {
-            console.log(race.name);
+        .and()
+        .find(104, function(character) {
+            return character.character_class_id;
+        })
+        .take()
+        .from(HackAPI.characterClasses)
+        .pipe()
+        .collect(function(character, race, characterClass) {
+            console.log(character.name + " is a " + race.name + " " + characterClass.name);
         });
     };
 
