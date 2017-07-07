@@ -131,6 +131,30 @@ AbcAPI.category1()
         var self = this;
         var path;
         var andThenParam = [];
+        var isCached = false;
+        var cachedResponse;
+
+        var doEach = function(records, callback) {
+            $.each(records, function(index, record) {
+                if (typeof callback === "function") {
+                    callback(record);
+                }
+
+                var andThenItem;
+
+                if (typeof self.firstCallback === "function" && index === 0) {
+                    andThenItem = self.firstCallback(record);
+                } else if (typeof self.lastCallback === "function" && index === records.length-1) {
+                    andThenItem = self.lastCallback(record);
+                } else if (typeof self.eachCallback === "function") {
+                    andThenItem = self.eachCallback(record, index === 0, index === records.length-1);
+                }
+
+                if (typeof andThenItem !== "undefined") {
+                    andThenParam.push(andThenItem);
+                }
+            });
+        };
 
         if (typeof cache[category] === "undefined") {
             cache[category] = { records: [] };
@@ -142,8 +166,6 @@ AbcAPI.category1()
             path = jsonPath(category);
         }
 
-        var isCached = false;
-        var cachedResponse;
         if (id) {
             isCached = cache[category] && cache[category].records[id] && (cache.neverExpire || cache[category].records[id].expire > new Date());
         } else {
@@ -153,7 +175,7 @@ AbcAPI.category1()
         if (isCached && id) {
             cachedResponse = cache[category].records[id].cachedResponse;
         } else if (isCached) {
-            cachedResponse = cache[category].records;
+            cachedResponse = Object.values(cache[category].records).map(function(record) { return record.cachedResponse; });;
         } else {
             $.get(path)
             .done(function(response) {
@@ -164,22 +186,8 @@ AbcAPI.category1()
                     cache[category].expire = expire;
                     cache[category].hasBeenRequested = true;
 
-                    $.each(response, function(index, result) {
-                        cache[category].records[result.id] = {expire: expire, cachedResponse: result};
-
-                        var andThenItem;
-
-                        if (typeof self.firstCallback === "function" && index === 0) {
-                            andThenItem = self.firstCallback(result);
-                        } else if (typeof self.lastCallback === "function" && index === response.length-1) {
-                            andThenItem = self.lastCallback(result);
-                        } else if (typeof self.eachCallback === "function") {
-                            andThenItem = self.eachCallback(result, index === 0, index === response.length-1);
-                        }
-
-                        if (typeof andThenItem !== "undefined") {
-                            andThenParam.push(andThenItem);
-                        }
+                    doEach(response, function(record) {
+                        cache[category].records[record.id] = {expire: expire, cachedResponse: record};
                     });
 
                     if (typeof self.andThenCallback === "function") {
@@ -277,21 +285,7 @@ AbcAPI.category1()
             self.eachCallback = callback;
 
             if (isCached && Array.isArray(cachedResponse)) {
-                $.each(cachedResponse, function(index, result) {
-                    var andThenItem;
-
-                    if (typeof self.firstCallback === "function" && index === 0) {
-                        andThenItem = self.firstCallback(result);
-                    } else if (typeof self.lastCallback === "function" && index === cachedResponse.length-1) {
-                        andThenItem = self.lastCallback(result);
-                    } else if (typeof self.eachCallback === "function") {
-                        andThenItem = self.eachCallback(result, index === 0, index === cachedResponse.length-1);
-                    }
-
-                    if (typeof andThenItem !== "undefined") {
-                        andThenParam.push(andThenItem);
-                    }
-                });
+                doEach(cachedResponse);
             }
 
             return self;
@@ -337,6 +331,15 @@ AbcAPI.category1()
         return new HackRequest("characters", id);
     };
 
+    function jsonPath() {
+        return "/" + Array.from(arguments).join("/") + ".json"
+    }
+
+    /* ------------------------------------------------------------------------
+     * Examples for testing and documentation purposes. This might be easier to
+     * document with examples than with a full description of how it all works.
+     * ------------------------------------------------------------------------ */
+
     window.HackAPI.examples = { };
 
     window.HackAPI.examples.first = function() {
@@ -345,8 +348,4 @@ AbcAPI.category1()
             console.log(character.name);
         });
     };
-    
-    function jsonPath() {
-        return "/" + Array.from(arguments).join("/") + ".json"
-    }
 })()
