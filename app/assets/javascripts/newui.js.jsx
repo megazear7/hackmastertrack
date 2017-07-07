@@ -40,7 +40,7 @@ class Overview extends React.Component {
     open() {
         var self = this;
 
-        HackAPI.characters
+        HackAPI.characters()
         .find(104, function(character) {
             self.props.forward(
                 <Cell desktop="12">
@@ -505,7 +505,7 @@ class Drawer extends React.Component {
     drawerNavChange(linkProps) {
         var self = this;
 
-        HackAPI.characters
+        HackAPI.characters()
         .find(linkProps.characterId, function(newCurrentCharacter) {
             self.props.onNavChange(newCurrentCharacter);
         });

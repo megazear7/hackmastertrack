@@ -127,42 +127,15 @@ AbcAPI.category1()
     // given amount of time before a request is sent to the server to update the record.
     var cache = {neverExpire: true, maxAge: 1 };
 
-    var HackRequest = function(category, idOrIds, pipablesParam, findCallback) {
+    var HackRequest = function(category, pipablesParam) {
         var self = this;
         var andThenParam = [];
-        var isCached = false;
         var cachedResponse;
         var response;
         var pipableCollectedEvent = new Event('pipableCollected');
+        self.isCached = false;
         self.pipableCollected = false;
-
-        if (Array.isArray(idOrIds)) {
-            self.ids = idOrIds;
-            self.singleRequest = false;
-            self.multiRequest = true;
-            self.indexRequest = false;
-            self.path = jsonPath(category);
-            self.data = { ids: self.ids };
-        } else if (typeof idOrIds != "undefined") {
-            self.id = idOrIds;
-            self.singleRequest = true;
-            self.multiRequest = false;
-            self.indexRequest = false;
-            self.path = jsonPath(category, self.id);
-            self.data = { };
-        } else {
-            self.singleRequest = false;
-            self.multiRequest = false;
-            self.indexRequest = true;
-            self.path = jsonPath(category);
-            self.data = { };
-        }
-
-        if (typeof pipablesParam === "undefined") {
-            self.pipables = [ ];
-        } else {
-            self.pipables = pipablesParam;
-        }
+        self.taken = false;
 
         var doEach = function(records, callback) {
             self.pipable = [];
@@ -190,87 +163,141 @@ AbcAPI.category1()
             });
         };
 
-        if (typeof cache[category] === "undefined") {
-            cache[category] = { records: [] };
-        }
+        var init = function() {
+            if (Array.isArray(self.idOrIds)) {
+                self.ids = self.idOrIds;
+                self.singleRequest = false;
+                self.multiRequest = true;
+                self.indexRequest = false;
+                self.path = jsonPath(category);
+                self.data = { ids: self.ids };
+            } else if (typeof self.idOrIds != "undefined") {
+                self.id = self.idOrIds;
+                self.singleRequest = true;
+                self.multiRequest = false;
+                self.indexRequest = false;
+                self.path = jsonPath(category, self.id);
+                self.data = { };
+            } else {
+                self.singleRequest = false;
+                self.multiRequest = false;
+                self.indexRequest = true;
+                self.path = jsonPath(category);
+                self.data = { };
+            }
 
-        if (self.singleRequest) {
-            isCached = cache[category] && cache[category].records[self.id] && (cache.neverExpire || cache[category].records[self.id].expire > new Date());
-        } else if (self.multiRequest) {
-            isCached = true;
-            $.each(self.ids, function(index, id) {
-                thisIdCached = cache[category] && cache[category].records[id] && (cache.neverExpire || cache[category].records[id].expire > new Date());
+            if (typeof pipablesParam === "undefined") {
+                self.pipables = [ ];
+            } else {
+                self.pipables = pipablesParam;
+            }
 
-                if (! thisIdCached) {
-                    isCached = false;
-                }
-            });
-        } else {
-            isCached = cache[category] && cache[category].hasBeenRequested && (cache.neverExpire || cache[category].expire > new Date());
-        }
 
-        if (isCached && self.singleRequest) {
-            cachedResponse = cache[category].records[self.id].cachedResponse;
-        } else if (isCached && self.multiRequest) {
-            cachedResponse = [ ];
-            $.each(self.ids, function(index, id) {
-                cachedResponse.push(cache[category].records[id].cachedResponse);
-            });
-        } else if (isCached && self.indexRequest) {
-            cachedResponse = Object.values(cache[category].records).map(function(record) { return record.cachedResponse; });;
-        } else {
-            $.get(self.path, self.data)
-            .done(function(response) {
-                var expire = new Date();
-                expire.setSeconds(expire.getSeconds() + cache.maxAge);
+            if (typeof cache[category] === "undefined") {
+                cache[category] = { records: [] };
+            }
 
-                if (Array.isArray(response)) {
-                    cache[category].expire = expire;
-                    cache[category].hasBeenRequested = true;
+            if (self.singleRequest) {
+                self.isCached = cache[category] && cache[category].records[self.id] && (cache.neverExpire || cache[category].records[self.id].expire > new Date());
+            } else if (self.multiRequest) {
+                self.isCached = true;
+                $.each(self.ids, function(index, id) {
+                    thisIdCached = cache[category] && cache[category].records[id] && (cache.neverExpire || cache[category].records[id].expire > new Date());
 
-                    doEach(response, function(record) {
-                        cache[category].records[record.id] = {expire: expire, cachedResponse: record};
-                    });
+                    if (! thisIdCached) {
+                        self.isCached = false;
+                    }
+                });
+            } else {
+                self.isCached = cache[category] && cache[category].hasBeenRequested && (cache.neverExpire || cache[category].expire > new Date());
+            }
 
-                    if (typeof self.andThenCallback === "function") {
-                        self.pipable = self.andThenCallback(andThenParam);
+            if (self.isCached && self.singleRequest) {
+                cachedResponse = cache[category].records[self.id].cachedResponse;
+            } else if (self.isCached && self.multiRequest) {
+                cachedResponse = [ ];
+                $.each(self.ids, function(index, id) {
+                    cachedResponse.push(cache[category].records[id].cachedResponse);
+                });
+            } else if (self.isCached && self.indexRequest) {
+                cachedResponse = Object.values(cache[category].records).map(function(record) { return record.cachedResponse; });;
+            } else {
+                $.get(self.path, self.data)
+                .done(function(response) {
+                    var expire = new Date();
+                    expire.setSeconds(expire.getSeconds() + cache.maxAge);
+
+                    if (Array.isArray(response)) {
+                        cache[category].expire = expire;
+                        cache[category].hasBeenRequested = true;
+
+                        doEach(response, function(record) {
+                            cache[category].records[record.id] = {expire: expire, cachedResponse: record};
+                        });
+
+                        if (typeof self.andThenCallback === "function") {
+                            self.pipable = self.andThenCallback(andThenParam);
+                        }
+
+                        if (typeof self.allCallback === "function") {
+                            self.pipable = self.allCallback(response);
+                        }
+                    } else {
+                        cache[category].records[self.id] = {expire: expire, cachedResponse: response};
+
+                        if (typeof self.findCallback === "function") {
+                            self.pipable = self.findCallback(response);
+                        }
+
+                        if (typeof self.allCallback === "function") {
+                            self.pipable = self.allCallback([response]);
+                        }
                     }
 
-                    if (typeof self.allCallback === "function") {
-                        self.pipable = self.allCallback(response);
+                    self.pipableCollected = true;
+                    document.dispatchEvent(pipableCollectedEvent);
+                })
+                .fail(function(error) {
+                    if (typeof self.failCallback === "function") {
+                        self.failCallback(error);
                     }
+                })
+                .always(function() {
+                    if (typeof self.alwaysCallback === "function") {
+                        self.alwaysCallback();
+                    }
+                });
+            }
+
+
+        }
+
+        self.find = function(idOrIdsParam, callback) {
+            if (typeof callback === "function") {
+                // Expect the id param to be a single id
+                self.idOrIds = idOrIdsParam;
+            } else {
+                // Expect there to be 1 or more parameters, all ids, or one parameter that is an array of ids
+                if (Array.isArray(idOrIdsParam)) {
+                    self.idOrIds = idOrIdsParam;
                 } else {
-                    cache[category].records[self.id] = {expire: expire, cachedResponse: response};
-
-                    if (typeof findCallback === "function") {
-                        self.pipable = findCallback(response);
-                    }
-
-                    if (typeof self.allCallback === "function") {
-                        self.pipable = self.allCallback([response]);
-                    }
+                    self.idOrIds = Array.from(arguments);
                 }
+            }
+
+            self.findCallback = callback;
+
+            init();
+
+            if (self.isCached && typeof self.findCallback === "function") {
+                self.pipable = self.findCallback(cachedResponse);
 
                 self.pipableCollected = true;
                 document.dispatchEvent(pipableCollectedEvent);
-            })
-            .fail(function(error) {
-                if (typeof self.failCallback === "function") {
-                    self.failCallback(error);
-                }
-            })
-            .always(function() {
-                if (typeof self.alwaysCallback === "function") {
-                    self.alwaysCallback();
-                }
-            });
-        }
+            }
 
-        if (isCached && typeof findCallback === "function") {
-            self.pipable = findCallback(cachedResponse);
-            self.pipableCollected = true;
-            document.dispatchEvent(pipableCollectedEvent);
-        }
+            return self;
+        };
 
         /* The fail callback will be called if the item is not cached and the
          * response from the server fails. */
@@ -315,9 +342,11 @@ AbcAPI.category1()
          * this item is the first item in the list, the third parameter
          * indicates whether or not this item is the last item. */
         self.each = function(callback) {
+            init();
+
             self.eachCallback = callback;
 
-            if (isCached && Array.isArray(cachedResponse)) {
+            if (self.isCached && Array.isArray(cachedResponse)) {
                 doEach(cachedResponse);
                 self.pipableCollected = true;
                 document.dispatchEvent(pipableCollectedEvent);
@@ -330,13 +359,15 @@ AbcAPI.category1()
          * response is a single item an array of length 1 with the item will
          * be provided to the all callack. */
         self.all = function(callback) {
+            init();
+
             self.allCallback = callback;
 
-            if (isCached && Array.isArray(cachedResponse)) {
+            if (self.isCached && Array.isArray(cachedResponse)) {
                 self.pipable = self.allCallback(cachedResponse);
                 self.pipableCollected = true;
                 document.dispatchEvent(pipableCollectedEvent);
-            } else if (isCached) {
+            } else if (self.isCached) {
                 self.pipable = self.allCallback([cachedResponse]);
                 self.pipableCollected = true;
                 document.dispatchEvent(pipableCollectedEvent);
@@ -350,7 +381,7 @@ AbcAPI.category1()
         self.andThen = function(callback) {
             self.andThenCallback = callback;
 
-            if (isCached) {
+            if (self.isCached) {
                 self.pipable = self.andThenCallback(andThenParam);
                 self.pipableCollected = true;
                 document.dispatchEvent(pipableCollectedEvent);
@@ -360,7 +391,7 @@ AbcAPI.category1()
         };
 
         self.and = function() {
-            return new HackRequest(category, undefined, self.pipables);
+            return new HackRequest(category, self.pipables);
         };
 
         self.pipe = function() {
@@ -386,26 +417,47 @@ AbcAPI.category1()
 
             return self;
         };
+
+        self.take = function() {
+            if (self.pipableCollected) {
+                self.takable = self.pipable;
+                self.taken = true;
+            } else {
+                document.addEventListener('pipableCollected', function (e) {
+                    self.takable = self.pipable;
+                    self.taken = true;
+                }, false);
+            }
+
+            return self;
+        };
+
+        self.from = function(hackapi, callback) {
+            if (self.taken) {
+                if (Array.isArray(self.takable)) {
+                    hackapi()
+                    .find(self.takable)
+                    .each(function(fromable) {
+                        callback(fromable);
+                    });
+                } else {
+                    hackapi()
+                    .find(self.takable, function(fromable) {
+                        callback(fromable);
+                    });
+                }
+            } else {
+                // TODO setup a taken event listener
+            }
+        };
     };
     
     window.HackAPI.characters = function() {
         return new HackRequest("characters");
     };
 
-    window.HackAPI.characters.find = function(id, callback) {
-        if (typeof callback === "function") {
-            // Expect the id param to be a single id
-            return new HackRequest("characters", id, undefined, callback);
-        } else {
-            // Expect there to be 1 or more parameters, all ids, or one parameter that is an array of ids
-            var arr;
-            if (Array.isArray(id)) {
-                arr = id;
-            } else {
-                arr = Array.from(arguments);
-            }
-            return new HackRequest("characters", arr);
-        }
+    window.HackAPI.races = function() {
+        return new HackRequest("races");
     };
 
     function jsonPath() {
@@ -443,14 +495,14 @@ AbcAPI.category1()
     };
 
     window.HackAPI.examples.second = function() {
-        HackAPI.characters
+        HackAPI.characters()
         .find(104, function(character) {
             console.log(character);
         });
     };
 
     window.HackAPI.examples.third = function() {
-        HackAPI.characters
+        HackAPI.characters()
         .find(104, 91)
         .each(function(character) {
             return character.name + " has a strength of " + character.strength;
@@ -458,6 +510,17 @@ AbcAPI.category1()
         .pipe()
         .collect(function(strengths) {
             console.log(strengths);
+        });
+    };
+
+    window.HackAPI.examples.fourth = function() {
+        HackAPI.characters()
+        .find(104, function(character) {
+            return character.race_id
+        })
+        .take()
+        .from(HackAPI.races, function(race) {
+            console.log(race.name);
         });
     };
 
