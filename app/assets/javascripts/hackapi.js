@@ -125,7 +125,7 @@ AbcAPI.category1()
 
     // Max age is given in seconds. Records in the cache will be used for the
     // given amount of time before a request is sent to the server to update the record.
-    var cache = { maxAge: 60 };
+    var cache = {neverExpire: true, maxAge: 60 };
 
     var HackRequest = function(category, id) {
         var self = this;
@@ -152,7 +152,7 @@ AbcAPI.category1()
         var isCached = false;
         var cachedResponse;
         if (id) {
-            isCached = cache[category] && cache[category].records[id] && cache[category].records[id].expire > new Date();
+            isCached = cache[category] && cache[category].records[id] && (cache.neverExpire || cache[category].records[id].expire > new Date());
         } else {
             isCached = cache[category].expire > new Date();
         }
