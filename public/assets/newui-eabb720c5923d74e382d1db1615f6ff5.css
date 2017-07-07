@@ -1,0 +1,81 @@
+/* line 5, /Users/35267/src/personal/hackmastertrack/app/assets/stylesheets/newui.css.scss */
+.primary-color {
+  background-color: #3f51b5;
+  color: white;
+}
+
+/* line 10, /Users/35267/src/personal/hackmastertrack/app/assets/stylesheets/newui.css.scss */
+.accent-color {
+  background-color: #ff5252;
+  color: white;
+}
+
+/* line 15, /Users/35267/src/personal/hackmastertrack/app/assets/stylesheets/newui.css.scss */
+.default-cell .mdl-card {
+  width: 100%;
+  height: 100%;
+}
+
+/* line 20, /Users/35267/src/personal/hackmastertrack/app/assets/stylesheets/newui.css.scss */
+.search-cell-template {
+  display: none;
+}
+
+/* line 24, /Users/35267/src/personal/hackmastertrack/app/assets/stylesheets/newui.css.scss */
+.search-cell {
+  display: none;
+}
+/* line 27, /Users/35267/src/personal/hackmastertrack/app/assets/stylesheets/newui.css.scss */
+.search-cell .mdl-card {
+  width: 100%;
+  height: 100%;
+}
+
+/* line 33, /Users/35267/src/personal/hackmastertrack/app/assets/stylesheets/newui.css.scss */
+.details-cell {
+  display: none;
+}
+
+/* line 37, /Users/35267/src/personal/hackmastertrack/app/assets/stylesheets/newui.css.scss */
+.create-character {
+  margin-top: 50px;
+  width: 74%;
+  margin: 45px auto;
+}
+
+/* line 43, /Users/35267/src/personal/hackmastertrack/app/assets/stylesheets/newui.css.scss */
+.hide {
+  display: none;
+}
+
+/* line 47, /Users/35267/src/personal/hackmastertrack/app/assets/stylesheets/newui.css.scss */
+.hack-search {
+  width: 100%;
+}
+
+/* line 51, /Users/35267/src/personal/hackmastertrack/app/assets/stylesheets/newui.css.scss */
+.details-title {
+  text-align: left;
+}
+
+/* line 55, /Users/35267/src/personal/hackmastertrack/app/assets/stylesheets/newui.css.scss */
+.details-category {
+  text-align: right;
+}
+
+/* Definitely Keep what is below. What is above I think is old: */
+/* line 60, /Users/35267/src/personal/hackmastertrack/app/assets/stylesheets/newui.css.scss */
+.back {
+  margin: 17px auto;
+}
+
+/* line 64, /Users/35267/src/personal/hackmastertrack/app/assets/stylesheets/newui.css.scss */
+.hack-full-card {
+  width: 100%;
+}
+
+/* line 68, /Users/35267/src/personal/hackmastertrack/app/assets/stylesheets/newui.css.scss */
+.mdl-grid .mdl-grid.mdl-grid--nesting {
+  padding: 0;
+  margin: 0 -8px;
+}
