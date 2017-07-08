@@ -44,12 +44,12 @@ class Overview extends React.Component {
         .find(this.props.character.id, function(character) {
             return character;
         })
-        .and()
+        .also()
         .find(this.props.character.id, function(character) {
             return character.race_id;
         })
         .take().from(HackAPI.races)
-        .and()
+        .also()
         .find(this.props.character.id, function(character) {
             return character.character_class_id;
         })

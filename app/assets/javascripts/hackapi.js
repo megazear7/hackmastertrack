@@ -307,10 +307,29 @@
             return self;
         };
 
-        self.and = function() {
+        self.also = function() {
             self.pipe();
 
             return new HackRequest(category, self.pipables, self.pipableDeferreds, self.takableDeferreds);
+        };
+
+        self.and = function() {
+            self.pipe();
+
+            if (self.singleRequest) {
+                return new HackRequest(category, self.pipables, self.pipableDeferreds, self.takableDeferreds)
+                            .find(self.id, function(record) {
+                                return record;
+                            });
+            } else if (self.multiRequest) {
+                return new HackRequest(category, self.pipables, self.pipableDeferreds, self.takableDeferreds)
+                            .find(self.ids)
+                            .each(function(record) {
+                                return record;
+                            });
+            } else {
+                return new HackRequest(category, self.pipables, self.pipableDeferreds, self.takableDeferreds);
+            }
         };
 
         // TODO make this a private method.
@@ -340,9 +359,13 @@
             return self;
         };
 
-        self.take = function() {
+        self.take = function(field) {
             $.when.apply($, self.pipableDeferreds).then(function() {
-                self.takable = self.pipable;
+                if (typeof field === "undefined") {
+                    self.takable = self.pipable;
+                } else {
+                    self.takable = self.pipable[field];
+                }
                 self.taken = true;
                 self.takableSet.resolve();
             });
@@ -416,7 +439,7 @@
         .andThen(function(characterNames) {
             return characterNames;
         })
-        .and()
+        .also()
         .each(function(character) {
             return character.id;
         })
@@ -463,13 +486,13 @@
         .find(104, function(character) {
             return character;
         })
-        .and()
+        .also()
         .find(104, function(character) {
             return character.race_id;
         })
         .take()
         .from(HackAPI.races)
-        .and()
+        .also()
         .find(104, function(character) {
             return character.character_class_id;
         })
@@ -485,13 +508,13 @@
         .find(104, function(character) {
             return character;
         })
-        .and()
+        .also()
         .find(104, function(character) {
             return character.race_id;
         })
         .take()
         .from(HackAPI.races)
-        .and()
+        .also()
         .find(104, function(character) {
             return character.character_class_id;
         })
@@ -499,6 +522,19 @@
         .from(HackAPI.character_classes)
         .collect(function(character, race, characterClass) {
             console.log(character.name + " is a " + race.name + " " + characterClass.name);
+        });
+    };
+
+    window.HackAPI.examples.seventh = function() {
+        HackAPI.characters()
+        .find(104, function(character) {
+            return character;
+        })
+        .and()
+        .take("race_id")
+        .from(HackAPI.races)
+        .collect(function(character, race) {
+            console.log(character.name + " is a " + race.name);
         });
     };
 
