@@ -365,6 +365,7 @@
                     self.takable = self.pipable;
                 } else {
                     self.takable = self.pipable[field];
+                    self.expandRecord = self.pipable;
                 }
                 self.taken = true;
                 self.takableSet.resolve();
@@ -401,12 +402,21 @@
                         if (typeof callback === "function") {
                             callback(fromable);
                         }
+                        if (typeof self.expandField !== "undefined") {
+                            self.expandRecord[self.expandField] = fromable;
+                        }
                         self.pipable = fromable;
                         self.pipableSet.resolve();
                         fromDeferred.resolve();
                     });
                 }
             });
+
+            return self;
+        };
+
+        self.as = function(field) {
+            self.expandField = field;
 
             return self;
         };
@@ -530,15 +540,21 @@
         .find(103, function(character) {
             return character;
         })
-        .and()
-        .take("race_id")
-        .from(HackAPI.races)
-        .and()
-        .take("character_class_id")
-        .from(HackAPI.character_classes)
+        .and().take("race_id").from(HackAPI.races)
+        .and().take("character_class_id").from(HackAPI.character_classes)
         .collect(function(character, race, characterClass) {
             console.log(character.name + " is a " + race.name + " " + characterClass.name);
         });
     };
 
+    window.HackAPI.examples.eight = function() {
+        HackAPI.characters()
+        .find(103, function(character) {
+            return character;
+        })
+        .and().take("race_id").from(HackAPI.races).as("race")
+        .collect(function(character) {
+            console.log(character.name + " is a " + character.race.name);
+        });
+    };
 })()
