@@ -527,14 +527,17 @@
 
     window.HackAPI.examples.seventh = function() {
         HackAPI.characters()
-        .find(104, function(character) {
+        .find(103, function(character) {
             return character;
         })
         .and()
         .take("race_id")
         .from(HackAPI.races)
-        .collect(function(character, race) {
-            console.log(character.name + " is a " + race.name);
+        .and()
+        .take("character_class_id")
+        .from(HackAPI.character_classes)
+        .collect(function(character, race, characterClass) {
+            console.log(character.name + " is a " + race.name + " " + characterClass.name);
         });
     };
 
