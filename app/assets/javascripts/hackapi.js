@@ -308,9 +308,12 @@
         };
 
         self.and = function() {
+            self.pipe();
+
             return new HackRequest(category, self.pipables, self.pipableDeferreds, self.takableDeferreds);
         };
 
+        // TODO make this a private method.
         self.pipe = function() {
             $.when.apply($, self.pipableDeferreds).then(function() {
                 self.pipables.push(self.pipable);
@@ -322,7 +325,14 @@
         };
 
         self.collect = function(callback) {
-            var deferreds = otherPipableDeferreds.concat(self.pipeFinished);
+            self.pipe();
+
+            var deferreds;
+            if (otherPipableDeferreds) {
+                deferreds = otherPipableDeferreds.concat(self.pipeFinished);
+            } else {
+                deferreds = [ self.pipeFinished ];
+            }
             $.when.apply($, deferreds).then(function() {
                 callback.apply(self, self.pipables);
             });
@@ -406,7 +416,6 @@
         .andThen(function(characterNames) {
             return characterNames;
         })
-        .pipe()
         .and()
         .each(function(character) {
             return character.id;
@@ -414,7 +423,6 @@
         .andThen(function(characterIds) {
             return characterIds;
         })
-        .pipe()
         .collect(function(characterNames, characterIds) {
             console.log(characterNames);
             console.log(characterIds);
@@ -434,7 +442,6 @@
         .each(function(character) {
             return character.name + " has a strength of " + character.strength;
         })
-        .pipe()
         .collect(function(strengths) {
             console.log(strengths);
         });
@@ -456,21 +463,40 @@
         .find(104, function(character) {
             return character;
         })
-        .pipe()
         .and()
         .find(104, function(character) {
             return character.race_id;
         })
         .take()
         .from(HackAPI.races)
-        .pipe()
         .and()
         .find(104, function(character) {
             return character.character_class_id;
         })
         .take()
         .from(HackAPI.character_classes)
-        .pipe()
+        .collect(function(character, race, characterClass) {
+            console.log(character.name + " is a " + race.name + " " + characterClass.name);
+        });
+    };
+
+    window.HackAPI.examples.sixth = function() {
+        HackAPI.characters()
+        .find(104, function(character) {
+            return character;
+        })
+        .and()
+        .find(104, function(character) {
+            return character.race_id;
+        })
+        .take()
+        .from(HackAPI.races)
+        .and()
+        .find(104, function(character) {
+            return character.character_class_id;
+        })
+        .take()
+        .from(HackAPI.character_classes)
         .collect(function(character, race, characterClass) {
             console.log(character.name + " is a " + race.name + " " + characterClass.name);
         });

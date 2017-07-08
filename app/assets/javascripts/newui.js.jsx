@@ -44,19 +44,16 @@ class Overview extends React.Component {
         .find(this.props.character.id, function(character) {
             return character;
         })
-        .pipe()
         .and()
         .find(this.props.character.id, function(character) {
             return character.race_id;
         })
         .take().from(HackAPI.races)
-        .pipe()
         .and()
         .find(this.props.character.id, function(character) {
             return character.character_class_id;
         })
         .take().from(HackAPI.character_classes)
-        .pipe()
         .collect(function(character, race, characterClass) {
             self.props.forward(
                 <Cell desktop="12">
