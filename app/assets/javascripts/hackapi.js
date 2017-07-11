@@ -5,6 +5,21 @@
     // given amount of time before a request is sent to the server to update the record.
     var cache = {neverExpire: true, maxAge: -1 };
 
+    var tables = {
+        character: {
+          idField: "character_id",
+          name:    "characters"
+        },
+        race: {
+          idField: "race_id",
+          name:    "races"
+        },
+        characterClass: {
+          idField: "character_class_id",
+          name:    "character_classes"
+        }
+    };
+
     var HackRequest = function(category, pipablesParam, otherPipableDeferreds) {
         var self = this;
         var andThenParam = [];
@@ -420,13 +435,18 @@
 
             return self;
         };
+
+        self.grab = function(recordName) {
+            return self.and()
+                       .take(tables[recordName].idField)
+                       .from(HackAPI[tables[recordName].name])
+                       .as(recordName);
+        };
     };
 
-    var tables = ["characters", "races", "character_classes"];
-
-    $.each(tables, function(index, tableName) {
-        window.HackAPI[tableName] = function() {
-            return new HackRequest(tableName);
+    $.each(tables, function(tableName, tableDetails) {
+        window.HackAPI[tableDetails.name] = function() {
+            return new HackRequest(tableDetails.name);
         };
     });
 
@@ -552,9 +572,22 @@
         .find(103, function(character) {
             return character;
         })
-        .and().take("race_id").from(HackAPI.races).as("race")
+        .and()
+        .take("race_id").from(HackAPI.races).as("race")
         .collect(function(character) {
             console.log(character.name + " is a " + character.race.name);
+        });
+    };
+
+    window.HackAPI.examples.nine = function() {
+        HackAPI.characters()
+        .find(103, function(character) {
+            return character;
+        })
+        .grab("race")
+        .grab("characterClass")
+        .collect(function(character) {
+            console.log(character.name + " is a " + character.race.name + " " + character.characterClass.name);
         });
     };
 })()
